@@ -10,5 +10,11 @@ Featurs:
 -A better wz lib (for older and newer wz. But Delphi having some issues)   
 
 Note:  
-This project is under early stage of development,so there is no release/download yet.But you can compile and run.  
+This project is under "early stage of development", so there is no release/download yet. But you can compile and run.  
+
+
+Compile:  
+Vs 2022 or higher  
+Credits and Acknowledgement:  
+Kagamia's WzComparerR2  
 
