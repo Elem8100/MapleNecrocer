@@ -3,7 +3,7 @@ MapleStory Client Simulator
 C# version of MapleStory GM Client.  
 The C# version supports more features that aim to replace Delphi 32bit version.  
 
-Featurs;
+Featurs:  
 -64 Bit Client.  
 -Support map's skeleton animation and particle system.  
 -Auto detect wz country, you don't need to select corresponding wz version   
