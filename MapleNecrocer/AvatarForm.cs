@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using DevComponents.DotNetBar.Controls;
 using Manina.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
-using Parallax_Scrolling;
 using WzComparerR2.CharaSim;
 using WzComparerR2.PluginBase;
 using WzComparerR2.Text;

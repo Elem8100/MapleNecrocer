@@ -15,7 +15,6 @@ using System.Drawing;
 using MonoGame.Framework.Utilities.Deflate;
 using System.Xml.Linq;
 using System.Xml;
-using Parallax_Scrolling;
 using Microsoft.Xna.Framework.Audio;
 
 namespace MapleNecrocer;

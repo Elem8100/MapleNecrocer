@@ -8,7 +8,7 @@ using Bitmap = System.Drawing.Bitmap;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.SpriteEngine;
-namespace Parallax_Scrolling;
+namespace MapleNecrocer;
 
 internal class ImageFilter
 {
