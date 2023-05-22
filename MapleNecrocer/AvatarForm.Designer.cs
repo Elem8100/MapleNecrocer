@@ -55,9 +55,20 @@
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
             DyeGrid = new DataGridView();
+            tabPage4 = new TabPage();
+            textBox1 = new TextBox();
+            label3 = new Label();
+            panel1 = new Panel();
+            UseButton = new Button();
+            pictureBox1 = new PictureBox();
+            label1 = new Label();
+            label2 = new Label();
             tabControl1.SuspendLayout();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DyeGrid).BeginInit();
+            tabPage4.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -377,6 +388,7 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             tabControl1.Location = new Point(7, 260);
             tabControl1.Name = "tabControl1";
@@ -413,7 +425,7 @@
             tabPage3.Padding = new Padding(3);
             tabPage3.Size = new Size(708, 538);
             tabPage3.TabIndex = 2;
-            tabPage3.Text = "tabPage3";
+            tabPage3.Text = "Dye";
             tabPage3.UseVisualStyleBackColor = true;
             // 
             // DyeGrid
@@ -436,6 +448,83 @@
             DyeGrid.Size = new Size(702, 532);
             DyeGrid.TabIndex = 0;
             DyeGrid.CellClick += DyeGrid_CellClick;
+            // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(textBox1);
+            tabPage4.Controls.Add(label3);
+            tabPage4.Controls.Add(panel1);
+            tabPage4.Location = new Point(4, 26);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3);
+            tabPage4.Size = new Size(708, 538);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Search";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(277, 73);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(239, 24);
+            textBox1.TabIndex = 2;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(209, 76);
+            label3.Name = "label3";
+            label3.Size = new Size(52, 18);
+            label3.TabIndex = 1;
+            label3.Text = "Search";
+            // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(UseButton);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(label2);
+            panel1.Location = new Point(202, 18);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(315, 49);
+            panel1.TabIndex = 0;
+            // 
+            // UseButton
+            // 
+            UseButton.Location = new Point(263, 6);
+            UseButton.Name = "UseButton";
+            UseButton.Size = new Size(45, 35);
+            UseButton.TabIndex = 3;
+            UseButton.Text = "Use";
+            UseButton.UseVisualStyleBackColor = true;
+            UseButton.Click += UseButton_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(74, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(40, 40);
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(0, 18);
+            label1.TabIndex = 0;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(110, 16);
+            label2.Name = "label2";
+            label2.Size = new Size(0, 18);
+            label2.TabIndex = 2;
             // 
             // AvatarForm
             // 
@@ -472,6 +561,11 @@
             tabControl1.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DyeGrid).EndInit();
+            tabPage4.ResumeLayout(false);
+            tabPage4.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -503,6 +597,13 @@
         private TabPage tabPage2;
         private TabPage tabPage3;
         private DataGridView DyeGrid;
-
+        private TabPage tabPage4;
+        private Panel panel1;
+        private Label label2;
+        private PictureBox pictureBox1;
+        private Label label1;
+        private TextBox textBox1;
+        private Label label3;
+        private Button UseButton;
     }
 }

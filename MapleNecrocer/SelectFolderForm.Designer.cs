@@ -35,6 +35,7 @@
             // 
             // SelectWzButton
             // 
+            SelectWzButton.Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             SelectWzButton.Location = new Point(154, 12);
             SelectWzButton.Name = "SelectWzButton";
             SelectWzButton.Size = new Size(178, 38);
@@ -60,8 +61,7 @@
             // 
             // SelectFolderForm
             // 
-            AutoScaleDimensions = new SizeF(9F, 19F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(520, 313);
             Controls.Add(RecentFilesGrid);
             Controls.Add(SelectWzButton);

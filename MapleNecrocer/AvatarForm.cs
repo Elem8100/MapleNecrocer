@@ -37,6 +37,7 @@ public partial class AvatarForm : Form
     ImageListView[] ImageGrids = new ImageListView[21];
     ImageListView AvatarListView;
     public DataGridViewEx Inventory;
+    public DataGridViewEx SearchGrid;
     void AddInventory()
     {
         if (Inventory.Columns.Count == 4)
@@ -491,12 +492,62 @@ public partial class AvatarForm : Form
     }
 
     static bool Loaded;
+    static bool SearchGridLoaded;
+
+    void DumpEqpString(Wz_Node Node)
+    {
+        if (Node.Text == "name")
+        {
+            if (Node.ParentNode.Text.Length == 5)
+                SearchGrid.Rows.Add("000" + Node.ParentNode.Text, " " + Node.ToStr());
+            else
+                SearchGrid.Rows.Add("0" + Node.ParentNode.Text, " " + Node.ToStr());
+        }
+        foreach (var Iter in Node.Nodes)
+        {
+            if ((Node.Text != "Android") && (Node.Text != "ArcaneForce") && (Node.Text != "Bits") && (Node.Text != "Dragon") &&
+             (Node.Text != "Mechanic") && (Node.Text != "PetEquip") && (Node.Text != "Skillskin") && (Node.Text != "Taming") &&
+             (Node.Text != "MonsterBattle") && (Node.Text.LeftStr(3) != "135") && (Node.Text.LeftStr(3) != "150") &&
+             (Node.Text.LeftStr(3) != "151") && (Node.Text.LeftStr(3) != "160") && (Node.Text.LeftStr(3) != "169") &&
+             (Node.Text.LeftStr(3) != "111") && (Node.Text.LeftStr(3) != "112") && (Node.Text.LeftStr(3) != "114"))
+                DumpEqpString(Iter);
+        }
+    }
+
+    void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
+    {
+        var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+        label1.Text = ID;
+        label2.Text = SearchGrid.Rows[e.RowIndex].Cells[1].Value.ToString();
+        string Dir = Equip.GetDir(ID);
+        string Name = Wz.GetNodeA("String/Eqp.img/Eqp").GetStr(Dir + ID.IntID() + "/name");
+
+        var Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
+        PartName PartName = Equip.GetPart(ID);
+        Bitmap Bmp = null;
+        if (Bmp != null)
+            Bmp.Dispose();
+        switch (PartName)
+        {
+            case PartName.Hair:
+                Bmp = Entry.GetNode("default/hairOverHead").ExtractPng();
+                break;
+            case PartName.Face:
+                Bmp = Entry.GetNode("default/face").ExtractPng();
+                break;
+            default:
+                Bmp = Entry.GetNode("info/icon").ExtractPng();
+                break;
+        }
+        pictureBox1.Image = Bmp;
+
+    }
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
         switch (tabControl1.SelectedIndex)
         {
             case 0:
-                // Text = "000";
+
                 break;
             case 1:
                 if (!Loaded)
@@ -516,6 +567,34 @@ public partial class AvatarForm : Form
             case 2:
                 ResetDyeGrid();
                 break;
+
+            case 3:
+                if (!SearchGridLoaded)
+                {
+                    SearchGrid = new(60, 184, 202, 104, 315, 400, false, tabControl1.TabPages[3]);
+                    SearchGrid.CellClick += (s, e) =>
+                    {
+                        CellClick(SearchGrid, e);
+                    };
+
+                    SearchGrid.SearchGrid.CellClick += (s, e) =>
+                    {
+                        CellClick(SearchGrid.SearchGrid, e);
+                    };
+
+                    var Graphic = SearchGrid.CreateGraphics();
+                    var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
+                    Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
+
+                    string ID = null;
+                    string name = null;
+                    Win32.SendMessage(SearchGrid.Handle, false);
+                    DumpEqpString(Wz.GetNodeA("String/Eqp.img/Eqp"));
+                    Win32.SendMessage(SearchGrid.Handle, true);
+                    SearchGrid.Refresh();
+                    SearchGridLoaded = true;
+                }
+                break;
         }
 
     }
@@ -531,5 +610,23 @@ public partial class AvatarForm : Form
             Wz.DumpData(Img, Wz.EquipData, Wz.EquipImageLib, true, Col * 25);
         else
             Wz.DumpData(Img, Wz.EquipData, Wz.EquipImageLib, true, 0, -200);
+    }
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+        SearchGrid.Search(textBox1.Text);
+    }
+
+    private void UseButton_Click(object sender, EventArgs e)
+    {
+        if (label1.Text == "")
+            return;
+        AddEqps(label1.Text);
+        AddInventory();
+        Player.Instance.RemoveSprites();
+        for (int i = 0; i < Player.EqpList.Count; i++)
+        {
+            Player.Instance.Spawn(Player.EqpList[i]);
+        }
     }
 }

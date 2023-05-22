@@ -119,7 +119,7 @@ public partial class SelectFolderForm : Form
                     MainForm.Instance.MapListBox.SearchGrid.DefaultCellStyle.Font = new Font("Microsoft JhengHei", 13f, GraphicsUnit.Pixel);
                 }
 
-              
+
                 MainForm.Instance.DumpMapIDs();
                 foreach (var Iter in ListOfLines)
                 {
@@ -164,7 +164,7 @@ public partial class SelectFolderForm : Form
         }
         else
         {
-            MainForm.Instance.MapListBox.Columns[0].Width = 72+4;
+            MainForm.Instance.MapListBox.Columns[0].Width = 72 + 4;
             MainForm.Instance.MapListBox.DefaultCellStyle.Font = new Font("Microsoft JhengHei", 13f, GraphicsUnit.Pixel);
             MainForm.Instance.MapListBox.SearchGrid.DefaultCellStyle.Font = new Font("Microsoft JhengHei", 13f, GraphicsUnit.Pixel);
         }

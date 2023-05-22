@@ -412,7 +412,6 @@ public partial class MainForm : Form
         var Split = comboBox2.Text.Split("X");
         Map.DisplaySize.X = Split[0].ToInt();
         Map.DisplaySize.Y = Split[1].ToInt();
-
         bool Result;
         Result = MoveWindow(this.Handle, this.Left, this.Top, Map.DisplaySize.X + 283, Map.DisplaySize.Y + 134, true);
         //this.Width = Map.DisplaySize.X + 283;
@@ -426,9 +425,7 @@ public partial class MainForm : Form
         RenderForm.RenderFormDraw.Parent = RenderForm;
         EngineFunc.SpriteEngine.VisibleWidth = Map.DisplaySize.X + 200;
         EngineFunc.SpriteEngine.VisibleHeight = Map.DisplaySize.Y + 200;
-
         Map.ResetPos = true;
-
     }
 
     private void comboBox2_Click(object sender, EventArgs e)
@@ -459,7 +456,7 @@ public partial class MainForm : Form
             case "MobButton": ShowForm(MobForm.Instance, () => new MobForm().Show()); break;
             case "NpcButton": ShowForm(NpcForm.Instance, () => new NpcForm().Show()); break;
             case "AvatarButton": ShowForm(AvatarForm.Instance, () => new AvatarForm().Show()); break;
-             
+
 
         }
 

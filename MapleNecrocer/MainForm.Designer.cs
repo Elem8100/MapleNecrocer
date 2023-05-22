@@ -51,6 +51,7 @@ namespace MapleNecrocer
             AvatarButton = new Button();
             SaveMapButton = new Button();
             DisplayButton = new Button();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -123,7 +124,7 @@ namespace MapleNecrocer
             LoadMapButton.Name = "LoadMapButton";
             LoadMapButton.Size = new Size(236, 28);
             LoadMapButton.TabIndex = 5;
-            LoadMapButton.Text = "button1";
+            LoadMapButton.Text = "Load Map";
             LoadMapButton.UseVisualStyleBackColor = true;
             LoadMapButton.Click += LoadMapButton_Click;
             // 
@@ -292,10 +293,21 @@ namespace MapleNecrocer
             DisplayButton.TextAlign = ContentAlignment.BottomCenter;
             DisplayButton.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            label4.Location = new Point(74, 9);
+            label4.Name = "label4";
+            label4.Size = new Size(124, 18);
+            label4.TabIndex = 12;
+            label4.Text = "MapleStory Folder";
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1175, 664);
+            Controls.Add(label4);
             Controls.Add(panel1);
             Controls.Add(SearchMapBox);
             Controls.Add(label3);
@@ -345,5 +357,6 @@ namespace MapleNecrocer
         private Button AvatarButton;
         private Button SaveMapButton;
         private Button NpcButton;
+        private Label label4;
     }
 }
