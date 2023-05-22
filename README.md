@@ -1,5 +1,4 @@
 # MapleNecrocer
-MapleStory Client Simulator  
 C# version of MapleStory GM Client.  
 The C# version supports more features that aim to replace Delphi 32bit version.  
 
