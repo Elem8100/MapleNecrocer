@@ -494,7 +494,6 @@ public class Mob : JumperSprite
                 Y = Below.Y;
                 // MaxFallSpeed :=10;
                 JumpState = JumpState.jsNone;
-                DoJump = false;
                 FH = BelowFH;
                 Z = FH.Z * 100000 + 6000;
             }

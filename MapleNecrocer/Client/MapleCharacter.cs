@@ -237,21 +237,21 @@ public class Player : JumperSprite
     //static Texture2D AvatarTargetTexture;
     static int AvatarPanelIndex;
     static List<string> EquipDumpList = new();
-    static int _NewZ;
+    public static int _NewZ;
     private static float DestX, DestY;
 
     private static List<string> SameNames = new();
-    
+
     public void Spawn(string EquipID)
     {
         CreateEquip(EquipID, AvatarEngine);
     }
 
-    public void CreateEquip(string EquipID, MonoSpriteEngine UseEngine)
+    public void CreateEquip(string EquipID, MonoSpriteEngine UseEngine, PlayerEx AOwner = null)
     {
         string Dir = Equip.GetDir(EquipID);
         PartName Part = Equip.GetPart(EquipID);
-        Wz_Node  Img = Wz.GetNodeA("Character/" + Dir + EquipID + ".img");
+        Wz_Node Img = Wz.GetNodeA("Character/" + Dir + EquipID + ".img");
         string Path;
         if (!EquipDumpList.Contains(EquipID))
         {
@@ -416,7 +416,10 @@ public class Player : JumperSprite
 
                                 Sprite.Visible = false;
                             }
-                            Sprite.Owner = this;
+                            if (OtherPlayer)
+                                Sprite.Owner = AOwner;
+                            else
+                                Sprite.Owner =this;
                             Sprite.ImageLib = Wz.EquipImageLib;
                             Path = Iter3.FullPathToFile2();
 
@@ -525,7 +528,6 @@ public class Player : JumperSprite
                 FaceDir = FaceDir.None;
                 InLadder = true;
                 JumpState = JumpState.jsNone;
-                DoJump = false;
                 X = LadderRope.X;
                 Y -= 1.5f;
             }
@@ -836,7 +838,6 @@ public class Player : JumperSprite
                 Y = Below.Y;
                 MaxFallSpeed = 10;
                 JumpState = JumpState.jsNone;
-                DoJump = false;
                 FH = BelowFH;
                 Z = FH.Z * 100000 + 60000;
             }
@@ -937,14 +938,14 @@ public class AvatarParts : SpriteEx
     bool DoFaceAnim;
     int FaceCount;
     int AlertCount;
-    int FaceFrame;
+    public int FaceFrame;
     int BlinkCount;
     int BlinkTime;
     int FrameCount;
     int NewFrame = 1;
     bool AnimEnd;
     bool AnimZigzag;
-    bool ChangeFrame;
+    public bool ChangeFrame;
     Vector2 origin;
     int Flip;
     Vector2 MoveOffset;
@@ -962,7 +963,7 @@ public class AvatarParts : SpriteEx
             return false;
 
     }
-    void UpdateFrame()
+    public void UpdateFrame()
     {
         string C = "Character/";
         float BodyDelay, FaceDelay;
