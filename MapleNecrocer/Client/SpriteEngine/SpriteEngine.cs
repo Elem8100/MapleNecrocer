@@ -1596,6 +1596,7 @@ public class JumperSprite : PlayerSprite
                     VelocityY = MaxFallSpeed;
                 break;
         }
+        DoJump = false;
     }
 }
 
