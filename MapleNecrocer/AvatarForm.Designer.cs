@@ -63,6 +63,7 @@
             pictureBox1 = new PictureBox();
             label1 = new Label();
             label2 = new Label();
+            tabPage5 = new TabPage();
             tabControl1.SuspendLayout();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DyeGrid).BeginInit();
@@ -389,6 +390,7 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage4);
+            tabControl1.Controls.Add(tabPage5);
             tabControl1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             tabControl1.Location = new Point(7, 260);
             tabControl1.Name = "tabControl1";
@@ -526,6 +528,16 @@
             label2.Size = new Size(0, 18);
             label2.TabIndex = 2;
             // 
+            // tabPage5
+            // 
+            tabPage5.Location = new Point(4, 26);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new Padding(3);
+            tabPage5.Size = new Size(708, 538);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "Spawn";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
             // AvatarForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -605,5 +617,6 @@
         private TextBox textBox1;
         private Label label3;
         private Button UseButton;
+        private TabPage tabPage5;
     }
 }

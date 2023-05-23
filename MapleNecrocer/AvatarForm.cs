@@ -222,27 +222,35 @@ public partial class AvatarForm : Form
         AvatarListView.ItemClick += (o, e) =>
         {
 
-            //foreach( var Iter in ItemEffect.UseList.Keys)
-            //      ItemEffect.UseList[Iter].Dead();
-            //ItemEffect.UseList.Clear();
-
-            //foreach( var Iter in SetEffect.UseList.Keys)
-            //      SetEffect.UseList[Iter].Dead();
-            //SetEffect.UseList.Clear();
-
-            Player.EqpList.Clear();
-            Player.Instance.ShowHair = false;
-            Player.Instance.DressCap = false;
-            Player.Instance.RemoveSprites();
-            string[] Split = null;
-            Split = e.Item.FileName.Split("-");
-            for (int i = 0; i < Split.Length - 1; i++)
+            switch (tabControl1.SelectedIndex)
             {
-                AddEqps(Split[i]);
-                Player.Instance.Spawn(Split[i]);
-            }
-            AddInventory();
+                case 1:
+                    //foreach( var Iter in ItemEffect.UseList.Keys)
+                    //      ItemEffect.UseList[Iter].Dead();
+                    //ItemEffect.UseList.Clear();
 
+                    //foreach( var Iter in SetEffect.UseList.Keys)
+                    //      SetEffect.UseList[Iter].Dead();
+                    //SetEffect.UseList.Clear();
+
+                    Player.EqpList.Clear();
+                    Player.Instance.ShowHair = false;
+                    Player.Instance.DressCap = false;
+                    Player.Instance.RemoveSprites();
+                    string[] Split = null;
+                    Split = e.Item.FileName.Split("-");
+                    for (int i = 0; i < Split.Length - 1; i++)
+                    {
+                        AddEqps(Split[i]);
+                        Player.Instance.Spawn(Split[i]);
+                    }
+                    AddInventory();
+                    break;
+                case 4:
+                    string IDs = e.Item.FileName;
+                    PlayerEx.Spawn(IDs);
+                    break;
+            }
         };
 
         Inventory = new(75, 174, 730, 8, 300, 820, true, this);
@@ -544,6 +552,20 @@ public partial class AvatarForm : Form
     }
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
+
+        void LoadAvatarPics()
+        {
+            string[] Files = Directory.GetFiles(System.Environment.CurrentDirectory + "\\Images");
+            foreach (var i in Files)
+            {
+                string Name = Path.GetFileName(i);
+                Name = Name.Replace(".png", "");
+                Bitmap Png = new Bitmap(i);
+                AvatarListView.Items.Add(Name, Png);
+                Png.Dispose();
+            }
+        }
+
         switch (tabControl1.SelectedIndex)
         {
             case 0:
@@ -552,17 +574,10 @@ public partial class AvatarForm : Form
             case 1:
                 if (!Loaded)
                 {
-                    string[] Files = Directory.GetFiles(System.Environment.CurrentDirectory + "\\Images");
-                    foreach (var i in Files)
-                    {
-                        string Name = Path.GetFileName(i);
-                        Name = Name.Replace(".png", "");
-                        Bitmap Png = new Bitmap(i);
-                        AvatarListView.Items.Add(Name, Png);
-                        Png.Dispose();
-                    }
+                    LoadAvatarPics();
                     Loaded = true;
                 }
+                AvatarListView.Parent = tabControl1.TabPages[1];
                 break;
             case 2:
                 ResetDyeGrid();
@@ -594,6 +609,15 @@ public partial class AvatarForm : Form
                     SearchGrid.Refresh();
                     SearchGridLoaded = true;
                 }
+                break;
+
+            case 4:
+                if (!Loaded)
+                {
+                    LoadAvatarPics();
+                    Loaded = true;
+                }
+                AvatarListView.Parent = tabControl1.TabPages[4];
                 break;
         }
 
