@@ -377,13 +377,13 @@ public partial class MainForm : Form
                 break;
             }
         }
-        Player.Instance.X = PX;
-        Player.Instance.Y = PY;
+        Game1.Player.X = PX;
+        Game1.Player.Y = PY;
         Foothold BelowFH = null;
         Vector2 Below = FootholdTree.Instance.FindBelow(new Vector2(PX, PY - 2), ref BelowFH);
-        Player.Instance.FH = BelowFH;
-        Player.Instance.FaceDir = FaceDir.None;
-        Player.Instance.JumpState = JumpState.jsNone;
+        Game1.Player.FH = BelowFH;
+        Game1.Player.FaceDir = FaceDir.None;
+        Game1.Player.JumpState = JumpState.jsNone;
 
         EngineFunc.SpriteEngine.Camera.X = PX - Map.DisplaySize.X / 2;
         EngineFunc.SpriteEngine.Camera.Y = PY - (Map.DisplaySize.Y / 2) - 100;
@@ -401,7 +401,7 @@ public partial class MainForm : Form
         Particle.ResetPos = true;
         EngineFunc.SpriteEngine.Move(1);
 
-        Player.Instance.JumpState = JumpState.jsFalling;
+        Game1.Player.JumpState = JumpState.jsFalling;
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]

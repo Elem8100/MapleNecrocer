@@ -68,8 +68,8 @@ public class AvatarFormDraw : MonoGameControl
         this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
 
         EngineFunc.Canvas.Draw(CheckBoardTexture, 0, 0);
-        int WX = (int)(Player.Instance.X - EngineFunc.SpriteEngine.Camera.X - 130 + MapleChair.BodyRelMove.X - TamingMob.Navel.X);
-        int WY = (int)(Player.Instance.Y - EngineFunc.SpriteEngine.Camera.Y - 160 + MapleChair.BodyRelMove.Y - TamingMob.Navel.Y);
+        int WX = (int)(Game1.Player.X - EngineFunc.SpriteEngine.Camera.X - 130 + MapleChair.BodyRelMove.X - TamingMob.Navel.X);
+        int WY = (int)(Game1.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 160 + MapleChair.BodyRelMove.Y - TamingMob.Navel.Y);
         EngineFunc.Canvas.DrawCropArea(AvatarPanelTexture, 0, 0, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + 280, WY + 200), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
     }
 
