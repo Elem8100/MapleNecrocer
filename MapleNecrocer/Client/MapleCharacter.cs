@@ -28,7 +28,11 @@ namespace MapleNecrocer;
 public enum FaceDir { Left, Right, None }
 public enum LadderType { Ladder, Rope }
 public enum PartName { Head, Body, Cap, Face, Hair, Glove, FaceAcc, Glass, EarRing, Cape, Coat, Longcoat, Pants, Shield, Shoes, Weapon, CashWeapon, Chairs, SitTamingMob, WalkTamingMob, TamingMob }
+public class Game1
+{
+    public static Player Player;
 
+}
 public class Equip
 {
     public static string GetDir(string ID)
@@ -131,7 +135,7 @@ public class Player : JumperSprite
         JumpState = JumpState.jsFalling;
         StandType = "stand1";
         WalkType = "walk1";
-        Instance = this;
+      
         // IntMove = true;
     }
     static bool Loaded;
@@ -143,11 +147,11 @@ public class Player : JumperSprite
         EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(null);
 
-        var Player = new Player(EngineFunc.SpriteEngine);
-        Player.AvatarEngine = new MonoSpriteEngine(null);
-        Player.AvatarEngine.Canvas = EngineFunc.Canvas;
-        Player.AvatarEngine.Camera.X = 21 - 400;
-        Player.AvatarEngine.Camera.Y = 20 - 400;
+        Game1.Player = new Player(EngineFunc.SpriteEngine);
+        Game1.Player.AvatarEngine = new MonoSpriteEngine(null);
+        Game1.Player.AvatarEngine.Canvas = EngineFunc.Canvas;
+        Game1.Player.AvatarEngine.Camera.X = 21 - 400;
+        Game1.Player.AvatarEngine.Camera.Y = 20 - 400;
 
         int PX = 0, PY = 0;
         foreach (var Portals in MapPortal.PortalList)
@@ -159,13 +163,13 @@ public class Player : JumperSprite
                 break;
             }
         }
-        Player.X = PX;
-        Player.Y = PY;
+        Game1.Player.X = PX;
+        Game1.Player.Y = PY;
         Foothold BelowFH = null;
         Vector2 Below = FootholdTree.Instance.FindBelow(new Vector2(PX, PY - 2), ref BelowFH);
-        Player.FH = BelowFH;
-        Player.FaceDir = FaceDir.None;
-        Player.JumpState = JumpState.jsFalling;
+        Game1.Player.FH = BelowFH;
+        Game1.Player.FaceDir = FaceDir.None;
+        Game1.Player.JumpState = JumpState.jsFalling;
 
         foreach (var Iter in Wz.GetNodeA("Base/zmap.img").Nodes)
             AvatarParts.ZMap.Add(Iter.Text);
@@ -181,12 +185,12 @@ public class Player : JumperSprite
         string[] DefaultEqps = { "01302030", "00002000", "01062055", "01072054", "01040005", "00020000", "00030020", "00012000" };
         for (int I = 0; I <= 7; I++)
         {
-            Player.CreateEquip(DefaultEqps[I], Player.AvatarEngine);
+            Game1.Player.CreateEquip(DefaultEqps[I], Game1.Player.AvatarEngine);
             Player.EqpList.Add(DefaultEqps[I]);
         }
         Wz.DumpData(Wz.GetNodeA("Character/00002001.img"), Wz.EquipData, Wz.EquipImageLib);
 
-        Player.AttackAction = Player.AttackActions[0];
+        Game1.Player.AttackAction = Game1.Player.AttackActions[0];
         //AfterImage.Load(Player.AfterImageStr, '0');
         //TDamageNumber.Style := 'NoRed1';
         //TDamageNumber.Load('');
@@ -194,7 +198,7 @@ public class Player : JumperSprite
         Loaded = true;
     }
 
-    public static Player Instance;
+   
     public static List<string> EqpList = new();
     MonoSpriteEngine AvatarEngine;
     public Foothold FH;
@@ -216,7 +220,7 @@ public class Player : JumperSprite
     PortalInfo Portal;
     public LadderType LadderType;
     public string StandType, WalkType;
-    List<AvatarParts> SpriteList = new();
+    List<AvatarParts> SpriteListChar = new();
     public bool ShowHair;
     public bool DressCap;
     public int CapType;
@@ -228,7 +232,7 @@ public class Player : JumperSprite
     List<string> AttackActions = new();
     List<string> AttackOFs = new();
     bool Flip;
-    public bool OtherPlayer;
+    public bool OtherPlayer=false;
 
     public float MoveX, MoveY;
 
@@ -241,13 +245,17 @@ public class Player : JumperSprite
     private static float DestX, DestY;
 
     private static List<string> SameNames = new();
+    public Vector2 Neck, Navel, Hand, Brow, HandMove;
+    public Vector2 ArmHand, ArmNavel, BodyNeck, BodyNavel, BodyHand, lHandMove, HeadBrow, HeadNeck;
+    public Vector2 BrowPos, TamingNavel;
+
 
     public void Spawn(string EquipID)
     {
         CreateEquip(EquipID, AvatarEngine);
     }
 
-    public void CreateEquip(string EquipID, MonoSpriteEngine UseEngine, PlayerEx AOwner = null)
+    public void CreateEquip(string EquipID, MonoSpriteEngine UseEngine)
     {
         string Dir = Equip.GetDir(EquipID);
         PartName Part = Equip.GetPart(EquipID);
@@ -416,10 +424,8 @@ public class Player : JumperSprite
 
                                 Sprite.Visible = false;
                             }
-                            if (OtherPlayer)
-                                Sprite.Owner = AOwner;
-                            else
-                                Sprite.Owner =this;
+                          
+                            Sprite.Owner = this;
                             Sprite.ImageLib = Wz.EquipImageLib;
                             Path = Iter3.FullPathToFile2();
 
@@ -459,7 +465,8 @@ public class Player : JumperSprite
                                 Sprite.ID = S[2].LeftStr(8);
                                 Sprite.Image = S[6];
                             }
-                            SpriteList.Add(Sprite);
+
+                            SpriteListChar.Add(Sprite);
 
                         }
                     }
@@ -491,12 +498,12 @@ public class Player : JumperSprite
 
     public void RemoveSprites()
     {
-        foreach (var Iter in SpriteList)
+        foreach (var Iter in SpriteListChar)
         {
 
             Iter.Dead();
         }
-        SpriteList.Clear();
+        SpriteListChar.Clear();
     }
     public override void DoMove(float Delta)
     {
@@ -951,9 +958,6 @@ public class AvatarParts : SpriteEx
     Vector2 MoveOffset;
     int Counter;
     public static List<string> ZMap = new();
-    static Vector2 Neck, Navel, Hand, Brow, HandMove;
-    static Vector2 ArmHand, ArmNavel, BodyNeck, BodyNavel, BodyHand, lHandMove, HeadBrow, HeadNeck;
-    static Vector2 BrowPos, TamingNavel;
 
     bool IsAttack()
     {
@@ -1302,69 +1306,69 @@ public class AvatarParts : SpriteEx
 
         if (Owner.OtherPlayer)
         {
-            TamingNavel.X = 0;
-            TamingNavel.Y = 0;
+            Owner.TamingNavel.X = 0;
+            Owner.TamingNavel.Y = 0;
         }
         else
         {
-            TamingNavel.X = TamingMob.Navel.X;
-            TamingNavel.Y = TamingMob.Navel.Y;
+            Owner.TamingNavel.X = TamingMob.Navel.X;
+            Owner.TamingNavel.Y = TamingMob.Navel.Y;
         }
 
         if (Wz.HasNodeE(Path + "/map/brow"))
         {
-            Brow.X = -Wz.EquipData[Path + "/map/brow"].ToVector().X * this.Flip;
-            Brow.Y = -Wz.EquipData[Path + "/map/brow"].ToVector().Y;
+            Owner.Brow.X = -Wz.EquipData[Path + "/map/brow"].ToVector().X * this.Flip;
+            Owner.Brow.Y = -Wz.EquipData[Path + "/map/brow"].ToVector().Y;
             if (Image == "head")
-                HeadBrow = Brow;
-            this.Offset.X = origin.X + HeadNeck.X - BodyNeck.X - HeadBrow.X + Brow.X - TamingNavel.X;
-            this.Offset.Y = origin.Y + HeadNeck.Y - BodyNeck.Y - HeadBrow.Y + Brow.Y - TamingNavel.Y;
+                Owner.HeadBrow = Owner.Brow;
+            this.Offset.X = origin.X + Owner.HeadNeck.X - Owner.BodyNeck.X - Owner.HeadBrow.X + Owner.Brow.X - Owner.TamingNavel.X;
+            this.Offset.Y = origin.Y + Owner.HeadNeck.Y - Owner.BodyNeck.Y - Owner.HeadBrow.Y + Owner.Brow.Y - Owner.TamingNavel.Y;
         }
 
         if (Wz.HasNodeE(Path + "/map/neck"))
         {
-            Neck.X = -Wz.EquipData[Path + "/map/neck"].ToVector().X * this.Flip;
-            Neck.Y = -Wz.EquipData[Path + "/map/neck"].ToVector().Y;
+            Owner.Neck.X = -Wz.EquipData[Path + "/map/neck"].ToVector().X * this.Flip;
+            Owner.Neck.Y = -Wz.EquipData[Path + "/map/neck"].ToVector().Y;
             if (Image == "body")
-                BodyNeck = Neck;
+                Owner.BodyNeck = Owner.Neck;
             if (Image == "head")
-                HeadNeck = Neck;
+                Owner.HeadNeck = Owner.Neck;
         }
 
         if (Image == "body")
-            BrowPos = BodyNeck + TamingMob.Navel;
+            Owner.BrowPos = Owner.BodyNeck + TamingMob.Navel;
         if (Wz.HasNodeE(Path + "/map/hand"))
         {
-            Hand.X = -Wz.EquipData[Path + "/map/hand"].ToVector().X * this.Flip;
-            Hand.Y = -Wz.EquipData[Path + "/map/hand"].ToVector().Y;
+            Owner.Hand.X = -Wz.EquipData[Path + "/map/hand"].ToVector().X * this.Flip;
+            Owner.Hand.Y = -Wz.EquipData[Path + "/map/hand"].ToVector().Y;
             if (Image == "arm")
-                ArmHand = Hand;
+                Owner.ArmHand = Owner.Hand;
             if (Image == "body")
-                BodyHand = Hand;
-            this.Offset.X = origin.X + Hand.X + ArmNavel.X - ArmHand.X - BodyNavel.X;
-            this.Offset.Y = origin.Y + Hand.Y + ArmNavel.Y - ArmHand.Y - BodyNavel.Y;
+                Owner.BodyHand = Owner.Hand;
+            this.Offset.X = origin.X + Owner.Hand.X + Owner.ArmNavel.X - Owner.ArmHand.X - Owner.BodyNavel.X;
+            this.Offset.Y = origin.Y + Owner.Hand.Y + Owner.ArmNavel.Y - Owner.ArmHand.Y - Owner.BodyNavel.Y;
         }
 
         if (Wz.HasNodeE(Path + "/map/handMove"))
         {
-            HandMove.X = -Wz.EquipData[Path + "/map/handMove"].ToVector().X * this.Flip;
-            HandMove.Y = -Wz.EquipData[Path + "/map/handMove"].ToVector().Y;
+            Owner.HandMove.X = -Wz.EquipData[Path + "/map/handMove"].ToVector().X * this.Flip;
+            Owner.HandMove.Y = -Wz.EquipData[Path + "/map/handMove"].ToVector().Y;
             if (Image == "lHand")
-                lHandMove = HandMove;
-            this.Offset.X = origin.X + HandMove.X - lHandMove.X;
-            this.Offset.Y = origin.Y + HandMove.Y - lHandMove.Y;
+                Owner.lHandMove = Owner.HandMove;
+            this.Offset.X = origin.X + Owner.HandMove.X - Owner.lHandMove.X;
+            this.Offset.Y = origin.Y + Owner.HandMove.Y - Owner.lHandMove.Y;
         }
 
         if (Wz.HasNodeE(Path + "/map/navel"))
         {
-            Navel.X = -Wz.EquipData[Path + "/map/navel"].ToVector().X * this.Flip;
-            Navel.Y = -Wz.EquipData[Path + "/map/navel"].ToVector().Y;
+            Owner.Navel.X = -Wz.EquipData[Path + "/map/navel"].ToVector().X * this.Flip;
+            Owner.Navel.Y = -Wz.EquipData[Path + "/map/navel"].ToVector().Y;
             if (Image == "arm")
-                ArmNavel = Navel;
+                Owner.ArmNavel = Owner.Navel;
             if (Image == "body")
-                BodyNavel = Navel;
-            this.Offset.X = origin.X + Navel.X - BodyNavel.X - TamingNavel.X;
-            this.Offset.Y = origin.Y + Navel.Y - BodyNavel.Y - TamingNavel.Y;
+                Owner.BodyNavel = Owner.Navel;
+            this.Offset.X = origin.X + Owner.Navel.X - Owner.BodyNavel.X - Owner.TamingNavel.X;
+            this.Offset.Y = origin.Y + Owner.Navel.Y - Owner.BodyNavel.Y - Owner.TamingNavel.Y;
         }
     }
 
@@ -1624,7 +1628,7 @@ public class AvatarParts : SpriteEx
             Visible = true;
         }
 
-        Player.Instance.FlipX = FlipX;
+        Game1.Player.FlipX = FlipX;
         if ((State == "ladder") || (State == "rope"))
             MapleChair.CanUse = false;
         else

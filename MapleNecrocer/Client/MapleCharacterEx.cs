@@ -16,18 +16,22 @@ public class PlayerEx : Player
 
     public PlayerEx(Sprite Parent) : base(Parent)
     {
-
+      
     }
+  
     public static void Spawn(string IDList)
     {
+
         Player._NewZ += 1;
         var PlayerEx = new PlayerEx(EngineFunc.SpriteEngine);
+
         PlayerEx.NewZ = Player._NewZ;
         PlayerEx.OtherPlayer = true;
-        PlayerEx.X = Player.Instance.X;
-        PlayerEx.Y = Player.Instance.Y - 100;
+
+        PlayerEx.X = Game1.Player.X;
+        PlayerEx.Y = Game1.Player.Y - 100;
         Foothold BelowFH = null;
-        var Below = FootholdTree.Instance.FindBelow(new Vector2(Player.Instance.X, Player.Instance.Y - 2), ref BelowFH);
+        var Below = FootholdTree.Instance.FindBelow(new Vector2(Game1.Player.X, Game1.Player.Y - 2), ref BelowFH);
         PlayerEx.FH = BelowFH;
         PlayerEx.JumpSpeed = 0.6f;
         PlayerEx.JumpHeight = 9.5f;
@@ -36,7 +40,7 @@ public class PlayerEx : Player
         PlayerEx.MoveSpeed = 1.8f;
         PlayerEx.moveType = MoveType.Jump;
         PlayerEx.moveDirection = MoveDirection.None;
-        
+
         PlayerExList.Add(PlayerEx);
         string[] Split = IDList.Split("-");
         List.Clear();
@@ -44,7 +48,7 @@ public class PlayerEx : Player
             List.Add(Split[i]);
         List.Sort();
         for (int i = 0; i < List.Count; i++)
-            PlayerEx.CreateEquip(List[i], EngineFunc.SpriteEngine,PlayerEx);
+            PlayerEx.CreateEquip(List[i], EngineFunc.SpriteEngine);
     }
     static List<string> List = new List<string>();
     public static List<PlayerEx> PlayerExList = new();
@@ -342,14 +346,15 @@ public class AvatarPartEx : AvatarParts
     {
 
     }
-   
+
     public override void DoMove(float Delta)
     {
         if (Image != "hand")
         {
-          //  if ((Alpha == 0) || (Visible = false))
-             //   return;
+            //  if ((Alpha == 0) || (Visible = false))
+            //   return;
         }
+
         X = Owner.X;
         Y = Owner.Y;
         FlipX = Owner.FlipX;
@@ -371,7 +376,7 @@ public class AvatarPartEx : AvatarParts
 
     public override void DoDraw()
     {
-     //   if ((Alpha == 0) || (Visible == false))
+        //   if ((Alpha == 0) || (Visible == false))
         //    return;
         base.DoDraw();
         if (ChangeFrame)
