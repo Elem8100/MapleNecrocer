@@ -200,10 +200,10 @@ public partial class AvatarForm : Form
             {
                 AddEqps(e.Item.FileName);
                 AddInventory();
-                Game1.Player.RemoveSprites();
+                Game.Player.RemoveSprites();
                 for (int i = 0; i < Player.EqpList.Count; i++)
                 {
-                    Game1.Player.Spawn(Player.EqpList[i]);
+                    Game.Player.Spawn(Player.EqpList[i]);
                 }
             };
         }
@@ -234,15 +234,15 @@ public partial class AvatarForm : Form
                     //SetEffect.UseList.Clear();
 
                     Player.EqpList.Clear();
-                    Game1.Player.ShowHair = false;
-                    Game1.Player.DressCap = false;
-                    Game1.Player.RemoveSprites();
+                    Game.Player.ShowHair = false;
+                    Game.Player.DressCap = false;
+                    Game.Player.RemoveSprites();
                     string[] Split = null;
                     Split = e.Item.FileName.Split("-");
                     for (int i = 0; i < Split.Length - 1; i++)
                     {
                         AddEqps(Split[i]);
-                        Game1.Player.Spawn(Split[i]);
+                        Game.Player.Spawn(Split[i]);
                     }
                     AddInventory();
                     break;
@@ -280,17 +280,17 @@ public partial class AvatarForm : Form
             switch (Part)
             {
                 case PartName.Hair:
-                    Game1.Player.ShowHair = false;
+                    Game.Player.ShowHair = false;
                     break;
                 case PartName.Cap:
-                    Game1.Player.DressCap = false;
+                    Game.Player.DressCap = false;
                     break;
             }
             Player.EqpList.Sort();
-            Game1.Player.RemoveSprites();
+            Game.Player.RemoveSprites();
             for (int i = 0; i < Player.EqpList.Count; i++)
             {
-                Game1.Player.Spawn(Player.EqpList[i]);
+                Game.Player.Spawn(Player.EqpList[i]);
             }
             if (tabControl1.SelectedIndex == 2)
                 ResetDyeGrid();
@@ -478,8 +478,8 @@ public partial class AvatarForm : Form
     private void SaveCharButton_Click(object sender, EventArgs e)
     {
         RenderTarget2D SaveTexture = null;
-        int WX = (int)(Game1.Player.X - EngineFunc.SpriteEngine.Camera.X - 55);
-        int WY = (int)(Game1.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 90);
+        int WX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X - 55);
+        int WY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 90);
         EngineFunc.Canvas.DrawTarget(ref SaveTexture, 100, 100, () =>
         {
             EngineFunc.Canvas.DrawCropArea(AvatarFormDraw.AvatarPanelTexture, 0, 0, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + 100, WY + 100), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
@@ -647,10 +647,10 @@ public partial class AvatarForm : Form
             return;
         AddEqps(label1.Text);
         AddInventory();
-        Game1.Player.RemoveSprites();
+        Game.Player.RemoveSprites();
         for (int i = 0; i < Player.EqpList.Count; i++)
         {
-            Game1.Player.Spawn(Player.EqpList[i]);
+            Game.Player.Spawn(Player.EqpList[i]);
         }
     }
 }
