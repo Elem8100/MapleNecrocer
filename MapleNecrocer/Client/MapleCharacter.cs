@@ -28,7 +28,7 @@ namespace MapleNecrocer;
 public enum FaceDir { Left, Right, None }
 public enum LadderType { Ladder, Rope }
 public enum PartName { Head, Body, Cap, Face, Hair, Glove, FaceAcc, Glass, EarRing, Cape, Coat, Longcoat, Pants, Shield, Shoes, Weapon, CashWeapon, Chairs, SitTamingMob, WalkTamingMob, TamingMob }
-public class Game1
+public class Game
 {
     public static Player Player;
 
@@ -147,11 +147,11 @@ public class Player : JumperSprite
         EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(null);
 
-        Game1.Player = new Player(EngineFunc.SpriteEngine);
-        Game1.Player.AvatarEngine = new MonoSpriteEngine(null);
-        Game1.Player.AvatarEngine.Canvas = EngineFunc.Canvas;
-        Game1.Player.AvatarEngine.Camera.X = 21 - 400;
-        Game1.Player.AvatarEngine.Camera.Y = 20 - 400;
+        Game.Player = new Player(EngineFunc.SpriteEngine);
+        Game.Player.AvatarEngine = new MonoSpriteEngine(null);
+        Game.Player.AvatarEngine.Canvas = EngineFunc.Canvas;
+        Game.Player.AvatarEngine.Camera.X = 21 - 400;
+        Game.Player.AvatarEngine.Camera.Y = 20 - 400;
 
         int PX = 0, PY = 0;
         foreach (var Portals in MapPortal.PortalList)
@@ -163,13 +163,13 @@ public class Player : JumperSprite
                 break;
             }
         }
-        Game1.Player.X = PX;
-        Game1.Player.Y = PY;
+        Game.Player.X = PX;
+        Game.Player.Y = PY;
         Foothold BelowFH = null;
         Vector2 Below = FootholdTree.Instance.FindBelow(new Vector2(PX, PY - 2), ref BelowFH);
-        Game1.Player.FH = BelowFH;
-        Game1.Player.FaceDir = FaceDir.None;
-        Game1.Player.JumpState = JumpState.jsFalling;
+        Game.Player.FH = BelowFH;
+        Game.Player.FaceDir = FaceDir.None;
+        Game.Player.JumpState = JumpState.jsFalling;
 
         foreach (var Iter in Wz.GetNodeA("Base/zmap.img").Nodes)
             AvatarParts.ZMap.Add(Iter.Text);
@@ -185,12 +185,12 @@ public class Player : JumperSprite
         string[] DefaultEqps = { "01302030", "00002000", "01062055", "01072054", "01040005", "00020000", "00030020", "00012000" };
         for (int I = 0; I <= 7; I++)
         {
-            Game1.Player.CreateEquip(DefaultEqps[I], Game1.Player.AvatarEngine);
+            Game.Player.CreateEquip(DefaultEqps[I], Game.Player.AvatarEngine);
             Player.EqpList.Add(DefaultEqps[I]);
         }
         Wz.DumpData(Wz.GetNodeA("Character/00002001.img"), Wz.EquipData, Wz.EquipImageLib);
 
-        Game1.Player.AttackAction = Game1.Player.AttackActions[0];
+        Game.Player.AttackAction = Game.Player.AttackActions[0];
         //AfterImage.Load(Player.AfterImageStr, '0');
         //TDamageNumber.Style := 'NoRed1';
         //TDamageNumber.Load('');
@@ -220,7 +220,7 @@ public class Player : JumperSprite
     PortalInfo Portal;
     public LadderType LadderType;
     public string StandType, WalkType;
-    List<AvatarParts> SpriteListChar = new();
+    List<AvatarParts> PartSpriteList = new();
     public bool ShowHair;
     public bool DressCap;
     public int CapType;
@@ -466,7 +466,7 @@ public class Player : JumperSprite
                                 Sprite.Image = S[6];
                             }
 
-                            SpriteListChar.Add(Sprite);
+                            PartSpriteList.Add(Sprite);
 
                         }
                     }
@@ -498,12 +498,12 @@ public class Player : JumperSprite
 
     public void RemoveSprites()
     {
-        foreach (var Iter in SpriteListChar)
+        foreach (var Iter in PartSpriteList)
         {
 
             Iter.Dead();
         }
-        SpriteListChar.Clear();
+        PartSpriteList.Clear();
     }
     public override void DoMove(float Delta)
     {
@@ -1628,7 +1628,7 @@ public class AvatarParts : SpriteEx
             Visible = true;
         }
 
-        Game1.Player.FlipX = FlipX;
+        //Game.Player.FlipX = FlipX;
         if ((State == "ladder") || (State == "rope"))
             MapleChair.CanUse = false;
         else

@@ -28,10 +28,10 @@ public class PlayerEx : Player
         PlayerEx.NewZ = Player._NewZ;
         PlayerEx.OtherPlayer = true;
 
-        PlayerEx.X = Game1.Player.X;
-        PlayerEx.Y = Game1.Player.Y - 100;
+        PlayerEx.X = Game.Player.X;
+        PlayerEx.Y = Game.Player.Y - 100;
         Foothold BelowFH = null;
-        var Below = FootholdTree.Instance.FindBelow(new Vector2(Game1.Player.X, Game1.Player.Y - 2), ref BelowFH);
+        var Below = FootholdTree.Instance.FindBelow(new Vector2(Game.Player.X, Game.Player.Y - 2), ref BelowFH);
         PlayerEx.FH = BelowFH;
         PlayerEx.JumpSpeed = 0.6f;
         PlayerEx.JumpHeight = 9.5f;
