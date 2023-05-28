@@ -362,6 +362,7 @@ public partial class MainForm : Form
 
     }
 
+    static bool LoadedEff;
     private void LoadMapButton_Click(object sender, EventArgs e)
     {
 
@@ -402,6 +403,13 @@ public partial class MainForm : Form
         EngineFunc.SpriteEngine.Move(1);
 
         Game.Player.JumpState = JumpState.jsFalling;
+        if(!LoadedEff)
+        {
+            SetEffect.LoadList();
+            ItemEffect.LoadList();
+            LoadedEff = true;
+        }
+       
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]

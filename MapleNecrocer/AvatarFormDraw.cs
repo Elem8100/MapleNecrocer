@@ -58,7 +58,7 @@ public class AvatarFormDraw : MonoGameControl
 
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(AvatarPanelTexture);
         EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
-        EngineFunc.SpriteEngine.DrawEx("Player");
+        EngineFunc.SpriteEngine.DrawEx("Player","ItemEffect");
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(null);
     }
 

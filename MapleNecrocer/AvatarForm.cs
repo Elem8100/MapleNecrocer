@@ -113,8 +113,8 @@ public partial class AvatarForm : Form
 
             if (NewPart == OldPart)
             {
-                //SetEffect.Delete(PlayerEqpList[i]);
-                //ItemEffect.Delete(PlayerEqpList[i]);
+                SetEffect.Delete(Player.EqpList[i]);
+                ItemEffect.Delete(Player.EqpList[i]);
                 Player.EqpList.RemoveAt(i);
             }
             if ((NewPart == PartName.Weapon) && (OldPart == PartName.CashWeapon))
@@ -135,12 +135,12 @@ public partial class AvatarForm : Form
 
         Player.EqpList.Add(NewID);
 
-        // if( ItemEffect.AllList.contains(EqpID))
-        //ItemEffect.Create(EqpID, Equip);
+        if (ItemEffect.AllList.Contains(EqpID))
+            ItemEffect.Create(EqpID, EffectType.Equip);
 
-        //if (SetEffect.AllList.ContainsKey(EqpID)) 
-        //SetEffect.Create(EqpID);
-
+        // if (SetEffect.AllList.ContainsKey(EqpID))
+        //   SetEffect.Create(EqpID);
+        //   MainForm.Instance.Text=SetEffect.AllList.Count.ToString();
     }
     void ResetDyeGrid()
     {
@@ -225,13 +225,13 @@ public partial class AvatarForm : Form
             switch (tabControl1.SelectedIndex)
             {
                 case 1:
-                    //foreach( var Iter in ItemEffect.UseList.Keys)
-                    //      ItemEffect.UseList[Iter].Dead();
-                    //ItemEffect.UseList.Clear();
+                    foreach (var Iter in ItemEffect.UseList.Keys)
+                        ItemEffect.UseList[Iter].Dead();
+                    ItemEffect.UseList.Clear();
 
-                    //foreach( var Iter in SetEffect.UseList.Keys)
-                    //      SetEffect.UseList[Iter].Dead();
-                    //SetEffect.UseList.Clear();
+                    foreach (var Iter in SetEffect.UseList.Keys)
+                        SetEffect.UseList[Iter].Dead();
+                    SetEffect.UseList.Clear();
 
                     Player.EqpList.Clear();
                     Game.Player.ShowHair = false;
@@ -270,8 +270,8 @@ public partial class AvatarForm : Form
             string DeleteID = Player.EqpList[Row];
             Player.EqpList.RemoveAt(Row);
 
-            // if (ItemEffect.AllList.contains(DeleteID)) 
-            //ItemEffect.Delete(DeleteID);
+            if (ItemEffect.AllList.Contains(DeleteID))
+                ItemEffect.Delete(DeleteID);
             // if( SetEffect.AllList.containsKey(DeleteID)) 
             // SetEffect.Delete(DeleteID);
 
@@ -300,6 +300,7 @@ public partial class AvatarForm : Form
         AddEqps("00002000");
         AddInventory();
         ResetDyeGrid();
+
 
     }
 
@@ -629,11 +630,16 @@ public partial class AvatarForm : Form
         int Col = e.ColumnIndex;
         string ID = Inventory.Rows[e.RowIndex].Cells[0].Value.ToString();
         string Dir = Equip.GetDir(ID);
-        Wz_Node Img = Wz.GetNodeA("Character/" + Dir + ID + ".img");
-        if (Col <= 15)
-            Wz.DumpData(Img, Wz.EquipData, Wz.EquipImageLib, true, Col * 25);
+        Wz_Node Entry;
+        if (ItemEffect.AllList.Contains(ID))
+            Entry = Wz.GetNodeA("Effect/ItemEff.img/"+ ID.IntID());
         else
-            Wz.DumpData(Img, Wz.EquipData, Wz.EquipImageLib, true, 0, -200);
+            Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
+
+        if (Col <= 15)
+            Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib, true, Col * 25);
+        else
+            Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib, true, 0, -200);
     }
 
     private void textBox1_TextChanged(object sender, EventArgs e)

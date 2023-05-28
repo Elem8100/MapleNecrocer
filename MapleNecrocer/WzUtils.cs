@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -376,6 +376,13 @@ public static class Wz_NodeExtension3
     {
         return Node.GetNode(Path).GetValueEx<string>("");
     }
+    public static Wz_Vector GetVector(this Wz_Node Node, string Path)
+    {
+       
+        return Node.GetNode(Path).GetValueEx<Wz_Vector>(new Wz_Vector(0,0));
+
+    }
+
 
 
     public static Wz_Node Get2(this Wz_Node Node, string Path)
@@ -456,5 +463,5 @@ public static class Wz_NodeExtension3
         }
         return Result;
     }
-
 }
+
