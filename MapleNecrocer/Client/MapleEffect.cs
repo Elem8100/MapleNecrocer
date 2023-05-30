@@ -50,10 +50,10 @@ public class SetEffect : SpriteEx
 
     public static void Delete(string ID)
     {
-        if (SetEffect.AllList.ContainsKey(ID))
+        if (SetEffect.UseList.ContainsKey(ID))
         {
-            SetEffect.UseList[ID].Dead();
-            SetEffect.UseList.Remove(ID);
+           SetEffect.UseList[ID].Dead();
+           SetEffect.UseList.Remove(ID);
         }
     }
 

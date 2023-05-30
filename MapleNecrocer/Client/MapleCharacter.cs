@@ -31,6 +31,7 @@ public enum PartName { Head, Body, Cap, Face, Hair, Glove, FaceAcc, Glass, EarRi
 public class Game
 {
     public static Player Player;
+    public static int Damage;
 
 }
 public class Equip
@@ -191,7 +192,7 @@ public class Player : JumperSprite
         Wz.DumpData(Wz.GetNodeA("Character/00002001.img"), Wz.EquipData, Wz.EquipImageLib);
 
         Game.Player.AttackAction = Game.Player.AttackActions[0];
-        //AfterImage.Load(Player.AfterImageStr, '0');
+        AfterImage.Load(Game.Player.AfterImageStr, "0");
         //TDamageNumber.Style := 'NoRed1';
         //TDamageNumber.Load('');
 
@@ -227,7 +228,7 @@ public class Player : JumperSprite
     public string WeaponNum;
     public bool ResetAction;
     public string NewAction;
-    string AfterImageStr;
+    public string AfterImageStr;
     public string AttackAction, Str;
     List<string> AttackActions = new();
     List<string> AttackOFs = new();
@@ -273,7 +274,7 @@ public class Player : JumperSprite
 
             case PartName.Weapon:
                 AfterImageStr = Equip.GetAfterImageStr(EquipID);
-                //TAfterImage.Load(AfterImageStr, '0');
+                AfterImage.Load(AfterImageStr, "0");
                 WeaponNum = Equip.GetWeaponNum(EquipID);
                 AttackActions.Clear();
                 AttackOFs.Clear();
@@ -340,7 +341,7 @@ public class Player : JumperSprite
                         }
                     }
                 }
-                // TAfterImage.Load(AfterImageStr, '0');
+                AfterImage.Load(AfterImageStr, "0");
                 Img = Wz.GetNodeA("Character/" + Dir + EquipID + ".img/" + WeaponNum);
                 break;
         }
@@ -977,17 +978,17 @@ public class AvatarParts : SpriteEx
             AnimZigzag = true;
         else
             AnimZigzag = false;
-        /*
-        if ((!AvatarForm.SaveSingleFrame) && ((Part == PartName.Weapon) || (Part == PartName.CashWeapon)) && (Time == 0))
+        
+        if (/*(!AvatarForm.SaveSingleFrame) && */((Part == PartName.Weapon) || (Part == PartName.CashWeapon)) && (Time == 0))
         {
-            AfterImagePath = 'Character/Afterimage/' + Owner.AfterImageStr + ".img/0/" + State + "/" + Frame + "/0";
+            string AfterImagePath = "Character/Afterimage/" + Owner.AfterImageStr + ".img/0/" + State + "/" + Frame + "/0";
             if (Wz.HasNodeE(AfterImagePath))
             {
                 //PlaySounds('Weapon', 'swordL/Attack');
-                //AfterImage.Create(AfterImagePath);
+                AfterImage.Create(AfterImagePath);
             }
         }
-        */
+        
         if ((Image == "head") && (Time == 0))
             ChangeFrame = true;
         /*

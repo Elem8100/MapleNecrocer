@@ -31,7 +31,7 @@ public class Mob : JumperSprite
     }
     int Frame;
     float Time;
-    string ID;
+    public string ID;
     string Action;
     Foothold FH, WallFH;
     Foothold BelowFH;
@@ -46,8 +46,8 @@ public class Mob : JumperSprite
     MoveType MoveType;
     int FallEdge, JumpEdge;
     int CosY, SrcY;
-    bool GetHit1;
-    bool Hit;
+    public bool GetHit1;
+    public bool Hit;
     bool AnimEnd;
     int Value;
     bool AnimRepeat;
@@ -56,8 +56,8 @@ public class Mob : JumperSprite
     // int Left, Top, Right, Bottom;
     //Vector2 Head;
     //Vector2 Origin;
-    Int64 HP;
-    bool Die;
+    public Int64 HP;
+    public bool Die;
     string DieActionName;
     // int HeadX;
     public Vector2 Head;
