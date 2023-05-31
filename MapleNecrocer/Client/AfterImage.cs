@@ -52,7 +52,7 @@ public class AfterImage : SpriteEx
         int Delay = ImageNode.GetInt("delay", 100);
         int a1 = ImageNode.GetInt("a1", -1);
         FlipX = Game.Player.FlipX;
-        string c = "'Character/Afterimage/";
+        string c = "Character/Afterimage/";
         if (Wz.EquipData.ContainsKey(c + Game.Player.AfterImageStr + ".img/0/" + Game.Player.Action + "/lt"))
         {
             LT = Wz.EquipData[c + Game.Player.AfterImageStr + ".img/0/" + Game.Player.Action + "/lt"].ToVector();
@@ -123,8 +123,11 @@ public class AfterImage : SpriteEx
                     //  PlaySounds("Mob", Mob.ID + "/Damage");
                     // else if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Hit1")!=null) 
                     //PlaySounds("Mob", Mob.ID + "/Hit1");
-                    if (Wz.Data.ContainsKey("Mob/" + Mob.ID + ".img/hit1") || Wz.Data.ContainsKey("Mob/" + Mob.ID + ".img/hit1"))
+                    if (Wz.Data.ContainsKey("Mob/" + Mob.ID + ".img/hit1") )
+                    {
+                      
                         Mob.GetHit1 = true;
+                    }
                 }
                 if ((Mob.HP <= 0) && (!Mob.Die))
                 {
@@ -133,8 +136,9 @@ public class AfterImage : SpriteEx
                     Mob.CanCollision = false;
                     // Dead;
                 }
+                CanCollision = false;
             }
-            CanCollision = false;
+
         }
     }
 }

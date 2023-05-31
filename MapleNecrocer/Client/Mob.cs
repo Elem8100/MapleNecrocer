@@ -28,6 +28,7 @@ public class Mob : JumperSprite
     public Mob(Sprite Parent) : base(Parent)
     {
         SpriteSheetMode = SpriteSheetMode.NoneSingle;
+        CollideMode = CollideMode.Rect;
     }
     int Frame;
     float Time;
@@ -125,7 +126,7 @@ public class Mob : JumperSprite
             int c = 0;
             foreach (var Iter2 in Iter.Nodes)
             {
-                if (Char.IsNumber(Iter2.Text, 0))
+                if (Char.IsNumber(Iter2.Text[0]))
                     c += 1;
             }
             FrameData.AddOrReplace(Mob.ID + Iter.Text + "/FrameCount", c - 1);
@@ -200,15 +201,12 @@ public class Mob : JumperSprite
         else
             Mob.Origin.X = origin.X;
         Mob.Origin.Y = origin.Y;
-
-
-
-
     }
 
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
+
         int X1 = FH.X1;
         int Y1 = FH.Y1;
         int X2 = FH.X2;
@@ -225,15 +223,16 @@ public class Mob : JumperSprite
         {
             LT = Wz.GetVector(ImagePath + "/lt");
             RB = Wz.GetVector(ImagePath + "/rb");
-            if (FlipX)
+            switch (FlipX)
             {
-                Right = (int)X - LT.X;
-                Left = (int)X - RB.X;
-            }
-            else
-            {
-                Right = (int)X + LT.X;
-                Left = (int)X + RB.X;
+                case true:
+                    Right = (int)X - LT.X;
+                    Left = (int)X - RB.X;
+                    break;
+                case false:
+                    Left = (int)X + LT.X;
+                    Right = (int)X + RB.X;
+                    break;
             }
             Top = (int)Y + LT.Y;
             Bottom = (int)Y + RB.Y;
@@ -243,8 +242,7 @@ public class Mob : JumperSprite
         if (Wz.HasNode(ImagePath + "/head"))
         {
             Wz_Vector head = Wz.GetVector(ImagePath + "/head");
-            //if ((FlipX != Player.Flip) ||(! GetHit1)) 
-            if (!GetHit1)
+            if ((FlipX != Game.Player.FlipX) || (!GetHit1))
             {
                 if (FlipX)
                     Head.X = (int)X - head.X - 20;
@@ -348,7 +346,6 @@ public class Mob : JumperSprite
                         NewAction = "stand";
                         break;
                 }
-
             }
         }
 
@@ -358,46 +355,46 @@ public class Mob : JumperSprite
             Frame = 0;
             GetHit1 = false;
         }
-        /*
+
         if (Hit)
         {
             if (GetHit1)
             {
+
                 if ((Action == "hit1") || (Action == DieActionName))
                 {
-                    if (Frame == 0)
-                    {
-                        if (TSkill.Attacking)
-                        {
-                            if (TSkill.MultiStrike)
-                                TDamageNumber.Create(Damage, HeadX, Head.Y + HitIndex * (-30))
-                                else
-                                TDamageNumber.Create(Damage, Head.X, Head.Y);
-                            TSkillHitEffect.Create(Mob);
-                        }
-                        else
-                            TDamageNumber.Create(Damage, Head.X, Head.Y);
-
-                    }
-                    Hit = false;
+                    /*
+                         if (Frame == 0)
+                         {
+                             if (Skill.Attacking)
+                             {
+                                 if (Skill.MultiStrike)
+                                     TDamageNumber.Create(Damage, HeadX, Head.Y + HitIndex * (-30))
+                                     else
+                                     TDamageNumber.Create(Damage, Head.X, Head.Y);
+                                 TSkillHitEffect.Create(Mob);
+                             }
+                             else
+                                 TDamageNumber.Create(Damage, Head.X, Head.Y);
+                    */
                 }
+                Hit = false;
             }
-         // no push
-        if (not GetHit1) 
-      {
-        TDamageNumber.Create(Damage, Head.X, Head.Y);
-        Hit = false;
-      }
 
-     }
-      */
+            // no push
+            if (!GetHit1)
+            {
+                //TDamageNumber.Create(Damage, Head.X, Head.Y);
+                Hit = false;
+            }
+        }
 
-
-        /*
         if ((GetHit1) && (!Die))
         {
-            if (Wz.HasNode("Mob/" + ID + ".img/hit1/0"))
+            if (!Wz.HasNode("Mob/" + ID + ".img/hit1/0"))
+            {
                 GetHit1 = false;
+            }
             if (Action != "hit1")
             {
                 AnimEnd = false;
@@ -406,7 +403,7 @@ public class Mob : JumperSprite
                 NewAction = "hit1";
             }
             // -->player   -->mob
-            if ((FlipX == Player.Flip) && (Time == 0))
+            if ((FlipX == Game.Player.FlipX) && (Time == 0))
             {
                 FlipX = !FlipX;
                 switch (MoveDirection)
@@ -418,30 +415,25 @@ public class Mob : JumperSprite
                         MoveDirection = MoveDirection.Left;
                         break;
                     case MoveDirection.None:
-
                         if (FlipX)
                             MoveDirection = MoveDirection.Right;
                         else
                             MoveDirection = MoveDirection.Left;
-
-
                         break;
                 }
-                // player-->  <--Mob
-                if ((Flip != Player.Flip) && (Time == 0))
+            }
+            // player-->  <--Mob
+            if ((FlipX != Game.Player.FlipX) && (Time == 0))
+            {
+                if (MoveDirection == MoveDirection.None)
                 {
-                    if (MoveDirection == MoveDirection.None)
-                    {
-                        if (FlipX)
-                            MoveDirection = MoveDirection.Right;
-                        else
-                            MoveDirection = MoveDirection.Left;
-                    }
-
+                    if (FlipX)
+                        MoveDirection = MoveDirection.Right;
+                    else
+                        MoveDirection = MoveDirection.Left;
                 }
             }
         }
-        */
 
         if (Die)
         {
@@ -456,6 +448,7 @@ public class Mob : JumperSprite
                 Time = 0;
                 NewAction = DieActionName;
             }
+
             if (!Wz.HasNode("Mob/" + ID + ".img/" + DieActionName + "/" + Frame))
                 Dead();
         }
@@ -471,7 +464,7 @@ public class Mob : JumperSprite
         if ((AnimEnd) && (Action == DieActionName))
         {
             //TMobDrop.Drop(Trunc(X), Trunc(Y), Random(1), DropList);
-            //  Dead();
+            Dead();
         }
 
         if (Wz.HasNode("Mob/" + ID + ".img/" + NewAction + "/" + Frame))
@@ -480,9 +473,14 @@ public class Mob : JumperSprite
         }
         else
         {
-            if (Wz.HasNode("Mob/" + ID + ".img/" + NewAction + "/" + Frame + 1))
-                Action = "Mob/" + ID + ".img/" + NewAction + "/" + Frame + 1;
-            else
+            if (Action != DieActionName)
+            {
+                if (Wz.HasNode("Mob/" + ID + ".img/" + NewAction + "/" + Frame + 1))
+                    Action = "Mob/" + ID + ".img/" + NewAction + "/" + Frame + 1;
+                else
+                    Frame = 0;
+            }
+            if (AnimZigzag)
                 Frame = 0;
         }
 
@@ -694,8 +692,6 @@ public class Mob : JumperSprite
         else
             Origin.X = origin.X;
         Origin.Y = origin.Y;
-
-
     }
 
     public override void DoDraw()
@@ -708,7 +704,7 @@ public class Mob : JumperSprite
         {
             float IDPos = WX - IDWidth / 2;
             Engine.Canvas.FillRect((int)IDPos - 2, (int)WY + 21, IDWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
-            Engine.Canvas.DrawString(Map.NpcNameTagFont, "ID:"+ID, IDPos, WY + 22, Microsoft.Xna.Framework.Color.Cyan);
+            Engine.Canvas.DrawString(Map.NpcNameTagFont, "ID:" + ID, IDPos, WY + 22, Microsoft.Xna.Framework.Color.Cyan);
         }
 
         float NamePosX = WX - NameWidth / 2;
