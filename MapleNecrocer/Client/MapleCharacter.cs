@@ -193,8 +193,8 @@ public class Player : JumperSprite
 
         Game.Player.AttackAction = Game.Player.AttackActions[0];
         AfterImage.Load(Game.Player.AfterImageStr, "0");
-        //TDamageNumber.Style := 'NoRed1';
-        //TDamageNumber.Load('');
+        DamageNumber.Style = "NoRed1";
+        DamageNumber.Load("");
 
         Loaded = true;
     }

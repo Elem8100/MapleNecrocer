@@ -82,7 +82,7 @@ public class DamageNumber : SpriteEx
     public override void DoDraw()
     {
         int W, OffY;
-        for (int I = 1; I <= Number.ToString().Length; I++)
+        for (int I = 0; I < Number.ToString().Length; I++)
         {
             var Char = Number.ToString().Substring(I, 1);
             if (UseNewDamage)
@@ -91,14 +91,14 @@ public class DamageNumber : SpriteEx
                 W = 29;
                 if (Wz.EquipData.ContainsKey("Effect/DamageSkin.img/" + Style + "/" + Char))
                 {
-                    if (I == 1)
+                    if (I == 0)
                         ImageNode = Wz.EquipData["Effect/DamageSkin.img/" + LargeNumber + "/" + Char];
                     else
                         ImageNode = Wz.EquipData["Effect/DamageSkin.img/" + SmallNumber + "/" + Char];
                 }
                 else
                 {
-                    if (I == 1)
+                    if (I == 0)
                         ImageNode = Wz.EquipData["Effect/BasicEff.img/damageSkin/" + LargeNumber + "/" + Char];
                     else
                         ImageNode = Wz.EquipData["Effect/BasicEff.img/damageSkin/" + SmallNumber + "/" + Char];
@@ -107,7 +107,7 @@ public class DamageNumber : SpriteEx
             else
             {
                 W = 20;
-                if (I == 1)
+                if (I == 0)
                     ImageNode = Wz.EquipData["Effect/BasicEff.img/" + LargeNumber + "/" + Char];
                 else
                     ImageNode = Wz.EquipData["Effect/BasicEff.img/" + SmallNumber + "/" + Char];

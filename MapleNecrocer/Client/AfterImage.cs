@@ -101,8 +101,6 @@ public class AfterImage : SpriteEx
                 break;
         }
         Offset.Y = -ImageNode.GetVector("origin").Y;
-
-
     }
 
     public override void OnCollision(Sprite sprite)
