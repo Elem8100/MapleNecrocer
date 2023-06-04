@@ -146,7 +146,7 @@ public class SetEffect : SpriteEx
 
         Wz_Vector origin = ImageNode.GetVector("origin");
         Vector2 BrowPos = Game.Player.BrowPos;
-        Vector2 BodyRelMove = MapleChair.BodyRelMove;
+        Wz_Vector BodyRelMove = MapleChair.BodyRelMove;
         int OffY = 30;
         switch (FlipX)
         {
@@ -444,7 +444,7 @@ public class ItemEffect : SpriteEx
 
         Wz_Vector origin = ImageNode.GetVector("origin");
         Vector2 BrowPos;
-        Vector2 BodyRelMove;
+        Wz_Vector BodyRelMove=new(0,0);
         int OffY = 0;
         if (EffType == EffectType.Chair)
         {

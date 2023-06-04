@@ -62,7 +62,7 @@ public class DamageNumber : SpriteEx
             DamageNumber.SmallNumber = Style.LeftStr(5) + "0";
         }
         DamageNumber.Number = ANumber;
-        DamageNumber.X = AX - Mid;
+        DamageNumber.X = AX - Mid / 2;
         DamageNumber.Y = AY;
         DamageNumber.Z = Game.Player.Z;
         DamageNumber.Alpha = 255;

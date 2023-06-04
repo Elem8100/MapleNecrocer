@@ -240,7 +240,7 @@ public class Mob : JumperSprite
         CollideRect = SpriteUtils.Rect(Left, Top, Right, Bottom);
 
         if (Wz.HasNode(ImagePath + "/head"))
-        { 
+        {
             Wz_Vector head = Wz.GetVector(ImagePath + "/head");
             if ((FlipX != Game.Player.FlipX) || (!GetHit1))
             {
@@ -363,7 +363,7 @@ public class Mob : JumperSprite
                 if ((Action == "hit1") || (Action == DieActionName))
                 {
                     if (Frame == 0)
-                    { 
+                    {
                         /* 
                         if (Skill.Attacking)
                           {
@@ -384,7 +384,7 @@ public class Mob : JumperSprite
             // no push
             if (!GetHit1)
             {
-                //TDamageNumber.Create(Damage, Head.X, Head.Y);
+                DamageNumber.Create(Game.Damage,(int) Head.X, (int)Head.Y);
                 Hit = false;
             }
         }

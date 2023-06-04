@@ -23,7 +23,7 @@ public class MapleChair : SpriteEx
     public static bool IsUse;
     public static bool HasSitAction;
     public static bool UseTamingNavel;
-    public static Wz_Vector BodyRelMove;
+    public static Wz_Vector BodyRelMove=new Wz_Vector(0,0);
     public static string CharacterAction;
 
     public static void Create(string ID)
