@@ -244,6 +244,7 @@ namespace MapleNecrocer
             ChairButton.Text = "Chair";
             ChairButton.TextAlign = ContentAlignment.BottomCenter;
             ChairButton.UseVisualStyleBackColor = true;
+            ChairButton.Click += MobButton_Click;
             // 
             // MobButton
             // 

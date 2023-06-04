@@ -403,13 +403,13 @@ public partial class MainForm : Form
         EngineFunc.SpriteEngine.Move(1);
 
         Game.Player.JumpState = JumpState.jsFalling;
-        if(!LoadedEff)
+        if (!LoadedEff)
         {
             SetEffect.LoadList();
             ItemEffect.LoadList();
             LoadedEff = true;
         }
-       
+
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
@@ -464,7 +464,7 @@ public partial class MainForm : Form
             case "MobButton": ShowForm(MobForm.Instance, () => new MobForm().Show()); break;
             case "NpcButton": ShowForm(NpcForm.Instance, () => new NpcForm().Show()); break;
             case "AvatarButton": ShowForm(AvatarForm.Instance, () => new AvatarForm().Show()); break;
-
+            case "ChairButton": ShowForm(ChairForm.Instance, () => new ChairForm().Show()); break;
 
         }
 
