@@ -136,7 +136,7 @@ public class Player : JumperSprite
         JumpState = JumpState.jsFalling;
         StandType = "stand1";
         WalkType = "walk1";
-      
+
         // IntMove = true;
     }
     static bool Loaded;
@@ -199,7 +199,7 @@ public class Player : JumperSprite
         Loaded = true;
     }
 
-   
+
     public static List<string> EqpList = new();
     MonoSpriteEngine AvatarEngine;
     public Foothold FH;
@@ -233,7 +233,7 @@ public class Player : JumperSprite
     List<string> AttackActions = new();
     List<string> AttackOFs = new();
     bool Flip;
-    public bool OtherPlayer=false;
+    public bool OtherPlayer = false;
 
     public float MoveX, MoveY;
 
@@ -410,22 +410,20 @@ public class Player : JumperSprite
                             }
                             else
                             {
-                                //  if ((MapleChair.IsUse) || (TamingMob.IsUse))
-                                // {
-                                // if( (Part == PartName.CashWeapon) || (Part == PartName.Weapon))
-                                //    Sprite.Visible = false;
-                                //  else
-                                //   Sprite.Visible = true;
+                                if ((MapleChair.IsUse) || (TamingMob.IsUse))
+                                {
+                                    if ((Part == PartName.CashWeapon) || (Part == PartName.Weapon))
+                                        Sprite.Visible = false;
+                                    else
+                                        Sprite.Visible = true;
 
-                                // }
-                                // else
-                                // {
-                                //    Sprite.Visible = false;
-                                // }
-
-                                Sprite.Visible = false;
+                                }
+                                else
+                                {
+                                    Sprite.Visible = false;
+                                }
                             }
-                          
+
                             Sprite.Owner = this;
                             Sprite.ImageLib = Wz.EquipImageLib;
                             Path = Iter3.FullPathToFile2();
@@ -978,7 +976,7 @@ public class AvatarParts : SpriteEx
             AnimZigzag = true;
         else
             AnimZigzag = false;
-        
+
         if (/*(!AvatarForm.SaveSingleFrame) && */((Part == PartName.Weapon) || (Part == PartName.CashWeapon)) && (Time == 0))
         {
             string AfterImagePath = "Character/Afterimage/" + Owner.AfterImageStr + ".img/0/" + State + "/" + Frame + "/0";
@@ -988,10 +986,10 @@ public class AvatarParts : SpriteEx
                 AfterImage.Create(AfterImagePath);
             }
         }
-        
+
         if ((Image == "head") && (Time == 0))
             ChangeFrame = true;
-        /*
+
         if (Wz.HasNodeE("Character/00002000.img/" + State + "/" + Frame + "/move"))
         {
             MoveOffset = Wz.GetVectorE("Character/00002000.img/" + State + "/" + Frame + "/move");
@@ -1000,7 +998,8 @@ public class AvatarParts : SpriteEx
         {
             if ((MapleChair.IsUse) && (!Owner.OtherPlayer))
             {
-                MoveOffset = MapleChair.BodyRelMove;
+                MoveOffset.X = MapleChair.BodyRelMove.X;
+                MoveOffset.Y = MapleChair.BodyRelMove.Y;
             }
             else
             {
@@ -1008,7 +1007,7 @@ public class AvatarParts : SpriteEx
                 MoveOffset.Y = 0;
             }
         }
-        */
+
         if (FlipX)
             Owner.MoveX = Owner.X - 1 - MoveOffset.X;
         else

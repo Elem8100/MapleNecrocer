@@ -18,20 +18,22 @@ public class MapleChair : SpriteEx
     int Frame;
     int FTime;
     int Delay;
-    Wz_Vector origin;
+    Wz_Vector origin=new(0,0);
     public static bool CanUse;
     public static bool IsUse;
     public static bool HasSitAction;
     public static bool UseTamingNavel;
-    public static Wz_Vector BodyRelMove=new Wz_Vector(0,0);
+    public static Wz_Vector BodyRelMove=new(0,0);
     public static string CharacterAction;
 
     public static void Create(string ID)
     {
-        BodyRelMove.X = 0;
-        BodyRelMove.Y = 0;
+        // BodyRelMove.X = 0;
+        // BodyRelMove.Y = 0;
+        BodyRelMove = new(0, 0);
         HasSitAction = false;
         UseTamingNavel = false;
+
         Wz_Node Entry = null;
         if (Wz.GetNode("Item/Install/0301.img") != null)
         {
@@ -67,20 +69,24 @@ public class MapleChair : SpriteEx
         }
 
         CharacterAction = "sit";
-        if (Entry.GetNode(ID + "/info/tamingMob") != null)
+        if (Entry.HasNode(ID + "/info/tamingMob"))
         {
             string TamingMobID = null;
-            if (Entry.GetNode(ID + "/info/tamingMob/0") != null)
-                TamingMobID = Entry.GetNode(ID + "/info/tamingMob/0").ToStr();
+            if (Entry.HasNode(ID + "/info/tamingMob/0"))
+                TamingMobID = Entry.GetInt(ID + "/info/tamingMob/0").ToString();
             else
-                TamingMobID = Entry.GetNode(ID + "/info/tamingMob").ToStr();
+                TamingMobID = Entry.GetInt(ID + "/info/tamingMob").ToString();
+
+
             if (Wz.GetNode("Character/TamingMob/" + "0" + TamingMobID + ".img/sit/0") != null)
             {
+
                 if (Wz.GetNode("Character/TamingMob/" + "0" + TamingMobID + ".img/sit/0/0") != null)
                     if (Wz.GetNode("Character/TamingMob/" + "0" + TamingMobID + ".img/sit/0/0").ExtractPng().Width == 4)
                         UseTamingNavel = true;
                 TamingMob.IsChairTaming = true;
-                //TamingMob.Create("0" + TamingMobID);
+
+                TamingMob.Create("0" + TamingMobID);
                 if (Wz.GetNode("Character/TamingMob/" + "0" + TamingMobID + ".img/characterAction/sit") != null)
                 {
                     HasSitAction = true;
@@ -104,12 +110,16 @@ public class MapleChair : SpriteEx
                         return;
 
         Wz.DumpData(Entry.GetNode(ID), Wz.EquipData, Wz.EquipImageLib);
-        if (Entry.GetNode(ID + "/info/bodyRelMove") != null)
+
+        if (Entry.HasNode(ID + "/info/bodyRelMove"))
+        {
             BodyRelMove = Entry.GetNode(ID + "/info/bodyRelMove").ToVector();
-        if (Entry.HasNode(ID + "/info/SitAction"))
+        }
+
+        if (Entry.HasNode(ID + "/info/sitAction"))
         {
             HasSitAction = true;
-            CharacterAction = Entry.GetNode(ID + "/info/SitAction").ToStr();
+            CharacterAction = Entry.GetNode(ID + "/info/sitAction").ToStr();
         }
         else
         {
@@ -124,8 +134,11 @@ public class MapleChair : SpriteEx
             Entry2 = Entry.GetNode(ID + "/info/customChair/randomChairInfo/0");
         else
             Entry2 = Entry.GetNode(ID);
+
+
         foreach (var Iter in Entry2.Nodes)
         {
+            if (Iter.Text.Length < 6) continue;
             if (Iter.Text.LeftStr(6) == "effect" || Iter.Text.RightStr(6) == "effect")
             {
                 if (Iter.GetNode("0") == null)
@@ -142,9 +155,9 @@ public class MapleChair : SpriteEx
 
                 int BodyRelMoveX;
                 if (MapleChair.FlipX)
-                    BodyRelMoveX = -BodyRelMove.X;
+                    BodyRelMoveX = -(int)BodyRelMove.X;
                 else
-                    BodyRelMoveX = BodyRelMove.X;
+                    BodyRelMoveX = (int)BodyRelMove.X;
 
                 int Pos = Iter.GetInt("pos", -1);
                 switch (Pos)
@@ -177,6 +190,7 @@ public class MapleChair : SpriteEx
                     case 1:
                         if (HasSitAction)
                         {
+
                             UseTamingNavel = false;
                             MapleChair.X = Game.Player.X;
                             MapleChair.Y = Below.Y;
@@ -232,6 +246,7 @@ public class MapleChair : SpriteEx
                 s = null;
             }
         }
+        EngineFunc.SpriteEngine.Dead();
         foreach (var Iter in Wz.EquipImageLib.Keys)
         {
             if (Iter.FullPathToFile2().LeftStr(17) == "Item/Install/0301")
@@ -240,6 +255,7 @@ public class MapleChair : SpriteEx
                 Wz.EquipData.Remove(Iter.FullPathToFile2());
             }
         }
+
         foreach (var Iter in Wz.EquipImageLib.Keys)
         {
             if (Iter.FullPathToFile2().LeftStr(24) == "Character/TamingMob/0198")
@@ -248,12 +264,12 @@ public class MapleChair : SpriteEx
                 Wz.EquipData.Remove(Iter.FullPathToFile2());
             }
         }
-        BodyRelMove.X = 0;
-        BodyRelMove.Y = 0;
+        //  BodyRelMove.X = 0;
+        //  BodyRelMove.Y = 0;
     }
 
     public override void DoMove(float Delta)
-    {
+    {  
         base.DoMove(Delta);
         ImageNode = Wz.EquipData[Path + "/" + Frame];
         Delay = ImageNode.GetInt("delay", 100);
@@ -267,6 +283,8 @@ public class MapleChair : SpriteEx
         }
         if (ImageNode.HasNode("origin"))
             origin = ImageNode.GetVector("origin");
+    
+        
         if (UseTamingNavel)
         {
             switch (FlipX)

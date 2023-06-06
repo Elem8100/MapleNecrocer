@@ -202,6 +202,7 @@ public class ItemEffect : SpriteEx
                 s = null;
             }
         }
+        EngineFunc.SpriteEngine.Dead();
     }
     public static void Create(string ID, EffectType EffectType)
     {

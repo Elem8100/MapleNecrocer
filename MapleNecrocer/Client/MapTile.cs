@@ -6,15 +6,15 @@ public class MapTile : SpriteEx
 {
     public MapTile(Sprite Parent) : base(Parent)
     {
-        IntMove=true;
+        IntMove = true;
     }
-   
+
     public static void Create()
     {
         for (int Layer = 0; Layer <= 7; Layer++)
         {
             string tS = Map.Img.GetNode(Layer.ToString() + "/info").GetValue2("tS", "");
-            
+
             foreach (var Iter in Map.Img.GetNode(Layer.ToString() + "/tile").Nodes)
             {
                 string u = Iter.GetValue2("u", "");
@@ -34,6 +34,7 @@ public class MapTile : SpriteEx
                 MapTile.Width = MapTile.ImageWidth;
                 MapTile.Height = MapTile.ImageHeight;
                 MapTile.Origin = Wz.GetVector(Path + "/origin");
+               
             }
         }
     }
@@ -41,12 +42,12 @@ public class MapTile : SpriteEx
     {
         if (Map.ShowTile)
             base.DoDraw();
-/*
-        if(Map.CameraSpeed.X==0)
-            IntMove=true;
-        else
-            IntMove=false;
-*/
+        /*
+                if(Map.CameraSpeed.X==0)
+                    IntMove=true;
+                else
+                    IntMove=false;
+        */
     }
 
 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WzComparerR2.WzLib;
-
+using Microsoft.Xna.Framework;
 namespace MapleNecrocer;
 
 public class MapleTV : SpriteEx

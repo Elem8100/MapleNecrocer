@@ -28,19 +28,19 @@ public class TamingMob : SpriteEx
     int FTime;
     int Delay;
     int Flip;
-    Wz_Vector origin;
+    Wz_Vector origin=new(0,0);
     bool FixedImageNum;
     bool IsSaddle;
     string PartIndex;
     public static Wz_Node Entry;
     public static bool IsUse;
     public static string CharacterAction;
-    public static Vector2 Navel;
+    public static Vector2 Navel =new(0,0);
     public static bool IsChairTaming;
     static Dictionary<string, string> SaddleList = new();
     static Dictionary<string, string> ImageNumList = new();
     static Dictionary<string, Wz_Node> Data = new();
-    static void LoadSaddleList()
+    public static void LoadSaddleList()
     {
         foreach (var Img in Wz.GetNode("Character/TamingMob").Nodes)
         {
@@ -49,6 +49,7 @@ public class TamingMob : SpriteEx
                     if (Char.IsNumber(Iter.Text[0]))
                         SaddleList.AddOrReplace("0" + Iter.Text, Img.Text.LeftStr(8));
         }
+
     }
 
     public static void Delete()
@@ -59,6 +60,7 @@ public class TamingMob : SpriteEx
             if (Iter is TamingMob)
                 Iter.Dead();
         }
+        EngineFunc.SpriteEngine.Dead();
         foreach (var Iter in Wz.EquipImageLib.Keys)
         {
             if (Iter.FullPathToFile2().LeftStr(23) == "Character/TamingMob/019")
@@ -88,6 +90,7 @@ public class TamingMob : SpriteEx
             _Frame = "1";
         }
 
+
         foreach (var Iter in Wz.EquipData[Entry.FullPathToFile2()].Nodes)
         {
             foreach (var Iter2 in Wz.EquipData[Iter.FullPathToFile2()].Nodes)
@@ -114,8 +117,12 @@ public class TamingMob : SpriteEx
                                 TamingMob.ID = Entry.Text.LeftStr(8);
                                 TamingMob.UpPath = Entry.FullPathToFile2();
                                 TamingMob.ImageNode = Wz.EquipData[Iter3.FullPathToFile2()];
-                                if (Entry.ParentNode.Text.LeftStr(4) == "0191")
-                                    TamingMob.IsSaddle = true;
+
+                                if (Entry.ParentNode != null)
+                                { 
+                                    if (Entry.ParentNode.Text.LeftStr(4) == "0191")
+                                        TamingMob.IsSaddle = true;
+                                }
                                 if ((Iter.Text == "walk1") && (Iter2.Text == "1") && (Iter2.GetNode("0") == null))
                                     TamingMob.FixedImageNum = true;
                                 if (Iter3.Text.Length >= 3)
@@ -133,7 +140,10 @@ public class TamingMob : SpriteEx
     {
         Data.Clear();
         if (SaddleList.ContainsKey(ID))
+        {
+
             Entry = Wz.GetNode("Character/TamingMob/" + SaddleList[ID] + ".img/" + ID);
+        }
         else
             return;
         //add saddle delay
@@ -151,6 +161,7 @@ public class TamingMob : SpriteEx
     public static void CreateTaming(string ID)
     {
         Entry = Wz.GetNode("Character/TamingMob/" + ID + ".img");
+
         CreateSprites();
     }
 
@@ -346,7 +357,7 @@ public class TamingMob : SpriteEx
 
         string[] FixedIDs = { "01932377", "01902002", "1902002", "1902007", "01902007", "01932123", "01932181", "01932116", "01932081", "01992000", "01932418", "01932461", "01932507", "01932504", "01932505" };
         foreach (var I in FixedIDs)
-        { 
+        {
             if (ID == I)
             {
                 switch (FlipX)

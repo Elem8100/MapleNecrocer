@@ -61,7 +61,7 @@ public class AfterImage : SpriteEx
             {
                 case true:
                     Right = (int)X - LT.X + 18;
-                    Left = (int)X - RB.X;
+                    Left = (int)X -  RB.X;
                     break;
                 case false:
                     Left = (int)X + LT.X;
