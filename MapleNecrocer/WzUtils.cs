@@ -378,11 +378,9 @@ public static class Wz_NodeExtension3
     }
     public static Wz_Vector GetVector(this Wz_Node Node, string Path)
     {
-       
         return Node.GetNode(Path).GetValueEx<Wz_Vector>(new Wz_Vector(0,0));
-
+      
     }
-
 
 
     public static Wz_Node Get2(this Wz_Node Node, string Path)

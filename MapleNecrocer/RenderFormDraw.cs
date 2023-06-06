@@ -13,6 +13,8 @@ using WzComparerR2.WzLib;
 using SpriteEngine;
 using Input = Microsoft.Xna.Framework.Input.Keys;
 using System.Security.Cryptography.Xml;
+using System.Security.Claims;
+using WzComparerR2.CharaSim;
 
 namespace MapleNecrocer;
 
@@ -57,7 +59,7 @@ public class RenderFormDraw : MonoGameControl
     protected override void Update(GameTime gameTime)
     {
 
-      
+
         /*
         Keyboard.GetState();
         if (Keyboard.KeyDown(Input.Right))
@@ -77,13 +79,22 @@ public class RenderFormDraw : MonoGameControl
             Map.ReLoad = false;
         }
         //Keyboard.GetState();
-        
+
         NewPos = EngineFunc.SpriteEngine.Camera;
         Map.CameraSpeed = NewPos - CurrentPos;
         CurrentPos = EngineFunc.SpriteEngine.Camera;
         EngineFunc.SpriteEngine.Move((float)(gameTime.ElapsedGameTime.TotalMilliseconds / 16.66));
         //   EngineFunc.SpriteEngine.Camera.X+=0.2f*(float)(gameTime.ElapsedGameTime.TotalMilliseconds/16.66f);
 
+        if (MapleChair.IsUse)
+        { 
+            if (Keyboard.KeyPressed(Input.Left) || Keyboard.KeyPressed(Input.Right))
+            {
+                MapleChair.Delete();
+                TamingMob.Delete();
+                ItemEffect.Delete(EffectType.Chair);
+            }
+        }
 
     }
 
@@ -92,7 +103,7 @@ public class RenderFormDraw : MonoGameControl
     {
         // if (!CanDraw)
         //  return;
-       
+
 
         this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
         EngineFunc.SpriteEngine.Dead();

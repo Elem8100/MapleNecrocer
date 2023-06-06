@@ -53,6 +53,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(145, 24);
             textBox1.TabIndex = 1;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // tabControl1
             // 
@@ -77,10 +78,10 @@
             // 
             // tabPage2
             // 
-            tabPage2.Location = new Point(4, 21);
+            tabPage2.Location = new Point(4, 28);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(327, 328);
+            tabPage2.Size = new Size(327, 479);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;

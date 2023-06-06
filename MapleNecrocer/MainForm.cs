@@ -407,6 +407,7 @@ public partial class MainForm : Form
         {
             SetEffect.LoadList();
             ItemEffect.LoadList();
+            TamingMob.LoadSaddleList();
             LoadedEff = true;
         }
 
