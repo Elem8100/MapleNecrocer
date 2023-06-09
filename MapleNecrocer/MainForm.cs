@@ -466,7 +466,7 @@ public partial class MainForm : Form
             case "NpcButton": ShowForm(NpcForm.Instance, () => new NpcForm().Show()); break;
             case "AvatarButton": ShowForm(AvatarForm.Instance, () => new AvatarForm().Show()); break;
             case "ChairButton": ShowForm(ChairForm.Instance, () => new ChairForm().Show()); break;
-
+            case "MountButton": ShowForm(MountForm.Instance, () => new MountForm().Show()); break;
         }
 
 

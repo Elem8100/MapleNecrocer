@@ -43,6 +43,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            MountButton = new Button();
             NpcButton = new Button();
             ScaleButton = new Button();
             FullScreenButton = new Button();
@@ -185,6 +186,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(MountButton);
             panel1.Controls.Add(NpcButton);
             panel1.Controls.Add(ScaleButton);
             panel1.Controls.Add(FullScreenButton);
@@ -198,12 +200,26 @@ namespace MapleNecrocer
             panel1.Size = new Size(721, 78);
             panel1.TabIndex = 11;
             // 
+            // MountButton
+            // 
+            MountButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            MountButton.Image = (Image)resources.GetObject("MountButton.Image");
+            MountButton.ImageAlign = ContentAlignment.TopCenter;
+            MountButton.Location = new Point(625, 1);
+            MountButton.Name = "MountButton";
+            MountButton.Size = new Size(77, 52);
+            MountButton.TabIndex = 8;
+            MountButton.Text = "Mount";
+            MountButton.TextAlign = ContentAlignment.BottomCenter;
+            MountButton.UseVisualStyleBackColor = true;
+            MountButton.Click += MobButton_Click;
+            // 
             // NpcButton
             // 
             NpcButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             NpcButton.Image = (Image)resources.GetObject("NpcButton.Image");
             NpcButton.ImageAlign = ContentAlignment.TopCenter;
-            NpcButton.Location = new Point(582, 1);
+            NpcButton.Location = new Point(547, 1);
             NpcButton.Name = "NpcButton";
             NpcButton.Size = new Size(77, 52);
             NpcButton.TabIndex = 7;
@@ -215,7 +231,7 @@ namespace MapleNecrocer
             // ScaleButton
             // 
             ScaleButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            ScaleButton.Location = new Point(250, 1);
+            ScaleButton.Location = new Point(235, 1);
             ScaleButton.Name = "ScaleButton";
             ScaleButton.Size = new Size(77, 52);
             ScaleButton.TabIndex = 6;
@@ -226,7 +242,7 @@ namespace MapleNecrocer
             // FullScreenButton
             // 
             FullScreenButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            FullScreenButton.Location = new Point(167, 1);
+            FullScreenButton.Location = new Point(157, 1);
             FullScreenButton.Name = "FullScreenButton";
             FullScreenButton.Size = new Size(77, 52);
             FullScreenButton.TabIndex = 5;
@@ -237,7 +253,7 @@ namespace MapleNecrocer
             // ChairButton
             // 
             ChairButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            ChairButton.Location = new Point(416, 1);
+            ChairButton.Location = new Point(391, 1);
             ChairButton.Name = "ChairButton";
             ChairButton.Size = new Size(77, 52);
             ChairButton.TabIndex = 4;
@@ -251,7 +267,7 @@ namespace MapleNecrocer
             MobButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             MobButton.Image = (Image)resources.GetObject("MobButton.Image");
             MobButton.ImageAlign = ContentAlignment.TopCenter;
-            MobButton.Location = new Point(499, 1);
+            MobButton.Location = new Point(469, 1);
             MobButton.Name = "MobButton";
             MobButton.Size = new Size(77, 52);
             MobButton.TabIndex = 3;
@@ -263,7 +279,7 @@ namespace MapleNecrocer
             // AvatarButton
             // 
             AvatarButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            AvatarButton.Location = new Point(333, 1);
+            AvatarButton.Location = new Point(313, 1);
             AvatarButton.Name = "AvatarButton";
             AvatarButton.Size = new Size(77, 52);
             AvatarButton.TabIndex = 2;
@@ -275,7 +291,7 @@ namespace MapleNecrocer
             // SaveMapButton
             // 
             SaveMapButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            SaveMapButton.Location = new Point(84, 1);
+            SaveMapButton.Location = new Point(79, 1);
             SaveMapButton.Name = "SaveMapButton";
             SaveMapButton.Size = new Size(77, 52);
             SaveMapButton.TabIndex = 1;
@@ -359,5 +375,6 @@ namespace MapleNecrocer
         private Button SaveMapButton;
         private Button NpcButton;
         private Label label4;
+        private Button MountButton;
     }
 }
