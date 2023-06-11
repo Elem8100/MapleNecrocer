@@ -28,14 +28,14 @@ public class TamingMob : SpriteEx
     int FTime;
     int Delay;
     int Flip;
-    Wz_Vector origin=new(0,0);
+    Wz_Vector origin = new(0, 0);
     bool FixedImageNum;
     bool IsSaddle;
     string PartIndex;
     public static Wz_Node Entry;
     public static bool IsUse;
     public static string CharacterAction;
-    public static Vector2 Navel =new(0,0);
+    public static Vector2 Navel = new(0, 0);
     public static bool IsChairTaming;
     static Dictionary<string, string> SaddleList = new();
     static Dictionary<string, string> ImageNumList = new();
@@ -119,7 +119,7 @@ public class TamingMob : SpriteEx
                                 TamingMob.ImageNode = Wz.EquipData[Iter3.FullPathToFile2()];
 
                                 if (Entry.ParentNode != null)
-                                { 
+                                {
                                     if (Entry.ParentNode.Text.LeftStr(4) == "0191")
                                         TamingMob.IsSaddle = true;
                                 }
@@ -140,12 +140,10 @@ public class TamingMob : SpriteEx
     {
         Data.Clear();
         if (SaddleList.ContainsKey(ID))
-        {
-
-            Entry = Wz.GetNode("Character/TamingMob/" + SaddleList[ID] + ".img/" + ID);
-        }
+            Entry = Wz.GetNode("Character/TamingMob/" + SaddleList[ID] + ".img/" + ID.IntID());
         else
             return;
+
         //add saddle delay
         foreach (var Iter in Wz.GetNode("Character/TamingMob/" + ID + ".img").Nodes)
         {
@@ -161,7 +159,6 @@ public class TamingMob : SpriteEx
     public static void CreateTaming(string ID)
     {
         Entry = Wz.GetNode("Character/TamingMob/" + ID + ".img");
-
         CreateSprites();
     }
 
