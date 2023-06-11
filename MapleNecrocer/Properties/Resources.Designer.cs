@@ -59,5 +59,15 @@ namespace MapleNecrocer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap _01050088_img_info_iconRaw {
+            get {
+                object obj = ResourceManager.GetObject("01050088.img.info.iconRaw", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
