@@ -253,6 +253,8 @@ namespace MapleNecrocer
             // ChairButton
             // 
             ChairButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ChairButton.Image = (Image)resources.GetObject("ChairButton.Image");
+            ChairButton.ImageAlign = ContentAlignment.TopCenter;
             ChairButton.Location = new Point(391, 1);
             ChairButton.Name = "ChairButton";
             ChairButton.Size = new Size(77, 52);
@@ -279,6 +281,8 @@ namespace MapleNecrocer
             // AvatarButton
             // 
             AvatarButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            AvatarButton.Image = Properties.Resources._01050088_img_info_iconRaw;
+            AvatarButton.ImageAlign = ContentAlignment.TopCenter;
             AvatarButton.Location = new Point(313, 1);
             AvatarButton.Name = "AvatarButton";
             AvatarButton.Size = new Size(77, 52);

@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WzComparerR2.CharaSim;
 
 namespace MapleNecrocer;
 
@@ -20,6 +22,23 @@ public partial class MountForm : Form
     public static MountForm Instance;
     public DataGridViewEx MountListGrid;
 
+
+    void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
+    {
+        //if (Morph.IsUse)
+        // return;
+        var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+        TamingMob.Delete();
+
+        MapleChair.Delete();
+        ItemEffect.Delete(EffectType.Chair);
+
+        TamingMob.IsChairTaming = false;
+        TamingMob.Create(ID);
+        TamingMob.IsUse = true;
+
+    }
+
     private void MountForm_Shown(object sender, EventArgs e)
     {
         this.FormClosing += (s, e1) =>
@@ -27,13 +46,24 @@ public partial class MountForm : Form
             this.Hide();
             e1.Cancel = true;
         };
-        MountListGrid = new(90, 164, 0, 0, 220, 400, true, tabControl1.TabPages[0]);
+        MountListGrid = new(90, 174, 0, 0, 220, 800, true, tabControl1.TabPages[0]);
         MountListGrid.Dock = DockStyle.Fill;
         MountListGrid.SearchGrid.Dock = DockStyle.Fill;
 
         var Graphic = MountListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
+        MountListGrid.CellClick += (s, e) =>
+        {
+            CellClick(MountListGrid, e);
+        };
+
+        MountListGrid.SearchGrid.CellClick += (s, e) =>
+        {
+            CellClick(MountListGrid.SearchGrid, e);
+        };
+
+
         string MountName = "";
         Bitmap Bmp = null;
         Win32.SendMessage(MountListGrid.Handle, false);
@@ -453,15 +483,172 @@ public partial class MountForm : Form
         Dict.AddOrReplace("01932451", "80002203");
         Dict.AddOrReplace("01932452", "80002302");
         Dict.AddOrReplace("01932453", "80002304");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
-        Dict.AddOrReplace(" ", " ");
+        Dict.AddOrReplace("01932454", "80002305");
+        Dict.AddOrReplace("01932455", "80002307");
+        Dict.AddOrReplace("01932456", "80011486");
+        Dict.AddOrReplace("01932457", "80011488");
+        Dict.AddOrReplace("01932458", "80002309");
+        Dict.AddOrReplace("01932459", "80002313");
+        Dict.AddOrReplace("01932462", "80002317");
+        Dict.AddOrReplace("01932463", "80002318");
+        Dict.AddOrReplace("01932464", "80002319");
+        Dict.AddOrReplace("01932465", "80002321");
+        Dict.AddOrReplace("01932466", "80011500");
+        Dict.AddOrReplace("01932467", "80011502");
+        Dict.AddOrReplace("01932468", "80002335");
+        Dict.AddOrReplace("01932469", "80011506");
+        Dict.AddOrReplace("01932470", "80002345");
+        Dict.AddOrReplace("01932471", "80002347");
+        Dict.AddOrReplace("01932472", "80002349");
+        Dict.AddOrReplace("01932473", "80002349");
+        Dict.AddOrReplace("01932474", "80002356");
+        Dict.AddOrReplace("01932475", "80002358");
+        Dict.AddOrReplace("01932476", "80002351");
+        Dict.AddOrReplace("01932478", "80002351");
+        Dict.AddOrReplace("01932477", "80002352");
+        Dict.AddOrReplace("01932480", "80002352");
+        Dict.AddOrReplace("01932479", "80002361");
+        Dict.AddOrReplace("01932481", "80011531");
+        Dict.AddOrReplace("01942382", "80011533");
+        Dict.AddOrReplace("01932483", "80002367");
+        Dict.AddOrReplace("01932484", "80011524");
+        Dict.AddOrReplace("01942385", "80011535");
+        Dict.AddOrReplace("01932486", "80002369");
+        Dict.AddOrReplace("01942387", "80011546");
+        Dict.AddOrReplace("01932488", "80002372");
+        Dict.AddOrReplace("01932492", "80002372");
+        Dict.AddOrReplace("01932489", "80002373");
+        Dict.AddOrReplace("01932493", "80002373");
+        Dict.AddOrReplace("01932490", "80002374");
+        Dict.AddOrReplace("01932494", "80002374");
+        Dict.AddOrReplace("01932491", "80002375");
+        Dict.AddOrReplace("01932496", "80011541");
+        Dict.AddOrReplace("01932497", "80002392");
+        Dict.AddOrReplace("01932498", "80002400");
+        Dict.AddOrReplace("01932499", "80002402");
+        Dict.AddOrReplace("01932500", "80002417");
+        Dict.AddOrReplace("01932501", "80002418");
+        Dict.AddOrReplace("01932572", "80002418");
+        Dict.AddOrReplace("01932502", "80011551");
+        Dict.AddOrReplace("01932503", "80011554");
+        Dict.AddOrReplace("01932530", "80011554");
+        Dict.AddOrReplace("01932539", "80011554");
+        Dict.AddOrReplace("01932504", "80002425");
+        Dict.AddOrReplace("01932505", "80002425");
+        Dict.AddOrReplace("01932506", "80002427");
+        Dict.AddOrReplace("01932507", "80002429");
+        Dict.AddOrReplace("01932511", "80002429");
+        Dict.AddOrReplace("01932508", "80002431");
+        Dict.AddOrReplace("01932509", "80011571");
+        Dict.AddOrReplace("01932510", "80002433");
+        Dict.AddOrReplace("01932511", "80002435");
+        Dict.AddOrReplace("01932512", "80011580");
+        Dict.AddOrReplace("01932513", "80002437");
+        Dict.AddOrReplace("01932514", "80002439");
+        Dict.AddOrReplace("01932515", "80002443");
+        Dict.AddOrReplace("01932516", "80002441");
+        Dict.AddOrReplace("01932517", "80002446");
+        Dict.AddOrReplace("01932518", "80002447");
+        Dict.AddOrReplace("01932519", "80011639");
+        Dict.AddOrReplace("01932520", "80011642");
+        Dict.AddOrReplace("01932521", "80002448");
+        Dict.AddOrReplace("01932522", "80002450");
+        Dict.AddOrReplace("01932523", "80011646");
+        Dict.AddOrReplace("01932524", "80002454");
+        Dict.AddOrReplace("01932525", "80002424");
+        Dict.AddOrReplace("01932527", "80002546");
+        Dict.AddOrReplace("01932528", "80002547");
+        Dict.AddOrReplace("01932529", "80011698");
+        Dict.AddOrReplace("01932535", "80002569");
+        Dict.AddOrReplace("01932536", "80002569");
+        Dict.AddOrReplace("01932537", "80002571");
+        Dict.AddOrReplace("01932538", "80002573");
+        Dict.AddOrReplace("01932540", "80002622");
+        Dict.AddOrReplace("01932541", "80011712");
+        Dict.AddOrReplace("01932542", "80002585");
+        Dict.AddOrReplace("01932543", "80002628");
+        Dict.AddOrReplace("01932544", "80002630");
+        Dict.AddOrReplace("01932545", "80011706");
+        Dict.AddOrReplace("01932546", "80002625");
+        Dict.AddOrReplace("01932548", "80002625");
+        Dict.AddOrReplace("01932549", "80002625");
+        Dict.AddOrReplace("01932547", "80011721");
+        Dict.AddOrReplace("01932550", "80002648");
+        Dict.AddOrReplace("01932551", "80002650");
+        Dict.AddOrReplace("01932552", "80002594");
+        Dict.AddOrReplace("01932553", "80002595");
+        Dict.AddOrReplace("01932554", "80011733");
+        Dict.AddOrReplace("01932555", "80011737");
+        Dict.AddOrReplace("01932556", "80002654");
+        Dict.AddOrReplace("01932557", "80002655");
+        Dict.AddOrReplace("01932559", "80011743");
+        Dict.AddOrReplace("01932560", "80002659");
+        Dict.AddOrReplace("01932562", "80002663");
+        Dict.AddOrReplace("01932563", "80002665");
+        Dict.AddOrReplace("01932564", "80002667");
+        Dict.AddOrReplace("01932565", "80011758");
+        Dict.AddOrReplace("01932566", "80011760");
+        Dict.AddOrReplace("01932567", "80002668");
+        Dict.AddOrReplace("01932569", "80002668");
+        Dict.AddOrReplace("01932570", "80011784");
+        Dict.AddOrReplace("01932571", "80002698");
+        Dict.AddOrReplace("01932572", "80002699");
+        Dict.AddOrReplace("01932573", "80002702");
+        Dict.AddOrReplace("01932574", "80011773");
+        Dict.AddOrReplace("01932575", "80011775");
+        Dict.AddOrReplace("01932576", "80011777");
+        Dict.AddOrReplace("01932577", "80011779");
+        Dict.AddOrReplace("01932578", "80011798");
+        Dict.AddOrReplace("01932579", "80011791");
+        Dict.AddOrReplace("01932580", "80002712");
+        Dict.AddOrReplace("01932581", "80002713");
+        Dict.AddOrReplace("01932582", "80011806");
+        Dict.AddOrReplace("01932583", "80011808");
+        Dict.AddOrReplace("01932587", "80011819");
+        Dict.AddOrReplace("01932588", "80011820");
+        Dict.AddOrReplace("01932599", "80011825");
+        Dict.AddOrReplace("01932600", "80011844");
+        Dict.AddOrReplace("01932610", "80011850");
+        Dict.AddOrReplace("01939000", "80001617");
+        Dict.AddOrReplace("01939001", "80001619");
+        Dict.AddOrReplace("01939002", "80001621");
+        Dict.AddOrReplace("01939003", "80001623");
+        Dict.AddOrReplace("01939004", "80001625");
+        Dict.AddOrReplace("01939005", "80001627");
+        Dict.AddOrReplace("01939006", "80001629");
+        Dict.AddOrReplace("01939011", "80011732");
+        Dict.AddOrReplace("01992015", "80001120");
+        Dict.AddOrReplace("01992030", "80001330");
+        Dict.AddOrReplace("01992031", "80001403");
+        Dict.AddOrReplace("01932322", "80001769");
+        Dict.AddOrReplace("01932416", "80001769");
+        Dict.AddOrReplace("01932331", "80011238");
+        Dict.AddOrReplace("01932558", "80002714");
+        Dict.AddOrReplace("01932561", "80002661");
+        Dict.AddOrReplace("01932584", "80002715");
+        Dict.AddOrReplace("01932585", "80002717");
+        Dict.AddOrReplace("01932586", "80002717");
+        Dict.AddOrReplace("01932589", "80002735");
+        Dict.AddOrReplace("01932590", "80002738");
+        Dict.AddOrReplace("01932591", "80002736");
+        Dict.AddOrReplace("01932592", "80011821");
+        Dict.AddOrReplace("01932594", "80002740");
+        Dict.AddOrReplace("01932595", "80002747");
+        Dict.AddOrReplace("01932596", "80002752");
+        Dict.AddOrReplace("01932597", "80002754");
+        Dict.AddOrReplace("01932598", "80002756");
+        Dict.AddOrReplace("01932601", "80002742");
+        Dict.AddOrReplace("01932603", "80002742");
+        Dict.AddOrReplace("01932603", "80002744");
+        Dict.AddOrReplace("01932602", "80002743");
+        Dict.AddOrReplace("01932612", "80002824");
+        Dict.AddOrReplace("01932614", "80002843");
+        Dict.AddOrReplace("01932615", "80002831");
+        Dict.AddOrReplace("01932616", "80002845");
+        Dict.AddOrReplace("01932617", "80002846");
+        Dict.AddOrReplace("01932618", "80002853");
+        Dict.AddOrReplace("01932619", "80002854");
+        Dict.AddOrReplace("01992028", "80001296");
 
 
         for (int i = 0; i < MountListGrid.Rows.Count; i++)
@@ -474,6 +661,26 @@ public partial class MountForm : Form
         Win32.SendMessage(MountListGrid.Handle, true);
         MountListGrid.Refresh();
 
+        for (int i = 0; i < MountListGrid.Rows.Count; i++)
+        {
+            MountListGrid.Rows[i].Cells[1].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            MountListGrid.Rows[i].Cells[2].Style.Alignment = DataGridViewContentAlignment.TopLeft;
+        }
 
+
+    }
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+        MountListGrid.Search(textBox1.Text);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        TamingMob.Delete();
+        ItemEffect.Delete(EffectType.Chair);
+        MapleChair.Delete();
+        Game.Player.ResetAction = true;
+        Game.Player.NewAction = Game.Player.StandType;
     }
 }
