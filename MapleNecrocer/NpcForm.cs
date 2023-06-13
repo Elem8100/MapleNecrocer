@@ -20,22 +20,22 @@ public partial class NpcForm : Form
 
     public static NpcForm Instance;
     public DataGridViewEx NpcListGrid;
-
+    string NpcID;
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
-        var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-        var Link = Wz.GetNode("Npc/" + ID + ".img/info/link");
+        NpcID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+        var Link = Wz.GetNode("Npc/" + NpcID + ".img/info/link");
         if (Link != null)
         {
-            ID = Link.ToStr();
+            NpcID = Link.ToStr();
 
         }
         Bitmap Bitmap;
-        if (Wz.GetNodeA("Npc/" + ID + ".img/stand/0") != null)
-            Bitmap = Wz.GetNode("Npc/" + ID + ".img/stand/0").ExtractPng();
-        else if ((Wz.GetNodeA("Npc/" + ID + ".img/fly/0") != null))
-            Bitmap = Wz.GetNode("Npc/" + ID + ".img/fly/0").ExtractPng();
+        if (Wz.GetNodeA("Npc/" + NpcID + ".img/stand/0") != null)
+            Bitmap = Wz.GetNode("Npc/" + NpcID + ".img/stand/0").ExtractPng();
+        else if ((Wz.GetNodeA("Npc/" + NpcID + ".img/fly/0") != null))
+            Bitmap = Wz.GetNode("Npc/" + NpcID + ".img/fly/0").ExtractPng();
         else
             return;
         pictureBox1.Image = Bitmap;
@@ -94,5 +94,40 @@ public partial class NpcForm : Form
     private void textBox2_TextChanged(object sender, EventArgs e)
     {
         NpcListGrid.Search(textBox2.Text);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+
+        if (Wz.GetNode("Npc/" + NpcID + ".img") == null)
+            return;
+        Random Random = new Random();
+        Random RandomFlip = new Random();
+        int Flip = RandomFlip.Next(0, 2);
+        int Range = Random.Next((int)Game.Player.X - 100, (int)Game.Player.X + 100);
+        if (Range > Map.Left && Range < Map.Right)
+        {
+            Npc.Spawn(NpcID, Range, (int)Game.Player.Y - 100, Flip);
+            Npc.SummonedList.Add(NpcID);
+        }
+
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
+        {
+            if (Iter is Npc)
+            {
+                for (int I = 0; I < Npc.SummonedList.Count; I++)
+                {
+                    if (((Npc)Iter).LocalID == Npc.SummonedList[I])
+                    {
+                        Iter.Dead();
+                    }
+                }
+            }
+        }
+        EngineFunc.SpriteEngine.Dead();
     }
 }

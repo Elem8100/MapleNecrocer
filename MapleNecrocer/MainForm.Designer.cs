@@ -43,6 +43,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            button1 = new Button();
             MountButton = new Button();
             NpcButton = new Button();
             ScaleButton = new Button();
@@ -186,6 +187,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(button1);
             panel1.Controls.Add(MountButton);
             panel1.Controls.Add(NpcButton);
             panel1.Controls.Add(ScaleButton);
@@ -199,6 +201,19 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(721, 78);
             panel1.TabIndex = 11;
+            // 
+            // button1
+            // 
+            button1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.ImageAlign = ContentAlignment.TopCenter;
+            button1.Location = new Point(703, 1);
+            button1.Name = "button1";
+            button1.Size = new Size(77, 52);
+            button1.TabIndex = 9;
+            button1.Text = "Mount";
+            button1.TextAlign = ContentAlignment.BottomCenter;
+            button1.UseVisualStyleBackColor = true;
             // 
             // MountButton
             // 
@@ -380,5 +395,6 @@ namespace MapleNecrocer
         private Button NpcButton;
         private Label label4;
         private Button MountButton;
+        private Button button1;
     }
 }

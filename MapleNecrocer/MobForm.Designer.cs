@@ -78,7 +78,7 @@
             tabPage2.Location = new Point(4, 28);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(252, 314);
+            tabPage2.Size = new Size(252, 366);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -92,6 +92,7 @@
             button1.TabIndex = 2;
             button1.Text = "Drop";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label1
             // 
@@ -120,6 +121,7 @@
             button2.TabIndex = 5;
             button2.Text = "Remove";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // label2
             // 

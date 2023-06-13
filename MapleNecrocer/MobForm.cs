@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WzComparerR2.CharaSim;
 
 namespace MapleNecrocer;
 
@@ -19,27 +20,29 @@ public partial class MobForm : Form
     }
     public static MobForm Instance;
     public DataGridViewEx MobListGrid;
-
+    string MobID;
     private void MobForm_Load(object sender, EventArgs e)
     {
 
 
 
     }
+
+    
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
-        var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-        var Link = Wz.GetNode("Mob/" + ID + ".img/info/link");
+        MobID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+        var Link = Wz.GetNode("Mob/" + MobID + ".img/info/link");
         if (Link != null)
         {
-            ID = Link.ToStr();
+            MobID = Link.ToStr();
 
         }
         Bitmap Bitmap;
-        if (Wz.GetNodeA("Mob/" + ID + ".img/stand/0") != null)
-            Bitmap = Wz.GetNode("Mob/" + ID + ".img/stand/0").ExtractPng();
-        else if ((Wz.GetNodeA("Mob/" + ID + ".img/fly/0") != null))
-            Bitmap = Wz.GetNode("Mob/" + ID + ".img/fly/0").ExtractPng();
+        if (Wz.GetNodeA("Mob/" + MobID + ".img/stand/0") != null)
+            Bitmap = Wz.GetNode("Mob/" + MobID + ".img/stand/0").ExtractPng();
+        else if ((Wz.GetNodeA("Mob/" + MobID + ".img/fly/0") != null))
+            Bitmap = Wz.GetNode("Mob/" + MobID + ".img/fly/0").ExtractPng();
         else
             return;
         pictureBox1.Image = Bitmap;
@@ -74,7 +77,7 @@ public partial class MobForm : Form
         {
             CellClick(MobListGrid.SearchGrid, e);
         };
-       
+
         string ID = null;
         string Name = null;
         Win32.SendMessage(MobListGrid.Handle, false);
@@ -94,5 +97,43 @@ public partial class MobForm : Form
     private void textBox2_TextChanged(object sender, EventArgs e)
     {
         MobListGrid.Search(textBox2.Text);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        if (Wz.GetNode("Mob/" + MobID + ".img") == null)
+            return;
+        Random Random = new Random();
+        if (Char.IsNumber(textBox1.Text[0]) && (textBox1.Text != ""))
+        {
+            for (int I = 0; I < textBox1.Text.ToInt(); I++)
+            {
+                int Range = Random.Next((int)Game.Player.X - 100, (int)Game.Player.X + 100);
+                if (Range > Map.Left && Range < Map.Right)
+                {
+                    Mob.Spawn(MobID, Range, (int)Game.Player.Y - 100, Map.Left, Map.Right);
+                    Mob.SummonedList.Add(MobID);
+                }
+            }
+        }
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
+        { 
+            if (Iter is Mob)
+            {
+                for (int I = 0; I < Mob.SummonedList.Count; I++)
+                {
+                    if (((Mob)Iter).LocalID == Mob.SummonedList[I])
+                    {
+                        Iter.Dead();
+                        Mob.MobList.Remove(Mob.SummonedList[I]);
+                    }
+                }
+            }
+        }
+        EngineFunc.SpriteEngine.Dead();
     }
 }
