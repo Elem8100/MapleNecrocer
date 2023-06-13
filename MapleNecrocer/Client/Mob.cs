@@ -65,7 +65,7 @@ public class Mob : JumperSprite
     public string LocalID;
     static Dictionary<string, int> FrameData = new();
     public static List<string> MobList = new();
-
+    public static List<string> SummonedList = new();
     public static void Create()
     {
         Mob.MobList.Clear();

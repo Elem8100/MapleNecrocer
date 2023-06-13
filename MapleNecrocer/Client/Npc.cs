@@ -27,6 +27,7 @@ public class Npc : SpriteEx
     Foothold FH;
     List<string> Actions = new();
     List<string> Msgs = new();
+    public static List<string> SummonedList = new();
     public string LocalID;
     ChatBalloon Balloon;
 
