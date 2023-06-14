@@ -16,6 +16,7 @@ using MonoGame.Framework.Utilities.Deflate;
 using System.Xml.Linq;
 using System.Xml;
 using Microsoft.Xna.Framework.Audio;
+using DevComponents.AdvTree;
 
 namespace MapleNecrocer;
 
@@ -35,12 +36,7 @@ internal class Wz
     public static string Country;
     private static List<NodeInfo> NodeList1 = new();
     private static List<NodeInfo> NodeList2 = new();
-    static Texture2D TextureHSL(Bitmap Bitmap, int Hue, int Saturation)
-    {
-        return null;
-
-    }
-
+   
 
     public static void DumpDataA(Wz_Node WzNode, Dictionary<string, Wz_Node> DataLib, Dictionary<Wz_Node, Texture2D> ImageLib)
     {
@@ -179,10 +175,14 @@ internal class Wz
     }
     public static bool HasNode(string Path)
     {
+        return   Wz.GetNode(Path) != null;
+    }
+    public static bool HasData(string Path)
+    {
         return Data.ContainsKey(Path) != false;
 
     }
-    public static bool HasNodeE(string Path)
+    public static bool HasDataE(string Path)
     {
         return EquipData.ContainsKey(Path) != false;
 

@@ -93,6 +93,8 @@ public class RenderFormDraw : MonoGameControl
                 MapleChair.Delete();
                 TamingMob.Delete();
                 ItemEffect.Delete(EffectType.Chair);
+                MapleChair.BodyRelMove.X = 0;
+                MapleChair.BodyRelMove.Y = 0;
             }
         }
 

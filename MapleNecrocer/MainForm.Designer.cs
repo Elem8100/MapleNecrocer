@@ -43,7 +43,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
-            button1 = new Button();
+            CashEffectButton = new Button();
             MountButton = new Button();
             NpcButton = new Button();
             ScaleButton = new Button();
@@ -97,7 +97,7 @@ namespace MapleNecrocer
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(6, 1);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(240, 411);
+            tabControl1.Size = new Size(240, 417);
             tabControl1.TabIndex = 4;
             // 
             // tabPage1
@@ -105,7 +105,7 @@ namespace MapleNecrocer
             tabPage1.Location = new Point(4, 25);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(0, 2, 2, 1);
-            tabPage1.Size = new Size(232, 382);
+            tabPage1.Size = new Size(232, 388);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
@@ -115,7 +115,7 @@ namespace MapleNecrocer
             tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 381);
+            tabPage2.Size = new Size(232, 387);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -187,7 +187,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(button1);
+            panel1.Controls.Add(CashEffectButton);
             panel1.Controls.Add(MountButton);
             panel1.Controls.Add(NpcButton);
             panel1.Controls.Add(ScaleButton);
@@ -199,21 +199,24 @@ namespace MapleNecrocer
             panel1.Controls.Add(DisplayButton);
             panel1.Location = new Point(442, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(721, 78);
+            panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
             // 
-            // button1
+            // CashEffectButton
             // 
-            button1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(703, 1);
-            button1.Name = "button1";
-            button1.Size = new Size(77, 52);
-            button1.TabIndex = 9;
-            button1.Text = "Mount";
-            button1.TextAlign = ContentAlignment.BottomCenter;
-            button1.UseVisualStyleBackColor = true;
+            CashEffectButton.AutoSize = true;
+            CashEffectButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            CashEffectButton.Image = (Image)resources.GetObject("CashEffectButton.Image");
+            CashEffectButton.ImageAlign = ContentAlignment.TopCenter;
+            CashEffectButton.Location = new Point(703, 1);
+            CashEffectButton.Name = "CashEffectButton";
+            CashEffectButton.RightToLeft = RightToLeft.No;
+            CashEffectButton.Size = new Size(84, 52);
+            CashEffectButton.TabIndex = 9;
+            CashEffectButton.Text = "Cash Effect";
+            CashEffectButton.TextAlign = ContentAlignment.BottomCenter;
+            CashEffectButton.UseVisualStyleBackColor = true;
+            CashEffectButton.Click += MobButton_Click;
             // 
             // MountButton
             // 
@@ -366,6 +369,7 @@ namespace MapleNecrocer
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tabControl1.ResumeLayout(false);
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -395,6 +399,6 @@ namespace MapleNecrocer
         private Button NpcButton;
         private Label label4;
         private Button MountButton;
-        private Button button1;
+        private Button CashEffectButton;
     }
 }

@@ -346,6 +346,8 @@ public partial class MainForm : Form
         {
             CellClick(MapListBox.SearchGrid, e);
         };
+
+        comboBox2.SelectedIndex = 1;
     }
 
     private void OpenFolderButton_Click(object sender, EventArgs e)
@@ -422,7 +424,7 @@ public partial class MainForm : Form
         Map.DisplaySize.X = Split[0].ToInt();
         Map.DisplaySize.Y = Split[1].ToInt();
         bool Result;
-        Result = MoveWindow(this.Handle, this.Left, this.Top, Map.DisplaySize.X + 283, Map.DisplaySize.Y + 134, true);
+        Result = MoveWindow(this.Handle, this.Left, this.Top, Map.DisplaySize.X + 283, Map.DisplaySize.Y + 140, true);
         //this.Width = Map.DisplaySize.X + 283;
         //this.Height = Map.DisplaySize.Y + 124;
 
@@ -435,6 +437,7 @@ public partial class MainForm : Form
         EngineFunc.SpriteEngine.VisibleWidth = Map.DisplaySize.X + 200;
         EngineFunc.SpriteEngine.VisibleHeight = Map.DisplaySize.Y + 200;
         Map.ResetPos = true;
+        this.CenterToScreen();
     }
 
     private void comboBox2_Click(object sender, EventArgs e)
@@ -467,6 +470,7 @@ public partial class MainForm : Form
             case "AvatarButton": ShowForm(AvatarForm.Instance, () => new AvatarForm().Show()); break;
             case "ChairButton": ShowForm(ChairForm.Instance, () => new ChairForm().Show()); break;
             case "MountButton": ShowForm(MountForm.Instance, () => new MountForm().Show()); break;
+            case "CashEffectButton": ShowForm(CashEffectForm.Instance, () => new CashEffectForm().Show()); break;
         }
 
 
