@@ -6,7 +6,7 @@ Features:
 -64 Bit Client.  
 -Support map's skeleton animation and particle system.  
 -Auto detect wz country, you don't need to select corresponding wz version   
--A better wz lib (for older and newer wz. But Delphi having some issues)   
+-A better wz lib (for older and newer wz)   
 
 Note:  
 This project is under "early stage of development", so there is no release/download yet. But you can compile and run.  
