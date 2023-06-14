@@ -96,7 +96,7 @@ public class MapPortal : SpriteEx
         if (Time > 100)
         {
             Frame += 1;
-            if (!Wz.HasNode(InfoPath + '/' + Frame))
+            if (!Wz.HasData(InfoPath + '/' + Frame))
                 Frame = 0;
             Time = 0;
         }

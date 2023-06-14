@@ -179,7 +179,7 @@ public class TamingMob : SpriteEx
                 ImageNum = ImageNumList[UpPath + "/" + State + "/" + Frame + "/" + PartIndex];
         }
 
-        if (Wz.HasNodeE(UpPath + "/" + State + "/" + Frame + "/" + ImageNum))
+        if (Wz.HasDataE(UpPath + "/" + State + "/" + Frame + "/" + ImageNum))
         {
             Path = UpPath + "/" + State + "/" + Frame + "/" + ImageNum;
             ImageNode = Wz.EquipData[Path];
@@ -191,7 +191,7 @@ public class TamingMob : SpriteEx
                 Visible = false;
         }
 
-        if (Wz.HasNodeE(UpPath + "/" + State + "/" + Frame + "/delay"))
+        if (Wz.HasDataE(UpPath + "/" + State + "/" + Frame + "/delay"))
             Delay = Wz.EquipData[UpPath + "/" + State + "/" + Frame + "/delay"].ToInt();
         else
             Delay = 100;
@@ -206,7 +206,7 @@ public class TamingMob : SpriteEx
         if (FTime > Delay)
         {
             Frame += 1;
-            if (!Wz.HasNodeE(UpPath + "/" + State + "/" + Frame))
+            if (!Wz.HasDataE(UpPath + "/" + State + "/" + Frame))
                 Frame = 0;
             FTime = 0;
         }
@@ -286,11 +286,11 @@ public class TamingMob : SpriteEx
             }
         }
 
-        if (Wz.HasNodeE(UpPath + "/characterAction"))
+        if (Wz.HasDataE(UpPath + "/characterAction"))
         {
-            if (Wz.HasNodeE(UpPath + "/characterAction/" + State))
+            if (Wz.HasDataE(UpPath + "/characterAction/" + State))
                 CharacterAction = Wz.EquipData[UpPath + "/characterAction/" + State].ToStr();
-            else if (Wz.HasNodeE(UpPath + "/characterAction/walk1"))
+            else if (Wz.HasDataE(UpPath + "/characterAction/walk1"))
                 CharacterAction = Wz.EquipData[UpPath + "/characterAction/walk1"].ToStr();
         }
         else
@@ -320,7 +320,7 @@ public class TamingMob : SpriteEx
         }
         Offset.Y = -origin.Y;
 
-        if (Wz.HasNodeE(Path + "/map/navel"))
+        if (Wz.HasDataE(Path + "/map/navel"))
         {
             Vector2 _Offset;
             if (CharacterAction == "prone")

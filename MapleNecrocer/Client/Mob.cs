@@ -219,7 +219,7 @@ public class Mob : JumperSprite
         int AnimDelay = Wz.GetInt(ImagePath + "/delay", 100);
         int a1 = Wz.GetInt(ImagePath + "/a1", 255);
 
-        if (Wz.HasNode(ImagePath + "/lt"))
+        if (Wz.HasData(ImagePath + "/lt"))
         {
             LT = Wz.GetVector(ImagePath + "/lt");
             RB = Wz.GetVector(ImagePath + "/rb");
@@ -239,7 +239,7 @@ public class Mob : JumperSprite
         }
         CollideRect = SpriteUtils.Rect(Left, Top, Right, Bottom);
 
-        if (Wz.HasNode(ImagePath + "/head"))
+        if (Wz.HasData(ImagePath + "/head"))
         {
             Wz_Vector head = Wz.GetVector(ImagePath + "/head");
             if ((FlipX != Game.Player.FlipX) || (!GetHit1))
@@ -263,7 +263,7 @@ public class Mob : JumperSprite
             AnimRepeat = false;
         else
             AnimRepeat = true;
-        if (Wz.HasNode("Mob/" + ID + ".img/" + Action + "/zigzag"))
+        if (Wz.HasData("Mob/" + ID + ".img/" + Action + "/zigzag"))
             AnimZigzag = true;
         else
             AnimZigzag = false;
@@ -391,7 +391,7 @@ public class Mob : JumperSprite
 
         if ((GetHit1) && (!Die))
         {
-            if (!Wz.HasNode("Mob/" + ID + ".img/hit1/0"))
+            if (!Wz.HasData("Mob/" + ID + ".img/hit1/0"))
             {
                 GetHit1 = false;
             }
@@ -441,15 +441,15 @@ public class Mob : JumperSprite
             {
                 AnimEnd = false;
                 Frame = 0;
-                if (!Wz.HasNode("Mob/" + ID + ".img/" + DieActionName + "/0"))
+                if (!Wz.HasData("Mob/" + ID + ".img/" + DieActionName + "/0"))
                     Frame = 1;
-                if ((FrameCount > 3) && (!Wz.HasNode("Mob/" + ID + ".img/" + DieActionName + "/3")))
+                if ((FrameCount > 3) && (!Wz.HasData("Mob/" + ID + ".img/" + DieActionName + "/3")))
                     Frame = 4;
                 Time = 0;
                 NewAction = DieActionName;
             }
 
-            if (!Wz.HasNode("Mob/" + ID + ".img/" + DieActionName + "/" + Frame))
+            if (!Wz.HasData("Mob/" + ID + ".img/" + DieActionName + "/" + Frame))
                 Dead();
         }
 
@@ -467,7 +467,7 @@ public class Mob : JumperSprite
             Dead();
         }
 
-        if (Wz.HasNode("Mob/" + ID + ".img/" + NewAction + "/" + Frame))
+        if (Wz.HasData("Mob/" + ID + ".img/" + NewAction + "/" + Frame))
         {
             Action = NewAction;
         }
@@ -475,7 +475,7 @@ public class Mob : JumperSprite
         {
             if (Action != DieActionName)
             {
-                if (Wz.HasNode("Mob/" + ID + ".img/" + NewAction + "/" + Frame + 1))
+                if (Wz.HasData("Mob/" + ID + ".img/" + NewAction + "/" + Frame + 1))
                     Action = "Mob/" + ID + ".img/" + NewAction + "/" + Frame + 1;
                 else
                     Frame = 0;

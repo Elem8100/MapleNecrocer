@@ -305,7 +305,7 @@ public class Back : BackgroundSprite
             if (Time > Delay)
             {
                 Frame += 1;
-                if (!Wz.HasNode(Path + '/' + Frame))
+                if (!Wz.HasData(Path + '/' + Frame))
                     Frame = 0;
                 Time = 0;
             }

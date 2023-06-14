@@ -70,7 +70,7 @@ public class MapleTV : SpriteEx
         if (Time > Delay)
         {
             Frame += 1;
-            if (!Wz.HasNode(S1 + AD + "/" + Frame))
+            if (!Wz.HasData(S1 + AD + "/" + Frame))
             {
                 Frame = 0;
                 AD = Random.Next(ADCount);

@@ -92,13 +92,13 @@ public class SetEffect : SpriteEx
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
-        if (Wz.HasNodeE(Path + "/" + Game.Player.Action + "/" + Frame))
+        if (Wz.HasDataE(Path + "/" + Game.Player.Action + "/" + Frame))
         {
             ImageNode = Wz.EquipData[Path + "/" + Game.Player.Action + "/" + Frame];
             Default = 1;
             Visible = true;
         }
-        else if (Wz.HasNodeE(Path + "/" + Frame))
+        else if (Wz.HasDataE(Path + "/" + Frame))
         {
             ImageNode = Wz.EquipData[Path + "/" + Frame];
             Default = 0;
@@ -123,11 +123,11 @@ public class SetEffect : SpriteEx
             switch (Default)
             {
                 case 1:
-                    if (!Wz.HasNodeE(Path + "/" + Game.Player.Action + "/" + Frame))
+                    if (!Wz.HasDataE(Path + "/" + Game.Player.Action + "/" + Frame))
                         Frame = 0;
                     break;
                 case 0:
-                    if (!Wz.HasNodeE(Path + "/" + Frame))
+                    if (!Wz.HasDataE(Path + "/" + Frame))
                         Frame = 0;
                     break;
             }
@@ -341,26 +341,26 @@ public class ItemEffect : SpriteEx
     {
         base.DoMove(Delta);
 
-        if (Wz.HasNodeE(Path + "/" + Game.Player.Action + "/" + Frame))
+        if (Wz.HasDataE(Path + "/" + Game.Player.Action + "/" + Frame))
         {
             ImageNode = Wz.EquipData[Path + "/" + Game.Player.Action + "/" + Frame];
             Default = 1;
             Visible = true;
         }
-        else if (Wz.HasNodeE(Path + "/default/" + Frame))
+        else if (Wz.HasDataE(Path + "/default/" + Frame))
         {
             ImageNode = Wz.EquipData[Path + "/default/" + Frame];
             Default = 0;
             Visible = true;
 
         }
-        else if (Wz.HasNodeE(Path + "/0/" + Frame))
+        else if (Wz.HasDataE(Path + "/0/" + Frame))
         {
             ImageNode = Wz.EquipData[Path + "/0/" + Frame];
             Default = 2;
             Visible = true;
         }
-        else if (Wz.HasNodeE(Path + "/" + Frame))
+        else if (Wz.HasDataE(Path + "/" + Frame))
         {
             ImageNode = Wz.EquipData[Path + "/" + Frame];
             Default = 3;
@@ -383,19 +383,19 @@ public class ItemEffect : SpriteEx
             switch (Default)
             {
                 case 1:
-                    if (!Wz.HasNodeE(Path + "/" + Game.Player.Action + "/" + Frame))
+                    if (!Wz.HasDataE(Path + "/" + Game.Player.Action + "/" + Frame))
                         Frame = 0;
                     break;
                 case 0:
-                    if (!Wz.HasNodeE(Path + "/default/" + Frame))
+                    if (!Wz.HasDataE(Path + "/default/" + Frame))
                         Frame = 0;
                     break;
                 case 2:
-                    if (!Wz.HasNodeE(Path + "/0/" + Frame))
+                    if (!Wz.HasDataE(Path + "/0/" + Frame))
                         Frame = 0;
                     break;
                 case 3:
-                    if (!Wz.HasNodeE(Path + "/" + Frame))
+                    if (!Wz.HasDataE(Path + "/" + Frame))
                         Frame = 0;
                     break;
             }

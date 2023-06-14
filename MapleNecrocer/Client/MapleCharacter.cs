@@ -278,13 +278,13 @@ public class Player : JumperSprite
                 WeaponNum = Equip.GetWeaponNum(EquipID);
                 AttackActions.Clear();
                 AttackOFs.Clear();
-                if (Wz.HasNodeE(LPath + EquipID + ".img/stand1"))
+                if (Wz.HasDataE(LPath + EquipID + ".img/stand1"))
                     StandType = "stand1";
-                else if (Wz.HasNodeE(LPath + EquipID + ".img/stand2"))
+                else if (Wz.HasDataE(LPath + EquipID + ".img/stand2"))
                     StandType = "stand2";
-                if (Wz.HasNodeE(LPath + EquipID + ".img/walk1"))
+                if (Wz.HasDataE(LPath + EquipID + ".img/walk1"))
                     WalkType = "walk1";
-                else if (Wz.HasNodeE(LPath + EquipID + ".img/walk2"))
+                else if (Wz.HasDataE(LPath + EquipID + ".img/walk2"))
                     WalkType = "walk2";
                 break;
 
@@ -314,15 +314,15 @@ public class Player : JumperSprite
             case PartName.CashWeapon:
                 for (int i = 69; i >= 30; i--)
                 {
-                    if (Wz.HasNodeE(LPath + EquipID + ".img/" + i.ToString() + "/stand1"))
+                    if (Wz.HasDataE(LPath + EquipID + ".img/" + i.ToString() + "/stand1"))
                         StandType = "stand1";
-                    else if (Wz.HasNodeE(LPath + EquipID + ".img/" + i.ToString() + "/stand2"))
+                    else if (Wz.HasDataE(LPath + EquipID + ".img/" + i.ToString() + "/stand2"))
                         StandType = "stand2";
-                    if (Wz.HasNodeE(LPath + EquipID + ".img/" + i.ToString() + "/walk1"))
+                    if (Wz.HasDataE(LPath + EquipID + ".img/" + i.ToString() + "/walk1"))
                         WalkType = "walk1";
-                    else if (Wz.HasNodeE(LPath + EquipID + ".img/" + i.ToString() + "/walk2"))
+                    else if (Wz.HasDataE(LPath + EquipID + ".img/" + i.ToString() + "/walk2"))
                         WalkType = "walk2";
-                    if (Wz.HasNodeE(LPath + EquipID + ".img/" + i.ToString()))
+                    if (Wz.HasDataE(LPath + EquipID + ".img/" + i.ToString()))
                         WeaponNum = i.ToString();
                 }
                 AttackActions.Clear();
@@ -980,7 +980,7 @@ public class AvatarParts : SpriteEx
         if (/*(!AvatarForm.SaveSingleFrame) && */((Part == PartName.Weapon) || (Part == PartName.CashWeapon)) && (Time == 0))
         {
             string AfterImagePath = "Character/Afterimage/" + Owner.AfterImageStr + ".img/0/" + State + "/" + Frame + "/0";
-            if (Wz.HasNodeE(AfterImagePath))
+            if (Wz.HasDataE(AfterImagePath))
             {
                 //PlaySounds('Weapon', 'swordL/Attack');
                 AfterImage.Create(AfterImagePath);
@@ -990,7 +990,7 @@ public class AvatarParts : SpriteEx
         if ((Image == "head") && (Time == 0))
             ChangeFrame = true;
 
-        if (Wz.HasNodeE("Character/00002000.img/" + State + "/" + Frame + "/move"))
+        if (Wz.HasDataE("Character/00002000.img/" + State + "/" + Frame + "/move"))
         {
             MoveOffset = Wz.GetVectorE("Character/00002000.img/" + State + "/" + Frame + "/move");
         }
@@ -1079,7 +1079,7 @@ public class AvatarParts : SpriteEx
             Counter += 1; ;
         }
 
-        if (!Wz.HasNodeE(C + Equip.GetDir(ID) + ID + ".img/" + WpNum + State + "/" + Frame + "/" + Image) && (!IsAttack()) && (!Equip.Data.ContainsKey(State + "/" + Frame)))
+        if (!Wz.HasDataE(C + Equip.GetDir(ID) + ID + ".img/" + WpNum + State + "/" + Frame + "/" + Image) && (!IsAttack()) && (!Equip.Data.ContainsKey(State + "/" + Frame)))
             Frame = 0;
         FrameCount = Equip.Data["body/" + State + "/FrameCount"];
         BodyDelay = Equip.Data["body/" + State + "/" + Frame + "/delay"];
@@ -1108,7 +1108,7 @@ public class AvatarParts : SpriteEx
 
         if ((Image != "face") && (Equip.GetPart(ID) != PartName.FaceAcc))
         {
-            if (Wz.HasNodeE(Path))
+            if (Wz.HasDataE(Path))
             {
                 ImageNode = Wz.EquipData[Path];
                 Alpha = 255;
@@ -1118,7 +1118,7 @@ public class AvatarParts : SpriteEx
         }
         else if ((Image == "face") || (Part == PartName.FaceAcc))
         {
-            if (Wz.HasNodeE(Path))
+            if (Wz.HasDataE(Path))
             {
                 ImageNode = Wz.EquipData[Path];
                 // Visible := True;
@@ -1182,7 +1182,7 @@ public class AvatarParts : SpriteEx
         if ((Image == "ear") || (Image == "lefEar") || (Image == "highlefEar"))
             Alpha = 0;
 
-        if (Wz.HasNodeE(Path + "/z"))
+        if (Wz.HasDataE(Path + "/z"))
         {
             if (!Owner.OtherPlayer)
                 Z = 100 + Owner.Z - ZMap.IndexOf(Wz.EquipData[Path + "/z"].ToStr());
@@ -1284,7 +1284,7 @@ public class AvatarParts : SpriteEx
         }
 
         int AdjX;
-        if (Wz.HasNodeE(Path + "/origin"))
+        if (Wz.HasDataE(Path + "/origin"))
         {
             switch (FlipX)
             {
@@ -1315,7 +1315,7 @@ public class AvatarParts : SpriteEx
             Owner.TamingNavel.Y = TamingMob.Navel.Y;
         }
 
-        if (Wz.HasNodeE(Path + "/map/brow"))
+        if (Wz.HasDataE(Path + "/map/brow"))
         {
             Owner.Brow.X = -Wz.EquipData[Path + "/map/brow"].ToVector().X * this.Flip;
             Owner.Brow.Y = -Wz.EquipData[Path + "/map/brow"].ToVector().Y;
@@ -1325,7 +1325,7 @@ public class AvatarParts : SpriteEx
             this.Offset.Y = origin.Y + Owner.HeadNeck.Y - Owner.BodyNeck.Y - Owner.HeadBrow.Y + Owner.Brow.Y - Owner.TamingNavel.Y;
         }
 
-        if (Wz.HasNodeE(Path + "/map/neck"))
+        if (Wz.HasDataE(Path + "/map/neck"))
         {
             Owner.Neck.X = -Wz.EquipData[Path + "/map/neck"].ToVector().X * this.Flip;
             Owner.Neck.Y = -Wz.EquipData[Path + "/map/neck"].ToVector().Y;
@@ -1337,7 +1337,7 @@ public class AvatarParts : SpriteEx
 
         if (Image == "body")
             Owner.BrowPos = Owner.BodyNeck + TamingMob.Navel;
-        if (Wz.HasNodeE(Path + "/map/hand"))
+        if (Wz.HasDataE(Path + "/map/hand"))
         {
             Owner.Hand.X = -Wz.EquipData[Path + "/map/hand"].ToVector().X * this.Flip;
             Owner.Hand.Y = -Wz.EquipData[Path + "/map/hand"].ToVector().Y;
@@ -1349,7 +1349,7 @@ public class AvatarParts : SpriteEx
             this.Offset.Y = origin.Y + Owner.Hand.Y + Owner.ArmNavel.Y - Owner.ArmHand.Y - Owner.BodyNavel.Y;
         }
 
-        if (Wz.HasNodeE(Path + "/map/handMove"))
+        if (Wz.HasDataE(Path + "/map/handMove"))
         {
             Owner.HandMove.X = -Wz.EquipData[Path + "/map/handMove"].ToVector().X * this.Flip;
             Owner.HandMove.Y = -Wz.EquipData[Path + "/map/handMove"].ToVector().Y;
@@ -1359,7 +1359,7 @@ public class AvatarParts : SpriteEx
             this.Offset.Y = origin.Y + Owner.HandMove.Y - Owner.lHandMove.Y;
         }
 
-        if (Wz.HasNodeE(Path + "/map/navel"))
+        if (Wz.HasDataE(Path + "/map/navel"))
         {
             Owner.Navel.X = -Wz.EquipData[Path + "/map/navel"].ToVector().X * this.Flip;
             Owner.Navel.Y = -Wz.EquipData[Path + "/map/navel"].ToVector().Y;

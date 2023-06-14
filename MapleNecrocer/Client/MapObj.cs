@@ -83,7 +83,7 @@ public class Obj : SpriteEx
                         Obj.MoveW = Wz.GetInt(Path + "/0/moveW");
                         Obj.MoveH = Wz.GetInt(Path + "/0/moveH");
                         Obj.MoveR = Wz.GetInt(Path + "/0/moveR");
-                        if (!Wz.HasNode(Path + "/1"))
+                        if (!Wz.HasData(Path + "/1"))
                             Obj.Moved = false;
                         if (Obj.MoveType > 0)
                             Obj.Moved = true;
@@ -160,7 +160,7 @@ public class Obj : SpriteEx
         if (Time > Delay)
         {
             Frame += 1;
-            if (!Wz.HasNode(Path + '/' + Frame))
+            if (!Wz.HasData(Path + '/' + Frame))
                 Frame = 0;
             Time = 0;
         }
@@ -270,7 +270,7 @@ public class FlowObj : BackgroundSprite
         if (Time > Delay)
         {
             Frame += 1;
-            if (!Wz.HasNode(Path + '/' + Frame))
+            if (!Wz.HasData(Path + '/' + Frame))
                 Frame = 0;
             Time = 0;
         }

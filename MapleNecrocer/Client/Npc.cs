@@ -192,7 +192,7 @@ public class Npc : SpriteEx
         if (Time > Delay)
         {
             Frame += 1;
-            if (!Wz.HasNode("Npc/" + SpriteID + ".img/" + Action + "/" + Frame))
+            if (!Wz.HasData("Npc/" + SpriteID + ".img/" + Action + "/" + Frame))
             {
                 Frame = 0;
                 if (Actions.Count > 1)
