@@ -130,7 +130,6 @@ public partial class SelectFolderForm : Form
                 string Content = File.ReadAllText("RecentFiles.txt");
                 Content = Dialog.SelectedPath + "\n" + Content;
                 File.WriteAllText("RecentFiles.txt", Content);
-
             }
             else
             {
@@ -169,7 +168,7 @@ public partial class SelectFolderForm : Form
             MainForm.Instance.MapListBox.SearchGrid.DefaultCellStyle.Font = new Font("Microsoft JhengHei", 13f, GraphicsUnit.Pixel);
         }
         MainForm.Instance.DumpMapIDs();
-
+      
 
     }
 }

@@ -54,6 +54,7 @@ namespace MapleNecrocer
             SaveMapButton = new Button();
             DisplayButton = new Button();
             label4 = new Label();
+            MorphButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -122,6 +123,7 @@ namespace MapleNecrocer
             // 
             // LoadMapButton
             // 
+            LoadMapButton.Enabled = false;
             LoadMapButton.Location = new Point(8, 174);
             LoadMapButton.Name = "LoadMapButton";
             LoadMapButton.Size = new Size(236, 28);
@@ -187,6 +189,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(MorphButton);
             panel1.Controls.Add(CashEffectButton);
             panel1.Controls.Add(MountButton);
             panel1.Controls.Add(NpcButton);
@@ -205,10 +208,11 @@ namespace MapleNecrocer
             // CashEffectButton
             // 
             CashEffectButton.AutoSize = true;
+            CashEffectButton.Enabled = false;
             CashEffectButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             CashEffectButton.Image = (Image)resources.GetObject("CashEffectButton.Image");
             CashEffectButton.ImageAlign = ContentAlignment.TopCenter;
-            CashEffectButton.Location = new Point(703, 1);
+            CashEffectButton.Location = new Point(703, 2);
             CashEffectButton.Name = "CashEffectButton";
             CashEffectButton.RightToLeft = RightToLeft.No;
             CashEffectButton.Size = new Size(84, 52);
@@ -220,6 +224,7 @@ namespace MapleNecrocer
             // 
             // MountButton
             // 
+            MountButton.Enabled = false;
             MountButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             MountButton.Image = (Image)resources.GetObject("MountButton.Image");
             MountButton.ImageAlign = ContentAlignment.TopCenter;
@@ -234,6 +239,7 @@ namespace MapleNecrocer
             // 
             // NpcButton
             // 
+            NpcButton.Enabled = false;
             NpcButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             NpcButton.Image = (Image)resources.GetObject("NpcButton.Image");
             NpcButton.ImageAlign = ContentAlignment.TopCenter;
@@ -270,6 +276,7 @@ namespace MapleNecrocer
             // 
             // ChairButton
             // 
+            ChairButton.Enabled = false;
             ChairButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             ChairButton.Image = (Image)resources.GetObject("ChairButton.Image");
             ChairButton.ImageAlign = ContentAlignment.TopCenter;
@@ -284,6 +291,7 @@ namespace MapleNecrocer
             // 
             // MobButton
             // 
+            MobButton.Enabled = false;
             MobButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             MobButton.Image = (Image)resources.GetObject("MobButton.Image");
             MobButton.ImageAlign = ContentAlignment.TopCenter;
@@ -298,6 +306,7 @@ namespace MapleNecrocer
             // 
             // AvatarButton
             // 
+            AvatarButton.Enabled = false;
             AvatarButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             AvatarButton.Image = Properties.Resources._01050088_img_info_iconRaw;
             AvatarButton.ImageAlign = ContentAlignment.TopCenter;
@@ -341,6 +350,22 @@ namespace MapleNecrocer
             label4.Size = new Size(124, 18);
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
+            // 
+            // MorphButton
+            // 
+            MorphButton.AutoSize = true;
+            MorphButton.Enabled = false;
+            MorphButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            MorphButton.Image = (Image)resources.GetObject("MorphButton.Image");
+            MorphButton.ImageAlign = ContentAlignment.TopCenter;
+            MorphButton.Location = new Point(788, 2);
+            MorphButton.Name = "MorphButton";
+            MorphButton.RightToLeft = RightToLeft.No;
+            MorphButton.Size = new Size(74, 52);
+            MorphButton.TabIndex = 10;
+            MorphButton.Text = "Morph";
+            MorphButton.TextAlign = ContentAlignment.BottomCenter;
+            MorphButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -400,5 +425,6 @@ namespace MapleNecrocer
         private Label label4;
         private Button MountButton;
         private Button CashEffectButton;
+        private Button MorphButton;
     }
 }

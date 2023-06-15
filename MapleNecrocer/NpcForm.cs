@@ -124,6 +124,20 @@ public partial class NpcForm : Form
                     if (((Npc)Iter).LocalID == Npc.SummonedList[I])
                     {
                         Iter.Dead();
+                        if (((Npc)Iter).Balloon != null)
+                            ((Npc)Iter).Balloon.Dead();
+
+                    }
+                }
+            }
+
+            if (Iter is NpcText)
+            {
+                for (int I = 0; I < Npc.SummonedList.Count; I++)
+                {
+                    if (((NpcText)Iter).ID.RightStr(7) == Npc.SummonedList[I])
+                    {
+                        Iter.Dead();
                     }
                 }
             }

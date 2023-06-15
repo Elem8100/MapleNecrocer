@@ -330,6 +330,9 @@ public partial class MainForm : Form
         }
         else
             pictureBox1.Image = null;
+
+        if (!LoadedEff)
+            LoadMapButton.Enabled = true;
     }
 
     private void MainForm_Load(object sender, EventArgs e)
@@ -410,8 +413,17 @@ public partial class MainForm : Form
             SetEffect.LoadList();
             ItemEffect.LoadList();
             TamingMob.LoadSaddleList();
+
+            foreach (var Iter in this.panel1.Controls)
+            {
+                if (Iter.GetType().Name == "Button")
+                {
+                    ((Button)Iter).Enabled = true;
+                }
+            }
             LoadedEff = true;
         }
+
 
     }
 
