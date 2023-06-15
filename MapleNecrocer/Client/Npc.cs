@@ -29,7 +29,7 @@ public class Npc : SpriteEx
     List<string> Msgs = new();
     public static List<string> SummonedList = new();
     public string LocalID;
-    ChatBalloon Balloon;
+    public ChatBalloon Balloon;
 
     public static void Create()
     {
@@ -179,6 +179,7 @@ public class Npc : SpriteEx
         NpcText.IDWidth = Map.MeasureStringX(Map.NpcNameTagFont, NpcText.ID);
         NpcText.HideName = Wz.GetBool("Npc/" + ID + ".img/info/hideName");
         NpcText.Moved = false;
+       
 
     }
 
@@ -249,7 +250,7 @@ public class NpcText : SpriteEx
     public int IDWidth;
     public string ID;
     public bool HideName;
-
+  
     public override void DoDraw()
     {
          
