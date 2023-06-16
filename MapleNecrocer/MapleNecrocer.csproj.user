@@ -17,6 +17,9 @@
     <Compile Update="MobForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="MorphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="MountForm.cs">
       <SubType>Form</SubType>
     </Compile>

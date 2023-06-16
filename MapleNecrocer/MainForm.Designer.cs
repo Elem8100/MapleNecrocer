@@ -43,6 +43,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            MorphButton = new Button();
             CashEffectButton = new Button();
             MountButton = new Button();
             NpcButton = new Button();
@@ -54,7 +55,6 @@ namespace MapleNecrocer
             SaveMapButton = new Button();
             DisplayButton = new Button();
             label4 = new Label();
-            MorphButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -205,6 +205,23 @@ namespace MapleNecrocer
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
             // 
+            // MorphButton
+            // 
+            MorphButton.AutoSize = true;
+            MorphButton.Enabled = false;
+            MorphButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            MorphButton.Image = (Image)resources.GetObject("MorphButton.Image");
+            MorphButton.ImageAlign = ContentAlignment.TopCenter;
+            MorphButton.Location = new Point(788, 2);
+            MorphButton.Name = "MorphButton";
+            MorphButton.RightToLeft = RightToLeft.No;
+            MorphButton.Size = new Size(74, 52);
+            MorphButton.TabIndex = 10;
+            MorphButton.Text = "Morph";
+            MorphButton.TextAlign = ContentAlignment.BottomCenter;
+            MorphButton.UseVisualStyleBackColor = true;
+            MorphButton.Click += MobButton_Click;
+            // 
             // CashEffectButton
             // 
             CashEffectButton.AutoSize = true;
@@ -350,22 +367,6 @@ namespace MapleNecrocer
             label4.Size = new Size(124, 18);
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
-            // 
-            // MorphButton
-            // 
-            MorphButton.AutoSize = true;
-            MorphButton.Enabled = false;
-            MorphButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            MorphButton.Image = (Image)resources.GetObject("MorphButton.Image");
-            MorphButton.ImageAlign = ContentAlignment.TopCenter;
-            MorphButton.Location = new Point(788, 2);
-            MorphButton.Name = "MorphButton";
-            MorphButton.RightToLeft = RightToLeft.No;
-            MorphButton.Size = new Size(74, 52);
-            MorphButton.TabIndex = 10;
-            MorphButton.Text = "Morph";
-            MorphButton.TextAlign = ContentAlignment.BottomCenter;
-            MorphButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
