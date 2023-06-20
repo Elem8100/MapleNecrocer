@@ -1394,13 +1394,12 @@ public class AvatarParts : SpriteEx
 
         //  if (Map.GameMode == GameMode.Viewer)
         //    return;
-        /*
-         if (Morph.IsUse)
-         {
-          Owner.MoveX = -99999;
-          return;
-         }
-        */
+
+        if (Morph.IsUse)
+        {
+            Owner.MoveX = -99999;
+            return;
+        }
 
         Owner.Attack = IsAttack();
         Owner.Action = State;
