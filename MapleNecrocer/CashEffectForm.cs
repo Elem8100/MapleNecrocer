@@ -95,4 +95,12 @@ public partial class CashEffectForm : Form
     {
         CashEffectListGrid.Search(textBox1.Text);
     }
+
+    private void CashEffectForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
+    }
 }

@@ -19,6 +19,18 @@ public partial class MorphForm : Form
     }
     public static MorphForm Instance;
     public DataGridViewEx MorphListGrid;
+
+    void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
+    {
+        if (MapleChair.IsUse || TamingMob.IsUse)
+            return;
+        var MorphImg = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+        if (MorphImg == "")
+            return;
+        Morph.Delete();
+        Morph.Create(MorphImg);
+        Morph.IsUse = true;
+    }
     private void MorphForm_Shown(object sender, EventArgs e)
     {
         this.FormClosing += (s, e1) =>
@@ -33,15 +45,26 @@ public partial class MorphForm : Form
         MorphListGrid.RowTemplate.Height = 80;
         MorphListGrid.Columns[1].Width = 80;
         ((DataGridViewImageColumn)MorphListGrid.Columns[1]).ImageLayout = DataGridViewImageCellLayout.Zoom;
-       
+
         var Graphic = MorphListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
+
+        MorphListGrid.CellClick += (s, e) =>
+        {
+            CellClick(MorphListGrid, e);
+        };
+
+        MorphListGrid.SearchGrid.CellClick += (s, e) =>
+        {
+            CellClick(MorphListGrid.SearchGrid, e);
+        };
+
         string MorphName = "";
         Bitmap Bmp = null;
         foreach (var Iter in Wz.GetNode("Item/Consume/0221.img").Nodes)
         {
-            if(!Iter.HasNode("spec/morph")) continue;
+            if (!Iter.HasNode("spec/morph")) continue;
             if (Wz.HasNode("String/Consume.img/" + Iter.Text.IntID()))
                 MorphName = Wz.GetNode("String/Consume.img/" + Iter.Text.IntID()).GetStr("name");
             else
@@ -62,5 +85,24 @@ public partial class MorphForm : Form
             MorphListGrid.Rows[i].Cells[2].Style.Alignment = DataGridViewContentAlignment.TopLeft;
         }
         MorphListGrid.Sort(MorphListGrid.Columns[0], ListSortDirection.Ascending);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        Morph.Delete();
+        Morph.IsUse = false;
+    }
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+        MorphListGrid.Search(textBox1.Text);
+    }
+
+    private void MorphForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
     }
 }

@@ -31,6 +31,9 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            button1 = new Button();
+            textBox1 = new TextBox();
+            label1 = new Label();
             tabControl1.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,19 +69,54 @@
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            button1.Font = new Font("Tahoma", 13F, FontStyle.Regular, GraphicsUnit.Pixel);
+            button1.Location = new Point(279, 15);
+            button1.Name = "button1";
+            button1.Size = new Size(96, 26);
+            button1.TabIndex = 4;
+            button1.Text = "Remove";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Tahoma", 13F, FontStyle.Regular, GraphicsUnit.Pixel);
+            textBox1.Location = new Point(74, 16);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(137, 23);
+            textBox1.TabIndex = 5;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(56, 19);
+            label1.TabIndex = 6;
+            label1.Text = "Search";
+            // 
             // MorphForm
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(432, 632);
+            Controls.Add(label1);
+            Controls.Add(textBox1);
+            Controls.Add(button1);
             Controls.Add(tabControl1);
+            KeyPreview = true;
             MaximumSize = new Size(450, 1000);
             Name = "MorphForm";
-            Text = "MorphForm";
+            Text = "Morph";
             TopMost = true;
             Shown += MorphForm_Shown;
+            KeyDown += MorphForm_KeyDown;
             tabControl1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -86,5 +124,8 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
+        private Button button1;
+        private TextBox textBox1;
+        private Label label1;
     }
 }

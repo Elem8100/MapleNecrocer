@@ -132,11 +132,13 @@
             Controls.Add(label2);
             Controls.Add(button2);
             Controls.Add(button1);
+            KeyPreview = true;
             MaximumSize = new Size(290, 2000);
             Name = "NpcForm";
             Text = "Npc";
             TopMost = true;
             Shown += NpcForm_Shown;
+            KeyDown += NpcForm_KeyDown;
             tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

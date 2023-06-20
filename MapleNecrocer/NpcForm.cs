@@ -144,4 +144,12 @@ public partial class NpcForm : Form
         }
         EngineFunc.SpriteEngine.Dead();
     }
+
+    private void NpcForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox2.Focused)
+            ActiveControl = null;
+    }
 }

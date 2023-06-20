@@ -28,7 +28,7 @@ public partial class MobForm : Form
 
     }
 
-    
+
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
         MobID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
@@ -121,7 +121,7 @@ public partial class MobForm : Form
     private void button2_Click(object sender, EventArgs e)
     {
         foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
-        { 
+        {
             if (Iter is Mob)
             {
                 for (int I = 0; I < Mob.SummonedList.Count; I++)
@@ -135,5 +135,15 @@ public partial class MobForm : Form
             }
         }
         EngineFunc.SpriteEngine.Dead();
+    }
+
+    private void MobForm_KeyDown(object sender, KeyEventArgs e)
+    {
+
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
+
     }
 }

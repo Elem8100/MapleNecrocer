@@ -389,7 +389,7 @@ namespace MapleNecrocer
             KeyPreview = true;
             MaximumSize = new Size(5000, 5000);
             Name = "MainForm";
-            Text = "Form1";
+            Text = "MapleNecrocer";
             Load += MainForm_Load;
             KeyDown += MainForm_KeyDown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

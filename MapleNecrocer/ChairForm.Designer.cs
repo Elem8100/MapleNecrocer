@@ -94,12 +94,14 @@
             Controls.Add(textBox1);
             Controls.Add(label1);
             Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Pixel);
+            KeyPreview = true;
             MaximumSize = new Size(377, 1000);
             Name = "ChairForm";
-            Text = "ChairForm";
+            Text = "Chair";
             TopMost = true;
             Load += ChairForm_Load;
             Shown += ChairForm_Shown;
+            KeyDown += ChairForm_KeyDown;
             tabControl1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

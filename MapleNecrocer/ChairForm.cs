@@ -30,21 +30,23 @@ public partial class ChairForm : Form
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
+        if (Morph.IsUse)
+            return;
         if (!MapleChair.CanUse)
             return;
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-        
+
         MapleChair.Delete();
-        
+
         TamingMob.Delete();
         ItemEffect.Delete(EffectType.Chair);
-        
+
         MapleChair.Create(ID);
-       
+
         if (ItemEffect.AllList.Contains(ID))
             ItemEffect.Create(ID, EffectType.Chair);
         MapleChair.IsUse = true;
-        
+
 
     }
 
@@ -118,5 +120,13 @@ public partial class ChairForm : Form
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
         ChairListGrid.Search(textBox1.Text);
+    }
+
+    private void ChairForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
     }
 }

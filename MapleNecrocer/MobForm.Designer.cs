@@ -154,12 +154,14 @@
             Controls.Add(button1);
             Controls.Add(tabControl1);
             Controls.Add(pictureBox1);
+            KeyPreview = true;
             MaximumSize = new Size(290, 2000);
             Name = "MobForm";
             Text = "Mob";
             TopMost = true;
             Load += MobForm_Load;
             Shown += MobForm_Shown;
+            KeyDown += MobForm_KeyDown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tabControl1.ResumeLayout(false);
             ResumeLayout(false);

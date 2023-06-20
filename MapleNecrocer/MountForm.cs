@@ -683,4 +683,13 @@ public partial class MountForm : Form
         Game.Player.ResetAction = true;
         Game.Player.NewAction = Game.Player.StandType;
     }
+
+    private void MountForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
+
+    }
 }

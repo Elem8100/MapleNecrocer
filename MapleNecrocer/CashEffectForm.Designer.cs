@@ -63,7 +63,7 @@
             tabPage2.Location = new Point(4, 28);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(345, 430);
+            tabPage2.Size = new Size(345, 476);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -104,11 +104,13 @@
             Controls.Add(label1);
             Controls.Add(tabControl1);
             Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            KeyPreview = true;
             MaximumSize = new Size(377, 1000);
             Name = "CashEffectForm";
-            Text = "CashEffectForm";
+            Text = "CashEffect";
             TopMost = true;
             Shown += CashEffectForm_Shown;
+            KeyDown += CashEffectForm_KeyDown;
             tabControl1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
