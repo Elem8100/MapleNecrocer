@@ -484,6 +484,7 @@ public partial class MainForm : Form
             case "MountButton": ShowForm(MountForm.Instance, () => new MountForm().Show()); break;
             case "CashEffectButton": ShowForm(CashEffectForm.Instance, () => new CashEffectForm().Show()); break;
             case "MorphButton": ShowForm(MorphForm.Instance, () => new MorphForm().Show()); break;
+            case "DamageSkinButton": ShowForm(DamageSkinForm.Instance, () => new DamageSkinForm().Show()); break;
         }
 
 

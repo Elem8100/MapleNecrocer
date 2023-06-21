@@ -11,6 +11,9 @@
     <Compile Update="ChairForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="DamageSkinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="DataGridViewEx.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -55,6 +55,7 @@ namespace MapleNecrocer
             SaveMapButton = new Button();
             DisplayButton = new Button();
             label4 = new Label();
+            DamageSkinButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -189,6 +190,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(DamageSkinButton);
             panel1.Controls.Add(MorphButton);
             panel1.Controls.Add(CashEffectButton);
             panel1.Controls.Add(MountButton);
@@ -368,6 +370,23 @@ namespace MapleNecrocer
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
             // 
+            // DamageSkinButton
+            // 
+            DamageSkinButton.AutoSize = true;
+            DamageSkinButton.Enabled = false;
+            DamageSkinButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            DamageSkinButton.Image = (Image)resources.GetObject("DamageSkinButton.Image");
+            DamageSkinButton.ImageAlign = ContentAlignment.TopCenter;
+            DamageSkinButton.Location = new Point(862, 2);
+            DamageSkinButton.Name = "DamageSkinButton";
+            DamageSkinButton.RightToLeft = RightToLeft.No;
+            DamageSkinButton.Size = new Size(97, 52);
+            DamageSkinButton.TabIndex = 11;
+            DamageSkinButton.Text = "Damage Skin";
+            DamageSkinButton.TextAlign = ContentAlignment.BottomCenter;
+            DamageSkinButton.UseVisualStyleBackColor = true;
+            DamageSkinButton.Click += MobButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -427,5 +446,6 @@ namespace MapleNecrocer
         private Button MountButton;
         private Button CashEffectButton;
         private Button MorphButton;
+        private Button DamageSkinButton;
     }
 }

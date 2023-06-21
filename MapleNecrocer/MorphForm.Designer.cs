@@ -110,6 +110,7 @@
             KeyPreview = true;
             MaximumSize = new Size(450, 1000);
             Name = "MorphForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Morph";
             TopMost = true;
             Shown += MorphForm_Shown;

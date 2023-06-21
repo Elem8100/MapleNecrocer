@@ -107,6 +107,7 @@
             KeyPreview = true;
             MaximumSize = new Size(377, 1000);
             Name = "CashEffectForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "CashEffect";
             TopMost = true;
             Shown += CashEffectForm_Shown;

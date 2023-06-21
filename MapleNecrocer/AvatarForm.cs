@@ -632,7 +632,7 @@ public partial class AvatarForm : Form
         string Dir = Equip.GetDir(ID);
         Wz_Node Entry;
         if (ItemEffect.AllList.Contains(ID))
-            Entry = Wz.GetNodeA("Effect/ItemEff.img/"+ ID.IntID());
+            Entry = Wz.GetNodeA("Effect/ItemEff.img/" + ID.IntID());
         else
             Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
 

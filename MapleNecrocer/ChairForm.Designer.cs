@@ -97,6 +97,7 @@
             KeyPreview = true;
             MaximumSize = new Size(377, 1000);
             Name = "ChairForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Chair";
             TopMost = true;
             Load += ChairForm_Load;

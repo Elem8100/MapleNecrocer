@@ -567,6 +567,7 @@
             Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Pixel);
             MinimumSize = new Size(1000, 0);
             Name = "AvatarForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Avatar";
             TopMost = true;
             Load += AvatarForm_Load;

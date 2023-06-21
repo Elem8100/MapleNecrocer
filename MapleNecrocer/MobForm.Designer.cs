@@ -157,6 +157,7 @@
             KeyPreview = true;
             MaximumSize = new Size(290, 2000);
             Name = "MobForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Mob";
             TopMost = true;
             Load += MobForm_Load;
