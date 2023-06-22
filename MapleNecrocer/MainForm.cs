@@ -424,7 +424,10 @@ public partial class MainForm : Form
             LoadedEff = true;
         }
 
-
+        if(ObjInfoForm.Instance!=null)
+        { 
+            ObjInfoForm.Instance.DumpObjs();
+        }
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
@@ -485,6 +488,7 @@ public partial class MainForm : Form
             case "CashEffectButton": ShowForm(CashEffectForm.Instance, () => new CashEffectForm().Show()); break;
             case "MorphButton": ShowForm(MorphForm.Instance, () => new MorphForm().Show()); break;
             case "DamageSkinButton": ShowForm(DamageSkinForm.Instance, () => new DamageSkinForm().Show()); break;
+            case "ObjInfoButton": new ObjInfoForm().Show(); break;
         }
 
 

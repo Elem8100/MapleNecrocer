@@ -135,6 +135,7 @@
             KeyPreview = true;
             MaximumSize = new Size(290, 2000);
             Name = "NpcForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Npc";
             TopMost = true;
             Shown += NpcForm_Shown;

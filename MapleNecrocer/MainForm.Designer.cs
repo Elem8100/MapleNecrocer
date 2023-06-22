@@ -43,6 +43,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            DamageSkinButton = new Button();
             MorphButton = new Button();
             CashEffectButton = new Button();
             MountButton = new Button();
@@ -55,7 +56,7 @@ namespace MapleNecrocer
             SaveMapButton = new Button();
             DisplayButton = new Button();
             label4 = new Label();
-            DamageSkinButton = new Button();
+            ObjInfoButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -190,6 +191,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(ObjInfoButton);
             panel1.Controls.Add(DamageSkinButton);
             panel1.Controls.Add(MorphButton);
             panel1.Controls.Add(CashEffectButton);
@@ -207,6 +209,23 @@ namespace MapleNecrocer
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
             // 
+            // DamageSkinButton
+            // 
+            DamageSkinButton.AutoSize = true;
+            DamageSkinButton.Enabled = false;
+            DamageSkinButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            DamageSkinButton.Image = (Image)resources.GetObject("DamageSkinButton.Image");
+            DamageSkinButton.ImageAlign = ContentAlignment.TopCenter;
+            DamageSkinButton.Location = new Point(862, 1);
+            DamageSkinButton.Name = "DamageSkinButton";
+            DamageSkinButton.RightToLeft = RightToLeft.No;
+            DamageSkinButton.Size = new Size(97, 52);
+            DamageSkinButton.TabIndex = 11;
+            DamageSkinButton.Text = "Damage Skin";
+            DamageSkinButton.TextAlign = ContentAlignment.BottomCenter;
+            DamageSkinButton.UseVisualStyleBackColor = true;
+            DamageSkinButton.Click += MobButton_Click;
+            // 
             // MorphButton
             // 
             MorphButton.AutoSize = true;
@@ -214,7 +233,7 @@ namespace MapleNecrocer
             MorphButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             MorphButton.Image = (Image)resources.GetObject("MorphButton.Image");
             MorphButton.ImageAlign = ContentAlignment.TopCenter;
-            MorphButton.Location = new Point(788, 2);
+            MorphButton.Location = new Point(788, 1);
             MorphButton.Name = "MorphButton";
             MorphButton.RightToLeft = RightToLeft.No;
             MorphButton.Size = new Size(74, 52);
@@ -231,7 +250,7 @@ namespace MapleNecrocer
             CashEffectButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             CashEffectButton.Image = (Image)resources.GetObject("CashEffectButton.Image");
             CashEffectButton.ImageAlign = ContentAlignment.TopCenter;
-            CashEffectButton.Location = new Point(703, 2);
+            CashEffectButton.Location = new Point(703, 1);
             CashEffectButton.Name = "CashEffectButton";
             CashEffectButton.RightToLeft = RightToLeft.No;
             CashEffectButton.Size = new Size(84, 52);
@@ -370,22 +389,22 @@ namespace MapleNecrocer
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
             // 
-            // DamageSkinButton
+            // ObjInfoButton
             // 
-            DamageSkinButton.AutoSize = true;
-            DamageSkinButton.Enabled = false;
-            DamageSkinButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            DamageSkinButton.Image = (Image)resources.GetObject("DamageSkinButton.Image");
-            DamageSkinButton.ImageAlign = ContentAlignment.TopCenter;
-            DamageSkinButton.Location = new Point(862, 2);
-            DamageSkinButton.Name = "DamageSkinButton";
-            DamageSkinButton.RightToLeft = RightToLeft.No;
-            DamageSkinButton.Size = new Size(97, 52);
-            DamageSkinButton.TabIndex = 11;
-            DamageSkinButton.Text = "Damage Skin";
-            DamageSkinButton.TextAlign = ContentAlignment.BottomCenter;
-            DamageSkinButton.UseVisualStyleBackColor = true;
-            DamageSkinButton.Click += MobButton_Click;
+            ObjInfoButton.AutoSize = true;
+            ObjInfoButton.Enabled = false;
+            ObjInfoButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ObjInfoButton.Image = (Image)resources.GetObject("ObjInfoButton.Image");
+            ObjInfoButton.ImageAlign = ContentAlignment.TopCenter;
+            ObjInfoButton.Location = new Point(959, 1);
+            ObjInfoButton.Name = "ObjInfoButton";
+            ObjInfoButton.RightToLeft = RightToLeft.No;
+            ObjInfoButton.Size = new Size(70, 52);
+            ObjInfoButton.TabIndex = 12;
+            ObjInfoButton.Text = "Obj Info";
+            ObjInfoButton.TextAlign = ContentAlignment.BottomCenter;
+            ObjInfoButton.UseVisualStyleBackColor = true;
+            ObjInfoButton.Click += MobButton_Click;
             // 
             // MainForm
             // 
@@ -447,5 +466,6 @@ namespace MapleNecrocer
         private Button CashEffectButton;
         private Button MorphButton;
         private Button DamageSkinButton;
+        private Button ObjInfoButton;
     }
 }
