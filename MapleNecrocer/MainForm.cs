@@ -424,8 +424,8 @@ public partial class MainForm : Form
             LoadedEff = true;
         }
 
-        if(ObjInfoForm.Instance!=null)
-        { 
+        if (ObjInfoForm.Instance != null)
+        {
             ObjInfoForm.Instance.DumpObjs();
         }
     }
@@ -489,6 +489,7 @@ public partial class MainForm : Form
             case "MorphButton": ShowForm(MorphForm.Instance, () => new MorphForm().Show()); break;
             case "DamageSkinButton": ShowForm(DamageSkinForm.Instance, () => new DamageSkinForm().Show()); break;
             case "ObjInfoButton": new ObjInfoForm().Show(); break;
+            case "MedalButton": ShowForm(MedalForm.Instance, () => new MedalForm().Show()); break;
         }
 
 

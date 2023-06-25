@@ -43,6 +43,8 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            MedalButton = new Button();
+            ObjInfoButton = new Button();
             DamageSkinButton = new Button();
             MorphButton = new Button();
             CashEffectButton = new Button();
@@ -56,7 +58,6 @@ namespace MapleNecrocer
             SaveMapButton = new Button();
             DisplayButton = new Button();
             label4 = new Label();
-            ObjInfoButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -191,6 +192,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(MedalButton);
             panel1.Controls.Add(ObjInfoButton);
             panel1.Controls.Add(DamageSkinButton);
             panel1.Controls.Add(MorphButton);
@@ -208,6 +210,40 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // MedalButton
+            // 
+            MedalButton.AutoSize = true;
+            MedalButton.Enabled = false;
+            MedalButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            MedalButton.Image = (Image)resources.GetObject("MedalButton.Image");
+            MedalButton.ImageAlign = ContentAlignment.TopCenter;
+            MedalButton.Location = new Point(1029, 1);
+            MedalButton.Name = "MedalButton";
+            MedalButton.RightToLeft = RightToLeft.No;
+            MedalButton.Size = new Size(70, 52);
+            MedalButton.TabIndex = 13;
+            MedalButton.Text = "Medal";
+            MedalButton.TextAlign = ContentAlignment.BottomCenter;
+            MedalButton.UseVisualStyleBackColor = true;
+            MedalButton.Click += MobButton_Click;
+            // 
+            // ObjInfoButton
+            // 
+            ObjInfoButton.AutoSize = true;
+            ObjInfoButton.Enabled = false;
+            ObjInfoButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ObjInfoButton.Image = (Image)resources.GetObject("ObjInfoButton.Image");
+            ObjInfoButton.ImageAlign = ContentAlignment.TopCenter;
+            ObjInfoButton.Location = new Point(959, 1);
+            ObjInfoButton.Name = "ObjInfoButton";
+            ObjInfoButton.RightToLeft = RightToLeft.No;
+            ObjInfoButton.Size = new Size(70, 52);
+            ObjInfoButton.TabIndex = 12;
+            ObjInfoButton.Text = "Obj Info";
+            ObjInfoButton.TextAlign = ContentAlignment.BottomCenter;
+            ObjInfoButton.UseVisualStyleBackColor = true;
+            ObjInfoButton.Click += MobButton_Click;
             // 
             // DamageSkinButton
             // 
@@ -389,23 +425,6 @@ namespace MapleNecrocer
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
             // 
-            // ObjInfoButton
-            // 
-            ObjInfoButton.AutoSize = true;
-            ObjInfoButton.Enabled = false;
-            ObjInfoButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            ObjInfoButton.Image = (Image)resources.GetObject("ObjInfoButton.Image");
-            ObjInfoButton.ImageAlign = ContentAlignment.TopCenter;
-            ObjInfoButton.Location = new Point(959, 1);
-            ObjInfoButton.Name = "ObjInfoButton";
-            ObjInfoButton.RightToLeft = RightToLeft.No;
-            ObjInfoButton.Size = new Size(70, 52);
-            ObjInfoButton.TabIndex = 12;
-            ObjInfoButton.Text = "Obj Info";
-            ObjInfoButton.TextAlign = ContentAlignment.BottomCenter;
-            ObjInfoButton.UseVisualStyleBackColor = true;
-            ObjInfoButton.Click += MobButton_Click;
-            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -467,5 +486,6 @@ namespace MapleNecrocer
         private Button MorphButton;
         private Button DamageSkinButton;
         private Button ObjInfoButton;
+        private Button MedalButton;
     }
 }
