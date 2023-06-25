@@ -181,6 +181,7 @@ public class Map
                     break;
             }
             Player.SpawnNew();
+            NameTag.Create("SuperGM");
             FirstLoaded = true;
         }
 

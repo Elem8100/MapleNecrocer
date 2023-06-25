@@ -443,6 +443,9 @@ public class Player : JumperSprite
                             Sprite.Expression = "blink";
                             Sprite.Animate = true;
                             Sprite.AnimRepeat = true;
+
+                            if (Part == PartName.Glass || Part == PartName.CashWeapon || Part==PartName.Cape ||Part== PartName.Cap)
+                                Sprite.BlendMode = MonoGame.SpriteEngine.BlendMode.NonPremultiplied;
                             string[] S = Path.Split('/');
 
                             if (Part != PartName.CashWeapon)
@@ -927,6 +930,8 @@ public class AvatarParts : SpriteEx
     public AvatarParts(Sprite Parent) : base(Parent)
     {
         SpriteSheetMode = SpriteSheetMode.NoneSingle;
+
+
     }
     int Time;
     int FaceTime;
@@ -1370,6 +1375,8 @@ public class AvatarParts : SpriteEx
             this.Offset.X = origin.X + Owner.Navel.X - Owner.BodyNavel.X - Owner.TamingNavel.X;
             this.Offset.Y = origin.Y + Owner.Navel.Y - Owner.BodyNavel.Y - Owner.TamingNavel.Y;
         }
+
+
     }
 
     bool IsSkillAttack()
@@ -1678,6 +1685,7 @@ public class AvatarParts : SpriteEx
             base.DoDraw();
         if (Visible)
             Moved = true;
+
 
     }
 
