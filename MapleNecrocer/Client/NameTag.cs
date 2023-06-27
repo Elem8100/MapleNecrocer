@@ -7,6 +7,8 @@ using WzComparerR2.WzLib;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Color = Microsoft.Xna.Framework.Color;
+using System.Drawing.Imaging;
+
 namespace MapleNecrocer;
 
 public class NameTag : SpriteEx
@@ -98,6 +100,44 @@ public class MedalTag : SpriteEx
     RenderTarget2D TargetTexture;
     public static MedalTag Instance;
 
+    private static void ChangeAlpha(ref Bitmap bmp)
+    {
+        BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+        IntPtr ptr = bmpData.Scan0;
+        int numBytes = bmp.Width * bmp.Height * 4;
+        byte[] argbValues = new byte[numBytes];
+        System.Runtime.InteropServices.Marshal.Copy(ptr, argbValues, 0, numBytes);
+        for (int counter = 0; counter < argbValues.Length; counter += 4)
+        {
+            if (argbValues[counter + 4 - 1] >=150)
+                argbValues[counter + 4 - 1] = 255;
+        }
+        System.Runtime.InteropServices.Marshal.Copy(argbValues, 0, ptr, numBytes);
+        bmp.UnlockBits(bmpData);
+    }
+
+    private static Texture2D FixAlpha(Bitmap Bmp)
+    {
+        ChangeAlpha(ref Bmp);
+        int[] imgData = new int[Bmp.Width * Bmp.Height];
+        Texture2D Texture = new Texture2D(RenderFormDraw.Instance.GraphicsDevice , Bmp.Width, Bmp.Height);
+        unsafe
+        {
+            System.Drawing.Imaging.BitmapData origdata =
+                Bmp.LockBits(new System.Drawing.Rectangle(0, 0, Bmp.Width, Bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, Bmp.PixelFormat);
+            uint* byteData = (uint*)origdata.Scan0;
+            // Switch bgra -> rgba
+            for (int i = 0; i < imgData.Length; i++)
+            {
+                byteData[i] = (byteData[i] & 0x000000ff) << 16 | (byteData[i] & 0x0000FF00) | (byteData[i] & 0x00FF0000) >> 16 | (byteData[i] & 0xFF000000);
+            }
+            System.Runtime.InteropServices.Marshal.Copy(origdata.Scan0, imgData, 0, Bmp.Width * Bmp.Height);
+            byteData = null;
+            Bmp.UnlockBits(origdata);
+        }
+        Texture.SetData(imgData);
+        return Texture;
+    }
 
     void RenderTargetFunc()
     {
@@ -106,12 +146,12 @@ public class MedalTag : SpriteEx
             CenterLength = Map.MeasureStringX(Map.NpcNameTagFont, MedalName) + 10;
             var WestImage = Wz.EquipData[Entry.FullPathToFile2() + "/w"];
             var WestX = 150 - (CenterLength + EastWidth + WestWidth) / 2;
-            //FixAlphaChannel(EquipImages[WestImage]);
+            Wz.EquipImageLib[WestImage]= FixAlpha( WestImage.ExtractPng());
             Engine.Canvas.Draw(Wz.EquipImageLib[WestImage], WestX, -WestImage.GetNode("origin").ToVector().Y + 38);
 
             var CenterImage = Wz.EquipData[Entry.FullPathToFile2() + "/c"];
             int Count = CenterLength / CenterWidth;
-            //FixAlphaChannel(EquipImages[WestImage]);
+            Wz.EquipImageLib[CenterImage] = FixAlpha(CenterImage.ExtractPng());
             for (int i = 1; i <= Count; i++)
             {
                 Engine.Canvas.Draw(Wz.EquipImageLib[CenterImage], WestX + ((i - 1) * CenterWidth) + WestWidth, -
@@ -141,11 +181,20 @@ public class MedalTag : SpriteEx
                     break;
             }
 
-            var EastImage = Wz.EquipData[Entry.GetPath + "/e"];
-            //FixAlphaChannel(EquipImages[EastImage]);
+            var EastImage = Wz.EquipData[Entry.FullPathToFile2() + "/e"];
+            Wz.EquipImageLib[EastImage] = FixAlpha(EastImage.ExtractPng());
             Engine.Canvas.Draw(Wz.EquipImageLib[EastImage], WestX + CenterLength + WestWidth - OffX,
                 -EastImage.GetNode("origin").ToVector().Y + 38);
-            Engine.Canvas.DrawString(Map.NpcNameTagFont, MedalName, WestX + WestWidth + 2, 36, new Color(R, G, B, 255));
+
+            int OffY = 0;
+            switch (Wz.Country)
+            {
+                case "GMS": OffY = 0; break;
+                case "JMS": OffY = 2; break;
+                case "TMS": OffY = 1; break;
+                case "KMS": OffY = 1; break;
+            }
+            Engine.Canvas.DrawString(Map.NpcNameTagFont, MedalName, WestX + WestWidth + 2, 36 + OffY, new Color(R, G, B, 255));
 
         }
     }
@@ -198,7 +247,7 @@ public class MedalTag : SpriteEx
         {
             int WX = (int)(Game.Player.X) - (int)(Engine.Camera.X);
             int WY = (int)(Game.Player.Y) - (int)(Engine.Camera.Y);
-            Engine.Canvas.Draw(TargetTexture, WX - 150, WY  -8,BlendMode.NonPremultiplied);
+            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 8, BlendMode.NonPremultiplied);
         }
         if (IsReDraw)
             IsReDraw = false;
@@ -210,4 +259,11 @@ public class MedalTag : SpriteEx
             Instance.IsReDraw = true;
     }
 
+    public static void Delete()
+    {
+        if (Instance != null)
+            Instance.Dead();
+        EngineFunc.SpriteEngine.Dead();
+
+    }
 }
