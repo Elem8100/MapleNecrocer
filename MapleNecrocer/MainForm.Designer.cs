@@ -43,6 +43,8 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            RingButton = new Button();
+            TitleButton = new Button();
             MedalButton = new Button();
             ObjInfoButton = new Button();
             DamageSkinButton = new Button();
@@ -192,6 +194,8 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(RingButton);
+            panel1.Controls.Add(TitleButton);
             panel1.Controls.Add(MedalButton);
             panel1.Controls.Add(ObjInfoButton);
             panel1.Controls.Add(DamageSkinButton);
@@ -210,6 +214,40 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // RingButton
+            // 
+            RingButton.AutoSize = true;
+            RingButton.Enabled = false;
+            RingButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            RingButton.Image = (Image)resources.GetObject("RingButton.Image");
+            RingButton.ImageAlign = ContentAlignment.TopCenter;
+            RingButton.Location = new Point(1169, 1);
+            RingButton.Name = "RingButton";
+            RingButton.RightToLeft = RightToLeft.No;
+            RingButton.Size = new Size(70, 52);
+            RingButton.TabIndex = 15;
+            RingButton.Text = "Ring";
+            RingButton.TextAlign = ContentAlignment.BottomCenter;
+            RingButton.UseVisualStyleBackColor = true;
+            RingButton.Click += MobButton_Click;
+            // 
+            // TitleButton
+            // 
+            TitleButton.AutoSize = true;
+            TitleButton.Enabled = false;
+            TitleButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            TitleButton.Image = (Image)resources.GetObject("TitleButton.Image");
+            TitleButton.ImageAlign = ContentAlignment.TopCenter;
+            TitleButton.Location = new Point(1099, 1);
+            TitleButton.Name = "TitleButton";
+            TitleButton.RightToLeft = RightToLeft.No;
+            TitleButton.Size = new Size(70, 52);
+            TitleButton.TabIndex = 14;
+            TitleButton.Text = "Title";
+            TitleButton.TextAlign = ContentAlignment.BottomCenter;
+            TitleButton.UseVisualStyleBackColor = true;
+            TitleButton.Click += MobButton_Click;
             // 
             // MedalButton
             // 
@@ -487,5 +525,7 @@ namespace MapleNecrocer
         private Button DamageSkinButton;
         private Button ObjInfoButton;
         private Button MedalButton;
+        private Button TitleButton;
+        private Button RingButton;
     }
 }

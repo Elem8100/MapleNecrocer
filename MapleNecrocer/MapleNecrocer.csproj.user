@@ -47,7 +47,13 @@
     <Compile Update="AvatarFormDraw.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="RingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="SelectFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TitleForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

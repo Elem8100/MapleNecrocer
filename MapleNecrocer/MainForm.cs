@@ -490,6 +490,8 @@ public partial class MainForm : Form
             case "DamageSkinButton": ShowForm(DamageSkinForm.Instance, () => new DamageSkinForm().Show()); break;
             case "ObjInfoButton": new ObjInfoForm().Show(); break;
             case "MedalButton": ShowForm(MedalForm.Instance, () => new MedalForm().Show()); break;
+            case "TitleButton": ShowForm(TitleForm.Instance, () => new TitleForm().Show()); break;
+            case "RingButton": ShowForm(RingForm.Instance, () => new RingForm().Show()); break;
         }
 
 

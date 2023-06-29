@@ -90,7 +90,6 @@ public partial class MedalForm : Form
 
     private void MedalForm_KeyDown(object sender, KeyEventArgs e)
     {
-
         if (e.Alt)
             e.Handled = true;
         if (!textBox1.Focused)
