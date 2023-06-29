@@ -96,8 +96,8 @@ public class MedalTag : SpriteEx
     public string MedalName;
     public int TargetIndex;
     public bool IsReDraw;
-    Wz_Node Entry;
-    RenderTarget2D TargetTexture;
+    public Wz_Node Entry;
+    public RenderTarget2D TargetTexture;
     public static MedalTag Instance;
 
     private static void ChangeAlpha(ref Bitmap bmp)
@@ -109,7 +109,7 @@ public class MedalTag : SpriteEx
         System.Runtime.InteropServices.Marshal.Copy(ptr, argbValues, 0, numBytes);
         for (int counter = 0; counter < argbValues.Length; counter += 4)
         {
-            if (argbValues[counter + 4 - 1] >=150)
+            if (argbValues[counter + 4 - 1] >= 150)
                 argbValues[counter + 4 - 1] = 255;
         }
         System.Runtime.InteropServices.Marshal.Copy(argbValues, 0, ptr, numBytes);
@@ -120,7 +120,7 @@ public class MedalTag : SpriteEx
     {
         ChangeAlpha(ref Bmp);
         int[] imgData = new int[Bmp.Width * Bmp.Height];
-        Texture2D Texture = new Texture2D(RenderFormDraw.Instance.GraphicsDevice , Bmp.Width, Bmp.Height);
+        Texture2D Texture = new Texture2D(RenderFormDraw.Instance.GraphicsDevice, Bmp.Width, Bmp.Height);
         unsafe
         {
             System.Drawing.Imaging.BitmapData origdata =
@@ -146,7 +146,7 @@ public class MedalTag : SpriteEx
             CenterLength = Map.MeasureStringX(Map.NpcNameTagFont, MedalName) + 10;
             var WestImage = Wz.EquipData[Entry.FullPathToFile2() + "/w"];
             var WestX = 150 - (CenterLength + EastWidth + WestWidth) / 2;
-            Wz.EquipImageLib[WestImage]= FixAlpha( WestImage.ExtractPng());
+            Wz.EquipImageLib[WestImage] = FixAlpha(WestImage.ExtractPng());
             Engine.Canvas.Draw(Wz.EquipImageLib[WestImage], WestX, -WestImage.GetNode("origin").ToVector().Y + 38);
 
             var CenterImage = Wz.EquipData[Entry.FullPathToFile2() + "/c"];
@@ -198,7 +198,7 @@ public class MedalTag : SpriteEx
 
         }
     }
-    void InitData()
+    public void InitData()
     {
         EastWidth = Entry.GetNode("e").ExtractPng().Width;
         WestWidth = Entry.GetNode("w").ExtractPng().Width;
@@ -266,4 +266,100 @@ public class MedalTag : SpriteEx
         EngineFunc.SpriteEngine.Dead();
 
     }
+}
+
+
+public class NickNameTag : MedalTag
+{
+    public NickNameTag(Sprite Parent) : base(Parent)
+    {
+    }
+    public static NickNameTag Instance;
+
+    static void ReDraw()
+    {
+        if (Instance != null)
+            Instance.IsReDraw = true;
+    }
+
+    public override void DoDraw()
+    {
+        if (Map.ShowChar)
+        {
+            int WX = (int)Game.Player.X - (int)Engine.Camera.X;
+            int WY = (int)Game.Player.Y - (int)Engine.Camera.Y;
+            Engine.Canvas.Draw(TargetTexture, WX - 150 - Game.Player.BrowPos.X + MapleChair.BodyRelMove.X, WY - 110
+                - Game.Player.BrowPos.Y + MapleChair.BodyRelMove.Y);
+        }
+        if (IsReDraw)
+            IsReDraw = false;
+    }
+
+    public static void Delete()
+    {
+        if (Instance != null)
+        {
+            Instance.Dead();
+            EngineFunc.SpriteEngine.Dead();
+        }
+    }
+
+    public static void Create(string ItemID)
+    {
+        Instance = new NickNameTag(EngineFunc.SpriteEngine);
+        Instance.IntMove = true;
+        int TagNum = Wz.GetNode("Item/Install/0370.img/"+ ItemID + "/info/nickTag").ToInt();
+        Instance.Entry = Wz.GetNode("UI/NameTag.img/nick/" + TagNum);
+        Wz.DumpData(Instance.Entry, Wz.EquipData, Wz.EquipImageLib);
+        Instance.MedalName = Wz.GetNode("String/Ins.img/" + ItemID.RightStr(7)).GetStr("name");
+        Instance.InitData();
+    }
+
+}
+
+public class LabelRingTag : MedalTag
+{
+    public LabelRingTag(Sprite Parent) : base(Parent)
+    {
+    }
+    public static LabelRingTag Instance;
+
+    public static void Create(string ItemID)
+    {
+        Instance = new LabelRingTag(EngineFunc.SpriteEngine);
+        Instance.IntMove = true;
+        int TagNum = Wz.GetNode("Character/Ring/" + ItemID + ".img/info/nameTag").ToInt();
+        Instance.Entry = Wz.GetNode("UI/NameTag.img/" + TagNum);
+        Wz.DumpData(Instance.Entry, Wz.EquipData, Wz.EquipImageLib);
+        Instance.MedalName = "SuperGM";
+        Instance.InitData();
+    }
+
+    public override void DoDraw()
+    {
+        if (Map.ShowChar)
+        {
+            int WX = (int)(Game.Player.X) - (int)(Engine.Camera.X);
+            int WY = (int)(Game.Player.Y) - (int)(Engine.Camera.Y);
+            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 28, BlendMode.NonPremultiplied);
+        }
+        if (IsReDraw)
+            IsReDraw = false;
+    }
+    static void ReDraw()
+    {
+        if (Instance != null)
+            Instance.IsReDraw = true;
+    }
+
+    public static void Delete()
+    {
+        if (Instance != null)
+        {
+            Instance.Dead();
+            EngineFunc.SpriteEngine.Dead();
+        }
+    }
+
+
 }
