@@ -51,6 +51,7 @@
             button1.TabIndex = 6;
             button1.Text = "Remove";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox1
             // 
@@ -59,6 +60,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(116, 23);
             textBox1.TabIndex = 5;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label1
             // 
@@ -86,6 +88,7 @@
             Text = "Ring";
             TopMost = true;
             Shown += RingForm_Shown;
+            KeyDown += RingForm_KeyDown;
             ResumeLayout(false);
             PerformLayout();
         }

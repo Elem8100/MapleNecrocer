@@ -18,6 +18,14 @@ public partial class RingForm : Form
     }
     public static RingForm Instance;
     public DataGridViewEx RingListGrid;
+
+    void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
+    {
+        NameTag.IsUse = false;
+        var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+        LabelRingTag.Delete();
+        LabelRingTag.Create(ID);
+    }
     private void RingForm_Shown(object sender, EventArgs e)
     {
         this.FormClosing += (s, e1) =>
@@ -33,6 +41,15 @@ public partial class RingForm : Form
         var Graphic = RingListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
+        RingListGrid.CellClick += (s, e) =>
+        {
+            CellClick(RingListGrid, e);
+        };
+
+        RingListGrid.SearchGrid.CellClick += (s, e) =>
+        {
+            CellClick(RingListGrid.SearchGrid, e);
+        };
 
         string RingName = null;
         Bitmap Bmp = null;
@@ -57,7 +74,23 @@ public partial class RingForm : Form
             RingListGrid.Rows[i].Cells[1].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             RingListGrid.Rows[i].Cells[2].Style.Alignment = DataGridViewContentAlignment.TopLeft;
         }
+    }
 
+    private void button1_Click(object sender, EventArgs e)
+    {
+        NameTag.IsUse = true;
+        LabelRingTag.Delete();
+    }
+    private void RingForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
+    }
 
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+        RingListGrid.Search(textBox1.Text);
     }
 }
