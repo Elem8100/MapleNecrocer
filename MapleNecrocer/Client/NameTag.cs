@@ -21,7 +21,7 @@ public class NameTag : SpriteEx
     static string PlayerName;
     static int NameWidth;
     static RenderTarget2D TargetTexture = null;
-    static bool IsUse = true;
+    public static bool IsUse = true;
     public static void Create(string Name)
     {
         Game.Player.Name = Name;
@@ -258,7 +258,6 @@ public class MedalTag : SpriteEx
         if (Instance != null)
             Instance.IsReDraw = true;
     }
-
     public static void Delete()
     {
         if (Instance != null)
@@ -341,7 +340,7 @@ public class LabelRingTag : MedalTag
         {
             int WX = (int)(Game.Player.X) - (int)(Engine.Camera.X);
             int WY = (int)(Game.Player.Y) - (int)(Engine.Camera.Y);
-            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 28, BlendMode.NonPremultiplied);
+            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 31, BlendMode.NonPremultiplied);
         }
         if (IsReDraw)
             IsReDraw = false;
