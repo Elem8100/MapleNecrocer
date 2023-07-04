@@ -36,7 +36,7 @@ internal class Wz
     public static string Country;
     private static List<NodeInfo> NodeList1 = new();
     private static List<NodeInfo> NodeList2 = new();
-   
+
 
     public static void DumpDataA(Wz_Node WzNode, Dictionary<string, Wz_Node> DataLib, Dictionary<Wz_Node, Texture2D> ImageLib)
     {
@@ -175,7 +175,7 @@ internal class Wz
     }
     public static bool HasNode(string Path)
     {
-        return   Wz.GetNode(Path) != null;
+        return Wz.GetNode(Path) != null;
     }
     public static bool HasData(string Path)
     {
@@ -187,51 +187,27 @@ internal class Wz
         return EquipData.ContainsKey(Path) != false;
 
     }
+
     public static int GetInt(string Path, int DefaultValue = 0)
     {
-        if (Data.ContainsKey(Path))
-            return Data[Path].GetValueEx<int>(0);
+        if (Wz.HasNode(Path))
+            return Wz.GetNode(Path).GetValueEx<int>(DefaultValue);
         else
             return DefaultValue;
     }
-
     public static string GetStr(string Path, string DefaultValue = "")
     {
-        if (Data.ContainsKey(Path))
-            return Data[Path].GetValueEx<string>("");
-        return
-            DefaultValue;
-    }
-    public static Wz_Vector GetVector(string Path)
-    {
-        if (Data.ContainsKey(Path))
-        {
-            return Data[Path].ToVector();
-        }
-        else
-            return new Wz_Vector(0, 0);
+        return Wz.GetNode(Path).GetValueEx<string>(DefaultValue);
     }
 
-    public static Vector2 GetVectorE(string Path)
-    {
-        if (EquipData.ContainsKey(Path))
-        {
-            Vector2 V;
-            V.X = EquipData[Path].ToVector().X;
-            V.Y = EquipData[Path].ToVector().Y;
-            return V;
-        }
-        else
-            return new Vector2(0, 0);
-    }
     public static bool GetBool(string Path)
     {
-        if (Data.ContainsKey(Path))
-        {
-            return Data[Path].ToBool();
-        }
-        else
-            return false;
+        return Convert.ToBoolean(Wz.GetNode(Path).GetValueEx<int>(0));
+    }
+
+    public static Wz_Vector GetVector(string Path)
+    {
+        return Wz.GetNode(Path).GetValueEx<Wz_Vector>(new Wz_Vector(0, 0)); ;
     }
 
     public static Wz_Node GetNodeA(string Path)
@@ -362,6 +338,56 @@ internal class Wz
 
 }
 
+internal class WzDict
+{
+    public static int GetInt(string Path, int DefaultValue = 0)
+    {
+        if (Wz.Data.ContainsKey(Path))
+            return Wz.Data[Path].GetValueEx<int>(0);
+        else
+            return DefaultValue;
+    }
+
+    public static string GetStr(string Path, string DefaultValue = "")
+    {
+        if (Wz.Data.ContainsKey(Path))
+            return Wz.Data[Path].GetValueEx<string>("");
+        return
+            DefaultValue;
+    }
+    public static Wz_Vector GetVector(string Path)
+    {
+        if (Wz.Data.ContainsKey(Path))
+        {
+            return Wz.Data[Path].ToVector();
+        }
+        else
+            return new Wz_Vector(0, 0);
+    }
+
+    public static Vector2 GetVectorE(string Path)
+    {
+        if (Wz.EquipData.ContainsKey(Path))
+        {
+            Vector2 V;
+            V.X = Wz.EquipData[Path].ToVector().X;
+            V.Y = Wz.EquipData[Path].ToVector().Y;
+            return V;
+        }
+        else
+            return new Vector2(0, 0);
+    }
+    public static bool GetBool(string Path)
+    {
+        if (Wz.Data.ContainsKey(Path))
+        {
+            return Wz.Data[Path].ToBool();
+        }
+        else
+            return false;
+    }
+}
+
 public static class Wz_NodeExtension3
 {
     public static int GetInt(this Wz_Node Node, string Path, int DefaultValue = 0)
@@ -378,8 +404,8 @@ public static class Wz_NodeExtension3
     }
     public static Wz_Vector GetVector(this Wz_Node Node, string Path)
     {
-        return Node.GetNode(Path).GetValueEx<Wz_Vector>(new Wz_Vector(0,0));
-      
+        return Node.GetNode(Path).GetValueEx<Wz_Vector>(new Wz_Vector(0, 0));
+
     }
 
 
