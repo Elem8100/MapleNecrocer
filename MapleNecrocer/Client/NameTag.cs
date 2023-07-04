@@ -139,7 +139,7 @@ public class MedalTag : SpriteEx
         return Texture;
     }
 
-    void RenderTargetFunc()
+    public void RenderTargetFunc()
     {
         if (Map.ShowChar)
         {
