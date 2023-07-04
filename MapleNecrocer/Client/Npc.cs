@@ -145,7 +145,7 @@ public class Npc : SpriteEx
         Random Random = new();
         Npc.Counter = Random.Next(1000);
 
-        Wz_Vector origin = Wz.GetVector(Path + "/0/origin");
+        Wz_Vector origin = WzDict.GetVector(Path + "/0/origin");
         if (Npc.FlipX)
             Npc.Origin.X = -origin.X + Npc.ImageWidth;
         else
@@ -156,10 +156,10 @@ public class Npc : SpriteEx
         if (Wz.GetNodeA("Npc/" + Npc.SpriteID + ".img/info/MapleTV").ToBool())
         {
             string Path2 = "Npc/" + Npc.SpriteID + ".img/info";
-            int msgX = Wz.GetInt(Path2 + "/MapleTVmsgX");
-            int msgY = Wz.GetInt(Path2 + "/MapleTVmsgY");
-            int adX = Wz.GetInt(Path2 + "/MapleTVadX");
-            int adY = Wz.GetInt(Path2 + "/MapleTVadY");
+            int msgX = WzDict.GetInt(Path2 + "/MapleTVmsgX");
+            int msgY = WzDict.GetInt(Path2 + "/MapleTVmsgY");
+            int adX = WzDict.GetInt(Path2 + "/MapleTVadX");
+            int adY = WzDict.GetInt(Path2 + "/MapleTVadY");
             MapleTV.Create((int)Npc.X, (int)Npc.Y, msgX, msgY, adX, adY, Npc.Z);
         }
         //
@@ -177,7 +177,7 @@ public class Npc : SpriteEx
         NpcText.FuncWidth = Map.MeasureStringX(Map.NpcNameTagFont, NpcText.NpcFunc);
         NpcText.ID = "ID:" + ID;
         NpcText.IDWidth = Map.MeasureStringX(Map.NpcNameTagFont, NpcText.ID);
-        NpcText.HideName = Wz.GetBool("Npc/" + ID + ".img/info/hideName");
+        NpcText.HideName = WzDict.GetBool("Npc/" + ID + ".img/info/hideName");
         NpcText.Moved = false;
        
 
@@ -187,7 +187,7 @@ public class Npc : SpriteEx
     {
         ImagePath = "Npc/" + SpriteID + ".img/" + Action + "/" + Frame;
         ImageNode = Wz.Data[ImagePath];
-        int Delay = Wz.GetInt(ImagePath + "/delay", 100);
+        int Delay = WzDict.GetInt(ImagePath + "/delay", 100);
         Random random = new Random();
         Time += 16.66f * Delta;
         if (Time > Delay)
@@ -205,7 +205,7 @@ public class Npc : SpriteEx
             Time = 0;
         }
 
-        Wz_Vector origin = Wz.GetVector(ImagePath + "/origin");
+        Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
         if (FlipX)
             Origin.X = -origin.X + ImageWidth;
         else

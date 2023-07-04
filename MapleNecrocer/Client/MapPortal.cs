@@ -100,7 +100,7 @@ public class MapPortal : SpriteEx
                 Frame = 0;
             Time = 0;
         }
-        Wz_Vector origin = Wz.GetVector(ImagePath + "/origin");
+        Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
         Origin.X = origin.X;
         Origin.Y = origin.Y;
     }

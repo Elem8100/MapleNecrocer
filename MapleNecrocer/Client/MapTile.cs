@@ -30,10 +30,10 @@ public class MapTile : SpriteEx
                 MapTile.Moved = false;
                 MapTile.X = Iter.GetValue2("x", 0);
                 MapTile.Y = Iter.GetValue2("y", 0);
-                MapTile.Z = (Layer * 100000) + Wz.GetInt(Path + "/z") + 1000;
+                MapTile.Z = (Layer * 100000) + WzDict.GetInt(Path + "/z") + 1000;
                 MapTile.Width = MapTile.ImageWidth;
                 MapTile.Height = MapTile.ImageHeight;
-                MapTile.Origin = Wz.GetVector(Path + "/origin");
+                MapTile.Origin = WzDict.GetVector(Path + "/origin");
                
             }
         }

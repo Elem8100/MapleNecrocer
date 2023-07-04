@@ -156,8 +156,8 @@ public class Back : BackgroundSprite
                         Wz.DumpData(Wz.GetNodeA(Path), Wz.Data, Wz.ImageLib);
                     Back.Path = Path;
                     Back.ImageNode = Wz.Data[Path];
-                    origin = Wz.GetVector(Path + "/origin");
-                    if (Wz.GetBool(Path + "/blend"))
+                    origin = WzDict.GetVector(Path + "/origin");
+                    if (WzDict.GetBool(Path + "/blend"))
                         Back.BlendMode = MonoGame.SpriteEngine.BlendMode.AddtiveColor;
                 }
 
@@ -171,7 +171,7 @@ public class Back : BackgroundSprite
                         Wz.DumpData(Wz.GetNodeA(Path), Wz.Data, Wz.ImageLib);
                     Back.Path = Path;
                     Back.ImageNode = Wz.Data[Path + "/0"];
-                    origin = Wz.GetVector(Path + "/0/origin");
+                    origin = WzDict.GetVector(Path + "/0/origin");
                     Back.HasAnim = true;
                 }
                 Back.FlipX = Iter.GetBool("f");
@@ -189,11 +189,11 @@ public class Back : BackgroundSprite
                 Back.FlowX = FlowX;
                 Back.FlowY = FlowY;
 
-                Back.MoveType = Wz.GetInt(ImagePath + "/moveType");
-                Back.MoveP = Wz.GetInt(ImagePath + "/moveP");
-                Back.MoveW = Wz.GetInt(ImagePath + "/moveW");
-                Back.MoveH = Wz.GetInt(ImagePath + "/moveH");
-                Back.MoveR = Wz.GetInt(ImagePath + "/moveR");
+                Back.MoveType = WzDict.GetInt(ImagePath + "/moveType");
+                Back.MoveP = WzDict.GetInt(ImagePath + "/moveP");
+                Back.MoveW = WzDict.GetInt(ImagePath + "/moveW");
+                Back.MoveH = WzDict.GetInt(ImagePath + "/moveH");
+                Back.MoveR = WzDict.GetInt(ImagePath + "/moveR");
 
                 if (CX == 0)
                     Back.Width = Back.ImageWidth;
@@ -298,9 +298,9 @@ public class Back : BackgroundSprite
         {
             string ImagePath = Path + "/" + Frame;
             ImageNode = Wz.Data[ImagePath];
-            int Delay = Wz.GetInt(ImagePath + "/delay", 100);
-            int a0 = Wz.GetInt(ImagePath + "/a0", -1);
-            int a1 = Wz.GetInt(ImagePath + "/a1", -1);
+            int Delay = WzDict.GetInt(ImagePath + "/delay", 100);
+            int a0 = WzDict.GetInt(ImagePath + "/a0", -1);
+            int a1 = WzDict.GetInt(ImagePath + "/a1", -1);
             Time += 16.66f * Delta;
             if (Time > Delay)
             {
@@ -310,12 +310,12 @@ public class Back : BackgroundSprite
                 Time = 0;
             }
             if ((a0 != -1) && (a1 == -1))
-                Alpha = (byte)Wz.GetInt(ImagePath + "/a0", 255);
+                Alpha = (byte)WzDict.GetInt(ImagePath + "/a0", 255);
             float AniAlpha = a0 - (a0 - a1) * Time / Delay;
             if (Time > 0)
                 Alpha = (byte)AniAlpha;
 
-            Wz_Vector origin = Wz.GetVector(ImagePath + "/origin");
+            Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
             if (FlipX)
                 Origin.X = -origin.X + ImageWidth;
             else

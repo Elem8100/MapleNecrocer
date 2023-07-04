@@ -78,11 +78,11 @@ public class Obj : SpriteEx
                         Obj.Width = Obj.ImageWidth;
                         Obj.Height = Obj.ImageHeight;
                         Obj.FlipX = Iter.GetBool("f");
-                        Obj.MoveType = Wz.GetInt(Path + "/0/moveType");
-                        Obj.MoveP = Wz.GetInt(Path + "/0/moveP");
-                        Obj.MoveW = Wz.GetInt(Path + "/0/moveW");
-                        Obj.MoveH = Wz.GetInt(Path + "/0/moveH");
-                        Obj.MoveR = Wz.GetInt(Path + "/0/moveR");
+                        Obj.MoveType = WzDict.GetInt(Path + "/0/moveType");
+                        Obj.MoveP = WzDict.GetInt(Path + "/0/moveP");
+                        Obj.MoveW = WzDict.GetInt(Path + "/0/moveW");
+                        Obj.MoveH = WzDict.GetInt(Path + "/0/moveH");
+                        Obj.MoveR = WzDict.GetInt(Path + "/0/moveR");
                         if (!Wz.HasData(Path + "/1"))
                             Obj.Moved = false;
                         if (Obj.MoveType > 0)
@@ -90,7 +90,7 @@ public class Obj : SpriteEx
                         if (Obj.MoveR > 0)
                             Obj.Moved = true;
 
-                        Wz_Vector origin = Wz.GetVector(Path + "/0/origin");
+                        Wz_Vector origin = WzDict.GetVector(Path + "/0/origin");
                         if (Obj.FlipX)
                             Obj.Origin.X = -origin.X + Obj.ImageWidth;
                         else
@@ -133,7 +133,7 @@ public class Obj : SpriteEx
                             FlowObj.TileMode = TileMode.Horizontal;
                         if (Flow == 2)
                             FlowObj.TileMode = TileMode.Vertical;
-                        Wz_Vector origin = Wz.GetVector(Path + "/0/origin");
+                        Wz_Vector origin = WzDict.GetVector(Path + "/0/origin");
                         if (FlowObj.FlipX)
                             FlowObj.Origin.X = -origin.X + FlowObj.ImageWidth;
                         else
@@ -151,9 +151,9 @@ public class Obj : SpriteEx
         base.DoMove(Delta);
         string ImagePath = Path + "/" + Frame;
         ImageNode = Wz.Data[ImagePath];
-        int Delay = Wz.GetInt(ImagePath + "/delay", 100);
-        int a0 = Wz.GetInt(ImagePath + "/a0", -1);
-        int a1 = Wz.GetInt(ImagePath + "/a1", -1);
+        int Delay = WzDict.GetInt(ImagePath + "/delay", 100);
+        int a0 = WzDict.GetInt(ImagePath + "/a0", -1);
+        int a1 = WzDict.GetInt(ImagePath + "/a1", -1);
      
 
         Time += 16.66f * Delta;
@@ -165,7 +165,7 @@ public class Obj : SpriteEx
             Time = 0;
         }
         if ((a0 != -1) && (a1 == -1))
-            Alpha = (byte)Wz.GetInt(ImagePath + "/a0", 255);
+            Alpha = (byte)WzDict.GetInt(ImagePath + "/a0", 255);
         float AniAlpha = a0 - (a0 - a1) * Time / Delay;
         if (Time > 0)
             Alpha = (byte)AniAlpha;
@@ -204,7 +204,7 @@ public class Obj : SpriteEx
             }
         }
 
-        Wz_Vector origin = Wz.GetVector(ImagePath + "/origin");
+        Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
         if (FlipX)
             Origin.X = -origin.X + ImageWidth;
         else
@@ -264,7 +264,7 @@ public class FlowObj : BackgroundSprite
         }
         string ImagePath = Path + "/" + Frame;
         ImageNode = Wz.Data[ImagePath];
-        int Delay = Wz.GetInt(ImagePath + "/delay", 100);
+        int Delay = WzDict.GetInt(ImagePath + "/delay", 100);
 
         Time += 16.66f * Delta;
         if (Time > Delay)
@@ -275,7 +275,7 @@ public class FlowObj : BackgroundSprite
             Time = 0;
         }
 
-        Wz_Vector origin = Wz.GetVector(ImagePath + "/origin");
+        Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
         if (FlipX)
             Origin.X = -origin.X + ImageWidth;
         else

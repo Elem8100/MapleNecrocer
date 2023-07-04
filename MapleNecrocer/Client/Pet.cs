@@ -17,7 +17,7 @@ public class Pet : JumperSprite
         SpriteSheetMode = SpriteSheetMode.NoneSingle;
     }
 
-    int FTime;
+    public int FTime;
     Foothold WallFH;
     Foothold BelowFH;
     MoveDirection MoveDirection;
@@ -28,12 +28,12 @@ public class Pet : JumperSprite
     MoveType MoveType;
     int FallEdge;
     int JumpEdge;
-    Wz_Vector origin = new(0, 0);
-    string Path;
-    string UpPath;
-    string State;
-    int Frame;
-    int Delay;
+    public Wz_Vector origin = new(0, 0);
+    public string Path;
+    public string UpPath;
+    public string State;
+    public int Frame;
+    public int Delay;
     Vector2 Distance;
     bool OnLadder;
     Foothold FH;
@@ -378,5 +378,180 @@ public class Pet : JumperSprite
         Offset.Y = -origin.Y;
 
     }
+
+    public static void Remove()
+    {
+        if (Instance != null)
+        {
+            Instance.Dead();
+            Instance = null;
+            foreach (var Iter in Wz.EquipImageLib.Keys)
+            {
+                if (Iter.FullPathToFile2().LeftStr(8) == "Item/Pet")
+                {
+                    Wz.EquipImageLib.Remove(Iter);
+                    // EquipData.Remove(Iter.GetPath);
+                }
+            }
+            EngineFunc.SpriteEngine.Dead();
+        }
+    }
 }
 
+public class PetNameTag : MedalTag
+{
+    public PetNameTag(Sprite Parent) : base(Parent)
+    {
+    }
+    public static PetNameTag Instance;
+
+    static void ReDraw()
+    {
+        if (Instance != null)
+            Instance.IsReDraw = true;
+    }
+
+    public static void Remove()
+    {
+        if (Instance != null)
+        {
+            Instance.Dead();
+            EngineFunc.SpriteEngine.Dead();
+        }
+    }
+
+    public override void DoMove(float Delta)
+    {
+        base.DoMove(Delta);
+        if (IsReDraw)
+        {
+            Engine.Canvas.DrawTarget(ref TargetTexture, 300, 100, () => { RenderTargetFunc(); });
+        }
+        X = Pet.Instance.X;
+        Y = Pet.Instance.Y;
+        Z = Pet.Instance.Z;
+    }
+
+    public override void DoDraw()
+    {
+        if (Map.ShowChar)
+        {
+            int WX = (int)(Pet.Instance.X) - (int)(Engine.Camera.X);
+            int WY = (int)(Pet.Instance.Y) - (int)(Engine.Camera.Y);
+            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 28, MonoGame.SpriteEngine.BlendMode.NonPremultiplied);
+        }
+        if (IsReDraw)
+            IsReDraw = false;
+    }
+
+    public static void Create(string ItemID)
+    {
+        Instance = new PetNameTag(EngineFunc.SpriteEngine);
+        Instance.IntMove = true;
+        Instance.Tag = 1;
+        int TagNum = Wz.GetInt("Item/Pet/" + ItemID + ".img/info/nameTag", 3);
+        Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/" + TagNum);
+        if (Instance.Entry == null)
+            Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/38");
+        if (Instance.Entry.HasNode("c/_inlink"))
+        {
+            string Data = Instance.Entry.GetStr("c/_inlink");
+            Data = Data.Replace("/c", "");
+            Data = Data.Replace("pet/", "");
+            Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/" + Data);
+        }
+        Wz.DumpData(Instance.Entry, Wz.EquipData, Wz.EquipImageLib);
+        Instance.InitData();
+    }
+
+
+}
+
+public class PetEquip : Pet
+{
+    public PetEquip(Sprite Parent) : base(Parent)
+    {
+
+    }
+    public static PetEquip Instance;
+
+    public static void Create(string ID)
+    {
+        Wz_Node Entry = Wz.GetNode("Character/PetEquip/" + ID + ".img");
+        Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib);
+        Instance = new PetEquip(EngineFunc.SpriteEngine);
+        Instance.ImageLib = Wz.EquipImageLib;
+        Instance.IntMove = true;
+        Instance.Tag = 1;
+        Instance.State = Pet.Instance.State;
+        Instance.Frame = Pet.Instance.Frame;
+        Instance.UpPath = Entry.FullPathToFile2();
+        Instance.ImageNode = Wz.EquipData[Instance.UpPath + "/" + PetForm.PetID + "/" + Instance.State + "/" + Instance.Frame];
+        Instance.X = Pet.Instance.X;
+        Instance.Y = Pet.Instance.Y;
+        Instance.Z = Pet.Instance.Z + 100;
+    }
+
+
+    public override void DoMove(float Delta)
+    {
+        if (Wz.HasDataE(UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame))
+        {
+            Path = UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame;
+            ImageNode = Wz.EquipData[Path];
+        }
+
+        if (Wz.HasDataE(UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame + "/delay"))
+            Delay = Wz.EquipData[UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame + "/delay"].ToInt();
+        else
+            Delay = 100;
+
+
+        FTime += 17;
+        if (FTime > Delay)
+        {
+            Frame += 1;
+            if (!Wz.EquipData.ContainsKey(UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame))
+                Frame = 0;
+            FTime = 0;
+        }
+
+        State = Pet.Instance.State;
+        Frame = Pet.Instance.Frame;
+        X = Pet.Instance.X;
+        Y = Pet.Instance.Y;
+        Z = Pet.Instance.Z + 100;
+        FlipX = Pet.Instance.FlipX;
+
+        if (ImageNode.GetNode("origin") != null)
+            origin = ImageNode.GetNode("origin").ToVector();
+        switch (FlipX)
+        {
+            case true:
+                Offset.X = origin.X - ImageWidth;
+                break;
+            case false:
+                Offset.X = -origin.X;
+                break;
+        }
+        Offset.Y = -origin.Y;
+    }
+
+    public static void Remove()
+    {
+        if (Instance != null)
+        {
+            Instance.Dead();
+            Instance = null;
+            foreach (var Iter in Wz.EquipImageLib.Keys)
+            {
+                if (Iter.FullPathToFile2().LeftStr(18) == "Character/PetEquip")
+                {
+                    Wz.EquipImageLib.Remove(Iter);
+                    // EquipData.Remove(Iter.GetPath);
+                }
+            }
+            EngineFunc.SpriteEngine.Dead();
+        }
+    }
+}

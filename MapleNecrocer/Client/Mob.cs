@@ -195,7 +195,7 @@ public class Mob : JumperSprite
         Mob.MobName = Wz.GetNodeA("String/Mob.img/" + Mob.LocalID.IntID()).GetStr("name");
         Mob.NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, Mob.MobName);
         Mob.IDWidth = Map.MeasureStringX(Map.NpcNameTagFont, "ID:" + Mob.LocalID);
-        Wz_Vector origin = Wz.GetVector("Mob/" + Mob.ID + ".img/" + Mob.Action + "/0/origin");
+        Wz_Vector origin = WzDict.GetVector("Mob/" + Mob.ID + ".img/" + Mob.Action + "/0/origin");
         if (Mob.FlipX)
             Mob.Origin.X = -origin.X + Mob.ImageWidth;
         else
@@ -216,13 +216,13 @@ public class Mob : JumperSprite
             FrameCount = FrameData[ID + Action + "/FrameCount"];
         string ImagePath = "Mob/" + ID + ".img/" + Action + "/" + Frame;
         ImageNode = Wz.Data[ImagePath];
-        int AnimDelay = Wz.GetInt(ImagePath + "/delay", 100);
-        int a1 = Wz.GetInt(ImagePath + "/a1", 255);
+        int AnimDelay = WzDict.GetInt(ImagePath + "/delay", 100);
+        int a1 = WzDict.GetInt(ImagePath + "/a1", 255);
 
         if (Wz.HasData(ImagePath + "/lt"))
         {
-            LT = Wz.GetVector(ImagePath + "/lt");
-            RB = Wz.GetVector(ImagePath + "/rb");
+            LT = WzDict.GetVector(ImagePath + "/lt");
+            RB = WzDict.GetVector(ImagePath + "/rb");
             switch (FlipX)
             {
                 case true:
@@ -241,7 +241,7 @@ public class Mob : JumperSprite
 
         if (Wz.HasData(ImagePath + "/head"))
         {
-            Wz_Vector head = Wz.GetVector(ImagePath + "/head");
+            Wz_Vector head = WzDict.GetVector(ImagePath + "/head");
             if ((FlipX != Game.Player.FlipX) || (!GetHit1))
             {
                 if (FlipX)
@@ -686,7 +686,7 @@ public class Mob : JumperSprite
             Y = SrcY - (float)(Cos256(CosY) * 16);
         }
 
-        Wz_Vector origin = Wz.GetVector(ImagePath + "/origin");
+        Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
         if (FlipX)
             Origin.X = -origin.X + ImageWidth;
         else

@@ -997,7 +997,7 @@ public class AvatarParts : SpriteEx
 
         if (Wz.HasDataE("Character/00002000.img/" + State + "/" + Frame + "/move"))
         {
-            MoveOffset = Wz.GetVectorE("Character/00002000.img/" + State + "/" + Frame + "/move");
+            MoveOffset = WzDict.GetVectorE("Character/00002000.img/" + State + "/" + Frame + "/move");
         }
         else
         {

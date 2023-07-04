@@ -34,9 +34,10 @@ public class MapleTV : SpriteEx
             Sprite.X = PosX + msgX + adX;
         Sprite.Y = PosY + msgY + Sprite.ImageHeight;
         Sprite.Z = ZLayer+1;
+        Sprite.IntMove =true;
         Sprite.Width = Sprite.ImageWidth;
         Sprite.Height = Sprite.ImageHeight;
-        Wz_Vector origin = Wz.GetVector(Path + "/origin");
+        Wz_Vector origin = WzDict.GetVector(Path + "/origin");
         Sprite.Origin.X = origin.X;
         Sprite.Origin.Y = origin.Y;
 
@@ -51,10 +52,11 @@ public class MapleTV : SpriteEx
         MapleTV.X = PosX + adX;
         MapleTV.Y = PosY + adY + MapleTV.ImageHeight;
         MapleTV.Z = ZLayer + 50;
+        MapleTV.IntMove = true;
         MapleTV.ADCount = ACount;
         MapleTV.Width = Sprite.ImageWidth;
         MapleTV.Height = Sprite.ImageHeight;
-        origin = Wz.GetVector(Path + "/0/0/origin");
+        origin = WzDict.GetVector(Path + "/0/0/origin");
         MapleTV.Origin.X = origin.X;
         MapleTV.Origin.Y = origin.Y;
     }
@@ -64,7 +66,7 @@ public class MapleTV : SpriteEx
         string S1 = "UI/MapleTV.img/TVmedia/";
         string ImagePath = S1 + AD + "/" + Frame;
         ImageNode = Wz.Data[ImagePath];
-        int Delay = Wz.GetInt(ImagePath + "/delay", 100);
+        int Delay = WzDict.GetInt(ImagePath + "/delay", 100);
         Time += 16.66f * Delta;
         Random Random = new();
         if (Time > Delay)
@@ -77,7 +79,7 @@ public class MapleTV : SpriteEx
             }
             Time = 0;
         }
-        Wz_Vector origin = Wz.GetVector(ImagePath + "/origin");
+        Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
         Origin.X = origin.X;
         Origin.Y = origin.Y;
     }
