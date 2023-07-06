@@ -627,14 +627,14 @@ public class Player : JumperSprite
                         FH = BelowFH;
                         X = PX;
                         Y = PY - 2;
-                        /*
-                        if (Pet.Pet != null)
+                        if (Pet.Instance != null)
                         {
-                            Pet.Pet.X = X;
-                            Pet.Pet.Y = Y - 50;
-                            Pet.Pet.JumpState = jsFalling;
+                            Pet.Instance.X = Game.Player.X;
+                            Pet.Instance.Y = Game.Player.Y;
+                            Pet.Instance.JumpState = JumpState.jsFalling;
                         }
 
+                        /*
                         if (MonsterFamiliar.MonsterFamiliar != null)
                         {
                             MonsterFamiliar.MonsterFamiliar.X = X;

@@ -51,28 +51,28 @@ public class Pet : JumperSprite
                 {
                     if (Iter.Text == "stand0" && Iter2.Text == "0")
                     {
-                        var Pet = new Pet(EngineFunc.SpriteEngine);
-                        Pet.ImageLib = Wz.EquipImageLib;
-                        Pet.IntMove = true;
-                        Pet.Tag = 1;
-                        Pet.State = Iter.Text;
-                        Pet.Frame = Iter2.Text.ToInt();
-                        Pet.UpPath = Entry.FullPathToFile2();
-                        Pet.ImageNode = Wz.EquipData[Iter2.FullPathToFile2()];
+                        Instance = new Pet(EngineFunc.SpriteEngine);
+                        Instance.ImageLib = Wz.EquipImageLib;
+                        Instance.IntMove = true;
+                        Instance.Tag = 1;
+                        Instance.State = Iter.Text;
+                        Instance.Frame = Iter2.Text.ToInt();
+                        Instance.UpPath = Entry.FullPathToFile2();
+                        Instance.ImageNode = Wz.EquipData[Iter2.FullPathToFile2()];
                         var StartX = Game.Player.X - 60;
                         if (StartX < Map.Left)
                             StartX = Game.Player.X;
-                        var Pos = FootholdTree.Instance.FindBelow(new Vector2(StartX, Game.Player.Y - 3), ref Pet.BelowFH);
-                        Pet.MoveType = MoveType.Jump;
-                        Pet.X = Pos.X;
-                        Pet.Y = Pos.Y;
-                        Pet.FH = Pet.BelowFH;
-                        Pet.Z = Game.Player.Z;
-                        Pet.JumpSpeed = 0.6f;
-                        Pet.JumpHeight = 9;
-                        Pet.MaxFallSpeed = 8;
-                        Pet.MoveDirection = MoveDirection.None;
-                        Pet.MoveSpeed = 2.5f;
+                        var Pos = FootholdTree.Instance.FindBelow(new Vector2(StartX, Game.Player.Y - 3), ref Instance.BelowFH);
+                        Instance.MoveType = MoveType.Jump;
+                        Instance.X = Pos.X;
+                        Instance.Y = Pos.Y;
+                        Instance.FH = Instance.BelowFH;
+                        Instance.Z = Game.Player.Z;
+                        Instance.JumpSpeed = 0.6f;
+                        Instance.JumpHeight = 9;
+                        Instance.MaxFallSpeed = 8;
+                        Instance.MoveDirection = MoveDirection.None;
+                        Instance.MoveSpeed = 2.5f;
                     }
                 }
             }
@@ -446,9 +446,9 @@ public class PetNameTag : MedalTag
 
     public static void Create(string ItemID)
     {
-        Instance = new PetNameTag(EngineFunc.SpriteEngine);
+        Instance = new PetNameTag(EngineFunc.SpriteEngine); 
         Instance.IntMove = true;
-        Instance.Tag = 1;
+        Instance.Tag = 1; 
         int TagNum = Wz.GetInt("Item/Pet/" + ItemID + ".img/info/nameTag", 3);
         Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/" + TagNum);
         if (Instance.Entry == null)
@@ -461,7 +461,7 @@ public class PetNameTag : MedalTag
             Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/" + Data);
         }
         Wz.DumpData(Instance.Entry, Wz.EquipData, Wz.EquipImageLib);
-        Instance.InitData();
+     
     }
 
 
