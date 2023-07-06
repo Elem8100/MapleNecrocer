@@ -391,6 +391,13 @@ public partial class MainForm : Form
         Game.Player.FaceDir = FaceDir.None;
         Game.Player.JumpState = JumpState.jsNone;
 
+        if (Pet.Instance != null)
+        {
+            Pet.Instance.X = Game.Player.X;
+            Pet.Instance.Y = Game.Player.Y;
+            Pet.Instance.JumpState = JumpState.jsFalling;
+        }
+
         EngineFunc.SpriteEngine.Camera.X = PX - Map.DisplaySize.X / 2;
         EngineFunc.SpriteEngine.Camera.Y = PY - (Map.DisplaySize.Y / 2) - 100;
         if (EngineFunc.SpriteEngine.Camera.X > Map.Right)
@@ -492,6 +499,7 @@ public partial class MainForm : Form
             case "MedalButton": ShowForm(MedalForm.Instance, () => new MedalForm().Show()); break;
             case "TitleButton": ShowForm(TitleForm.Instance, () => new TitleForm().Show()); break;
             case "RingButton": ShowForm(RingForm.Instance, () => new RingForm().Show()); break;
+            case "PetButton": ShowForm(PetForm.Instance, () => new PetForm().Show()); break;
         }
 
 

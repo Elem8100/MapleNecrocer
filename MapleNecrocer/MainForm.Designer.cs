@@ -60,6 +60,7 @@ namespace MapleNecrocer
             SaveMapButton = new Button();
             DisplayButton = new Button();
             label4 = new Label();
+            PetButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -194,6 +195,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(PetButton);
             panel1.Controls.Add(RingButton);
             panel1.Controls.Add(TitleButton);
             panel1.Controls.Add(MedalButton);
@@ -463,6 +465,23 @@ namespace MapleNecrocer
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
             // 
+            // PetButton
+            // 
+            PetButton.AutoSize = true;
+            PetButton.Enabled = false;
+            PetButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            PetButton.Image = (Image)resources.GetObject("PetButton.Image");
+            PetButton.ImageAlign = ContentAlignment.TopCenter;
+            PetButton.Location = new Point(1239, 1);
+            PetButton.Name = "PetButton";
+            PetButton.RightToLeft = RightToLeft.No;
+            PetButton.Size = new Size(70, 52);
+            PetButton.TabIndex = 16;
+            PetButton.Text = "Pet";
+            PetButton.TextAlign = ContentAlignment.BottomCenter;
+            PetButton.UseVisualStyleBackColor = true;
+            PetButton.Click += MobButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -527,5 +546,6 @@ namespace MapleNecrocer
         private Button MedalButton;
         private Button TitleButton;
         private Button RingButton;
+        private Button PetButton;
     }
 }

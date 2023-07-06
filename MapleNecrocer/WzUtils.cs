@@ -197,7 +197,10 @@ internal class Wz
     }
     public static string GetStr(string Path, string DefaultValue = "")
     {
-        return Wz.GetNode(Path).GetValueEx<string>(DefaultValue);
+        if (Wz.HasNode(Path))
+            return Wz.GetNode(Path).GetValueEx<string>(DefaultValue);
+        else
+            return DefaultValue;
     }
 
     public static bool GetBool(string Path)
@@ -209,6 +212,24 @@ internal class Wz
     {
         return Wz.GetNode(Path).GetValueEx<Wz_Vector>(new Wz_Vector(0, 0)); ;
     }
+
+    public static Bitmap GetBmp(string Path)
+    {
+        if (Wz.GetNode(Path) != null && Wz.GetNode(Path).Value is Wz_Png)
+        {
+            return Wz.GetNode(Path).ExtractPng();
+        }
+        else
+        {
+            return new Bitmap(1, 1);
+        }
+    }
+
+    public static Wz_Node.WzNodeCollection Nodes(string Path)
+    {
+        return Wz.GetNode(Path).Nodes;
+    }
+
 
     public static Wz_Node GetNodeA(string Path)
     {
@@ -407,7 +428,17 @@ public static class Wz_NodeExtension3
         return Node.GetNode(Path).GetValueEx<Wz_Vector>(new Wz_Vector(0, 0));
 
     }
-
+    public static Bitmap GetBmp(this Wz_Node Node, string Path)
+    {
+        if (Node.GetNode(Path) != null && Node.GetNode(Path).Value is Wz_Png)
+        {
+            return Node.GetNode(Path).ExtractPng();
+        }
+        else
+        {
+            return new Bitmap(1, 1);
+        }
+    }
 
     public static Wz_Node Get2(this Wz_Node Node, string Path)
     {
