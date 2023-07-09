@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Spine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
 using WzComparerR2.WzLib;
-using System.Drawing;
-using Spine;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace MapleNecrocer;
 
-public class Pet : JumperSprite
+public class Familiar : JumperSprite
 {
-    public Pet(Sprite Parent) : base(Parent)
+    public Familiar(Sprite Parent) : base(Parent)
     {
         SpriteSheetMode = SpriteSheetMode.NoneSingle;
     }
@@ -34,14 +34,17 @@ public class Pet : JumperSprite
     public string State;
     public int Frame;
     public int Delay;
+    int FollowDistance;
     Vector2 Distance;
     bool OnLadder;
     Foothold FH;
-    public static Pet Instance;
+    public static Familiar Instance;
 
     public static void Create(string ID)
     {
-        Wz_Node Entry = Wz.GetNode("Item/Pet/" + ID + ".img");
+        Wz_Node Entry = null;
+        if (Wz.HasNode("Mob/" + ID + ".img"))
+            Entry = Wz.GetNode("Mob/" + ID + ".img");
         Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib);
         foreach (var Iter in Wz.EquipData[Entry.FullPathToFile2()].Nodes)
         {
@@ -49,9 +52,9 @@ public class Pet : JumperSprite
             {
                 if (Char.IsNumber(Iter2.Text[0]))
                 {
-                    if (Iter.Text == "stand0" && Iter2.Text == "0")
+                    if ((Iter.Text == "stand" || Iter.Text == "fly") && (Iter2.Text == "0"))
                     {
-                        Instance = new Pet(EngineFunc.SpriteEngine);
+                        Instance = new Familiar(EngineFunc.SpriteEngine);
                         Instance.ImageLib = Wz.EquipImageLib;
                         Instance.IntMove = true;
                         Instance.Tag = 1;
@@ -59,15 +62,16 @@ public class Pet : JumperSprite
                         Instance.Frame = Iter2.Text.ToInt();
                         Instance.UpPath = Entry.FullPathToFile2();
                         Instance.ImageNode = Wz.EquipData[Iter2.FullPathToFile2()];
-                        var StartX = Game.Player.X - 60;
+                        Instance.FollowDistance = 130;
+                        int StartX = (int)Game.Player.X - Instance.FollowDistance;
                         if (StartX < Map.Left)
-                            StartX = Game.Player.X;
-                        var Pos = FootholdTree.Instance.FindBelow(new Vector2(StartX, Game.Player.Y - 3), ref Instance.BelowFH);
+                            StartX = (int)Game.Player.X;
+                        Vector2 Pos = FootholdTree.Instance.FindBelow(new Vector2(StartX, Game.Player.Y - 100), ref Instance.BelowFH);
                         Instance.MoveType = MoveType.Jump;
                         Instance.X = Pos.X;
                         Instance.Y = Pos.Y;
                         Instance.FH = Instance.BelowFH;
-                        Instance.Z = Game.Player.Z;
+                        Instance.Z = Instance.FH.Z * 100000 + 50000;
                         Instance.JumpSpeed = 0.6f;
                         Instance.JumpHeight = 9;
                         Instance.MaxFallSpeed = 8;
@@ -76,9 +80,11 @@ public class Pet : JumperSprite
                     }
                 }
             }
-        }
-    }
 
+
+        }
+
+    }
 
     public override void DoMove(float Delta)
     {
@@ -111,7 +117,7 @@ public class Pet : JumperSprite
         Distance.X = Math.Abs(Game.Player.X - X);
         Distance.Y = Math.Abs(Game.Player.Y - Y);
 
-        if (Distance.X > 70)
+        if (Distance.X > FollowDistance)
         {
             State = "move";
             if (Game.Player.X > X)
@@ -131,24 +137,24 @@ public class Pet : JumperSprite
             MoveDirection = MoveDirection.None;
         }
 
-        if (Game.Player.Y < Y)
+        if (Game.Player.Y < Y && !Game.Player.InLadder)
         {
             switch (Distance.Y)
             {
                 case float i when i >= 100 && i <= 150:
-                    if (JumpState == JumpState.jsNone)
+                    if (JumpState == JumpState.jsNone && Game.Player.JumpState == JumpState.jsNone)
                     {
-                        //  Below := TFootholdTree.This.FindBelow(Point(Round(X), Round(Y - 70)), BelowFH);
-                        //  if Y - Below.Y <> 0 then
-                        DoJump = true;
+                        Vector2 Below = FootholdTree.Instance.FindBelow(new Vector2(X, Y - 80), ref BelowFH);
+                        if (Y - Below.Y != 0)
+                            DoJump = true;
                     }
                     break;
-
                 case float i when i >= 151 && i <= 2000:
                     if (Game.Player.JumpState == JumpState.jsNone)
                     {
                         X = Game.Player.X;
                         Y = Game.Player.Y;
+                        DoJump = true;
                     }
                     break;
             }
@@ -163,36 +169,17 @@ public class Pet : JumperSprite
                 JumpState = JumpState.jsFalling;
             }
         }
-
-        Vector2 Below;
-        if (Game.Player.InLadder)
-        {
-            LadderRope ladderRope = LadderRope.Find(new Vector2(Game.Player.X, Game.Player.Y), ref OnLadder);
-            State = "hang";
-            X = Game.Player.X;
-            Y = Game.Player.Y + 20;
-            Z = 7 * 100000 + 60000;
-            if (Y > ladderRope.Y2 - 10)
-                JumpState = JumpState.jsFalling;
-            if (Y < ladderRope.Y1 + 30)
-            {
-                Below = FootholdTree.Instance.FindBelow(new Vector2(Game.Player.X, Game.Player.Y - 100), ref BelowFH);
-                Y = Below.Y;
-                FH = BelowFH;
-            }
-        }
-
         if (JumpState == JumpState.jsFalling)
         {
-            Below = FootholdTree.Instance.FindBelow(new Vector2(X, Y - VelocityY - 2), ref BelowFH);
+          Vector2  Below = FootholdTree.Instance.FindBelow(new Vector2(X, Y - VelocityY - 2), ref BelowFH);
             if (Y >= Below.Y - 3)
             {
                 Y = Below.Y;
                 // MaxFallSpeed :=10;
                 JumpState = JumpState.jsNone;
                 FH = BelowFH;
-                Z = FH.Z * 100000 + 70000;
-            };
+                Z = FH.Z * 100000 + 50000;
+            }
         }
 
         int FallEdge;
@@ -226,12 +213,6 @@ public class Pet : JumperSprite
 
             if (MoveType == MoveType.Jump)
             {
-                if (X < Map.Left + 20)
-                {
-                    X = Map.Left + 20;
-                    FlipX = true;
-                    MoveDirection = MoveDirection.Right;
-                }
                 // .--------.
                 if (FH.Prev == null)
                     JumpEdge = FH.X1;
@@ -273,22 +254,19 @@ public class Pet : JumperSprite
                     FH = FH.Prev;
                     X = FH.X2;
                     Y = FH.Y2;
-                    Z = FH.Z * 100000 + 70000;
+                    Z = FH.Z * 100000 + 50000;
                 }
             }
         }
-
         // walk right
         if (MoveDirection == MoveDirection.Right)
         {
-
             Direction = GetAngle256(X1, Y1, X2, Y2);
             if (!FH.IsWall())
             {
                 X += (float)(Sin256(Direction) * MoveSpeed);
                 Y -= (float)(Cos256(Direction) * MoveSpeed);
             }
-
             FallEdge = 999999;
             JumpEdge = 999999;
             if (MoveType == MoveType.Move)
@@ -309,12 +287,6 @@ public class Pet : JumperSprite
 
             if (MoveType == MoveType.Jump)
             {
-                if (X > Map.Right - 20)
-                {
-                    X = Map.Right - 20;
-                    FlipX = false;
-                    MoveDirection = MoveDirection.Left;
-                }
                 if (FH.Next == null) // .--------.
                     JumpEdge = FH.X2;
                 // -->  ----┐
@@ -347,7 +319,6 @@ public class Pet : JumperSprite
                     }
                 }
             }
-
             // walk right
             if ((X >= FH.X2) && (FH.NextID != 0) && (!FH.IsWall()) && (!FH.Next.IsWall()))
             {
@@ -356,13 +327,10 @@ public class Pet : JumperSprite
                     FH = FH.Next;
                     X = FH.X1;
                     Y = FH.Y1;
-                    Z = FH.Z * 100000 + 70000;
+                    Z = FH.Z * 100000 + 50000;
                 }
             }
         }
-
-        //if (MoveDirection ==  MoveDirection.None)
-        // X = (X);
 
         if (ImageNode.GetNode("origin") != null)
             origin = ImageNode.GetNode("origin").ToVector();
@@ -376,7 +344,6 @@ public class Pet : JumperSprite
                 break;
         }
         Offset.Y = -origin.Y;
-
     }
 
     public static void Remove()
@@ -387,7 +354,7 @@ public class Pet : JumperSprite
             Instance = null;
             foreach (var Iter in Wz.EquipImageLib.Keys)
             {
-                if (Iter.FullPathToFile2().LeftStr(8) == "Item/Pet")
+                if (Iter.FullPathToFile2().LeftStr(3) == "Mob")
                 {
                     Wz.EquipImageLib.Remove(Iter);
                     // EquipData.Remove(Iter.GetPath);
@@ -398,160 +365,80 @@ public class Pet : JumperSprite
     }
 }
 
-public class PetNameTag : MedalTag
+public class FamiliarNameTag : SpriteEx
 {
-    public PetNameTag(Sprite Parent) : base(Parent)
+    public FamiliarNameTag(Sprite Parent) : base(Parent)
     {
     }
-    public static PetNameTag Instance;
-
-    static void ReDraw()
+    static bool ReDraw;
+    static bool CanUse;
+    static string MobName;
+    static int NameWidth;
+    static RenderTarget2D TargetTexture = null;
+    public static bool IsUse = true;
+    public static FamiliarNameTag Instance;
+    public static void Create(string Name)
     {
-        if (Instance != null)
-            Instance.IsReDraw = true;
-    }
-
-    public static void Remove()
-    {
-        if (Instance != null)
+        MobName = Name;
+        NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, Name);
+        EngineFunc.Canvas.DrawTarget(ref TargetTexture, NameWidth + 10, 25, () =>
         {
-            Instance.Dead();
-            EngineFunc.SpriteEngine.Dead();
-        }
+            int NamePos = NameWidth / 2;
+            if (Map.ShowChar)
+            {
+                EngineFunc.Canvas.FillRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+                EngineFunc.Canvas.DrawString(Map.NpcNameTagFont, Name, 3, 2, Microsoft.Xna.Framework.Color.White);
+            }
+        });
+
+        Instance = new FamiliarNameTag(EngineFunc.SpriteEngine);
+        Instance.Tag = 1;
+        Instance.IntMove = true;
+        //NameTag.BlendMode=BlendMode.AddtiveColor;
     }
 
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
-        if (IsReDraw)
+        if (ReDraw)
         {
-            Engine.Canvas.DrawTarget(ref TargetTexture, 300, 100, () => { RenderTargetFunc(); });
+            NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, MobName);
+            EngineFunc.Canvas.DrawTarget(ref TargetTexture, NameWidth + 10, 25, () =>
+            {
+                int NamePos = NameWidth / 2;
+                if (Map.ShowChar)
+                {
+                    Engine.Canvas.FillRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 180));
+                    Engine.Canvas.DrawString(Map.NpcNameTagFont, MobName, 3, 2, Microsoft.Xna.Framework.Color.White);
+                }
+            });
         }
-        X = Pet.Instance.X;
-        Y = Pet.Instance.Y;
-        Z = Pet.Instance.Z;
+        X = Familiar.Instance.X;
+        Y = Familiar.Instance.Y;
+        Z = Familiar.Instance.Z;
     }
 
     public override void DoDraw()
     {
+        if (!NameTag.IsUse)
+            return;
         if (Map.ShowChar)
         {
-            int WX = (int)(Pet.Instance.X) - (int)(Engine.Camera.X);
-            int WY = (int)(Pet.Instance.Y) - (int)(Engine.Camera.Y);
-            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 28, MonoGame.SpriteEngine.BlendMode.NonPremultiplied);
+            int WX = (int)(Familiar.Instance.X) - (int)Engine.Camera.X;
+            int WY = (int)(Familiar.Instance.Y) - (int)Engine.Camera.Y;
+            int NamePos = NameWidth / 2;
+            Engine.Canvas.Draw(TargetTexture, WX - NamePos - 8, WY,  MonoGame.SpriteEngine.BlendMode.NonPremultiplied);
         }
-        if (IsReDraw)
-            IsReDraw = false;
-    }
-
-    public static void Create(string ItemID)
-    {
-        Instance = new PetNameTag(EngineFunc.SpriteEngine); 
-        Instance.IntMove = true;
-        Instance.Tag = 1; 
-        int TagNum = Wz.GetInt("Item/Pet/" + ItemID + ".img/info/nameTag", 3);
-        Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/" + TagNum);
-        if (Instance.Entry == null)
-            Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/38");
-        if (Instance.Entry.HasNode("c/_inlink"))
-        {
-            string Data = Instance.Entry.GetStr("c/_inlink");
-            Data = Data.Replace("/c", "");
-            Data = Data.Replace("pet/", "");
-            Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/" + Data);
-        }
-        Wz.DumpData(Instance.Entry, Wz.EquipData, Wz.EquipImageLib);
-     
-    }
-
-
-}
-
-public class PetEquip : Pet
-{
-    public PetEquip(Sprite Parent) : base(Parent)
-    {
-
-    }
-    public static PetEquip Instance;
-
-    public static void Create(string ID)
-    {
-        Wz_Node Entry = Wz.GetNode("Character/PetEquip/" + ID + ".img");
-        Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib);
-        Instance = new PetEquip(EngineFunc.SpriteEngine);
-        Instance.ImageLib = Wz.EquipImageLib;
-        Instance.IntMove = true;
-        Instance.Tag = 1;
-        Instance.State = Pet.Instance.State;
-        Instance.Frame = Pet.Instance.Frame;
-        Instance.UpPath = Entry.FullPathToFile2();
-        Instance.ImageNode = Wz.EquipData[Instance.UpPath + "/" + PetForm.PetID + "/" + Instance.State + "/" + Instance.Frame];
-        Instance.X = Pet.Instance.X;
-        Instance.Y = Pet.Instance.Y;
-        Instance.Z = Pet.Instance.Z + 100;
-    }
-
-
-    public override void DoMove(float Delta)
-    {
-        if (Wz.HasDataE(UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame))
-        {
-            Path = UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame;
-            ImageNode = Wz.EquipData[Path];
-        }
-
-        if (Wz.HasDataE(UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame + "/delay"))
-            Delay = Wz.EquipData[UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame + "/delay"].ToInt();
-        else
-            Delay = 100;
-
-
-        FTime += 17;
-        if (FTime > Delay)
-        {
-            Frame += 1;
-            if (!Wz.EquipData.ContainsKey(UpPath + "/" + PetForm.PetID + "/" + State + "/" + Frame))
-                Frame = 0;
-            FTime = 0;
-        }
-
-        State = Pet.Instance.State;
-        Frame = Pet.Instance.Frame;
-        X = Pet.Instance.X;
-        Y = Pet.Instance.Y;
-        Z = Pet.Instance.Z + 100;
-        FlipX = Pet.Instance.FlipX;
-
-        if (ImageNode.GetNode("origin") != null)
-            origin = ImageNode.GetNode("origin").ToVector();
-        switch (FlipX)
-        {
-            case true:
-                Offset.X = origin.X - ImageWidth;
-                break;
-            case false:
-                Offset.X = -origin.X;
-                break;
-        }
-        Offset.Y = -origin.Y;
+        if (ReDraw)
+            ReDraw = false;
     }
 
     public static void Remove()
     {
         if (Instance != null)
-        {
             Instance.Dead();
-            Instance = null;
-            foreach (var Iter in Wz.EquipImageLib.Keys)
-            {
-                if (Iter.FullPathToFile2().LeftStr(18) == "Character/PetEquip")
-                {
-                    Wz.EquipImageLib.Remove(Iter);
-                    // EquipData.Remove(Iter.GetPath);
-                }
-            }
-            EngineFunc.SpriteEngine.Dead();
-        }
+        EngineFunc.SpriteEngine.Dead();
+
     }
+
 }
