@@ -43,6 +43,8 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            FamiliarButton = new Button();
+            PetButton = new Button();
             RingButton = new Button();
             TitleButton = new Button();
             MedalButton = new Button();
@@ -60,7 +62,6 @@ namespace MapleNecrocer
             SaveMapButton = new Button();
             DisplayButton = new Button();
             label4 = new Label();
-            PetButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
             panel1.SuspendLayout();
@@ -195,6 +196,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(FamiliarButton);
             panel1.Controls.Add(PetButton);
             panel1.Controls.Add(RingButton);
             panel1.Controls.Add(TitleButton);
@@ -216,6 +218,40 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // FamiliarButton
+            // 
+            FamiliarButton.AutoSize = true;
+            FamiliarButton.Enabled = false;
+            FamiliarButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            FamiliarButton.Image = (Image)resources.GetObject("FamiliarButton.Image");
+            FamiliarButton.ImageAlign = ContentAlignment.TopCenter;
+            FamiliarButton.Location = new Point(1309, 1);
+            FamiliarButton.Name = "FamiliarButton";
+            FamiliarButton.RightToLeft = RightToLeft.No;
+            FamiliarButton.Size = new Size(70, 52);
+            FamiliarButton.TabIndex = 17;
+            FamiliarButton.Text = "Familiar";
+            FamiliarButton.TextAlign = ContentAlignment.BottomCenter;
+            FamiliarButton.UseVisualStyleBackColor = true;
+            FamiliarButton.Click += MobButton_Click;
+            // 
+            // PetButton
+            // 
+            PetButton.AutoSize = true;
+            PetButton.Enabled = false;
+            PetButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            PetButton.Image = (Image)resources.GetObject("PetButton.Image");
+            PetButton.ImageAlign = ContentAlignment.TopCenter;
+            PetButton.Location = new Point(1239, 1);
+            PetButton.Name = "PetButton";
+            PetButton.RightToLeft = RightToLeft.No;
+            PetButton.Size = new Size(70, 52);
+            PetButton.TabIndex = 16;
+            PetButton.Text = "Pet";
+            PetButton.TextAlign = ContentAlignment.BottomCenter;
+            PetButton.UseVisualStyleBackColor = true;
+            PetButton.Click += MobButton_Click;
             // 
             // RingButton
             // 
@@ -465,23 +501,6 @@ namespace MapleNecrocer
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
             // 
-            // PetButton
-            // 
-            PetButton.AutoSize = true;
-            PetButton.Enabled = false;
-            PetButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            PetButton.Image = (Image)resources.GetObject("PetButton.Image");
-            PetButton.ImageAlign = ContentAlignment.TopCenter;
-            PetButton.Location = new Point(1239, 1);
-            PetButton.Name = "PetButton";
-            PetButton.RightToLeft = RightToLeft.No;
-            PetButton.Size = new Size(70, 52);
-            PetButton.TabIndex = 16;
-            PetButton.Text = "Pet";
-            PetButton.TextAlign = ContentAlignment.BottomCenter;
-            PetButton.UseVisualStyleBackColor = true;
-            PetButton.Click += MobButton_Click;
-            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -547,5 +566,6 @@ namespace MapleNecrocer
         private Button TitleButton;
         private Button RingButton;
         private Button PetButton;
+        private Button FamiliarButton;
     }
 }

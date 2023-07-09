@@ -500,6 +500,7 @@ public partial class MainForm : Form
             case "TitleButton": ShowForm(TitleForm.Instance, () => new TitleForm().Show()); break;
             case "RingButton": ShowForm(RingForm.Instance, () => new RingForm().Show()); break;
             case "PetButton": ShowForm(PetForm.Instance, () => new PetForm().Show()); break;
+            case "FamiliarButton": ShowForm(FamiliarForm.Instance, () => new FamiliarForm().Show()); break;
         }
 
 
