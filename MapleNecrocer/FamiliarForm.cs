@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
+﻿
 namespace MapleNecrocer;
 
 public partial class FamiliarForm : Form
@@ -19,6 +10,23 @@ public partial class FamiliarForm : Form
     }
     public static FamiliarForm Instance;
     public DataGridViewEx FamiliarListGrid;
+
+    void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
+    {
+        string ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+        if (Wz.HasNode("Etc/FamiliarInfo.img/" + ID + "/mob"))
+            ID = Wz.GetStr("Etc/FamiliarInfo.img/" + ID + "/mob");
+        else
+            ID = Wz.GetStr("Character/Familiar/" + ID + ".img/" + "info/MobID");
+        Familiar.Remove();
+        ID = ID.PadLeft(7, '0');
+        Familiar.Create(ID);
+        FamiliarNameTag.Remove();
+        FamiliarNameTag.Create("");
+        FamiliarNameTag.MobName = Wz.GetStr("String/Mob.img/" + ID + "/name", ID);
+        FamiliarNameTag.ReDraw = true;
+
+    }
     private void FamiliarForm_Shown(object sender, EventArgs e)
     {
         this.FormClosing += (s, e1) =>
@@ -34,6 +42,15 @@ public partial class FamiliarForm : Form
         var Graphic = FamiliarListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
+        FamiliarListGrid.CellClick += (s, e) =>
+        {
+            CellClick(FamiliarListGrid, e);
+        };
+
+        FamiliarListGrid.SearchGrid.CellClick += (s, e) =>
+        {
+            CellClick(FamiliarListGrid.SearchGrid, e);
+        };
 
 
         string CardName = "";
@@ -68,5 +85,24 @@ public partial class FamiliarForm : Form
             FamiliarListGrid.Rows[i].Cells[2].Style.Alignment = DataGridViewContentAlignment.TopLeft;
         }
 
+    }
+
+    private void FamiliarForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
+    }
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+        FamiliarListGrid.Search(textBox1.Text);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        FamiliarNameTag.Remove();
+        Familiar.Remove();
     }
 }
