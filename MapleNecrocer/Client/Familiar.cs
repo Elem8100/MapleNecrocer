@@ -109,7 +109,7 @@ public class Familiar : JumperSprite
         if (FTime > Delay)
         {
             Frame += 1;
-            if (!Wz.EquipData.ContainsKey(UpPath + "/" + State + "/" + Frame))
+            if (!Wz.HasDataE(UpPath + "/" + State + "/" + Frame))
                 Frame = 0;
             FTime = 0;
         }
@@ -133,7 +133,7 @@ public class Familiar : JumperSprite
         }
         else
         {
-            State = "stand0";
+            State = "stand";
             MoveDirection = MoveDirection.None;
         }
 
@@ -370,9 +370,9 @@ public class FamiliarNameTag : SpriteEx
     public FamiliarNameTag(Sprite Parent) : base(Parent)
     {
     }
-    static bool ReDraw;
+    public static bool ReDraw;
     static bool CanUse;
-    static string MobName;
+    public static string MobName;
     static int NameWidth;
     static RenderTarget2D TargetTexture = null;
     public static bool IsUse = true;
