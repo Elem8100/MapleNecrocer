@@ -120,6 +120,7 @@ public class Morph : SpriteEx
             if (Keyboard.KeyDown(Input.Left) || Keyboard.KeyDown(Input.Right))
                 State = "walk";
             if (Keyboard.KeyDown(Input.Down))
+
                 State = "prone";
             if (State == "prone" && Keyboard.KeyUp(Input.Down))
                 State = "stand";
@@ -160,7 +161,7 @@ public class Morph : SpriteEx
         if (ImageNode.GetNode("origin") != null)
             origin = ImageNode.GetNode("origin").ToVector();
 
-        Y= Game.Player.Y;
+        Y = Game.Player.Y;
         switch (FlipX)
         {
             case true:

@@ -18,6 +18,8 @@ using static System.Net.Mime.MediaTypeNames;
 using WzComparerR2.CharaSim;
 using WzComparerR2.Text;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Reflection.Metadata;
+using static MapleNecrocer.Skill;
 
 namespace MapleNecrocer;
 enum MoveDirection { Left, Right, None }
@@ -62,10 +64,13 @@ public class Mob : JumperSprite
     string DieActionName;
     // int HeadX;
     public Vector2 Head;
+    public int HitIndex;
+    public int HeadX;
     public string LocalID;
     static Dictionary<string, int> FrameData = new();
     public static List<string> MobList = new();
     public static List<string> SummonedList = new();
+    public MobCollision[] MobCollision = new MobCollision[6];
     public static void Create()
     {
         Mob.MobList.Clear();
@@ -384,7 +389,7 @@ public class Mob : JumperSprite
             // no push
             if (!GetHit1)
             {
-                DamageNumber.Create(Game.Damage,(int) Head.X, (int)Head.Y);
+                DamageNumber.Create(Game.Damage, (int)Head.X, (int)Head.Y);
                 Hit = false;
             }
         }
@@ -716,4 +721,67 @@ public class Mob : JumperSprite
         Engine.Canvas.DrawString(Map.MobLvFont, "Lv." + Level, LvPosX, WY + 5, Microsoft.Xna.Framework.Color.White);
 
     }
+}
+
+public class MobCollision : SpriteEx
+{
+    public MobCollision(Sprite Parent) : base(Parent)
+    {
+    }
+
+    public Mob Owner;
+    int Left, Top, Right, Bottom;
+    int Counter;
+    public int Index;
+    public int StartTime;
+    public override void DoMove(float Delta)
+    {
+        base.DoMove(Delta);
+        CollideRect = SpriteUtils.Rect(Owner.Left, Owner.Top, Owner.Right, Owner.Bottom);
+        Counter += 1;
+        if (Counter >= StartTime)
+        {
+            Collision();
+            Dead();
+        }
+
+
+    }
+
+    public override void OnCollision(Sprite sprite)
+    {
+        if (sprite is SkillCollision)
+        {
+            if (Owner.HP > 0)
+            {
+                Owner.HitIndex = this.Index;
+                if (this.Index == 0)
+                    Owner.HeadX = (int)Owner.Head.X;
+                Owner.Hit = true;
+                Random Random = new Random();
+                Game.Damage = 50000 + Random.Next(550000);
+                Owner.HP -= Game.Damage;
+                //if (Wz.HasNode("Sound/Mob.img/" + Owner.ID + "/Damage"))
+                //  PlaySounds("Mob", Owner.ID + "/Damage");
+                //else if (Wz.HasNode("Sound/Mob.img/" + Owner.ID + "/Hit1")
+                //PlaySounds("Mob", Owner.ID + "/Hit1");
+                if (Wz.Data.ContainsKey("Mob/" + Owner.ID + ".img/hit1"))
+                {
+                    Owner.GetHit1 = true;
+                }
+            }
+
+            if (Owner.HP <= 0 && !Owner.Die)
+            {
+                //PlaySounds('Mob', SelfID + '/Die');
+                Owner.Die = true;
+                //  Collisioned := False;
+                // Dead;
+            }
+        }
+
+    }
+
+
+
 }
