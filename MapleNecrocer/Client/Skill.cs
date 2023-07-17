@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Input = Microsoft.Xna.Framework.Input.Keys;
+﻿using Input = Microsoft.Xna.Framework.Input.Keys;
 using WzComparerR2.WzLib;
-using WzComparerR2.CharaSim;
-using System.Drawing;
-using static MapleNecrocer.Skill;
 using Microsoft.Xna.Framework;
 
 namespace MapleNecrocer;
@@ -29,7 +21,7 @@ public class Skill : SpriteEx
     public static int DamageWaitTime;
     public static int TotalTime;
     static Wz_Node Entry;
-    static string GetJobImg(string ID)
+    public static string GetJobImg(string ID)
     {
         if (ID.LeftStr(3) == "800" && ID.Length == 8)
             return (ID.ToInt() / 100).ToString();
@@ -232,15 +224,67 @@ public class Skill : SpriteEx
                 SkillSprite.ImageNode = Wz.EquipData[SkillSprite.ParentPath + "/0"];
                 SkillSprite.X = Game.Player.X;
                 SkillSprite.Y = Game.Player.Y;
+                if (Effects[i] == "ball")
+                {
+                    if (Entry.HasNode("common/bulletSpeed"))
+                        SkillSprite.BallSpeed = 1000 / Entry.GetInt("common/bulletSpeed");
 
-
+                    SkillSprite.Y = Game.Player.Y - 27;
+                    if (Game.Player.FlipX)
+                        SkillSprite.BallSpeed = SkillSprite.BallSpeed;
+                    else
+                        SkillSprite.BallSpeed = -SkillSprite.BallSpeed;
+                    SkillSprite.AnimRepeat = true;
+                }
+                SkillSprite.Width = 800;
+                SkillSprite.Height = 800;
+                SkillSprite.Visible = false;
+                SkillSprite.FID = ID;
+                SkillSprite.EffectName = Effects[i];
+                if (Entry.GetInt(Effects[i] + "/z", -999) == -999)
+                    SkillSprite.Z = 150 + Game.Player.Z;
+                else
+                    SkillSprite.Z = Game.Player.Z + Entry.GetInt(Effects[i] + "/z", 0);
             }
-
-
         }
 
-    }
+        int WX = (int)EngineFunc.SpriteEngine.Camera.X;
+        int WY = (int)EngineFunc.SpriteEngine.Camera.Y;
 
+        if (Entry.HasNode("tile")) // ' + '/0/0') then
+        {
+            if (!Entry.HasNode("tile/0"))
+                return;
+            if (!Entry.HasNode("tile/0/0"))
+                return;
+            for (int i = 0; i <= 6; i++)
+            {
+                int MoveY = 20;
+                if ((i % 2) == 0)
+                    MoveY = 300;
+                Foothold BelowFH = null;
+                Vector2 Below = FootholdTree.Instance.FindBelow(new Vector2(240 + WX + i * 120, WY + MoveY), ref BelowFH);
+                if (BelowFH != null)
+                {
+                    var SkillSprite = new SkillSprite(EngineFunc.SpriteEngine);
+                    SkillSprite.FID = ID;
+                    SkillSprite.MoveWithPlayer = false;
+                    Random Random = new Random();
+                    int Rnd = Random.Next(0, Equip.Data[ID + "/tileCount"]);
+                    SkillSprite.ImageLib = Wz.EquipImageLib;
+                    SkillSprite.ParentPath = Entry.GetNode("tile/" + Rnd.ToString()).FullPathToFile2();
+                    SkillSprite.ImageNode = Wz.EquipData[SkillSprite.ParentPath + "/0"];
+                    SkillSprite.Width = 800;
+                    SkillSprite.Height = 800;
+                    SkillSprite.X = Below.X;
+                    SkillSprite.Y = Below.Y;
+                    SkillSprite.Z = Game.Player.Z;
+                    SkillSprite.Visible = false;
+                    SkillSprite.EffectName = "tile";
+                }
+            }
+        }
+    }
 
 }
 
@@ -252,14 +296,14 @@ public class SkillSprite : SpriteEx
     int FTime;
     int Frame;
     Wz_Vector origin = new(0, 0);
-    string ID;
-    float BallSpeed;
-    string EffectName;
+    public string FID;
+    public float BallSpeed;
+    public string EffectName;
     public string ParentPath;
     int Counter;
-    bool AnimRepeat, AnimEnd;
+    public bool AnimRepeat, AnimEnd;
     int Left, Top, Right, Bottom;
-    bool MoveWithPlayer;
+    public bool MoveWithPlayer;
 
     public override void DoMove(float Delta)
     {
@@ -325,7 +369,6 @@ public class SkillSprite : SpriteEx
             if (Counter > 180)
                 Dead();
         }
-
     }
 }
 
@@ -335,5 +378,80 @@ public class SkillCollision : SpriteEx
     {
     }
     public int StartTime;
+    int Counter;
+    int Num;
     public Wz_Node IDEntry;
+    Wz_Vector LT, RB;
+    public override void DoMove(float Delta)
+    {
+        base.DoMove(Delta);
+        FlipX = Game.Player.FlipX;
+        if (Wz.EquipData.ContainsKey(IDEntry.FullPathToFile2() + "/common/lt"))
+        {
+            LT = Wz.EquipData[IDEntry.FullPathToFile2() + "/common/lt"].ToVector();
+            RB = Wz.EquipData[IDEntry.FullPathToFile2() + "/common/rb"].ToVector();
+            switch (Game.Player.FlipX)
+            {
+                case true:
+                    Right = (int)X - LT.X + 18;
+                    Left = (int)X - RB.X;
+                    break;
+                case false:
+                    Left = (int)X + LT.X;
+                    Right = (int)X + RB.X;
+                    break;
+            }
+            Top = (int)Y + LT.Y;
+            Bottom = (int)Y + RB.Y;
+        }
+        CollideRect = CollideRect = SpriteUtils.Rect(Left, Top, Right, Bottom);
+        Counter += 1;
+        if (Skill.MultiStrike)
+        {
+            if (Counter > Skill.TotalTime + 1)
+                Dead();
+        }
+        else
+        {
+            if (Counter > StartTime)
+            {
+                Collision();
+                Dead();
+            }
+        }
+
+    }
+
+    public override void OnCollision(Sprite sprite)
+    {
+
+        if (sprite is Mob)
+        {
+            var Mob = (Mob)sprite;
+            Mob.CanCollision = false;
+            if (Mob.HP > 0)
+            {
+                Mob.Hit = true;
+                Random Random = new Random();
+                Game.Damage = 50000 + Random.Next(700000);
+                Mob.HP -= Game.Damage;
+                //  if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Damage") !=null)
+                //  PlaySounds("Mob", Mob.ID + "/Damage");
+                // else if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Hit1")!=null) 
+                //PlaySounds("Mob", Mob.ID + "/Hit1");
+                if (Wz.Data.ContainsKey("Mob/" + Mob.ID + ".img/hit1"))
+                {
+
+                    Mob.GetHit1 = true;
+                }
+            }
+            if ((Mob.HP <= 0) && (!Mob.Die))
+            {
+                //PlaySounds("Mob", Mob.ID + "/Die");
+                Mob.Die = true;
+            }
+            CanCollision = false;
+            Dead();
+        }
+    }
 }
