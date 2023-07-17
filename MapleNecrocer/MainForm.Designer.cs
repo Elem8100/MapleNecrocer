@@ -55,6 +55,7 @@ namespace MapleNecrocer
             MountButton = new Button();
             NpcButton = new Button();
             ScaleButton = new Button();
+            SkillButton = new Button();
             FullScreenButton = new Button();
             ChairButton = new Button();
             MobButton = new Button();
@@ -208,6 +209,7 @@ namespace MapleNecrocer
             panel1.Controls.Add(MountButton);
             panel1.Controls.Add(NpcButton);
             panel1.Controls.Add(ScaleButton);
+            panel1.Controls.Add(SkillButton);
             panel1.Controls.Add(FullScreenButton);
             panel1.Controls.Add(ChairButton);
             panel1.Controls.Add(MobButton);
@@ -413,6 +415,23 @@ namespace MapleNecrocer
             ScaleButton.TextAlign = ContentAlignment.BottomCenter;
             ScaleButton.UseVisualStyleBackColor = true;
             // 
+            // SkillButton
+            // 
+            SkillButton.AutoSize = true;
+            SkillButton.Enabled = false;
+            SkillButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            SkillButton.Image = (Image)resources.GetObject("SkillButton.Image");
+            SkillButton.ImageAlign = ContentAlignment.TopCenter;
+            SkillButton.Location = new Point(1379, 1);
+            SkillButton.Name = "SkillButton";
+            SkillButton.RightToLeft = RightToLeft.No;
+            SkillButton.Size = new Size(70, 52);
+            SkillButton.TabIndex = 18;
+            SkillButton.Text = "Familiar";
+            SkillButton.TextAlign = ContentAlignment.BottomCenter;
+            SkillButton.UseVisualStyleBackColor = true;
+            SkillButton.Click += MobButton_Click;
+            // 
             // FullScreenButton
             // 
             FullScreenButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
@@ -567,5 +586,6 @@ namespace MapleNecrocer
         private Button RingButton;
         private Button PetButton;
         private Button FamiliarButton;
+        private Button SkillButton;
     }
 }
