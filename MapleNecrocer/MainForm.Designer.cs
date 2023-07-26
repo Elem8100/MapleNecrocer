@@ -427,7 +427,7 @@ namespace MapleNecrocer
             SkillButton.RightToLeft = RightToLeft.No;
             SkillButton.Size = new Size(70, 52);
             SkillButton.TabIndex = 18;
-            SkillButton.Text = "Familiar";
+            SkillButton.Text = "Skill";
             SkillButton.TextAlign = ContentAlignment.BottomCenter;
             SkillButton.UseVisualStyleBackColor = true;
             SkillButton.Click += MobButton_Click;

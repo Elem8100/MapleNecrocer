@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevComponents.DotNetBar.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,7 +19,17 @@ public partial class SkillForm : Form
         Instance = this;
     }
     public static SkillForm Instance;
-    public DataGridViewEx SkillListGrid;
+    public DataGridViewEx SkillListGrid, UseListGrid;
+    int SelectRow;
+
+    void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
+    {
+
+        var Rec = DataGrid.GetCellDisplayRectangle(1, e.RowIndex, true);
+        comboBox1.Top = Rec.Top + 7;
+        comboBox1.Left = Rec.Left + 239;
+        SelectRow=e.RowIndex;
+    }
 
     private void SkillForm_Shown(object sender, EventArgs e)
     {
@@ -27,27 +38,46 @@ public partial class SkillForm : Form
             this.Hide();
             e1.Cancel = true;
         };
-        SkillListGrid = new(80, 185, 0, 0, 220, 400, true, panel1);
+        SkillListGrid = new(100, 185, 0, 0, 220, 400, true, panel1);
         SkillListGrid.Dock = DockStyle.Fill;
         SkillListGrid.SearchGrid.Dock = DockStyle.Fill;
         SkillListGrid.RowTemplate.Height = 40;
+        var Str = new DataGridViewTextBoxColumn();
+        SkillListGrid.Columns.AddRange(Str);
+        SkillListGrid.Columns[3].Width = 75;
+        comboBox1.Parent = SkillListGrid;
+
+        UseListGrid = new(100, 185, 0, 0, 220, 400, true, panel2);
+        UseListGrid.Dock = DockStyle.Fill;
+        UseListGrid.SearchGrid.Dock = DockStyle.Fill;
+        UseListGrid.RowTemplate.Height = 40;
+        var Str2 = new DataGridViewTextBoxColumn();
+        UseListGrid.Columns.AddRange(Str2);
+        UseListGrid.Columns[3].Width = 75;
+
+
+        SkillListGrid.CellClick += (s, e) =>
+        {
+            CellClick(SkillListGrid, e);
+        };
 
 
         var Graphic = SkillListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
-
+        Win32.SendMessage(SkillListGrid.Handle, false);
         foreach (var Img in Wz.Nodes("Skill"))
         {
             if (!Char.IsNumber(Img.Text[0]))
                 continue;
-            if (Img.Text[0] == 0)
+            if (Img.Text[0] == '0')
                 continue;
             if (!Wz.HasNode("Skill/" + Img.Text + "/skill"))
                 continue;
             foreach (var ID in Wz.Nodes("Skill/" + Img.Text + "/skill"))
             {
-
+                if (ID.Text[0] == '0')
+                    continue;
                 if (!ID.HasNode("hit"))
                     continue;
                 if (!ID.HasNode("common"))
@@ -56,17 +86,50 @@ public partial class SkillForm : Form
                     continue;
                 if (!ID.HasNode("effect"))
                     continue;
-                Bitmap Bmp = Wz.GetBmp("Skill/" + Skill.GetJobImg(ID.Text) + ".img/skill/" + ID.Text+"/icon");
+                Bitmap Bmp = Wz.GetBmp("Skill/" + Skill.GetJobImg(ID.Text) + ".img/skill/" + ID.Text + "/icon");
                 string SkillName = "";
                 if (Wz.HasNode("String/Skill.img/" + ID.Text))
                     SkillName = Wz.GetStr("String/Skill.img/" + ID.Text + "/name");
-                SkillListGrid.Rows.Add(ID, Bmp, SkillName);
+                SkillListGrid.Rows.Add(ID.Text, Bmp, SkillName);
 
             }
 
         }
+        Win32.SendMessage(SkillListGrid.Handle, true);
+        SkillListGrid.Refresh();
+
+        for (int i = 0; i < SkillListGrid.Rows.Count; i++)
+        {
+            SkillListGrid.Rows[i].Cells[1].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            SkillListGrid.Rows[i].Cells[2].Style.Alignment = DataGridViewContentAlignment.TopLeft;
+        }
+
+        Text = SkillListGrid.RowCount.ToString();
+
+    }
+
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      
+
+        UseListGrid.Rows.Add("", null, "", "");
+
+        for (int i = UseListGrid.RowCount - 1; i >= 0; i--)
+        {
+            if (UseListGrid.Rows[i].Cells[3].Value.ToString() == comboBox1.Text)
+                UseListGrid.Rows.RemoveAt(i);
+           // if (UseListGrid.Rows[i].Cells[0].Value.ToString() == SkillListGrid.Rows[SelectRow].Cells[0].Value.ToString())
+             // UseListGrid.Rows.RemoveAt(i);
+
+        }
 
 
+        for (int i = 0; i < UseListGrid.Columns.Count; i++)
+            UseListGrid.Rows[UseListGrid.RowCount-1].Cells[i].Value=SkillListGrid.Rows[SelectRow].Cells[i].Value;
+        UseListGrid.Rows[UseListGrid.RowCount - 1].Cells[3].Value = comboBox1.Text;
+
+
+       
 
     }
 }
