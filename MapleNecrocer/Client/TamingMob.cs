@@ -12,6 +12,7 @@ using Keyboard = SpriteEngine.Keyboard;
 using Input = Microsoft.Xna.Framework.Input.Keys;
 using System.Security.Cryptography;
 
+
 namespace MapleNecrocer;
 
 public class TamingMob : SpriteEx

@@ -996,7 +996,7 @@ public class AvatarParts : SpriteEx
             ChangeFrame = true;
 
         if (Wz.HasDataE("Character/00002000.img/" + State + "/" + Frame + "/move"))
-        {
+        { 
             MoveOffset = WzDict.GetVectorE("Character/00002000.img/" + State + "/" + Frame + "/move");
         }
         else
@@ -1084,7 +1084,7 @@ public class AvatarParts : SpriteEx
             Counter += 1; ;
         }
 
-        if (!Wz.HasDataE(C + Equip.GetDir(ID) + ID + ".img/" + WpNum + State + "/" + Frame + "/" + Image) && (!IsAttack()) && (!Equip.Data.ContainsKey(State + "/" + Frame)))
+        if (!Wz.HasDataE(C + Equip.GetDir(ID) + ID + ".img/" + WpNum + State + "/" + Frame + "/" + Image) && (!IsAttack()) && (!Equip.DataS.ContainsKey(State + "/" + Frame)))
             Frame = 0;
         FrameCount = Equip.Data["body/" + State + "/FrameCount"];
         BodyDelay = Equip.Data["body/" + State + "/" + Frame + "/delay"];
@@ -1100,8 +1100,8 @@ public class AvatarParts : SpriteEx
                 WpNum = Owner.WeaponNum + "/";
             else
                 WpNum = "";
-            if (Equip.Data.ContainsKey(State + "/" + Frame))
-                Path = C + Directory + ID + ".img/" + WpNum + Equip.Data[State + "/" + Frame] + "/" + Image;
+            if (Equip.DataS.ContainsKey(State + "/" + Frame))
+                Path = C + Directory + ID + ".img/" + WpNum + Equip.DataS[State + "/" + Frame] + "/" + Image;
             else
                 Path = C + Directory + ID + ".img/" + WpNum + State + "/" + Frame + "/" + Image;
         }
@@ -1271,7 +1271,7 @@ public class AvatarParts : SpriteEx
         }
         string SkillAction;
         if (Equip.DataS.ContainsKey(State + "/" + Frame))
-        {
+        {  
             SkillAction = Equip.DataS[State + "/" + Frame];
             if ((SkillAction == "hide/0") || (SkillAction == "blink/0"))
                 Alpha = 0;
@@ -1550,9 +1550,9 @@ public class AvatarParts : SpriteEx
         if ((Skill.Start) && (!Skill.PlayEnded))
         {
             if (Equip.DataS.ContainsKey(Skill.ID + "/action"))
-            {
+            { 
                 if (State != Equip.DataS[Skill.ID + "/action"])
-                {
+                { 
                     AnimEnd = false;
                     Frame = 0;
                     Time = 0;

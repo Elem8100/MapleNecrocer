@@ -56,7 +56,7 @@ public class Mob : JumperSprite
     bool AnimRepeat;
     bool AnimZigzag;
     Wz_Vector LT, RB;
-    // int Left, Top, Right, Bottom;
+    public int Left, Top, Right, Bottom;
     //Vector2 Head;
     //Vector2 Origin;
     public Int64 HP;
@@ -70,7 +70,7 @@ public class Mob : JumperSprite
     static Dictionary<string, int> FrameData = new();
     public static List<string> MobList = new();
     public static List<string> SummonedList = new();
-    public MobCollision[] MobCollision = new MobCollision[6];
+    public MobCollision[] MobCollision = new MobCollision[7];
     public static void Create()
     {
         Mob.MobList.Clear();
@@ -362,25 +362,26 @@ public class Mob : JumperSprite
         }
 
         if (Hit)
-        {
+        {  
             if (GetHit1)
             {
                 if ((Action == "hit1") || (Action == DieActionName))
                 {
                     if (Frame == 0)
                     {
-                        /* 
+                        
                         if (Skill.Attacking)
-                          {
-                              if (Skill.MultiStrike)
-                                  TDamageNumber.Create(Damage, HeadX, Head.Y + HitIndex * (-30))
-                                  else
-                                  TDamageNumber.Create(Damage, Head.X, Head.Y);
-                              TSkillHitEffect.Create(Mob);
-                          }
-                          else
-                     */
-                        DamageNumber.Create(Game.Damage, (int)Head.X, (int)Head.Y);
+                        { 
+                            if (Skill.MultiStrike)
+                                DamageNumber.Create(Game.Damage, (int)HeadX, (int)Head.Y + HitIndex * (-30));
+                            else
+                                DamageNumber.Create(Game.Damage, (int)Head.X, (int)Head.Y);
+                            SkillHitEffect.Create(this);
+                        }
+                        else
+                        { 
+                            DamageNumber.Create(Game.Damage, (int)Head.X, (int)Head.Y);
+                        }
                     }
                     Hit = false;
                 }
@@ -727,10 +728,12 @@ public class MobCollision : SpriteEx
 {
     public MobCollision(Sprite Parent) : base(Parent)
     {
+        CollideMode= CollideMode.Rect;
+        CanCollision = true;
     }
 
     public Mob Owner;
-    int Left, Top, Right, Bottom;
+   // int Left, Top, Right, Bottom;
     int Counter;
     public int Index;
     public int StartTime;
@@ -744,14 +747,12 @@ public class MobCollision : SpriteEx
             Collision();
             Dead();
         }
-
-
     }
 
     public override void OnCollision(Sprite sprite)
     {
         if (sprite is SkillCollision)
-        {
+        {  
             if (Owner.HP > 0)
             {
                 Owner.HitIndex = this.Index;
@@ -779,9 +780,13 @@ public class MobCollision : SpriteEx
                 // Dead;
             }
         }
-
     }
 
-
+    public override void DoDraw()
+    {
+        if(ImageNode==null) return;
+    }
 
 }
+
+

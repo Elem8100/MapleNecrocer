@@ -1,13 +1,20 @@
 ﻿using Input = Microsoft.Xna.Framework.Input.Keys;
 using WzComparerR2.WzLib;
 using Microsoft.Xna.Framework;
+using System.Numerics;
+using WzComparerR2.CharaSim;
+using Microsoft.VisualBasic.Devices;
+using Keyboard = SpriteEngine.Keyboard;
+using WzComparerR2.Animation;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace MapleNecrocer;
 
-public class Skill : SpriteEx
+public class Skill : Sprite
 {
     public Skill(Sprite Parent) : base(Parent)
     {
+       
     }
     public static Dictionary<Input, string> HotKeyList = new();
     public static bool PlayEnded;
@@ -20,7 +27,7 @@ public class Skill : SpriteEx
     public static bool MultiStrike;
     public static int DamageWaitTime;
     public static int TotalTime;
-    static Wz_Node Entry;
+    public static Wz_Node Entry;
     public static string GetJobImg(string ID)
     {
         if (ID.LeftStr(3) == "800" && ID.Length == 8)
@@ -37,7 +44,7 @@ public class Skill : SpriteEx
         foreach (var Iter in Entry.Nodes)
         {
             if (Iter.Text == "action")
-                Equip.DataS.AddOrReplace(ID + "/action", Iter.GetNode("0").ToStr("alert"));
+                Equip.DataS.AddOrReplace(ID + "/action", Iter.GetStr("0","alert"));
             if (Iter.Text == "tile")
                 Equip.Data.AddOrReplace(ID + "/tileCount", Iter.Nodes.Count - 1);
         }
@@ -143,7 +150,7 @@ public class Skill : SpriteEx
     }
 
     public static void Create(string ID)
-    {
+    {  
         string[] Effects = {"effect", "effect0", "effect1", "effect2","effect3",
                             "screen", "screen0", "ball", "keydown", "keydown0", "keydowned"};
         Skill.ID = ID;
@@ -151,9 +158,13 @@ public class Skill : SpriteEx
         //PlaySounds('Skill', ID + '/Use');
         Wz_Node Entry = null;
         if (Wz.HasNode("Skill/" + GetJobImg(ID) + ".img"))
+        {
             Entry = Wz.GetNode("Skill/" + GetJobImg(ID) + ".img/skill/" + ID);
+
+        }
         Skill.Entry = Entry;
 
+        
         switch (ID)
         {
             case "1121008":
@@ -167,23 +178,27 @@ public class Skill : SpriteEx
         }
         int Count = 0;
         DamageWaitTime = GetDamageWaitTime(ID);
+        
         //連打6次
+        var SpriteList = EngineFunc.SpriteEngine.SpriteList;
         if (Skill.MultiStrike)
         {
             Count = 1;
             TotalTime = DamageWaitTime + 6 * 7;
-            foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
+             
+
+            for (int i = 0; i < SpriteList.Count; i++)
             {
-                if (Iter is Mob)
+
+                if (SpriteList[i] is Mob)
                 {
-                    for (int i = 1; i <= 6; i++)
+                    for (int j = 1; j <= 6; j++)
                     {
-                        ((Mob)Iter).MobCollision[i] = new MobCollision(EngineFunc.SpriteEngine);
-                        ((Mob)Iter).MobCollision[i].ImageLib = Wz.EquipImageLib;
-                        ((Mob)Iter).MobCollision[i].Owner = (Mob)Iter;
-                        ((Mob)Iter).MobCollision[i].StartTime = DamageWaitTime + i * 7;
-                        ((Mob)Iter).MobCollision[i].Index = i - 1;
-                        ((Mob)Iter).MobCollision[i].CanCollision = true;
+                        ((Mob)SpriteList[i]).MobCollision[j] = new MobCollision(EngineFunc.SpriteEngine);
+                        ((Mob)SpriteList[i]).MobCollision[j].Owner = (Mob)SpriteList[i];
+                        ((Mob)SpriteList[i]).MobCollision[j].StartTime = DamageWaitTime + j * 7;
+                        ((Mob)SpriteList[i]).MobCollision[j].Index = j - 1;
+                        ((Mob)SpriteList[i]).MobCollision[j].CanCollision = true;
                     }
                 }
             }
@@ -192,28 +207,30 @@ public class Skill : SpriteEx
         {
             Count = 6;
         }
-
+        
         //順序打
         for (int i = 1; i <= Count; i++)
         {
             var SkillCollision = new SkillCollision(EngineFunc.SpriteEngine);
-            SkillCollision.ImageLib = Wz.EquipImageLib;
             SkillCollision.CanCollision = true;
             //ID := ID;
             SkillCollision.IDEntry = Entry;
             SkillCollision.StartTime = DamageWaitTime + i * 6;
         }
-
-        foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
+      
+        
+        for (int i = 0; i < EngineFunc.SpriteEngine.SpriteList.Count; i++)
         {
-            if (Iter is Mob)
-                Iter.CanCollision = true;
+            if (EngineFunc.SpriteEngine.SpriteList[i] is Mob)
+                ((Mob)EngineFunc.SpriteEngine.SpriteList[i]).CanCollision = true;
         }
-
+        
         for (int i = 0; i <= 10; i++)
         {
-            if (!Entry.HasNode("Effect/0"))
-                return;
+
+          //    if (!Entry.HasNode("Effect/0"))
+            //  return;
+
             if (Entry.HasNode(Effects[i]))
             {
                 var SkillSprite = new SkillSprite(EngineFunc.SpriteEngine);
@@ -285,6 +302,27 @@ public class Skill : SpriteEx
             }
         }
     }
+
+    public override void DoMove(float Delta)
+    {
+        if (Skill.PlayEnded && !Game.Player.InLadder)
+        {
+
+            foreach (var K in Skill.HotKeyList.Keys)
+            {
+                if (Keyboard.KeyDown(K))
+                {
+                    Skill.Attacking = true;
+                    Skill.Create(Skill.HotKeyList[K]);
+                }
+
+            }
+
+        }
+
+    }
+
+  
 
 }
 
@@ -376,6 +414,8 @@ public class SkillCollision : SpriteEx
 {
     public SkillCollision(Sprite Parent) : base(Parent)
     {
+        CollideMode = CollideMode.Rect;
+        CanCollision = true;    
     }
     public int StartTime;
     int Counter;
@@ -388,23 +428,24 @@ public class SkillCollision : SpriteEx
         FlipX = Game.Player.FlipX;
         if (Wz.EquipData.ContainsKey(IDEntry.FullPathToFile2() + "/common/lt"))
         {
+            
             LT = Wz.EquipData[IDEntry.FullPathToFile2() + "/common/lt"].ToVector();
             RB = Wz.EquipData[IDEntry.FullPathToFile2() + "/common/rb"].ToVector();
             switch (Game.Player.FlipX)
             {
                 case true:
-                    Right = (int)X - LT.X + 18;
-                    Left = (int)X - RB.X;
+                    Right = (int)Game.Player.X - LT.X + 18;
+                    Left = (int)Game.Player.X - RB.X;
                     break;
                 case false:
-                    Left = (int)X + LT.X;
-                    Right = (int)X + RB.X;
+                    Left = (int)Game.Player.X + LT.X;
+                    Right = (int)Game.Player.X + RB.X;
                     break;
             }
-            Top = (int)Y + LT.Y;
-            Bottom = (int)Y + RB.Y;
+            Top = (int)Game.Player.Y + LT.Y;
+            Bottom = (int)Game.Player.Y + RB.Y;
         }
-        CollideRect = CollideRect = SpriteUtils.Rect(Left, Top, Right, Bottom);
+        CollideRect  = SpriteUtils.Rect(Left, Top, Right, Bottom);
         Counter += 1;
         if (Skill.MultiStrike)
         {
@@ -424,13 +465,15 @@ public class SkillCollision : SpriteEx
 
     public override void OnCollision(Sprite sprite)
     {
+        if (Skill.MultiStrike)
+         return;
 
         if (sprite is Mob)
         {
             var Mob = (Mob)sprite;
             Mob.CanCollision = false;
             if (Mob.HP > 0)
-            {
+            {  
                 Mob.Hit = true;
                 Random Random = new Random();
                 Game.Damage = 50000 + Random.Next(700000);
@@ -453,5 +496,73 @@ public class SkillCollision : SpriteEx
             CanCollision = false;
             Dead();
         }
+    }
+
+    public override void DoDraw()
+    {
+        if (ImageNode == null) return;
+    }
+}
+
+
+public class SkillHitEffect : SpriteEx
+{
+    public SkillHitEffect(Sprite Parent) : base(Parent)
+    {
+    }
+    Mob Owner;
+    Wz_Node Entry;
+    int FTime;
+    int Frame;
+    string EntryPath;
+    int AnimDelay;
+    bool AnimRepeat, AnimEnd;
+    bool HitL1;
+    string HitPath;
+    public static void Create(Mob Owner)
+    {
+        if (Wz.HasDataE(Skill.Entry.FullPathToFile2() + "/hit/0"))
+        {
+            var SkillHieEffect = new SkillHitEffect(EngineFunc.SpriteEngine);
+            SkillHieEffect.ImageLib = Wz.EquipImageLib;
+            SkillHieEffect.EntryPath = Skill.Entry.FullPathToFile2();
+            if (Wz.EquipData[Skill.Entry.FullPathToFile2() + "/hit/0"].Value is Wz_Png)
+                SkillHieEffect.HitPath = "/hit/";
+            else
+                SkillHieEffect.HitPath = "/hit/0/";
+            SkillHieEffect.ImageNode = Wz.EquipData[SkillHieEffect.EntryPath + SkillHieEffect.HitPath + "0"];
+            SkillHieEffect.Owner = Owner;
+        }
+    }
+
+    public override void DoMove(float Delta)
+    {
+        X = Owner.X - 70;
+        Y = Owner.Y - 100;
+        Z = Owner.Z;
+        ImageNode = Wz.EquipData[EntryPath + HitPath + Frame];
+        AnimDelay = ImageNode.GetInt("delay", 100);
+        FTime += 17;
+        if (FTime > AnimDelay)
+        {
+            FTime = 0;
+            Frame += 1;
+            AnimEnd = false;
+            if (!Wz.EquipData.ContainsKey(EntryPath + HitPath + Frame))
+            {
+                if (AnimRepeat)
+                { 
+                    Frame = 0;
+                }
+                else
+                {
+                    Frame -= 1;
+                    AnimEnd = true;
+                }
+            }
+        }
+
+        if (AnimEnd)
+          Dead();
     }
 }
