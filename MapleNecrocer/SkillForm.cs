@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using WzComparerR2.CharaSim;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Input = Microsoft.Xna.Framework.Input.Keys;
 namespace MapleNecrocer;
 
 public partial class SkillForm : Form
@@ -24,11 +26,12 @@ public partial class SkillForm : Form
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
-
         var Rec = DataGrid.GetCellDisplayRectangle(1, e.RowIndex, true);
         comboBox1.Top = Rec.Top + 7;
         comboBox1.Left = Rec.Left + 239;
-        SelectRow=e.RowIndex;
+        SelectRow = e.RowIndex;
+        comboBox1.SelectedIndex = -1;
+        comboBox1.Visible = true;
     }
 
     private void SkillForm_Shown(object sender, EventArgs e)
@@ -38,6 +41,10 @@ public partial class SkillForm : Form
             this.Hide();
             e1.Cancel = true;
         };
+
+        var Skill = new Skill(EngineFunc.SpriteEngine);
+        Skill.Tag = 1;
+
         SkillListGrid = new(100, 185, 0, 0, 220, 400, true, panel1);
         SkillListGrid.Dock = DockStyle.Fill;
         SkillListGrid.SearchGrid.Dock = DockStyle.Fill;
@@ -61,7 +68,10 @@ public partial class SkillForm : Form
             CellClick(SkillListGrid, e);
         };
 
-
+        SkillListGrid.Scroll += (s, e) =>
+        {
+            comboBox1.Visible = false;
+        };
         var Graphic = SkillListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
@@ -104,32 +114,42 @@ public partial class SkillForm : Form
             SkillListGrid.Rows[i].Cells[2].Style.Alignment = DataGridViewContentAlignment.TopLeft;
         }
 
-        Text = SkillListGrid.RowCount.ToString();
-
     }
 
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
-      
 
+        if (comboBox1.SelectedIndex == -1)
+            return;
         UseListGrid.Rows.Add("", null, "", "");
 
         for (int i = UseListGrid.RowCount - 1; i >= 0; i--)
         {
+            if (UseListGrid.Rows[i].Cells[0].Value.ToString() == SkillListGrid.Rows[SelectRow].Cells[0].Value.ToString())
+                UseListGrid.Rows.RemoveAt(i);
             if (UseListGrid.Rows[i].Cells[3].Value.ToString() == comboBox1.Text)
                 UseListGrid.Rows.RemoveAt(i);
-           // if (UseListGrid.Rows[i].Cells[0].Value.ToString() == SkillListGrid.Rows[SelectRow].Cells[0].Value.ToString())
-             // UseListGrid.Rows.RemoveAt(i);
-
         }
 
-
         for (int i = 0; i < UseListGrid.Columns.Count; i++)
-            UseListGrid.Rows[UseListGrid.RowCount-1].Cells[i].Value=SkillListGrid.Rows[SelectRow].Cells[i].Value;
+            UseListGrid.Rows[UseListGrid.RowCount - 1].Cells[i].Value = SkillListGrid.Rows[SelectRow].Cells[i].Value;
         UseListGrid.Rows[UseListGrid.RowCount - 1].Cells[3].Value = comboBox1.Text;
 
+        Skill.HotKeyList.Clear();
+        for (int i = 0; i < UseListGrid.Rows.Count; i++)
+        {
+            string Char = UseListGrid.Rows[i].Cells[3].Value.ToString();
+            string ID = UseListGrid.Rows[i].Cells[0].Value.ToString();
+            Skill.HotKeyList.AddOrReplace((Input)Enum.Parse(typeof(Input), Char, true), ID);
+        }
 
-       
+        string SkillID = SkillListGrid.Rows[SelectRow].Cells[0].Value.ToString();
+        if (!Skill.LoadedList.Contains(SkillID))
+            Skill.Load(SkillID);
+        Skill.LoadedList.Add(SkillID);
+        // comboBox1.Visible = false;
 
     }
+
+
 }
