@@ -11,8 +11,8 @@ namespace MapleNecrocer;
 
 public class PlayerEx : Player
 {
-    enum MoveDirection { Left, Right, None, None2 }
-    enum MoveType { Stand, Move, Jump, Fly }
+   public enum MoveDirection { Left, Right, None, None2 }
+   public enum MoveType { Stand, Move, Jump, Fly }
 
     public PlayerEx(Sprite Parent) : base(Parent)
     {
@@ -52,9 +52,9 @@ public class PlayerEx : Player
     }
     static List<string> List = new List<string>();
     public static List<PlayerEx> PlayerExList = new();
-    MoveDirection moveDirection;
-    MoveType moveType;
-    float MoveSpeed;
+    public MoveDirection moveDirection;
+    public MoveType moveType;
+    public float MoveSpeed;
     int JumpEdge;
     float VelocityY;
     public int JumpCount;
@@ -82,7 +82,7 @@ public class PlayerEx : Player
         }
     }
 
-    void UpdateJump()
+    public void UpdateJump()
     {
 
         switch (jumpState)
