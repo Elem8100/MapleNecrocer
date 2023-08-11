@@ -88,6 +88,8 @@ public partial class MainForm : Form
                 continue;
             foreach (var img in Dir.Nodes)
             {
+                if (!Char.IsNumber(img.Text[0]))
+                    continue;
                 var ID = img.ImgID();
                 if (MapNames.ContainsKey(ID))
                     MapListBox.Rows.Add(ID, MapNames[ID]);

@@ -69,6 +69,8 @@ public partial class MountForm : Form
         Win32.SendMessage(MountListGrid.Handle, false);
         foreach (var Img in Wz.GetNodeA("Character/TamingMob").Nodes)
         {
+            if (!Char.IsNumber(Img.Text[0]))
+                continue;
             if (Img.Text.LeftStr(4) == "0191" || Img.Text.LeftStr(4) == "0198")
                 continue;
             string ID = Img.ImgID();
