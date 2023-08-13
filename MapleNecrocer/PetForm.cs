@@ -44,9 +44,9 @@ public partial class PetForm : Form
         PetEquipListGrid.Rows.Clear();
         string EquipName = null;
         Bitmap Bmp = null;
-        foreach (var Img in Wz.Nodes("Character/PetEquip"))
+        foreach (var Img in Wz.GetNodes("Character/PetEquip"))
         {
-            foreach (var Iter in Wz.Nodes("Character/PetEquip/" + Img.Text))
+            foreach (var Iter in Wz.GetNodes("Character/PetEquip/" + Img.Text))
             {
                 if (PetID != "" && Iter.Text == PetID)
                 {
@@ -110,7 +110,7 @@ public partial class PetForm : Form
 
         string PetName = null;
         Bitmap Bmp = null;
-        foreach (var Img in Wz.Nodes("Item/Pet"))
+        foreach (var Img in Wz.GetNodes("Item/Pet"))
         {
             string ID = Img.ImgID();
             if (Wz.HasNode("String/Pet.img/" + ID))

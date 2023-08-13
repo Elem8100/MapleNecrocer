@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="AndroidForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="AvatarForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +60,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SelectFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SkillForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="TitleForm.cs">

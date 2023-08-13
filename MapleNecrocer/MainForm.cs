@@ -504,6 +504,7 @@ public partial class MainForm : Form
             case "PetButton": ShowForm(PetForm.Instance, () => new PetForm().Show()); break;
             case "FamiliarButton": ShowForm(FamiliarForm.Instance, () => new FamiliarForm().Show()); break;
             case "SkillButton": ShowForm(SkillForm.Instance, () => new SkillForm().Show()); break;
+            case "AndroidButton": ShowForm(AndroidForm.Instance, () => new AndroidForm().Show()); break;
         }
 
 

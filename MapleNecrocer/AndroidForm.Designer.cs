@@ -51,8 +51,9 @@
             // 
             textBox1.Location = new Point(82, 12);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(113, 24);
+            textBox1.Size = new Size(120, 24);
             textBox1.TabIndex = 3;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // button1
             // 
@@ -62,26 +63,28 @@
             button1.TabIndex = 5;
             button1.Text = "Remove";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // tabControl1
             // 
             tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
-            tabControl1.Location = new Point(9, 49);
+            tabControl1.Location = new Point(6, 42);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(369, 430);
+            tabControl1.Size = new Size(379, 592);
             tabControl1.TabIndex = 6;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
             tabPage1.Location = new Point(4, 26);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(361, 400);
+            tabPage1.Size = new Size(371, 562);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
+            tabPage1.Text = "Android";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
@@ -89,27 +92,29 @@
             tabPage2.Location = new Point(4, 28);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(361, 398);
+            tabPage2.Size = new Size(371, 560);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "Custom";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // AndroidForm
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(382, 465);
+            ClientSize = new Size(389, 640);
             Controls.Add(tabControl1);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(textBox1);
             Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             KeyPreview = true;
+            MaximumSize = new Size(407, 687);
             Name = "AndroidForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Android";
             TopMost = true;
             Shown += AndroidForm_Shown;
+            KeyDown += AndroidForm_KeyDown;
             tabControl1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

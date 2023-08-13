@@ -43,6 +43,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            AndroidButton = new Button();
             FamiliarButton = new Button();
             PetButton = new Button();
             RingButton = new Button();
@@ -116,17 +117,17 @@ namespace MapleNecrocer
             tabPage1.Padding = new Padding(0, 2, 2, 1);
             tabPage1.Size = new Size(232, 388);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
+            tabPage1.Text = "Map";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            tabPage2.Location = new Point(4, 26);
+            tabPage2.Location = new Point(4, 25);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 387);
+            tabPage2.Size = new Size(232, 388);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // LoadMapButton
@@ -197,6 +198,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(AndroidButton);
             panel1.Controls.Add(FamiliarButton);
             panel1.Controls.Add(PetButton);
             panel1.Controls.Add(RingButton);
@@ -220,6 +222,23 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // AndroidButton
+            // 
+            AndroidButton.AutoSize = true;
+            AndroidButton.Enabled = false;
+            AndroidButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            AndroidButton.Image = (Image)resources.GetObject("AndroidButton.Image");
+            AndroidButton.ImageAlign = ContentAlignment.TopCenter;
+            AndroidButton.Location = new Point(1449, 1);
+            AndroidButton.Name = "AndroidButton";
+            AndroidButton.RightToLeft = RightToLeft.No;
+            AndroidButton.Size = new Size(70, 52);
+            AndroidButton.TabIndex = 19;
+            AndroidButton.Text = "Android";
+            AndroidButton.TextAlign = ContentAlignment.BottomCenter;
+            AndroidButton.UseVisualStyleBackColor = true;
+            AndroidButton.Click += MobButton_Click;
             // 
             // FamiliarButton
             // 
@@ -587,5 +606,6 @@ namespace MapleNecrocer
         private Button PetButton;
         private Button FamiliarButton;
         private Button SkillButton;
+        private Button AndroidButton;
     }
 }

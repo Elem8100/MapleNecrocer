@@ -58,6 +58,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="AndroidButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAYAAABWk2cPAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAAftJREFUSEu1lQGVgzAQRLFwFmqhFs4CFrCAhVrAAhawcBawgAUuf2HS7TZQeuXm
+        vXkLm2Q+SWlbHdS849NlwdM8b1pzVn+kl7Bxmp6sdQS8KwuVIiwa2DAuDvDDsiAv3XtQNKBu+HmAk7VE
+        7ssCjsjPExQYYA8nc4ne1lPY1kOorzlYu/VgMpfosopB6qHYj467LYCfHqIYEntyHOO+BMVk43qYzet9
+        VQQQEHuyny/gHhSN7Lq97zyH+MoCD/Zj9Kky93LbDUXg0I+PUIUrjAWXus19P6bxeC8DxRHY3foMRDmE
+        SkjddvPUXTIYEyQQ41qjMQHJw21zM5eAki0ShApUYMJUNa571vEQmBwEDAHkmr5RnGwCixQmoAfPQ51B
+        mkPVOuV44O4uEQvx/JMWJYCAXFtv7WuefyCqcgCp1nWzD2VShq6AB2Ds+7F07XNU2fVLaHVNQWP6BnsI
+        nlIQjv2xX+pfoLzW9oELCoCqa29A3g6qHH1NZMaMFGQTqRYSQVt2UH2uEUwPwJY0YT26wi69IzCdEu+E
+        z1l9WLZggbujtCMXrMm7E1Df1dVvKwaY2+/0k9l8WVUPWAB+JAVY4PWS/v7SzmT1fWXyKQImYD7mdLz5
+        aO8+R8AM4uVfov7+y5WmnwJewuNbKwu87vos8BK853+AIgUd9QFV1S9UFrM7LUFuYQAAAABJRU5ErkJg
+        gg==
+</value>
+  </data>
   <data name="FamiliarButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABYAAAAeCAYAAAAo5+5WAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAACH
@@ -512,7 +527,7 @@
   <data name="SkillButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAAAcNJREFUWEfNUoFtwzAMyy27ti/khb3QF/xCX+gLmamKHi0rDrJ1wQgQlmVbpJQs
+        vgAADr4B6kKxwAAAAcNJREFUWEfNUoFtwzAMyy27ti/khb3QF/xCX+gLmamKHi0rDrJ1wQgQlmVbpJQs
         AdtFTLGV8riE0HpJfsMOrsL6ee9MvMSfz2OWco5ZDaeaqHev654YDSQudyldPu/3U7R3tcZ7JyDmBkE5
         U5ybgHSsjGIztlqO8xMQQ6nAx9Ix5i2WGvMJHHSpQirAs+7O6mS+1sd6PAExNBTeElKQhGjp93hvNer9
         uQER7kTrOjXBbr1jrq0O9vUe4n0DoWs+6sTBKMy8k3dtDZ8TcW4gimcCKixn5XbbHus6CFrsdZW7P+Eg

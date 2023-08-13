@@ -38,6 +38,7 @@ public partial class FamiliarForm : Form
         FamiliarListGrid.Dock = DockStyle.Fill;
         FamiliarListGrid.SearchGrid.Dock = DockStyle.Fill;
         FamiliarListGrid.RowTemplate.Height = 40;
+     
 
         var Graphic = FamiliarListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
@@ -55,7 +56,7 @@ public partial class FamiliarForm : Form
 
         string CardName = "";
         Bitmap Bmp = null;
-        foreach (var Img in Wz.Nodes("Character/Familiar"))
+        foreach (var Img in Wz.GetNodes("Character/Familiar"))
         {
             string ID = Img.ImgID();
             string CardID = "";

@@ -225,7 +225,7 @@ internal class Wz
         }
     }
 
-    public static Wz_Node.WzNodeCollection Nodes(string Path)
+    public static Wz_Node.WzNodeCollection GetNodes(string Path)
     {
         return Wz.GetNode(Path).Nodes;
     }
@@ -419,9 +419,9 @@ public static class Wz_NodeExtension3
     {
         return Convert.ToBoolean(Node.GetNode(Path).GetValueEx<int>(0));
     }
-    public static string GetStr(this Wz_Node Node, string Path)
+    public static string GetStr(this Wz_Node Node, string Path,string DefaultStr="")
     {
-        return Node.GetNode(Path).GetValueEx<string>("");
+        return Node.GetNode(Path).GetValueEx<string>(DefaultStr);
     }
     public static Wz_Vector GetVector(this Wz_Node Node, string Path)
     {
