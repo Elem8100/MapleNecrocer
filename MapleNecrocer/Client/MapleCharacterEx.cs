@@ -16,7 +16,7 @@ public class PlayerEx : Player
 
     public PlayerEx(Sprite Parent) : base(Parent)
     {
-      
+     
     }
   
     public static void Spawn(string IDList)
@@ -344,7 +344,7 @@ public class AvatarPartEx : AvatarParts
 {
     public AvatarPartEx(Sprite Parent) : base(Parent)
     {
-
+        IntMove=true;
     }
 
     public override void DoMove(float Delta)

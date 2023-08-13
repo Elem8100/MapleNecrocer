@@ -24,7 +24,7 @@ public class AndroidPlayer : PlayerEx
     Vector2 Distance;
     public static AndroidPlayer Instance;
     static List<string> List = new List<string>();
-    public void SpawnNew()
+    public static void SpawnNew()
     {
         Player._NewZ += 1;
         Instance = new AndroidPlayer(EngineFunc.SpriteEngine);
@@ -345,7 +345,7 @@ public class AndroidNameTag : MedalTag
         Instance = new AndroidNameTag(EngineFunc.SpriteEngine);
         Instance.IntMove = true;
         Instance.Tag = 1;
-        int TagNum = Wz.GetInt("Etc/Android/" + ItemID + ".img/info/nameTag", 38);
+        int TagNum = Wz.GetInt("Etc/Android/" + ItemID + "/info/nameTag", 38);
         Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/" + TagNum);
         if (Instance.Entry == null)
             Instance.Entry = Wz.GetNode("UI/NameTag.img/pet/38");
