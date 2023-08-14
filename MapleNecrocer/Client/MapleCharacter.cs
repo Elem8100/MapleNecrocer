@@ -633,22 +633,21 @@ public class Player : JumperSprite
                             Pet.Instance.Y = Game.Player.Y;
                             Pet.Instance.JumpState = JumpState.jsFalling;
                         }
-
-                        /*
-                        if (MonsterFamiliar.MonsterFamiliar != null)
+                        
+                        if (Familiar.Instance != null)
                         {
-                            MonsterFamiliar.MonsterFamiliar.X = X;
-                            MonsterFamiliar.MonsterFamiliar.Y = Y - 50;
-                            MonsterFamiliar.MonsterFamiliar.JumpState = jsFalling;
+                            Familiar.Instance.X = X;
+                            Familiar.Instance.Y = Y - 50;
+                            Familiar.Instance.JumpState =  JumpState.jsFalling;
                         }
 
-                        if (AndroidPlayer != null)
+                        if (AndroidPlayer.Instance != null)
                         {
-                            AndroidPlayer.X = Player.X;
-                            AndroidPlayer.Y = Player.Y;
-                            AndroidPlayer.JumpState = jsFalling;
+                            AndroidPlayer.Instance.X = Game.Player.X;
+                            AndroidPlayer.Instance.Y = Game.Player.Y;
+                            AndroidPlayer.Instance.JumpState = JumpState.jsFalling;
                         }
-                        */
+                        
 
                         Z = FH.Z * 100000 + 60000;
                         EngineFunc.SpriteEngine.Camera.X = PX - DisplaySize.X / 2;
