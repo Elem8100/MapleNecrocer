@@ -400,6 +400,20 @@ public partial class MainForm : Form
             Pet.Instance.JumpState = JumpState.jsFalling;
         }
 
+        if (Familiar.Instance != null)
+        {
+            Familiar.Instance.X = Game.Player.X;
+            Familiar.Instance.Y = Game.Player.Y - 50;
+            Familiar.Instance.JumpState = JumpState.jsFalling;
+        }
+
+        if (AndroidPlayer.Instance != null)
+        {
+            AndroidPlayer.Instance.X = Game.Player.X;
+            AndroidPlayer.Instance.Y = Game.Player.Y;
+            AndroidPlayer.Instance.JumpState = JumpState.jsFalling;
+        }
+
         EngineFunc.SpriteEngine.Camera.X = PX - Map.DisplaySize.X / 2;
         EngineFunc.SpriteEngine.Camera.Y = PY - (Map.DisplaySize.Y / 2) - 100;
         if (EngineFunc.SpriteEngine.Camera.X > Map.Right)
