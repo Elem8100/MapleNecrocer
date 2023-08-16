@@ -131,6 +131,8 @@ public partial class AndroidForm : Form
         {
             if (Img.Text.LeftStr(4) == "0167")
                 continue;
+            if (!Char.IsNumber(Img.Text[0]))
+                continue;
             string ID = Img.ImgID();
             if (Wz.HasNode("String/Eqp.img/Eqp/Android/" + ID.IntID()))
                 AndroidName = Wz.GetStr("String/Eqp.img/Eqp/Android/" + ID.IntID() + "/name");

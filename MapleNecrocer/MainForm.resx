@@ -58,10 +58,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ConsumeButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAYAAACN1PRVAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAAVpJREFUSEu11QFtwzAQBdBQKIVRKIVRKIVQCAVTMAVTCIVQCIVQ8O6f+7er4y62
+        k37pS17r3LMzTRuyRNOPJgb/0Lrp26KXw78QMZTB92nb+RQh1Huv2Lptl4E7aBq/PocRIcQCA4ROssbe
+        Qpvzgmid087LovVhVpDhIfDss9VJw55ADlnQhiC+w4w06jg6iM0BrjG4lNOgrcVsbbpAdHRefz/Ewvx3
+        UwtvF4DIC1jC2PzFdt0QD1jM47M3Xe73KNeMGw4gP7eCuhmQkzWh8E/n202utcYIUNZ6kEpQN+aQDjjo
+        FoKiWE/4rALcYS1d5W90keJ5vFLMS2PLUQwnG6W1qH2tAL28TjxbfTuC6MOs8bkthvJQFtVDtmCoBYla
+        DH0H1mDIIZijJbAWQ3YgsRqwBWK6b9iDIc1gL8RUg2chRgcRzUH+p8C+tP18dBhRAga5DLKxww+QYfgB
+        eiyMBUvEAtAAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="AndroidButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAYAAABWk2cPAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAAftJREFUSEu1lQGVgzAQRLFwFmqhFs4CFrCAhVrAAhawcBawgAUuf2HS7TZQeuXm
+        vQAADr0BR/uQrQAAAftJREFUSEu1lQGVgzAQRLFwFmqhFs4CFrCAhVrAAhawcBawgAUuf2HS7TZQeuXm
         vXkLm2Q+SWlbHdS849NlwdM8b1pzVn+kl7Bxmp6sdQS8KwuVIiwa2DAuDvDDsiAv3XtQNKBu+HmAk7VE
         7ssCjsjPExQYYA8nc4ne1lPY1kOorzlYu/VgMpfosopB6qHYj467LYCfHqIYEntyHOO+BMVk43qYzet9
         VQQQEHuyny/gHhSN7Lq97zyH+MoCD/Zj9Kky93LbDUXg0I+PUIUrjAWXus19P6bxeC8DxRHY3foMRDmE
@@ -527,7 +539,7 @@
   <data name="SkillButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAcNJREFUWEfNUoFtwzAMyy27ti/khb3QF/xCX+gLmamKHi0rDrJ1wQgQlmVbpJQs
+        vAAADrwBlbxySQAAAcNJREFUWEfNUoFtwzAMyy27ti/khb3QF/xCX+gLmamKHi0rDrJ1wQgQlmVbpJQs
         AdtFTLGV8riE0HpJfsMOrsL6ee9MvMSfz2OWco5ZDaeaqHev654YDSQudyldPu/3U7R3tcZ7JyDmBkE5
         U5ybgHSsjGIztlqO8xMQQ6nAx9Ix5i2WGvMJHHSpQirAs+7O6mS+1sd6PAExNBTeElKQhGjp93hvNer9
         uQER7kTrOjXBbr1jrq0O9vUe4n0DoWs+6sTBKMy8k3dtDZ8TcW4gimcCKixn5XbbHus6CFrsdZW7P+Eg

@@ -43,6 +43,8 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            ConsumeButton = new Button();
+            OptionButton = new Button();
             AndroidButton = new Button();
             FamiliarButton = new Button();
             PetButton = new Button();
@@ -122,10 +124,10 @@ namespace MapleNecrocer
             // 
             // tabPage2
             // 
-            tabPage2.Location = new Point(4, 25);
+            tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 388);
+            tabPage2.Size = new Size(232, 387);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -198,6 +200,8 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(ConsumeButton);
+            panel1.Controls.Add(OptionButton);
             panel1.Controls.Add(AndroidButton);
             panel1.Controls.Add(FamiliarButton);
             panel1.Controls.Add(PetButton);
@@ -222,6 +226,38 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // ConsumeButton
+            // 
+            ConsumeButton.AutoSize = true;
+            ConsumeButton.Enabled = false;
+            ConsumeButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ConsumeButton.Image = (Image)resources.GetObject("ConsumeButton.Image");
+            ConsumeButton.ImageAlign = ContentAlignment.TopCenter;
+            ConsumeButton.Location = new Point(1589, 1);
+            ConsumeButton.Name = "ConsumeButton";
+            ConsumeButton.RightToLeft = RightToLeft.No;
+            ConsumeButton.Size = new Size(76, 52);
+            ConsumeButton.TabIndex = 21;
+            ConsumeButton.Text = "Consume";
+            ConsumeButton.TextAlign = ContentAlignment.BottomCenter;
+            ConsumeButton.UseVisualStyleBackColor = true;
+            ConsumeButton.Click += MobButton_Click;
+            // 
+            // OptionButton
+            // 
+            OptionButton.AutoSize = true;
+            OptionButton.Enabled = false;
+            OptionButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            OptionButton.ImageAlign = ContentAlignment.TopCenter;
+            OptionButton.Location = new Point(1519, 1);
+            OptionButton.Name = "OptionButton";
+            OptionButton.RightToLeft = RightToLeft.No;
+            OptionButton.Size = new Size(70, 52);
+            OptionButton.TabIndex = 20;
+            OptionButton.Text = "Options";
+            OptionButton.TextAlign = ContentAlignment.BottomCenter;
+            OptionButton.UseVisualStyleBackColor = true;
             // 
             // AndroidButton
             // 
@@ -607,5 +643,7 @@ namespace MapleNecrocer
         private Button FamiliarButton;
         private Button SkillButton;
         private Button AndroidButton;
+        private Button OptionButton;
+        private Button ConsumeButton;
     }
 }

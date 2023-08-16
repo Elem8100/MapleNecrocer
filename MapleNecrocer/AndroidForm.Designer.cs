@@ -99,8 +99,7 @@
             // 
             // AndroidForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 17F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(389, 640);
             Controls.Add(tabControl1);
             Controls.Add(button1);

@@ -14,6 +14,9 @@
     <Compile Update="ChairForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ConsumeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="DamageSkinForm.cs">
       <SubType>Form</SubType>
     </Compile>

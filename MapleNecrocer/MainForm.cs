@@ -519,6 +519,7 @@ public partial class MainForm : Form
             case "FamiliarButton": ShowForm(FamiliarForm.Instance, () => new FamiliarForm().Show()); break;
             case "SkillButton": ShowForm(SkillForm.Instance, () => new SkillForm().Show()); break;
             case "AndroidButton": ShowForm(AndroidForm.Instance, () => new AndroidForm().Show()); break;
+            case "ConsumeButton": ShowForm(ConsumeForm.Instance, () => new ConsumeForm().Show()); break;
         }
 
 

@@ -411,6 +411,131 @@ internal class WzDict
 
 public static class Wz_NodeExtension3
 {
+    public static Wz_Node GetNode(this Wz_Node Node, string Path)
+    {
+
+        if (Node.FindNodeByPathA(Path, true) != null)
+        {
+            if (Node.FindNodeByPathA(Path, true).Value is Wz_Uol)
+            {
+                Wz_Node Child = Node.FindNodeByPathA(Path, true).ResolveUol();
+
+                if (Child != null)
+                {
+                    switch (Child.Value)
+                    {
+                        //uol link to uol
+                        case Wz_Uol:
+                            return Child.ParentNode.Get(Child.ToStr());
+                            break;
+                        // UOL link to Canvas
+                        case Wz_Png:
+                            if (Child.Nodes["_inlink"] != null)
+                                return Wz.GetTopEntry(Child).Get(Child.Nodes["_inlink"].ToStr());
+                            else if (Child.Nodes["_outlink"] != null)
+                                return Wz.GetImgNode(Child.Nodes["_outlink"].ToStr());
+                            break;
+                    }
+                }
+                return Child;
+            }
+            else
+            {
+                var FullPath = Node.FindNodeByPathA(Path, true).FullPathToFileEx();
+
+                string[] Split = FullPath.Split('/');
+                switch (Split[0])
+                {
+                    case "Map001":
+                        FullPath = FullPath.Replace("Map001", "Map");
+                        break;
+                    case "Map002":
+                        FullPath = FullPath.Replace("Map002", "Map");
+                        break;
+                    case "Map2":
+                        FullPath = FullPath.Replace("Map2", "Map");
+                        break;
+                    case "Mob001":
+                        FullPath = FullPath.Replace("Mob001", "Mob");
+                        break;
+                    case "Mob002":
+                        FullPath = FullPath.Replace("Mob002", "Mob");
+                        break;
+                    case "Mob2":
+                        FullPath = FullPath.Replace("Mob2", "Mob");
+                        break;
+                    case "Skill001":
+                        FullPath = FullPath.Replace("Skill001", "Skill");
+                        break;
+                    case "Skill002":
+                        FullPath = FullPath.Replace("Skill002", "Skill");
+                        break;
+                    case "Skill003":
+                        FullPath = FullPath.Replace("Skill003", "Skill");
+                        break;
+                    case "Sound001":
+                        FullPath = FullPath.Replace("Sound001", "Sound");
+                        break;
+                    case "Sound002":
+                        FullPath = FullPath.Replace("Sound002", "Sound");
+                        break;
+                    case "Sound2":
+                        FullPath = FullPath.Replace("Sound2", "Sound");
+                        break;
+                }
+
+                Node = PluginManager.FindWz(FullPath);
+                return Node.GetLinkedSourceNode(PluginManager.FindWz);
+
+            }
+        }
+        else
+        {
+            string[] Split = Path.Split('/');
+            int Count = 0;
+            string Str = "";
+            string Path1 = "";
+            string Path2 = "";
+            bool HasUol = false;
+            for (int i = 0; i < Split.Length; i++)
+            {
+
+                if (i == 0)
+                    Str = Str + Split[i];
+                else
+                    Str += '/' + Split[i];
+                if ((Node.FindNodeByPathA(Str, true) != null) && (Node.FindNodeByPathA(Str, true).Value is Wz_Uol))
+                {
+                    HasUol = true;
+                    Count = i;
+                    Path1 = Str;
+                    break;
+                }
+
+            }
+
+            if (HasUol)
+            {
+                Str = "";
+                for (int i = Count + 1; i < Split.Length; i++)
+                {
+                    if (i == Count + 1)
+                        Str = Str + Split[i];
+                    else
+                        Str = Str + '/' + Split[i];
+                    Path2 = Str;
+                }
+                return Node.FindNodeByPathA(Path1, true).ResolveUol().FindNodeByPathA(Path2, true);
+            }
+        }
+        return null;
+    }
+
+    public static bool HasNode(this Wz_Node Node, string Path)
+    {
+        return Node.GetNode(Path) != null;
+
+    }
     public static int GetInt(this Wz_Node Node, string Path, int DefaultValue = 0)
     {
         return Node.GetNode(Path).GetValueEx(DefaultValue);
@@ -419,7 +544,7 @@ public static class Wz_NodeExtension3
     {
         return Convert.ToBoolean(Node.GetNode(Path).GetValueEx<int>(0));
     }
-    public static string GetStr(this Wz_Node Node, string Path,string DefaultStr="")
+    public static string GetStr(this Wz_Node Node, string Path, string DefaultStr = "")
     {
         return Node.GetNode(Path).GetValueEx<string>(DefaultStr);
     }
@@ -430,14 +555,7 @@ public static class Wz_NodeExtension3
     }
     public static Bitmap GetBmp(this Wz_Node Node, string Path)
     {
-        if (Node.GetNode(Path) != null && Node.GetNode(Path).Value is Wz_Png)
-        {
-            return Node.GetNode(Path).ExtractPng();
-        }
-        else
-        {
-            return new Bitmap(1, 1);
-        }
+        return Node.GetNode(Path).ExtractPng();
     }
 
     public static Wz_Node Get2(this Wz_Node Node, string Path)
