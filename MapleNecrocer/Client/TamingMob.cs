@@ -101,7 +101,7 @@ public class TamingMob : SpriteEx
                     int Index = -1;
                     foreach (var Iter3 in Wz.EquipData[Iter2.FullPathToFile2()].Nodes)
                     {
-                        if (Char.IsNumber(Iter3.Text[0]) && ((Iter3.Value is Wz_Png) || (Iter3.Value is Wz_Uol)))
+                        if (/*Char.IsNumber(Iter3.Text[0]) && */((Iter3.Value is Wz_Png) || (Iter3.Value is Wz_Uol)))
                         {
                             Index += 1;
                             ImageNumList.AddOrReplace(Entry.FullPathToFile2() + "/" + Iter.Text + "/" + Iter2.Text + "/" + Index.ToString(), Iter3.Text);
