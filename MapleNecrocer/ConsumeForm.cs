@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -160,14 +161,12 @@ public partial class ConsumeForm : Form
                 string ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
                 ItemEffect.Delete(EffectType.Consume);
                 ItemEffect.Create(ID, EffectType.Consume);
-
             }
 
             ConsumeEffectListGrid.CellClick += (s, e) =>
             {
                 CellClick(ConsumeEffectListGrid, e);
             };
-
 
             Win32.SendMessage(ConsumeEffectListGrid.Handle, false);
             Bitmap Bmp = null;
@@ -206,5 +205,20 @@ public partial class ConsumeForm : Form
     private void button1_Click(object sender, EventArgs e)
     {
         ItemEffect.Delete(EffectType.Consume);
+    }
+
+    private void UseButton_Click(object sender, EventArgs e)
+    {
+        Text = label1.Text.Trim();
+        if (label1.Text.Trim(' ') != "")
+            ItemDrop.Drop((int)Game.Player.X, (int)Game.Player.Y, 0, label1.Text.Trim(' '));
+    }
+
+    private void ConsumeForm_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Alt)
+            e.Handled = true;
+        if (!textBox1.Focused)
+            ActiveControl = null;
     }
 }

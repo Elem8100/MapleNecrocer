@@ -33,12 +33,12 @@
             tabPage2 = new TabPage();
             textBox1 = new TextBox();
             tabPage3 = new TabPage();
+            button1 = new Button();
             panel1 = new Panel();
             UseButton = new Button();
             pictureBox1 = new PictureBox();
             label1 = new Label();
             label2 = new Label();
-            button1 = new Button();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
@@ -73,10 +73,10 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(textBox1);
-            tabPage2.Location = new Point(4, 24);
+            tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3, 3, 3, 5);
-            tabPage2.Size = new Size(412, 567);
+            tabPage2.Size = new Size(412, 565);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Search";
             tabPage2.UseVisualStyleBackColor = true;
@@ -92,12 +92,22 @@
             // tabPage3
             // 
             tabPage3.Controls.Add(button1);
-            tabPage3.Location = new Point(4, 24);
+            tabPage3.Location = new Point(4, 26);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(412, 567);
+            tabPage3.Size = new Size(412, 565);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Consume Effect";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(120, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(116, 27);
+            button1.TabIndex = 0;
+            button1.Text = "Remove";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // panel1
             // 
@@ -120,6 +130,7 @@
             UseButton.Text = "Drop";
             UseButton.TextAlign = ContentAlignment.MiddleLeft;
             UseButton.UseVisualStyleBackColor = true;
+            UseButton.Click += UseButton_Click;
             // 
             // pictureBox1
             // 
@@ -146,16 +157,6 @@
             label2.Size = new Size(0, 18);
             label2.TabIndex = 2;
             // 
-            // button1
-            // 
-            button1.Location = new Point(120, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(116, 27);
-            button1.TabIndex = 0;
-            button1.Text = "Remove";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // ConsumeForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -170,6 +171,7 @@
             Text = "Consume";
             TopMost = true;
             Shown += ConsumeForm_Shown;
+            KeyDown += ConsumeForm_KeyDown;
             tabControl1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
