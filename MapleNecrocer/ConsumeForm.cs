@@ -33,7 +33,6 @@ public partial class ConsumeForm : Form
             e1.Cancel = true;
         };
 
-
         ImageGrid = new ImageListView();
         ImageGrid.Parent = tabControl1.TabPages[0];
         ImageGrid.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom);
@@ -43,7 +42,6 @@ public partial class ConsumeForm : Form
         ImageGrid.Colors.SelectedBorderColor = Color.Red;
         ImageGrid.BorderStyle = BorderStyle.Fixed3D;
         ImageGrid.ThumbnailSize = new System.Drawing.Size(32, 32);
-        //ImageGrid.t.t.show.CacheMode= CacheMode.Continuous;
         ImageGrid.ItemClick += (o, e) =>
         {
             string ID = (e.Item.FileName);
@@ -51,8 +49,6 @@ public partial class ConsumeForm : Form
             pictureBox1.Image = Wz.GetBmp("Item/Consume/" + ID.LeftStr(4) + ".img/" + ID + "/info/icon");
             label2.Text = Wz.GetStr("String/Consume.img/" + ID.IntID() + "/name");
         };
-
-
 
         var Graphic = ImageGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
@@ -84,7 +80,6 @@ public partial class ConsumeForm : Form
         {
             if (HasLoaded1)
                 return;
-
 
             ConsumeListGrid = new(80, 185, 0, 20, 220, 530, true, tabControl1.TabPages[1]);
             ConsumeListGrid.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom);
@@ -194,7 +189,6 @@ public partial class ConsumeForm : Form
             }
             HasLoaded2 = true;
         }
-
     }
 
     private void textBox1_TextChanged(object sender, EventArgs e)
@@ -209,7 +203,6 @@ public partial class ConsumeForm : Form
 
     private void UseButton_Click(object sender, EventArgs e)
     {
-        Text = label1.Text.Trim();
         if (label1.Text.Trim(' ') != "")
             ItemDrop.Drop((int)Game.Player.X, (int)Game.Player.Y, 0, label1.Text.Trim(' '));
     }

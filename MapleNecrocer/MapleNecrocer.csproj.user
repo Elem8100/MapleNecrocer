@@ -11,6 +11,9 @@
     <Compile Update="CashEffectForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="CashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ChairForm.cs">
       <SubType>Form</SubType>
     </Compile>

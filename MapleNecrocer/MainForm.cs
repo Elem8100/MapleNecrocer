@@ -451,6 +451,8 @@ public partial class MainForm : Form
         {
             ObjInfoForm.Instance.DumpObjs();
         }
+
+
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
@@ -520,6 +522,7 @@ public partial class MainForm : Form
             case "SkillButton": ShowForm(SkillForm.Instance, () => new SkillForm().Show()); break;
             case "AndroidButton": ShowForm(AndroidForm.Instance, () => new AndroidForm().Show()); break;
             case "ConsumeButton": ShowForm(ConsumeForm.Instance, () => new ConsumeForm().Show()); break;
+            case "CashButton": ShowForm(CashForm.Instance, () => new CashForm().Show()); break;
         }
 
 

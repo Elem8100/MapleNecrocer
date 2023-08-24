@@ -43,6 +43,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            CashButton = new Button();
             ConsumeButton = new Button();
             OptionButton = new Button();
             AndroidButton = new Button();
@@ -200,6 +201,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(CashButton);
             panel1.Controls.Add(ConsumeButton);
             panel1.Controls.Add(OptionButton);
             panel1.Controls.Add(AndroidButton);
@@ -226,6 +228,23 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // CashButton
+            // 
+            CashButton.AutoSize = true;
+            CashButton.Enabled = false;
+            CashButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            CashButton.Image = (Image)resources.GetObject("CashButton.Image");
+            CashButton.ImageAlign = ContentAlignment.TopCenter;
+            CashButton.Location = new Point(1665, 1);
+            CashButton.Name = "CashButton";
+            CashButton.RightToLeft = RightToLeft.No;
+            CashButton.Size = new Size(76, 52);
+            CashButton.TabIndex = 22;
+            CashButton.Text = "Cash";
+            CashButton.TextAlign = ContentAlignment.BottomCenter;
+            CashButton.UseVisualStyleBackColor = true;
+            CashButton.Click += MobButton_Click;
             // 
             // ConsumeButton
             // 
@@ -593,6 +612,7 @@ namespace MapleNecrocer
             Controls.Add(OpenFolderButton);
             DoubleBuffered = true;
             Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             MaximumSize = new Size(5000, 5000);
             Name = "MainForm";
@@ -645,5 +665,6 @@ namespace MapleNecrocer
         private Button AndroidButton;
         private Button OptionButton;
         private Button ConsumeButton;
+        private Button CashButton;
     }
 }
