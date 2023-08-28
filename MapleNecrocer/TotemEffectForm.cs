@@ -15,6 +15,7 @@ public partial class TotemEffectForm : Form
     public TotemEffectForm()
     {
         InitializeComponent();
+        Instance=this;
     }
     public static TotemEffectForm Instance;
     public DataGridViewEx TotemEffectListGrid;
@@ -65,7 +66,11 @@ public partial class TotemEffectForm : Form
                     Name = Wz.GetStr("String/Eqp.img/Eqp/Accessory/" + ID + "/name");
                 TotemEffectListGrid.Rows.Add('0' + ID, Bmp, Name);
             }
-
+        }
+        for (int i = 0; i < TotemEffectListGrid.Rows.Count; i++)
+        {
+            TotemEffectListGrid.Rows[i].Cells[1].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            TotemEffectListGrid.Rows[i].Cells[2].Style.Alignment = DataGridViewContentAlignment.TopLeft;
         }
     }
 
@@ -80,5 +85,10 @@ public partial class TotemEffectForm : Form
             e.Handled = true;
         if (!textBox1.Focused)
             ActiveControl = null;
+    }
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+        TotemEffectListGrid.Search(textBox1.Text);
     }
 }
