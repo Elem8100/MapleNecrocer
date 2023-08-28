@@ -43,6 +43,8 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            TotemEffectButton = new Button();
+            EtcButton = new Button();
             CashButton = new Button();
             ConsumeButton = new Button();
             OptionButton = new Button();
@@ -201,6 +203,8 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(TotemEffectButton);
+            panel1.Controls.Add(EtcButton);
             panel1.Controls.Add(CashButton);
             panel1.Controls.Add(ConsumeButton);
             panel1.Controls.Add(OptionButton);
@@ -228,6 +232,40 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // TotemEffectButton
+            // 
+            TotemEffectButton.AutoSize = true;
+            TotemEffectButton.Enabled = false;
+            TotemEffectButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            TotemEffectButton.Image = (Image)resources.GetObject("TotemEffectButton.Image");
+            TotemEffectButton.ImageAlign = ContentAlignment.TopCenter;
+            TotemEffectButton.Location = new Point(1815, 1);
+            TotemEffectButton.Name = "TotemEffectButton";
+            TotemEffectButton.RightToLeft = RightToLeft.No;
+            TotemEffectButton.Size = new Size(76, 52);
+            TotemEffectButton.TabIndex = 24;
+            TotemEffectButton.Text = "Totem Eff";
+            TotemEffectButton.TextAlign = ContentAlignment.BottomCenter;
+            TotemEffectButton.UseVisualStyleBackColor = true;
+            TotemEffectButton.Click += MobButton_Click;
+            // 
+            // EtcButton
+            // 
+            EtcButton.AutoSize = true;
+            EtcButton.Enabled = false;
+            EtcButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            EtcButton.Image = (Image)resources.GetObject("EtcButton.Image");
+            EtcButton.ImageAlign = ContentAlignment.TopCenter;
+            EtcButton.Location = new Point(1740, 1);
+            EtcButton.Name = "EtcButton";
+            EtcButton.RightToLeft = RightToLeft.No;
+            EtcButton.Size = new Size(76, 52);
+            EtcButton.TabIndex = 23;
+            EtcButton.Text = "Etc";
+            EtcButton.TextAlign = ContentAlignment.BottomCenter;
+            EtcButton.UseVisualStyleBackColor = true;
+            EtcButton.Click += MobButton_Click;
             // 
             // CashButton
             // 
@@ -666,5 +704,7 @@ namespace MapleNecrocer
         private Button OptionButton;
         private Button ConsumeButton;
         private Button CashButton;
+        private Button EtcButton;
+        private Button TotemEffectButton;
     }
 }

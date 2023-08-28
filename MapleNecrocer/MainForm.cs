@@ -523,6 +523,8 @@ public partial class MainForm : Form
             case "AndroidButton": ShowForm(AndroidForm.Instance, () => new AndroidForm().Show()); break;
             case "ConsumeButton": ShowForm(ConsumeForm.Instance, () => new ConsumeForm().Show()); break;
             case "CashButton": ShowForm(CashForm.Instance, () => new CashForm().Show()); break;
+            case "EtcButton": ShowForm(EtcForm.Instance, () => new EtcForm().Show()); break;
+            case "TotemEffectButton": ShowForm(TotemEffectForm.Instance, () => new TotemEffectForm().Show()); break;
         }
 
 
@@ -532,10 +534,13 @@ public partial class MainForm : Form
 
     private void MainForm_KeyDown(object sender, KeyEventArgs e)
     {
+
         if (e.Alt)
             e.Handled = true;
         if (!SearchMapBox.Focused)
             ActiveControl = null;
+        if (Skill.PlayEnded)
+            SearchMapBox.Clear();
 
     }
 

@@ -56,7 +56,7 @@
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(6, 0);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(420, 595);
+            tabControl1.Size = new Size(420, 590);
             tabControl1.TabIndex = 7;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
@@ -65,7 +65,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(412, 567);
+            tabPage1.Size = new Size(412, 562);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Icons";
             tabPage1.UseVisualStyleBackColor = true;
