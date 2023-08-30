@@ -47,6 +47,9 @@
             // RecentFilesGrid
             // 
             RecentFilesGrid.AllowUserToAddRows = false;
+            RecentFilesGrid.AllowUserToDeleteRows = false;
+            RecentFilesGrid.AllowUserToResizeColumns = false;
+            RecentFilesGrid.AllowUserToResizeRows = false;
             RecentFilesGrid.BackgroundColor = SystemColors.ButtonHighlight;
             RecentFilesGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             RecentFilesGrid.ColumnHeadersVisible = false;
@@ -55,6 +58,7 @@
             RecentFilesGrid.RowHeadersVisible = false;
             RecentFilesGrid.RowHeadersWidth = 51;
             RecentFilesGrid.RowTemplate.Height = 29;
+            RecentFilesGrid.ShowCellToolTips = false;
             RecentFilesGrid.Size = new Size(494, 245);
             RecentFilesGrid.TabIndex = 1;
             RecentFilesGrid.CellContentClick += RecentFilesGrid_CellContentClick;

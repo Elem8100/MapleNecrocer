@@ -168,7 +168,7 @@ public partial class SelectFolderForm : Form
             MainForm.Instance.MapListBox.SearchGrid.DefaultCellStyle.Font = new Font("Microsoft JhengHei", 13f, GraphicsUnit.Pixel);
         }
         MainForm.Instance.DumpMapIDs();
-      
+
 
     }
 }

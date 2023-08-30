@@ -525,6 +525,8 @@ public partial class MainForm : Form
             case "CashButton": ShowForm(CashForm.Instance, () => new CashForm().Show()); break;
             case "EtcButton": ShowForm(EtcForm.Instance, () => new EtcForm().Show()); break;
             case "TotemEffectButton": ShowForm(TotemEffectForm.Instance, () => new TotemEffectForm().Show()); break;
+            case "SoulEffectButton": ShowForm(SoulEffectForm.Instance, () => new SoulEffectForm().Show()); break;
+            case "ReactorButton": ShowForm(ReactorForm.Instance, () => new ReactorForm().Show()); break;
         }
 
 

@@ -43,6 +43,8 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            ReactorButton = new Button();
+            SoulEffectButton = new Button();
             TotemEffectButton = new Button();
             EtcButton = new Button();
             CashButton = new Button();
@@ -203,6 +205,8 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(ReactorButton);
+            panel1.Controls.Add(SoulEffectButton);
             panel1.Controls.Add(TotemEffectButton);
             panel1.Controls.Add(EtcButton);
             panel1.Controls.Add(CashButton);
@@ -232,6 +236,40 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // ReactorButton
+            // 
+            ReactorButton.AutoSize = true;
+            ReactorButton.Enabled = false;
+            ReactorButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ReactorButton.Image = (Image)resources.GetObject("ReactorButton.Image");
+            ReactorButton.ImageAlign = ContentAlignment.TopCenter;
+            ReactorButton.Location = new Point(1965, 1);
+            ReactorButton.Name = "ReactorButton";
+            ReactorButton.RightToLeft = RightToLeft.No;
+            ReactorButton.Size = new Size(76, 52);
+            ReactorButton.TabIndex = 26;
+            ReactorButton.Text = "Reactor";
+            ReactorButton.TextAlign = ContentAlignment.BottomCenter;
+            ReactorButton.UseVisualStyleBackColor = true;
+            ReactorButton.Click += MobButton_Click;
+            // 
+            // SoulEffectButton
+            // 
+            SoulEffectButton.AutoSize = true;
+            SoulEffectButton.Enabled = false;
+            SoulEffectButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            SoulEffectButton.Image = (Image)resources.GetObject("SoulEffectButton.Image");
+            SoulEffectButton.ImageAlign = ContentAlignment.TopCenter;
+            SoulEffectButton.Location = new Point(1890, 1);
+            SoulEffectButton.Name = "SoulEffectButton";
+            SoulEffectButton.RightToLeft = RightToLeft.No;
+            SoulEffectButton.Size = new Size(76, 52);
+            SoulEffectButton.TabIndex = 25;
+            SoulEffectButton.Text = "Soul Eff";
+            SoulEffectButton.TextAlign = ContentAlignment.BottomCenter;
+            SoulEffectButton.UseVisualStyleBackColor = true;
+            SoulEffectButton.Click += MobButton_Click;
             // 
             // TotemEffectButton
             // 
@@ -706,5 +744,7 @@ namespace MapleNecrocer
         private Button CashButton;
         private Button EtcButton;
         private Button TotemEffectButton;
+        private Button SoulEffectButton;
+        private Button ReactorButton;
     }
 }
