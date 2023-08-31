@@ -60,18 +60,25 @@ public class RenderFormDraw : MonoGameControl
     {
 
 
-        /*
-        Keyboard.GetState();
-        if (Keyboard.KeyDown(Input.Right))
-            EngineFunc.SpriteEngine.Camera.X += 5.7f;
-
-        if (Keyboard.KeyDown(Input.Left))
-            EngineFunc.SpriteEngine.Camera.X -= 5.3f;
-        if (Keyboard.KeyDown(Input.Up))
-            EngineFunc.SpriteEngine.Camera.Y -= 5.4f;
-        if (Keyboard.KeyDown(Input.Down))
-            EngineFunc.SpriteEngine.Camera.Y += 5.2f;
-        */
+        if (Map.GameMode == GameMode.Viewer)
+        {
+            if (Keyboard.KeyDown(Input.Right))
+                EngineFunc.SpriteEngine.Camera.X += 5;
+            if (Keyboard.KeyDown(Input.Left))
+                EngineFunc.SpriteEngine.Camera.X -= 5;
+            if (Keyboard.KeyDown(Input.Up))
+                EngineFunc.SpriteEngine.Camera.Y -= 5;
+            if (Keyboard.KeyDown(Input.Down))
+                EngineFunc.SpriteEngine.Camera.Y += 5;
+            if (EngineFunc.SpriteEngine.Camera.X > Map.Right - Map.DisplaySize.X)
+                EngineFunc.SpriteEngine.Camera.X = Map.Right - Map.DisplaySize.X;
+            if (EngineFunc.SpriteEngine.Camera.X < Map.Left)
+                EngineFunc.SpriteEngine.Camera.X = Map.Left;
+            if (EngineFunc.SpriteEngine.Camera.Y > Map.Bottom - Map.DisplaySize.Y)
+                EngineFunc.SpriteEngine.Camera.Y = Map.Bottom - Map.DisplaySize.Y;
+            if (EngineFunc.SpriteEngine.Camera.Y < Map.Top)
+                EngineFunc.SpriteEngine.Camera.Y = Map.Top;
+        }
 
         if (Map.ReLoad)
         {
@@ -87,7 +94,7 @@ public class RenderFormDraw : MonoGameControl
         //   EngineFunc.SpriteEngine.Camera.X+=0.2f*(float)(gameTime.ElapsedGameTime.TotalMilliseconds/16.66f);
 
         if (MapleChair.IsUse)
-        { 
+        {
             if (Keyboard.KeyPressed(Input.Left) || Keyboard.KeyPressed(Input.Right))
             {
                 MapleChair.Delete();

@@ -155,7 +155,7 @@ namespace MapleNecrocer
             comboBox2.Items.AddRange(new object[] { "800X600", "1024X768", "1280X720", "1280X800", "1280X1024", "1360X768", "1366X768", "1440X900", "1600X900", "1600X1200", "1680X1050", "1920X1080", "1920X1200", "2048X1152", "2048X1536", "2560X1080", "2560X1440", "2560X1600", "3440X1440", "3840X2160" });
             comboBox2.Location = new Point(306, 36);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(90, 24);
+            comboBox2.Size = new Size(99, 24);
             comboBox2.TabIndex = 6;
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             comboBox2.Click += comboBox2_Click;
@@ -164,10 +164,13 @@ namespace MapleNecrocer
             // 
             comboBox1.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Play Mode", "Viewer Mode" });
             comboBox1.Location = new Point(306, 7);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(99, 24);
             comboBox1.TabIndex = 7;
+            comboBox1.Text = "Play Mode";
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label1
             // 

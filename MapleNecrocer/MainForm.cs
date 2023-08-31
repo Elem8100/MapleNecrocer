@@ -546,6 +546,13 @@ public partial class MainForm : Form
 
     }
 
-
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        switch (comboBox1.SelectedIndex)
+        {
+            case 0: Map.GameMode = GameMode.Play; break;
+            case 1: Map.GameMode = GameMode.Viewer; break;
+        }
+    }
 }
 
