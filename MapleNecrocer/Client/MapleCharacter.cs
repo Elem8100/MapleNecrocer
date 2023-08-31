@@ -28,6 +28,8 @@ namespace MapleNecrocer;
 public enum FaceDir { Left, Right, None }
 public enum LadderType { Ladder, Rope }
 public enum PartName { Head, Body, Cap, Face, Hair, Glove, FaceAcc, Glass, EarRing, Cape, Coat, Longcoat, Pants, Shield, Shoes, Weapon, CashWeapon, Chairs, SitTamingMob, WalkTamingMob, TamingMob }
+
+
 public class Game
 {
     public static Player Player;
@@ -511,8 +513,8 @@ public class Player : JumperSprite
     {
         base.DoMove(Delta);
         Keyboard.GetState();
-        //  if (Map.GameMode == GameMode.Viewer)
-        //   return;
+        if (Map.GameMode == GameMode.Viewer)
+           return;
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(AvatarTargetTexture);
         EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
         RenderTargetFunc();
@@ -1396,10 +1398,8 @@ public class AvatarParts : SpriteEx
 
     public override void DoMove(float Delta)
     {
-
-
-        //  if (Map.GameMode == GameMode.Viewer)
-        //    return;
+        if (Map.GameMode == GameMode.Viewer)
+            return;
 
         if (Morph.IsUse)
         {
@@ -1674,9 +1674,8 @@ public class AvatarParts : SpriteEx
         }
         */
 
-        // if (Map.GameMode == GameMode.Viewer)
-        //  return;
-
+        if (Map.GameMode == GameMode.Viewer)
+          return;
 
         if (ChangeFrame)
             ChangeFrame = false;
@@ -1684,8 +1683,6 @@ public class AvatarParts : SpriteEx
             base.DoDraw();
         if (Visible)
             Moved = true;
-
-
     }
 
 
