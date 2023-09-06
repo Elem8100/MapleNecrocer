@@ -9,8 +9,6 @@ Features:
 -Auto detect wz country, you don't need to select corresponding wz version   
 -A better wz lib (for older and newer wz)   
 
-Note:  
-This project is under early stage of development,more feature will be added in the feature.  
 
 ![alt tag](https://imgur.com/bgBOS1c.jpg"")  
 ![alt tag](https://i.imgur.com/bI1OhlG.jpg"")  
