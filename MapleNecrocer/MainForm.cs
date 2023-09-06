@@ -19,6 +19,8 @@ using System.Runtime.InteropServices;
 using DevComponents.DotNetBar.Controls;
 
 using Microsoft.Xna.Framework;
+using Spine;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MapleNecrocer;
 
@@ -47,7 +49,7 @@ public partial class MainForm : Form
     public static Wz_Node TreeNode;
     public static MainForm Instance;
     public DataGridViewEx MapListBox;
-
+    Dictionary<string, string> MapNames = new();
     Wz_Node GetWzNode(string Path)
     {
         return Wz.GetNode(Path);
@@ -68,7 +70,6 @@ public partial class MainForm : Form
 
     public void DumpMapIDs()
     {
-        var MapNames = new Dictionary<string, string>();
 
         foreach (var Iter in GetWzNode("String/Map.img").Nodes)
         {
@@ -103,6 +104,7 @@ public partial class MainForm : Form
         Win32.SendMessage(MapListBox.Handle, true);
 
         MapListBox.Refresh();
+        tabControl1.Enabled = true;
 
     }
     void WzFileFinding(object sender, FindWzEventArgs e)
@@ -441,7 +443,7 @@ public partial class MainForm : Form
             {
                 if (Iter.GetType().Name == "Button")
                 {
-                    ((Button)Iter).Enabled = true;
+                    ((System.Windows.Forms.Button)Iter).Enabled = true;
                 }
             }
             LoadedEff = true;
@@ -503,7 +505,7 @@ public partial class MainForm : Form
             else
                 Instance.Show();
         }
-        switch (((Button)sender).Name)
+        switch (((System.Windows.Forms.Button)sender).Name)
         {
             case "MobButton": ShowForm(MobForm.Instance, () => new MobForm().Show()); break;
             case "NpcButton": ShowForm(NpcForm.Instance, () => new NpcForm().Show()); break;
@@ -553,6 +555,73 @@ public partial class MainForm : Form
             case 0: Map.GameMode = GameMode.Play; break;
             case 1: Map.GameMode = GameMode.Viewer; break;
         }
+    }
+
+    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (tabControl1.SelectedIndex == 1)
+        {
+            if (WorldMapForm.Instance == null)
+                new WorldMapForm().Show();
+            else
+                WorldMapForm.Instance.Show();
+        }
+        else
+        {
+            WorldMapForm.Instance.Close();
+        }
+
+
+    }
+
+    private List<PictureBox> PictureBoxList = new();
+    private System.Windows.Forms.ToolTip ToolTip = new();
+    private void WorldMapListGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+    {
+
+        WorldMapForm.Instance.Show();
+        Wz_Node Img = Wz.GetNode("Map/WorldMap/" + WorldMapListGrid.Rows[e.RowIndex].Cells[1].Value.ToString().Trim(' '));
+        if (!Img.HasNode("BaseImg/0"))
+            return;
+        ToolTip.AutoPopDelay = 5000;
+        ToolTip.InitialDelay = 10;
+        ToolTip.ReshowDelay = 10;
+        // Force the ToolTip text to be displayed whether or not the form is active.
+        ToolTip.ShowAlways = true;
+
+        Bitmap Bmp = Img.GetBmp("BaseImg/0");
+        int W = Bmp.Width;
+        int H = Bmp.Height;
+        WorldMapForm.Instance.ClientSize = new Size(W, H);
+        WorldMapForm.Instance.pictureBox1.Image = Bmp;
+        Wz_Vector Origin = Img.GetVector("BaseImg/0/origin");
+
+        foreach (var Iter in PictureBoxList)
+            Iter.Dispose();
+        PictureBoxList.Clear();
+        //Bitmap SpotBmp=Wz.GetBmp();
+        foreach (var Iter in Img.GetNodes("MapList"))
+        {
+            var SpotPos = Iter.GetVector("spot");
+            string SpotType = Iter.GetInt("type").ToString();
+            Bitmap SpotBmp = Wz.GetBmp("Map/MapHelper.img/worldMap/mapImage/" + SpotType);
+            string SpotID = Iter.GetInt("mapNo/0").ToString().PadLeft(9, '0');
+            var SpotPic = new PictureBox();
+            if (MapNames.ContainsKey(SpotID))
+                SpotPic.AccessibleDescription = SpotID + " - " + MapNames[SpotID];
+            ToolTip.SetToolTip(SpotPic, SpotPic.AccessibleDescription);
+            PictureBoxList.Add(SpotPic);
+            SpotPic.Image = SpotBmp;
+            SpotPic.BackColor = System.Drawing.Color.Transparent;
+            SpotPic.Width = SpotBmp.Width;
+            SpotPic.Height = SpotBmp.Height;
+            Wz_Vector SpotOrigin = Wz.GetVector("Map/MapHelper.img/worldMap/mapImage/" + SpotType + "/origin");
+            SpotPic.Left = W - Origin.X + SpotPos.X - SpotOrigin.X;
+            SpotPic.Top = H - Origin.Y + SpotPos.Y - SpotOrigin.Y;
+            SpotPic.Parent = WorldMapForm.Instance.pictureBox1;
+            SpotPic.BringToFront();
+        }
+
     }
 }
 

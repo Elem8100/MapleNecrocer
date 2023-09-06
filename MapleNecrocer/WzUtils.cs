@@ -531,6 +531,11 @@ public static class Wz_NodeExtension3
         return null;
     }
 
+    public static Wz_Node.WzNodeCollection GetNodes(this Wz_Node Node,string Path)
+    {
+        return Node.GetNode(Path).Nodes;
+    }
+
     public static bool HasNode(this Wz_Node Node, string Path)
     {
         return Node.GetNode(Path) != null;

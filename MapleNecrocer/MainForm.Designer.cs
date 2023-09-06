@@ -36,6 +36,7 @@ namespace MapleNecrocer
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            WorldMapListGrid = new DataGridView();
             LoadMapButton = new Button();
             comboBox2 = new ComboBox();
             comboBox1 = new ComboBox();
@@ -73,6 +74,8 @@ namespace MapleNecrocer
             label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)WorldMapListGrid).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -110,12 +113,14 @@ namespace MapleNecrocer
             tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Enabled = false;
             tabControl1.Location = new Point(8, 241);
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(6, 1);
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(240, 417);
             tabControl1.TabIndex = 4;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
@@ -129,13 +134,35 @@ namespace MapleNecrocer
             // 
             // tabPage2
             // 
-            tabPage2.Location = new Point(4, 26);
+            tabPage2.Controls.Add(WorldMapListGrid);
+            tabPage2.Location = new Point(4, 25);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 387);
+            tabPage2.Size = new Size(232, 388);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // WorldMapListGrid
+            // 
+            WorldMapListGrid.AllowUserToAddRows = false;
+            WorldMapListGrid.AllowUserToDeleteRows = false;
+            WorldMapListGrid.AllowUserToResizeColumns = false;
+            WorldMapListGrid.AllowUserToResizeRows = false;
+            WorldMapListGrid.BackgroundColor = SystemColors.ButtonHighlight;
+            WorldMapListGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            WorldMapListGrid.ColumnHeadersVisible = false;
+            WorldMapListGrid.Dock = DockStyle.Fill;
+            WorldMapListGrid.Location = new Point(3, 3);
+            WorldMapListGrid.Name = "WorldMapListGrid";
+            WorldMapListGrid.RowHeadersVisible = false;
+            WorldMapListGrid.RowHeadersWidth = 51;
+            WorldMapListGrid.RowTemplate.Height = 29;
+            WorldMapListGrid.ScrollBars = ScrollBars.Vertical;
+            WorldMapListGrid.ShowCellToolTips = false;
+            WorldMapListGrid.Size = new Size(226, 382);
+            WorldMapListGrid.TabIndex = 2;
+            WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 
             // LoadMapButton
             // 
@@ -700,6 +727,8 @@ namespace MapleNecrocer
             KeyDown += MainForm_KeyDown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tabControl1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)WorldMapListGrid).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -749,5 +778,6 @@ namespace MapleNecrocer
         private Button TotemEffectButton;
         private Button SoulEffectButton;
         private Button ReactorButton;
+        public DataGridView WorldMapListGrid;
     }
 }
