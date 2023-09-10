@@ -135,10 +135,10 @@ namespace MapleNecrocer
             // tabPage2
             // 
             tabPage2.Controls.Add(WorldMapListGrid);
-            tabPage2.Location = new Point(4, 26);
+            tabPage2.Location = new Point(4, 25);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 387);
+            tabPage2.Size = new Size(232, 388);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -150,17 +150,22 @@ namespace MapleNecrocer
             WorldMapListGrid.AllowUserToResizeColumns = false;
             WorldMapListGrid.AllowUserToResizeRows = false;
             WorldMapListGrid.BackgroundColor = SystemColors.ButtonHighlight;
+            WorldMapListGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
             WorldMapListGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             WorldMapListGrid.ColumnHeadersVisible = false;
             WorldMapListGrid.Dock = DockStyle.Fill;
             WorldMapListGrid.Location = new Point(3, 3);
+            WorldMapListGrid.MultiSelect = false;
             WorldMapListGrid.Name = "WorldMapListGrid";
             WorldMapListGrid.RowHeadersVisible = false;
             WorldMapListGrid.RowHeadersWidth = 51;
-            WorldMapListGrid.RowTemplate.Height = 29;
+            WorldMapListGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            WorldMapListGrid.RowTemplate.Height = 25;
             WorldMapListGrid.ScrollBars = ScrollBars.Vertical;
             WorldMapListGrid.ShowCellToolTips = false;
-            WorldMapListGrid.Size = new Size(226, 381);
+            WorldMapListGrid.ShowEditingIcon = false;
+            WorldMapListGrid.ShowRowErrors = false;
+            WorldMapListGrid.Size = new Size(226, 382);
             WorldMapListGrid.TabIndex = 2;
             WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 

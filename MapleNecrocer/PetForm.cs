@@ -112,6 +112,8 @@ public partial class PetForm : Form
         Bitmap Bmp = null;
         foreach (var Img in Wz.GetNodes("Item/Pet"))
         {
+            if (!Char.IsNumber(Img.Text, 0))
+                continue;
             string ID = Img.ImgID();
             if (Wz.HasNode("String/Pet.img/" + ID))
                 PetName = Wz.GetStr("String/Pet.img/" + ID + "/name");
