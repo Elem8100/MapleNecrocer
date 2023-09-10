@@ -135,10 +135,10 @@ namespace MapleNecrocer
             // tabPage2
             // 
             tabPage2.Controls.Add(WorldMapListGrid);
-            tabPage2.Location = new Point(4, 25);
+            tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 388);
+            tabPage2.Size = new Size(232, 387);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@ namespace MapleNecrocer
             WorldMapListGrid.RowTemplate.Height = 29;
             WorldMapListGrid.ScrollBars = ScrollBars.Vertical;
             WorldMapListGrid.ShowCellToolTips = false;
-            WorldMapListGrid.Size = new Size(226, 382);
+            WorldMapListGrid.Size = new Size(226, 381);
             WorldMapListGrid.TabIndex = 2;
             WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 
@@ -720,6 +720,7 @@ namespace MapleNecrocer
             Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
+            MaximizeBox = false;
             MaximumSize = new Size(5000, 5000);
             Name = "MainForm";
             Text = "MapleNecrocer";

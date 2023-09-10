@@ -371,10 +371,8 @@ public partial class MainForm : Form
 
     }
 
-    static bool LoadedEff;
-    private void LoadMapButton_Click(object sender, EventArgs e)
+    private void LoadMap()
     {
-
         Map.LoadMap(Map.ID);
 
         int PX = 0, PY = 0;
@@ -453,8 +451,12 @@ public partial class MainForm : Form
         {
             ObjInfoForm.Instance.DumpObjs();
         }
+    }
 
-
+    static bool LoadedEff;
+    private void LoadMapButton_Click(object sender, EventArgs e)
+    {
+        this.LoadMap();
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
@@ -494,8 +496,6 @@ public partial class MainForm : Form
         MapListBox.Search(SearchMapBox.Text);
     }
 
-
-
     private void MobButton_Click(object sender, EventArgs e)
     {
         void ShowForm(Form Instance, Action NewForm)
@@ -530,11 +530,7 @@ public partial class MainForm : Form
             case "SoulEffectButton": ShowForm(SoulEffectForm.Instance, () => new SoulEffectForm().Show()); break;
             case "ReactorButton": ShowForm(ReactorForm.Instance, () => new ReactorForm().Show()); break;
         }
-
-
     }
-
-
 
     private void MainForm_KeyDown(object sender, KeyEventArgs e)
     {
@@ -559,27 +555,30 @@ public partial class MainForm : Form
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (tabControl1.SelectedIndex == 1)
-        {
-            if (WorldMapForm.Instance == null)
-                new WorldMapForm().Show();
-            else
-                WorldMapForm.Instance.Show();
-        }
-        else
+        if (tabControl1.SelectedIndex == 0)
         {
             WorldMapForm.Instance.Close();
         }
-
-
+        else
+        {
+            if (WorldMapForm.Instance == null)
+            {
+                new WorldMapForm().Show();
+                WorldMapForm.Instance.Hide();
+            }
+            else
+            {
+                WorldMapForm.Instance.Show();
+            }
+        }
     }
 
     private List<PictureBox> PictureBoxList = new();
     private System.Windows.Forms.ToolTip ToolTip = new();
     private void WorldMapListGrid_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-
         WorldMapForm.Instance.Show();
+
         Wz_Node Img = Wz.GetNode("Map/WorldMap/" + WorldMapListGrid.Rows[e.RowIndex].Cells[1].Value.ToString().Trim(' '));
         if (!Img.HasNode("BaseImg/0"))
             return;
@@ -599,29 +598,47 @@ public partial class MainForm : Form
         foreach (var Iter in PictureBoxList)
             Iter.Dispose();
         PictureBoxList.Clear();
-        //Bitmap SpotBmp=Wz.GetBmp();
+
         foreach (var Iter in Img.GetNodes("MapList"))
         {
             var SpotPos = Iter.GetVector("spot");
             string SpotType = Iter.GetInt("type").ToString();
             Bitmap SpotBmp = Wz.GetBmp("Map/MapHelper.img/worldMap/mapImage/" + SpotType);
             string SpotID = Iter.GetInt("mapNo/0").ToString().PadLeft(9, '0');
-            var SpotPic = new PictureBox();
+            var SpotPictureBox = new PictureBox();
             if (MapNames.ContainsKey(SpotID))
-                SpotPic.AccessibleDescription = SpotID + " - " + MapNames[SpotID];
-            ToolTip.SetToolTip(SpotPic, SpotPic.AccessibleDescription);
-            PictureBoxList.Add(SpotPic);
-            SpotPic.Image = SpotBmp;
-            SpotPic.BackColor = System.Drawing.Color.Transparent;
-            SpotPic.Width = SpotBmp.Width;
-            SpotPic.Height = SpotBmp.Height;
+                SpotPictureBox.AccessibleDescription = SpotID + " - " + MapNames[SpotID];
+            ToolTip.SetToolTip(SpotPictureBox, SpotPictureBox.AccessibleDescription);
+            PictureBoxList.Add(SpotPictureBox);
+            SpotPictureBox.Image = SpotBmp;
+            SpotPictureBox.BackColor = System.Drawing.Color.Transparent;
+            SpotPictureBox.Width = SpotBmp.Width;
+            SpotPictureBox.Height = SpotBmp.Height;
             Wz_Vector SpotOrigin = Wz.GetVector("Map/MapHelper.img/worldMap/mapImage/" + SpotType + "/origin");
-            SpotPic.Left = W - Origin.X + SpotPos.X - SpotOrigin.X;
-            SpotPic.Top = H - Origin.Y + SpotPos.Y - SpotOrigin.Y;
-            SpotPic.Parent = WorldMapForm.Instance.pictureBox1;
-            SpotPic.BringToFront();
+            SpotPictureBox.Left = W - Origin.X + SpotPos.X - SpotOrigin.X;
+            SpotPictureBox.Top = H - Origin.Y + SpotPos.Y - SpotOrigin.Y;
+            SpotPictureBox.Parent = WorldMapForm.Instance.pictureBox1;
+            SpotPictureBox.BringToFront();
+
+            SpotPictureBox.Click += (s, e) =>
+            {
+                string ID = ((PictureBox)s).AccessibleDescription.LeftStr(9).Trim(' ');
+                if (Map.ID == ID)
+                    return;
+                if (!Wz.HasNode("Map/Map/Map" + ID.LeftStr(1) + "/" + ID + ".img"))
+                    return;
+                // Map.ReLoad = true;
+                Map.ID = ID;
+                this.LoadMap();
+                if (LoadMapButton.Enabled == false)
+                    LoadMapButton.Enabled = true;
+            };
         }
 
+
+
     }
+
+
 }
 

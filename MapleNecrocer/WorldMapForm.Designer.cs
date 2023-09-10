@@ -49,9 +49,13 @@
             Controls.Add(pictureBox1);
             Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             KeyPreview = true;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "WorldMapForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "WorldMap";
             TopMost = true;
+            Load += WorldMapForm_Load;
             Shown += WorldMapForm_Shown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

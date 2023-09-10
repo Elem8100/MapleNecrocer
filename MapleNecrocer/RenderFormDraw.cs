@@ -59,7 +59,6 @@ public class RenderFormDraw : MonoGameControl
     protected override void Update(GameTime gameTime)
     {
 
-
         if (Map.GameMode == GameMode.Viewer)
         {
             if (Keyboard.KeyDown(Input.Right))

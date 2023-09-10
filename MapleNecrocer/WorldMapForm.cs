@@ -20,6 +20,12 @@ public partial class WorldMapForm : Form
     public static WorldMapForm Instance;
     private void WorldMapForm_Shown(object sender, EventArgs e)
     {
+
+
+    }
+
+    private void WorldMapForm_Load(object sender, EventArgs e)
+    {
         this.FormClosing += (s, e1) =>
         {
             this.Hide();
@@ -143,6 +149,7 @@ public partial class WorldMapForm : Form
             else
                 MainForm.Instance.WorldMapListGrid.Rows.Add(img.Text, img.Text);
         }
+
 
     }
 }
