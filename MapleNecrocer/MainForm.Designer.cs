@@ -135,10 +135,10 @@ namespace MapleNecrocer
             // tabPage2
             // 
             tabPage2.Controls.Add(WorldMapListGrid);
-            tabPage2.Location = new Point(4, 25);
+            tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 388);
+            tabPage2.Size = new Size(232, 387);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -165,7 +165,7 @@ namespace MapleNecrocer
             WorldMapListGrid.ShowCellToolTips = false;
             WorldMapListGrid.ShowEditingIcon = false;
             WorldMapListGrid.ShowRowErrors = false;
-            WorldMapListGrid.Size = new Size(226, 382);
+            WorldMapListGrid.Size = new Size(226, 381);
             WorldMapListGrid.TabIndex = 2;
             WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 
@@ -683,6 +683,7 @@ namespace MapleNecrocer
             SaveMapButton.Text = "Save Map";
             SaveMapButton.TextAlign = ContentAlignment.BottomCenter;
             SaveMapButton.UseVisualStyleBackColor = true;
+            SaveMapButton.Click += MobButton_Click;
             // 
             // DisplayButton
             // 

@@ -49,7 +49,7 @@ public partial class MainForm : Form
     public static Wz_Node TreeNode;
     public static MainForm Instance;
     public DataGridViewEx MapListBox;
-    Dictionary<string, string> MapNames = new();
+    public Dictionary<string, string> MapNames = new();
     Wz_Node GetWzNode(string Path)
     {
         return Wz.GetNode(Path);
@@ -529,6 +529,7 @@ public partial class MainForm : Form
             case "TotemEffectButton": ShowForm(TotemEffectForm.Instance, () => new TotemEffectForm().Show()); break;
             case "SoulEffectButton": ShowForm(SoulEffectForm.Instance, () => new SoulEffectForm().Show()); break;
             case "ReactorButton": ShowForm(ReactorForm.Instance, () => new ReactorForm().Show()); break;
+            case "SaveMapButton": ShowForm(SaveMapForm.Instance, () => new SaveMapForm().Show()); break;
         }
     }
 
