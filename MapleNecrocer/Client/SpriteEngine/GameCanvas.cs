@@ -17,7 +17,8 @@ public enum BlendMode
     LinearBurn,
     Difference,
     Subtractive,
-    NonPremultiplied
+    NonPremultiplied,
+    Opaque
 }
 public class GameCanvas
 {
@@ -111,17 +112,10 @@ public class GameCanvas
         //
         blendState[10] = new BlendState
         {
-            // ColorSourceBlend = Blend.SourceAlpha,
-            //  ColorDestinationBlend = Blend.InverseSourceAlpha,
-            // AlphaSourceBlend = Blend.One,
-            // AlphaDestinationBlend = Blend.InverseSourceAlpha
-
-            ColorSourceBlend = Blend.One,
+            ColorSourceBlend = Blend.SourceAlpha,
             ColorDestinationBlend = Blend.InverseSourceAlpha,
-            ColorBlendFunction = BlendFunction.Add,
             AlphaSourceBlend = Blend.One,
             AlphaDestinationBlend = Blend.InverseSourceAlpha,
-            AlphaBlendFunction = BlendFunction.Add
         };
 
         this.GraphicsDevice = graphicGDevice;
@@ -142,7 +136,6 @@ public class GameCanvas
     {
         DrawEx(Texture, X, Y, 0, 0, 1, 1, 0, FlipX, FlipY, 255, 255, 255, 255, false, BlendMode);
     }
-
     public void DrawColor(Texture2D Texture, float X, float Y, byte Red, byte Green, byte Blue, byte Alpha = 255, BlendMode BlendMode = BlendMode.Normal)
     {
         DrawEx(Texture, X, Y, 0, 0, 1, 1, 0, false, false, Red, Green, Blue, Alpha, false, BlendMode);
@@ -157,8 +150,8 @@ public class GameCanvas
     {
         if (BlendMode == BlendMode.Normal)
         {
-            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-
+            //  SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
+            SpriteBatch.Begin(SpriteSortMode.Deferred, blendState[10]);
         }
         else
         {
@@ -184,7 +177,6 @@ public class GameCanvas
                 case BlendMode.LinearDodge:
                     SpriteBatch.Begin(SpriteSortMode.Deferred, blendState[6]);
                     break;
-
                 case BlendMode.LinearBurn:
                     SpriteBatch.Begin(SpriteSortMode.Deferred, blendState[7]);
                     break;
@@ -198,7 +190,9 @@ public class GameCanvas
                 case BlendMode.NonPremultiplied:
                     SpriteBatch.Begin(SpriteSortMode.Deferred, blendState[10]);
                     break;
-
+                case BlendMode.Opaque:
+                    SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque);
+                    break;
             }
         }
 
@@ -220,8 +214,6 @@ public class GameCanvas
       int OriginX, int OriginY, float ScaleX, float ScaleY, float Rotation, bool FlipX, bool FlipY,
       byte Red, byte Green, byte Blue, byte Alpha, bool DoCenter, BlendMode BlendMode = BlendMode.Normal)
     {
-
-
         int TexWidth = Texture.Width;
         int TexHeight = Texture.Height;
 
@@ -265,8 +257,6 @@ public class GameCanvas
             OriginX = CropArea.Width / 2;
             OriginY = CropArea.Height / 2;
         }
-
-
         SetBlendMode(BlendMode);
         SpriteBatch.Draw(Texture,
                          new Vector2(X, Y),
@@ -284,7 +274,6 @@ public class GameCanvas
     {
         DrawCropArea(Texture, X, Y, CropArea, 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
     }
-
 
     public void DrawEx(Texture2D Texture, float X, float Y, int OriginX, int OriginY, float ScaleX, float ScaleY, float Rotation,
         bool FlipX, bool FlipY, byte Red, byte Green, byte Blue, byte Alpha, bool DoCenter, BlendMode BlendMode = BlendMode.Normal)
@@ -313,11 +302,8 @@ public class GameCanvas
 
     public void DrawRotate(Texture2D Texture, float X, float Y, float Rotation, BlendMode BlendMode = BlendMode.Normal)
     {
-
         DrawEx(Texture, X, Y, 0, 0, 1, 1, Rotation, false, false, 255, 255, 255, 255, true, BlendMode);
-
     }
-
     public void DrawStringEx(string KeyName, string Text, float X, float Y, Color Color)
     {
         SpriteBatch.Begin();
@@ -330,7 +316,6 @@ public class GameCanvas
         D2DRenderer.DrawString(EngineFunc.D2DFonts[KeyName], Text, new Vector2(X, Y), Color);
         D2DRenderer.End();
     }
-
     public void DrawString(string KeyName, string Text, float X, float Y, Color Color)
     {
         if (Map.UseD2D)
@@ -338,14 +323,12 @@ public class GameCanvas
         else
             DrawStringEx(KeyName, Text, X, Y, Color);
     }
-
     public void FillRect(int X, int Y, int Width, int Height, Color Color)
     {
         SpriteBatch.Begin();
         SpriteBatch.FillRoundedRectangle(new Microsoft.Xna.Framework.Rectangle(X, Y, Width, Height), Color);
         SpriteBatch.End();
     }
-
     public void Pixel(int X, int Y, Color Color)
     {
         SpriteBatch.Begin();
@@ -359,17 +342,13 @@ public class GameCanvas
         {
             Target.Dispose();
             Target = null;
-
         }
         Target = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Color, DepthFormat.None);
-
         GraphicsDevice.SetRenderTarget(Target);
         GraphicsDevice.Clear(Color.Transparent);
         Action();
         GraphicsDevice.SetRenderTarget(null);
     }
-
-
 
 }
 
