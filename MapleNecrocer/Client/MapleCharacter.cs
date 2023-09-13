@@ -445,9 +445,7 @@ public class Player : JumperSprite
                             Sprite.Expression = "blink";
                             Sprite.Animate = true;
                             Sprite.AnimRepeat = true;
-
-                            if (Part == PartName.Glass || Part == PartName.CashWeapon || Part==PartName.Cape ||Part== PartName.Cap)
-                                Sprite.BlendMode = MonoGame.SpriteEngine.BlendMode.NonPremultiplied;
+                         
                             string[] S = Path.Split('/');
 
                             if (Part != PartName.CashWeapon)
