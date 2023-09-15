@@ -540,8 +540,8 @@ public partial class MainForm : Form
             e.Handled = true;
         if (!SearchMapBox.Focused)
             ActiveControl = null;
-        if (Skill.PlayEnded)
-            SearchMapBox.Clear();
+      //  if (Skill.PlayEnded)
+          //  SearchMapBox.Clear();
 
     }
 
