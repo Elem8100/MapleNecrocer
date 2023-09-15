@@ -42,7 +42,7 @@ public class Map
     public static string MobLvFont;
     public static GameMode GameMode=GameMode.Play;
     public static bool ResetPos;
-    
+    public static bool SaveMap;
 
     public static int MeasureStringX(string FontNameKey, string Text)
     {
@@ -71,7 +71,18 @@ public class Map
             {
                 if (I.Tag != 1)
                     I.Dead();
+               
+             
+                if(I is Mob)
+                {
+                    var Mob = I as Mob;
+                    if (Mob.RenderTarget!=null)
+                    {
+                        Mob.RenderTarget.Dispose();
+                    }
+                }
             }
+
             EngineFunc.SpriteEngine.Dead();
         }
         Wz.Data.Clear();

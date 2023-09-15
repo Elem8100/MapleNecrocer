@@ -20,6 +20,7 @@ using WzComparerR2.Text;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Reflection.Metadata;
 using static MapleNecrocer.Skill;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MapleNecrocer;
 enum MoveDirection { Left, Right, None }
@@ -71,6 +72,8 @@ public class Mob : JumperSprite
     public static List<string> MobList = new();
     public static List<string> SummonedList = new();
     public MobCollision[] MobCollision = new MobCollision[7];
+    int NameTagWidth;
+    public RenderTarget2D RenderTarget;
     public static void Create()
     {
         Mob.MobList.Clear();
@@ -200,12 +203,36 @@ public class Mob : JumperSprite
         Mob.MobName = Wz.GetNodeA("String/Mob.img/" + Mob.LocalID.IntID()).GetStr("name");
         Mob.NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, Mob.MobName);
         Mob.IDWidth = Map.MeasureStringX(Map.NpcNameTagFont, "ID:" + Mob.LocalID);
+        Mob.NameTagWidth = 10 + Mob.LevelWidth + Mob.NameWidth;
+        Mob.Engine.Canvas.DrawTarget(ref Mob.RenderTarget, Mob.NameTagWidth, 25, () =>
+        {
+            Mob.RenderTargetFunc();
+        });
+
         Wz_Vector origin = WzDict.GetVector("Mob/" + Mob.ID + ".img/" + Mob.Action + "/0/origin");
         if (Mob.FlipX)
             Mob.Origin.X = -origin.X + Mob.ImageWidth;
         else
             Mob.Origin.X = origin.X;
         Mob.Origin.Y = origin.Y;
+    }
+
+    void RenderTargetFunc()
+    {
+        if (Map.ShowID)
+        {
+            float IDPos = IDWidth / 2;
+            Engine.Canvas.FillRect((int)IDPos - 2, (int)21, IDWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+            Engine.Canvas.DrawString(Map.NpcNameTagFont, "ID:" + ID, IDPos, 22, Microsoft.Xna.Framework.Color.Cyan);
+        }
+
+        float LvPosX = LevelWidth - (NameWidth / 2) + 4;
+        Engine.Canvas.FillRect(0, 5, LevelWidth + 5, 11, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+        Engine.Canvas.DrawString(Map.MobLvFont, "Lv." + Level, 2, 5, Microsoft.Xna.Framework.Color.White);
+
+        float NamePosX = LevelWidth + 6;
+        Engine.Canvas.FillRect((int)NamePosX, 3, NameWidth + 4, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+        Engine.Canvas.DrawString(Map.NpcNameTagFont, MobName, NamePosX + 2, 4, Microsoft.Xna.Framework.Color.White);
     }
 
     public override void DoMove(float Delta)
@@ -362,16 +389,16 @@ public class Mob : JumperSprite
         }
 
         if (Hit)
-        {  
+        {
             if (GetHit1)
             {
                 if ((Action == "hit1") || (Action == DieActionName))
                 {
                     if (Frame == 0)
                     {
-                        
+
                         if (Skill.Attacking)
-                        { 
+                        {
                             if (Skill.MultiStrike)
                                 DamageNumber.Create(Game.Damage, (int)HeadX, (int)Head.Y + HitIndex * (-30));
                             else
@@ -379,7 +406,7 @@ public class Mob : JumperSprite
                             SkillHitEffect.Create(this);
                         }
                         else
-                        { 
+                        {
                             DamageNumber.Create(Game.Damage, (int)Head.X, (int)Head.Y);
                         }
                     }
@@ -705,22 +732,7 @@ public class Mob : JumperSprite
         base.DoDraw();
         int WX = (int)X - (int)Engine.Camera.X;
         int WY = (int)Y - (int)Engine.Camera.Y;
-
-        if (Map.ShowID)
-        {
-            float IDPos = WX - IDWidth / 2;
-            Engine.Canvas.FillRect((int)IDPos - 2, (int)WY + 21, IDWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
-            Engine.Canvas.DrawString(Map.NpcNameTagFont, "ID:" + ID, IDPos, WY + 22, Microsoft.Xna.Framework.Color.Cyan);
-        }
-
-        float NamePosX = WX - NameWidth / 2;
-        Engine.Canvas.FillRect((int)NamePosX - 2, WY + 3, NameWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
-        Engine.Canvas.DrawString(Map.NpcNameTagFont, MobName, NamePosX, WY + 4, Microsoft.Xna.Framework.Color.White);
-
-        float LvPosX = WX - LevelWidth - (NameWidth / 2) - 6;
-        Engine.Canvas.FillRect((int)LvPosX - 3, (int)WY + 6, LevelWidth + 5, 11, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
-        Engine.Canvas.DrawString(Map.MobLvFont, "Lv." + Level, LvPosX, WY + 5, Microsoft.Xna.Framework.Color.White);
-
+        Engine.Canvas.Draw(RenderTarget, WX - NameTagWidth / 2, WY, MonoGame.SpriteEngine.BlendMode.NonPremultiplied2);
     }
 }
 
@@ -728,12 +740,12 @@ public class MobCollision : SpriteEx
 {
     public MobCollision(Sprite Parent) : base(Parent)
     {
-        CollideMode= CollideMode.Rect;
+        CollideMode = CollideMode.Rect;
         CanCollision = true;
     }
 
     public Mob Owner;
-   // int Left, Top, Right, Bottom;
+    // int Left, Top, Right, Bottom;
     int Counter;
     public int Index;
     public int StartTime;
@@ -752,7 +764,7 @@ public class MobCollision : SpriteEx
     public override void OnCollision(Sprite sprite)
     {
         if (sprite is SkillCollision)
-        {  
+        {
             if (Owner.HP > 0)
             {
                 Owner.HitIndex = this.Index;
@@ -784,7 +796,7 @@ public class MobCollision : SpriteEx
 
     public override void DoDraw()
     {
-        if(ImageNode==null) return;
+        if (ImageNode == null) return;
     }
 
 }

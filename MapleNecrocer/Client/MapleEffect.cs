@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using WzComparerR2.CharaSim;
 using WzComparerR2.WzLib;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -52,8 +53,8 @@ public class SetEffect : SpriteEx
     {
         if (SetEffect.UseList.ContainsKey(ID))
         {
-           SetEffect.UseList[ID].Dead();
-           SetEffect.UseList.Remove(ID);
+            SetEffect.UseList[ID].Dead();
+            SetEffect.UseList.Remove(ID);
         }
     }
 
@@ -305,6 +306,9 @@ public class ItemEffect : SpriteEx
         else
         {
             var ItemEffect = new ItemEffect(EngineFunc.SpriteEngine);
+            ItemEffect.ImageLib = Wz.EquipImageLib;
+            ItemEffect.IntMove = true;
+            ItemEffect.Tag = 1;
             if (ID.LeftStr(3) == "012")
             {
                 ItemEffect.EffType = EffectType.Totem;
@@ -322,8 +326,9 @@ public class ItemEffect : SpriteEx
                 }
             }
             else if (ID.LeftStr(1) == "8")
-            {
+            { 
                 ItemEffect.EffType = EffectType.Soul;
+              
                 ItemEffect.Path = Entry.FullPathToFile2();
             }
             else
@@ -331,16 +336,13 @@ public class ItemEffect : SpriteEx
                 ItemEffect.EffType = EffectType.Consume;
                 ItemEffect.Path = Entry.FullPathToFile2();
             }
-            ItemEffect.ImageLib = Wz.EquipImageLib;
-            ItemEffect.IntMove = true;
-            ItemEffect.Tag = 1;
+
         }
     }
 
     public override void DoMove(float Delta)
-    {
+    { 
         base.DoMove(Delta);
-
         if (Wz.HasDataE(Path + "/" + Game.Player.Action + "/" + Frame))
         {
             ImageNode = Wz.EquipData[Path + "/" + Game.Player.Action + "/" + Frame];
@@ -368,14 +370,14 @@ public class ItemEffect : SpriteEx
         }
         else
         {
-
             Visible = false;
         }
-
+        
         if (ImageNode == null)
-            return;
-
+          return;
+       
         Delay = ImageNode.GetInt("delay", 100);
+        
         FTime += 17;
         if (FTime > Delay)
         {
@@ -401,6 +403,7 @@ public class ItemEffect : SpriteEx
             }
             FTime = 0;
         }
+        
         FlipX = Game.Player.FlipX;
         X = Game.Player.X - 10;
         int Pos = ImageNode.ParentNode.GetInt("pos", -1);
@@ -442,10 +445,11 @@ public class ItemEffect : SpriteEx
         Z = Game.Player.Z + ImageNode.ParentNode.GetInt("z", 0);
         if (EffType == EffectType.Chair)
             Z = Game.Player.Z + ImageNode.GetInt("z", 0) - 1;
-
+        
         Wz_Vector origin = ImageNode.GetVector("origin");
+        
         Vector2 BrowPos;
-        Wz_Vector BodyRelMove=new(0,0);
+        Wz_Vector BodyRelMove = new(0, 0);
         int OffY = 0;
         if (EffType == EffectType.Chair)
         {
@@ -473,6 +477,13 @@ public class ItemEffect : SpriteEx
         }
         Origin.Y = (int)(origin.Y + BrowPos.Y - OffY + BodyRelMove.Y);
 
+    }
+
+    public override void DoDraw()
+    {
+        if(ImageNode==null)
+            return;
+        base.DoDraw();
     }
 }
 
