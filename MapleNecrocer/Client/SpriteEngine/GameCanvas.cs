@@ -8,6 +8,7 @@ using MapleNecrocer;
 public enum BlendMode
 {
     Normal,
+    NonPremultiplied2,
     LightMap,
     Multiply,
     AddtiveColor,
@@ -26,8 +27,12 @@ public class GameCanvas
     {
         blendState[0] = new BlendState
         {
-            ColorSourceBlend = Blend.Zero,
-            ColorDestinationBlend = Blend.SourceColor
+            ColorSourceBlend = Blend.One,
+            ColorDestinationBlend = Blend.InverseSourceAlpha,
+            ColorBlendFunction = BlendFunction.Add,
+            AlphaSourceBlend = Blend.One,
+            AlphaDestinationBlend = Blend.InverseSourceAlpha,
+            AlphaBlendFunction = BlendFunction.Add
         };
         //Light Map 
         blendState[1] = new BlendState
@@ -157,6 +162,9 @@ public class GameCanvas
         {
             switch (BlendMode)
             {
+                case BlendMode.NonPremultiplied2:
+                    SpriteBatch.Begin(SpriteSortMode.Deferred, blendState[0]);
+                    break;
                 case BlendMode.LightMap:
                     SpriteBatch.Begin(SpriteSortMode.Deferred, blendState[1]);
                     break;
