@@ -21,6 +21,7 @@ using DevComponents.DotNetBar.Controls;
 using Microsoft.Xna.Framework;
 using Spine;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Runtime.CompilerServices;
 
 namespace MapleNecrocer;
 
@@ -50,6 +51,11 @@ public partial class MainForm : Form
     public static MainForm Instance;
     public DataGridViewEx MapListBox;
     public Dictionary<string, string> MapNames = new();
+
+    public void CenterToScreen2()
+    {
+        this.CenterToScreen();
+    }
     Wz_Node GetWzNode(string Path)
     {
         return Wz.GetNode(Path);
@@ -460,10 +466,10 @@ public partial class MainForm : Form
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-    private static extern bool MoveWindow(IntPtr hWnd, int x, int y, int w, int h, bool Repaint);
+    public static extern bool MoveWindow(IntPtr hWnd, int x, int y, int w, int h, bool Repaint);
     private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        RenderFormDraw.ScreenMode = ScreenMode.Normal;
         var Split = comboBox2.Text.Split("X");
         Map.DisplaySize.X = Split[0].ToInt();
         Map.DisplaySize.Y = Split[1].ToInt();
@@ -530,6 +536,7 @@ public partial class MainForm : Form
             case "SoulEffectButton": ShowForm(SoulEffectForm.Instance, () => new SoulEffectForm().Show()); break;
             case "ReactorButton": ShowForm(ReactorForm.Instance, () => new ReactorForm().Show()); break;
             case "SaveMapButton": ShowForm(SaveMapForm.Instance, () => new SaveMapForm().Show()); break;
+            case "ScaleButton": ShowForm(ScaleForm.Instance, () => new ScaleForm().Show()); break;
         }
     }
 
@@ -540,8 +547,8 @@ public partial class MainForm : Form
             e.Handled = true;
         if (!SearchMapBox.Focused)
             ActiveControl = null;
-      //  if (Skill.PlayEnded)
-          //  SearchMapBox.Clear();
+        //  if (Skill.PlayEnded)
+        //  SearchMapBox.Clear();
 
     }
 
@@ -640,6 +647,9 @@ public partial class MainForm : Form
 
     }
 
+    private void FullScreenButton_Click(object sender, EventArgs e)
+    {
 
+    }
 }
 

@@ -592,6 +592,8 @@ namespace MapleNecrocer
             // ScaleButton
             // 
             ScaleButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ScaleButton.Image = Properties.Resources.resize_picture_icon;
+            ScaleButton.ImageAlign = ContentAlignment.TopCenter;
             ScaleButton.Location = new Point(235, 1);
             ScaleButton.Name = "ScaleButton";
             ScaleButton.Size = new Size(77, 52);
@@ -599,6 +601,7 @@ namespace MapleNecrocer
             ScaleButton.Text = "Scale";
             ScaleButton.TextAlign = ContentAlignment.BottomCenter;
             ScaleButton.UseVisualStyleBackColor = true;
+            ScaleButton.Click += MobButton_Click;
             // 
             // SkillButton
             // 
@@ -624,9 +627,10 @@ namespace MapleNecrocer
             FullScreenButton.Name = "FullScreenButton";
             FullScreenButton.Size = new Size(77, 52);
             FullScreenButton.TabIndex = 5;
-            FullScreenButton.Text = "Display";
+            FullScreenButton.Text = "Full Screen";
             FullScreenButton.TextAlign = ContentAlignment.BottomCenter;
             FullScreenButton.UseVisualStyleBackColor = true;
+            FullScreenButton.Click += FullScreenButton_Click;
             // 
             // ChairButton
             // 
@@ -675,7 +679,10 @@ namespace MapleNecrocer
             // 
             // SaveMapButton
             // 
+            SaveMapButton.Enabled = false;
             SaveMapButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            SaveMapButton.Image = Properties.Resources.Aha_Soft_Hardware_Floppy_32;
+            SaveMapButton.ImageAlign = ContentAlignment.TopCenter;
             SaveMapButton.Location = new Point(79, 1);
             SaveMapButton.Name = "SaveMapButton";
             SaveMapButton.Size = new Size(77, 52);

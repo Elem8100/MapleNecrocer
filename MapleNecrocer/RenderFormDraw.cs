@@ -17,7 +17,7 @@ using System.Security.Claims;
 using WzComparerR2.CharaSim;
 
 namespace MapleNecrocer;
-
+public enum ScreenMode { Normal, Scale, FullScreen }
 public class RenderFormDraw : MonoGameControl
 {
     public RenderFormDraw()
@@ -27,6 +27,8 @@ public class RenderFormDraw : MonoGameControl
     public static RenderFormDraw Instance;
 
     public static bool CanDraw;
+    public static ScreenMode ScreenMode = ScreenMode.Normal;
+    static RenderTarget2D ScreenRenderTarget;
     protected override void Initialize()
     {
         //if (!CanDraw)
@@ -48,6 +50,9 @@ public class RenderFormDraw : MonoGameControl
         //JMS font
         EngineFunc.AddFont(this.GraphicsDevice, "MSGothic11", "MS Gothic", 11f);
         EngineFunc.AddFont(this.GraphicsDevice, "MSGothic12", "MS Gothic", 12f);
+
+        ScreenRenderTarget = new RenderTarget2D(this.GraphicsDevice, 4000, 4000,
+                                                   false, SurfaceFormat.Color, DepthFormat.None);
 
         //kms
         //EngineFunc.AddD2DFont("Arial12", "Arial12", 12f);
@@ -104,6 +109,13 @@ public class RenderFormDraw : MonoGameControl
             }
         }
 
+
+        if (ScreenMode == ScreenMode.Scale)
+        {
+            this.GraphicsDevice.SetRenderTarget(ScreenRenderTarget);
+            EngineFunc.SpriteEngine.Draw();
+            this.GraphicsDevice.SetRenderTarget(null);
+        }
     }
 
     //  public static float xx;
@@ -115,7 +127,18 @@ public class RenderFormDraw : MonoGameControl
 
         this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
         EngineFunc.SpriteEngine.Dead();
-        EngineFunc.SpriteEngine.Draw();
+        // EngineFunc.SpriteEngine.Draw();
+
+        switch (ScreenMode)
+        {
+            case ScreenMode.Normal:
+                EngineFunc.SpriteEngine.Draw();
+                break;
+            case ScreenMode.Scale:
+                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, ScaleForm.ScaleX,ScaleForm.ScaleY, Map.DisplaySize.X,Map.DisplaySize.Y);
+                break;
+        }
+
 
         if (Map.ResetPos)
         {
