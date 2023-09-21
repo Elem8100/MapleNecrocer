@@ -3,12 +3,15 @@ using WzComparerR2.PluginBase;
 using Spine;
 using WzComparerR2.Animation;
 using Microsoft.Xna.Framework;
+using System.Drawing;
+
 namespace MapleNecrocer;
 
 public class Back : BackgroundSprite
 {
     public Back(Sprite Parent) : base(Parent)
     {
+       BlendMode=MonoGame.SpriteEngine.BlendMode.NonPremultiplied;
     }
     string Path;
     int Frame;
@@ -17,6 +20,7 @@ public class Back : BackgroundSprite
     int BackType;
     float Time;
     bool Flip;
+    bool Front;
     float AX, AY;
     int FlowX, FlowY;
     int MoveType;
@@ -213,6 +217,7 @@ public class Back : BackgroundSprite
                     Back.Z = ZLayer + 1000000;
                 else
                     Back.Z = ZLayer - 1000;
+                Back.Front = Front;
                 Back.AX = Back.X;
                 Back.AY = Back.Y;
                 Back.BackType = BackType;
@@ -225,7 +230,6 @@ public class Back : BackgroundSprite
 
     public override void DoMove(float Delta)
     {
-       
         switch (BackType)
         {
             case 0:
@@ -265,7 +269,7 @@ public class Back : BackgroundSprite
         {
             Y -= FlowY * 5f / 60;
         }
-      
+
 
         if (MoveType.ToBool())
         {
@@ -328,17 +332,36 @@ public class Back : BackgroundSprite
             X = -Pos.X - (100f + RX) / 100f * (Engine.Camera.X + Map.DisplaySize.X / 2) + Engine.Camera.X;
             Y = -Pos.Y - (100f + RY) / 100f * (Engine.Camera.Y + Map.DisplaySize.Y / 2 + Map.OffsetY) + Engine.Camera.Y;
         }
-         
-             
+
+        if (Map.SaveMap)
+        {
+            X = -Pos.X - (100 + RX) / 100 * (Engine.Camera.X + 1366 / 2) + Engine.Camera.X;
+            if (Front)
+            {
+                if (Map.Info.ContainsKey("VRLeft"))
+                    Y = -Pos.Y - (100f + RY) / 100f * (Map.Bottom - 600 + (600 / 2)) + Map.Top;
+                else
+                    Y = -Pos.Y - (100f + RY) / 100f * (Map.SaveMapBottom - 600 + (600 / 2) - 100) + Map.Top;
+            }
+            else
+            {
+                 if (Map.Info.ContainsKey("VRLeft"))
+                     Y = -Pos.Y - (100f + RY * SaveMapForm.Instance.comboBox2.Text.ToInt()) / 100f *
+                       (Map.Bottom - 600 + (600 / 2)) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
+                 else
+                     Y = -Pos.Y - (100f + RY * SaveMapForm.Instance.comboBox2.Text.ToInt()) / 100 *
+                       (Map.SaveMapBottom - 600 + (600 / 2) - 100) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
+            }
+        }
+
     }
     public override void DoDraw()
     {
         base.DoDraw();
         if (ResetPos)
             ResetPos = false;
-         
     }
- 
+
 
 }
 
