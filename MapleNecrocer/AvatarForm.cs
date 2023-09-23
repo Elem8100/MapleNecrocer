@@ -32,6 +32,8 @@ public partial class AvatarForm : Form
         AvatarFormDraw.Parent = this;
         Instance = this;
     }
+
+    public static bool ChangeExpressionListBox;
     public static AvatarForm Instance;
     public static AvatarFormDraw AvatarFormDraw;
     ImageListView[] ImageGrids = new ImageListView[21];
@@ -658,5 +660,10 @@ public partial class AvatarForm : Form
         {
             Game.Player.Spawn(Player.EqpList[i]);
         }
+    }
+
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ChangeExpressionListBox=true;
     }
 }

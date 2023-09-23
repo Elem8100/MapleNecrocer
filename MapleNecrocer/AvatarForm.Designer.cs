@@ -64,6 +64,8 @@
             label1 = new Label();
             label2 = new Label();
             tabPage5 = new TabPage();
+            label4 = new Label();
+            comboBox1 = new ComboBox();
             tabControl1.SuspendLayout();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DyeGrid).BeginInit();
@@ -538,10 +540,33 @@
             tabPage5.Text = "Spawn";
             tabPage5.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            label4.Location = new Point(453, 227);
+            label4.Name = "label4";
+            label4.Size = new Size(77, 18);
+            label4.TabIndex = 22;
+            label4.Text = "Expression";
+            // 
+            // comboBox1
+            // 
+            comboBox1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "blink", "hit", "smile", "troubled", "cry", "angry", "bewildered", "stunned", "vomit", "oops", "cheers", "chu", "wink", "pain", "glitter", "despair", "love", "shine", "blaze", "hum", "bowing", "hot", "dam", "qBlue" });
+            comboBox1.Location = new Point(533, 225);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(134, 25);
+            comboBox1.TabIndex = 23;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
             // AvatarForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1040, 835);
+            Controls.Add(comboBox1);
+            Controls.Add(label4);
             Controls.Add(tabControl1);
             Controls.Add(SaveCharButton);
             Controls.Add(button20);
@@ -580,6 +605,7 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -619,5 +645,7 @@
         private Label label3;
         private Button UseButton;
         private TabPage tabPage5;
+        private Label label4;
+        public ComboBox comboBox1;
     }
 }

@@ -38,12 +38,12 @@ public partial class SaveMapForm : Form
         Map.SaveMap = true;
         RenderTarget2D SaveTexture = null;
         EngineFunc.SpriteEngine.Move(1);
-      
+
         EngineFunc.Canvas.DrawTarget(ref SaveTexture, MapWidth, MapHeight, () =>
         {
-           EngineFunc.SpriteEngine.Draw();
+            EngineFunc.SpriteEngine.Draw();
         });
-       
+
         EngineFunc.SpriteEngine.Move(1);
         Map.SaveMap = false;
         Map.ResetPos = true;
@@ -59,6 +59,8 @@ public partial class SaveMapForm : Form
         SaveTexture.SaveAsPng(stream, MapWidth, MapHeight);
         stream.Dispose();
         SaveTexture.Dispose();
+        comboBox1.SelectedIndex = 0;
+        comboBox2.SelectedIndex = 0;
     }
 
     private void SaveMapForm_Shown(object sender, EventArgs e)
