@@ -445,7 +445,7 @@ public class Player : JumperSprite
                             Sprite.Expression = "blink";
                             Sprite.Animate = true;
                             Sprite.AnimRepeat = true;
-                         
+
                             string[] S = Path.Split('/');
 
                             if (Part != PartName.CashWeapon)
@@ -512,7 +512,7 @@ public class Player : JumperSprite
         base.DoMove(Delta);
         Keyboard.GetState();
         if (Map.GameMode == GameMode.Viewer)
-           return;
+            return;
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(AvatarTargetTexture);
         EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
         RenderTargetFunc();
@@ -633,12 +633,12 @@ public class Player : JumperSprite
                             Pet.Instance.Y = Game.Player.Y;
                             Pet.Instance.JumpState = JumpState.jsFalling;
                         }
-                        
+
                         if (Familiar.Instance != null)
                         {
                             Familiar.Instance.X = X;
                             Familiar.Instance.Y = Y - 50;
-                            Familiar.Instance.JumpState =  JumpState.jsFalling;
+                            Familiar.Instance.JumpState = JumpState.jsFalling;
                         }
 
                         if (AndroidPlayer.Instance != null)
@@ -647,7 +647,7 @@ public class Player : JumperSprite
                             AndroidPlayer.Instance.Y = Game.Player.Y;
                             AndroidPlayer.Instance.JumpState = JumpState.jsFalling;
                         }
-                        
+
 
                         Z = FH.Z * 100000 + 60000;
                         EngineFunc.SpriteEngine.Camera.X = PX - DisplaySize.X / 2;
@@ -961,7 +961,7 @@ public class AvatarParts : SpriteEx
     Vector2 MoveOffset;
     int Counter;
     public static List<string> ZMap = new();
-
+    static int ChangeExpressionCounter;
     bool IsAttack()
     {
         if ((State.LeftStr(4) == "stab") || (State.LeftStr(5) == "swing") || (State.LeftStr(5) == "shoot"))
@@ -995,7 +995,7 @@ public class AvatarParts : SpriteEx
             ChangeFrame = true;
 
         if (Wz.HasDataE("Character/00002000.img/" + State + "/" + Frame + "/move"))
-        { 
+        {
             MoveOffset = WzDict.GetVectorE("Character/00002000.img/" + State + "/" + Frame + "/move");
         }
         else
@@ -1067,14 +1067,14 @@ public class AvatarParts : SpriteEx
     State= PlayActionForm.ListBox1.Items[PlayActionForm.ListBox1.ItemIndex];
         Inc(PlayActionCounter);
         end;
-
-        if AvatarForm.ChangeExpressionListBox then
-        begin
-    FaceFrame= 0;
-    Expression:= AvatarForm.ExpressionListBox.Text;
-        Inc(ChangeExpressionCounter);
-        end;
         */
+        if (AvatarForm.ChangeExpressionListBox)
+        {
+            FaceFrame = 0;
+            Expression = AvatarForm.Instance.comboBox1.Text;
+            ChangeExpressionCounter += 1;
+        }
+
 
         if (Owner.ResetAction)
         {
@@ -1154,9 +1154,6 @@ public class AvatarParts : SpriteEx
             }
         }
 
-
-
-
         if ((Owner.DressCap) && (Owner.ShowHair))
         {
 
@@ -1235,8 +1232,11 @@ public class AvatarParts : SpriteEx
             {
                 Expression = "blink";
                 FaceCount = 0;
+                AvatarForm.Instance.comboBox1.Text="";
             }
         }
+       
+
         BlinkCount += 1;
         if (BlinkCount >= 220)
         {
@@ -1270,7 +1270,7 @@ public class AvatarParts : SpriteEx
         }
         string SkillAction;
         if (Equip.DataS.ContainsKey(State + "/" + Frame))
-        {  
+        {
             SkillAction = Equip.DataS[State + "/" + Frame];
             if ((SkillAction == "hide/0") || (SkillAction == "blink/0"))
                 Alpha = 0;
@@ -1374,8 +1374,6 @@ public class AvatarParts : SpriteEx
             this.Offset.X = origin.X + Owner.Navel.X - Owner.BodyNavel.X - Owner.TamingNavel.X;
             this.Offset.Y = origin.Y + Owner.Navel.Y - Owner.BodyNavel.Y - Owner.TamingNavel.Y;
         }
-
-
     }
 
     bool IsSkillAttack()
@@ -1506,7 +1504,6 @@ public class AvatarParts : SpriteEx
         else
             AnimRepeat = true;
 
-
         if (AnimEnd)
         {
             if ((IsSkillAttack()) || (IsAttack()) /*||(PlayActionForm.Playing) */)
@@ -1547,9 +1544,9 @@ public class AvatarParts : SpriteEx
         if ((Skill.Start) && (!Skill.PlayEnded))
         {
             if (Equip.DataS.ContainsKey(Skill.ID + "/action"))
-            { 
+            {
                 if (State != Equip.DataS[Skill.ID + "/action"])
-                { 
+                {
                     AnimEnd = false;
                     Frame = 0;
                     Time = 0;
@@ -1653,6 +1650,7 @@ public class AvatarParts : SpriteEx
         /*
         if ((AvatarForm.SaveAllFrames) && (AvatarForm.Frame = 96))
             AvatarForm.SaveAllFrames = false;
+        */
         if (AvatarForm.ChangeExpressionListBox)
         {
             if (ChangeExpressionCounter > 5)
@@ -1661,7 +1659,7 @@ public class AvatarParts : SpriteEx
                 AvatarForm.ChangeExpressionListBox = false;
             }
         }
-
+        /*
         if (PlayActionForm.DoPlay)
         {
             if (PlayActionCounter > 2)
@@ -1673,7 +1671,7 @@ public class AvatarParts : SpriteEx
         */
 
         if (Map.GameMode == GameMode.Viewer)
-          return;
+            return;
 
         if (ChangeFrame)
             ChangeFrame = false;
