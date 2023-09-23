@@ -12,7 +12,7 @@ public class DamageNumber : SpriteEx
 {
     public DamageNumber(Sprite Parent) : base(Parent)
     {
-
+       
     }
     int Number;
     int Counter;
@@ -116,8 +116,8 @@ public class DamageNumber : SpriteEx
                 OffY = 0;
             else
                 OffY = -5;
-            EngineFunc.Canvas.DrawColor(Wz.EquipImageLib[ImageNode], X + I * W - ImageNode.Nodes["origin"].ToVector().X
-              - Engine.Camera.X, Y - ImageNode.Nodes["origin"].ToVector().Y - Engine.Camera.Y + OffY, 255, 255, 255, Alpha);
+            EngineFunc.Canvas.DrawColor(Wz.EquipImageLib[ImageNode], (int)X + I * W - ImageNode.Nodes["origin"].ToVector().X
+              - (int)Engine.Camera.X, (int)Y - ImageNode.Nodes["origin"].ToVector().Y - (int)Engine.Camera.Y + OffY, 255, 255, 255, Alpha);
 
         }
     }

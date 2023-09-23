@@ -346,10 +346,10 @@ public class Back : BackgroundSprite
             else
             {
                  if (Map.Info.ContainsKey("VRLeft"))
-                     Y = -Pos.Y - (100f + RY * SaveMapForm.Instance.comboBox2.Text.ToInt()) / 100f *
+                     Y = -Pos.Y - (100f + RY * (float)Convert.ToDouble(SaveMapForm.Instance.comboBox2.Text)) / 100f *
                        (Map.Bottom - 600 + (600 / 2)) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
                  else
-                     Y = -Pos.Y - (100f + RY * SaveMapForm.Instance.comboBox2.Text.ToInt()) / 100 *
+                     Y = -Pos.Y - (100f + RY * (float)Convert.ToDouble(SaveMapForm.Instance.comboBox2.Text)) / 100 *
                        (Map.SaveMapBottom - 600 + (600 / 2) - 100) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
             }
         }
