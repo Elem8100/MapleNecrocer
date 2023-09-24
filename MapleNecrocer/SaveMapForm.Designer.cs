@@ -58,7 +58,7 @@
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "1", "-1", "-1.5", "-2", "2" });
+            comboBox2.Items.AddRange(new object[] { "1", "-1", "-1.5", "-2" });
             comboBox2.Location = new Point(122, 84);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(114, 25);

@@ -26,6 +26,9 @@
     <Compile Update="DataGridViewEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="EtcForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FamiliarForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -50,6 +53,9 @@
     <Compile Update="PetForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ReactorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="RenderFormDraw.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -65,13 +71,31 @@
     <Compile Update="RingForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SaveMapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ScaleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="SelectFolderForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SkillForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SoulEffectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TitleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TotemEffectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WorldMapForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

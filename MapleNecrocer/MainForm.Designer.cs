@@ -70,7 +70,7 @@ namespace MapleNecrocer
             MobButton = new Button();
             AvatarButton = new Button();
             SaveMapButton = new Button();
-            DisplayButton = new Button();
+            ViewButton = new Button();
             label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabControl1.SuspendLayout();
@@ -266,7 +266,7 @@ namespace MapleNecrocer
             panel1.Controls.Add(MobButton);
             panel1.Controls.Add(AvatarButton);
             panel1.Controls.Add(SaveMapButton);
-            panel1.Controls.Add(DisplayButton);
+            panel1.Controls.Add(ViewButton);
             panel1.Location = new Point(442, 5);
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
@@ -692,16 +692,17 @@ namespace MapleNecrocer
             SaveMapButton.UseVisualStyleBackColor = true;
             SaveMapButton.Click += MobButton_Click;
             // 
-            // DisplayButton
+            // ViewButton
             // 
-            DisplayButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            DisplayButton.Location = new Point(1, 1);
-            DisplayButton.Name = "DisplayButton";
-            DisplayButton.Size = new Size(77, 54);
-            DisplayButton.TabIndex = 0;
-            DisplayButton.Text = "Display";
-            DisplayButton.TextAlign = ContentAlignment.BottomCenter;
-            DisplayButton.UseVisualStyleBackColor = true;
+            ViewButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ViewButton.Location = new Point(1, 1);
+            ViewButton.Name = "ViewButton";
+            ViewButton.Size = new Size(77, 54);
+            ViewButton.TabIndex = 0;
+            ViewButton.Text = "View";
+            ViewButton.TextAlign = ContentAlignment.BottomCenter;
+            ViewButton.UseVisualStyleBackColor = true;
+            ViewButton.Click += MobButton_Click;
             // 
             // label4
             // 
@@ -764,7 +765,7 @@ namespace MapleNecrocer
         private Label label2;
         private Label label3;
         private Panel panel1;
-        private Button DisplayButton;
+        private Button ViewButton;
         private Button ScaleButton;
         private Button FullScreenButton;
         private Button ChairButton;

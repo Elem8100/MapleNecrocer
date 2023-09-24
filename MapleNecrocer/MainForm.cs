@@ -513,6 +513,7 @@ public partial class MainForm : Form
         }
         switch (((System.Windows.Forms.Button)sender).Name)
         {
+            case "ViewButton": ShowForm(ViewForm.Instance, () => new ViewForm().Show()); break;
             case "MobButton": ShowForm(MobForm.Instance, () => new MobForm().Show()); break;
             case "NpcButton": ShowForm(NpcForm.Instance, () => new NpcForm().Show()); break;
             case "AvatarButton": ShowForm(AvatarForm.Instance, () => new AvatarForm().Show()); break;
