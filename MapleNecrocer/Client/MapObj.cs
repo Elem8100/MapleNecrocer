@@ -216,6 +216,11 @@ public class Obj : SpriteEx
             Angle += (17f / MoveR) * 3.14159f * 2;
         }
     }
+    public override void DoDraw()
+    {
+        if (Map.ShowObj)
+            base.DoDraw();
+    }
 
 }
 
@@ -229,6 +234,8 @@ public class SpineObj : SpriteEx
 
     public override void DoDraw()
     {
+        if(!Map.ShowObj) 
+            return;
         SpineAnimator.Update(TimeSpan.FromMilliseconds(17));
         SkeletonRenderer.Begin();
         SpineAnimator.Skeleton.X = -Engine.Camera.X + X;
@@ -283,4 +290,9 @@ public class FlowObj : BackgroundSprite
         Origin.Y = origin.Y;
     }
 
+    public override void DoDraw()
+    {
+        if (Map.ShowObj)
+            base.DoDraw();
+    }
 }

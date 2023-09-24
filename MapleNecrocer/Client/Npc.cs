@@ -15,7 +15,7 @@ public class Npc : SpriteEx
 {
     public Npc(Sprite Parent) : base(Parent)
     {
-        IntMove=true;
+        IntMove = true;
     }
     string SpriteID;
     string Action;
@@ -179,7 +179,7 @@ public class Npc : SpriteEx
         NpcText.IDWidth = Map.MeasureStringX(Map.NpcNameTagFont, NpcText.ID);
         NpcText.HideName = WzDict.GetBool("Npc/" + ID + ".img/info/hideName");
         NpcText.Moved = false;
-       
+
 
     }
 
@@ -215,7 +215,8 @@ public class Npc : SpriteEx
 
     public override void DoDraw()
     {
-        base.DoDraw();
+        if (Map.ShowNpc)
+            base.DoDraw();
         Random Random = new();
         Counter += 1;
 
@@ -250,14 +251,15 @@ public class NpcText : SpriteEx
     public int IDWidth;
     public string ID;
     public bool HideName;
-  
+
     public override void DoDraw()
     {
-         
-       
-        int  WX = (int)X - (int)Engine.Camera.X;
-        int  WY = (int)Y - (int)Engine.Camera.Y;
-       
+
+        if(!Map.ShowNpc)
+            return;
+        int WX = (int)X - (int)Engine.Camera.X;
+        int WY = (int)Y - (int)Engine.Camera.Y;
+
 
         if (Map.ShowID)
         {
@@ -288,6 +290,7 @@ public class NpcText : SpriteEx
                 Engine.Canvas.DrawString(Map.NpcNameTagFont, NpcFunc, FuncPos, WY + 22 + OffsetY, Microsoft.Xna.Framework.Color.Yellow);
             }
         }
+
 
 
     }

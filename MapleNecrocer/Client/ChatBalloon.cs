@@ -34,7 +34,7 @@ public class ChatBalloon : SpriteEx
         Part1 = new BalloonInfo[30];
         Part2 = new BalloonInfo[30];
         Part3 = new BalloonInfo[30];
-        
+
     }
     private int Col, Row, OffH, BWidth;
     private int MaxChars;
@@ -149,9 +149,13 @@ public class ChatBalloon : SpriteEx
 
     public override void DoDraw()
     {
+        if (!Map.ShowNpcChat)
+            return;
+        if (!Map.ShowNpc)
+            return;
         if (Msg != "")
-              Engine.Canvas.Draw(RenderTarget, (int)X - 70 - (int)Engine.Camera.X, (int)Y - 500 - (int)Engine.Camera.Y);
-            //Engine.Canvas.Draw(RenderTarget, X - 70 - Engine.Camera.X, Y - 500 - Engine.Camera.Y);
+            Engine.Canvas.Draw(RenderTarget, (int)X - 70 - (int)Engine.Camera.X, (int)Y - 500 - (int)Engine.Camera.Y);
+        //Engine.Canvas.Draw(RenderTarget, X - 70 - Engine.Camera.X, Y - 500 - Engine.Camera.Y);
     }
 
     public void RenderTargetFunc()

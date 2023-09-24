@@ -42,12 +42,6 @@ public class MapTile : SpriteEx
     {
         if (Map.ShowTile)
             base.DoDraw();
-        /*
-                if(Map.CameraSpeed.X==0)
-                    IntMove=true;
-                else
-                    IntMove=false;
-        */
     }
 
 }

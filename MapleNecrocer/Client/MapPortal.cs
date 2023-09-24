@@ -105,6 +105,12 @@ public class MapPortal : SpriteEx
         Origin.Y = origin.Y;
     }
 
+    public override void DoDraw()
+    {
+        if (Map.ShowPortal)
+            base.DoDraw();
+    }
+
 
 
 }

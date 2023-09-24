@@ -27,8 +27,17 @@ public class Map
     public static Dictionary<string, int> Info = new();
     public static int Left, Top, Right, Bottom, SaveMapBottom;
     public static bool ShowTile = true;
-    public static bool ShowID = false;
+    public static bool ShowObj = true;
+    public static bool ShowBack = true;
+    public static bool ShowFront = true;
+    public static bool ShowNpc = true;
     public static bool ShowNpcName = true;
+    public static bool ShowNpcChat = true;
+    public static bool ShowMob = true;
+    public static bool ShowMobName = false;
+    public static bool ShowID = false;
+    public static bool ShowPortal = true;
+  
     public static bool ShowChar = true;
     public static Vector2 Center;
     public static Vector2 CameraSpeed;

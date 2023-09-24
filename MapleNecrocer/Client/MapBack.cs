@@ -11,7 +11,7 @@ public class Back : BackgroundSprite
 {
     public Back(Sprite Parent) : base(Parent)
     {
-       BlendMode=MonoGame.SpriteEngine.BlendMode.NonPremultiplied;
+        BlendMode = MonoGame.SpriteEngine.BlendMode.NonPremultiplied;
     }
     string Path;
     int Frame;
@@ -345,19 +345,35 @@ public class Back : BackgroundSprite
             }
             else
             {
-                 if (Map.Info.ContainsKey("VRLeft"))
-                     Y = -Pos.Y - (100f + RY * (float)Convert.ToDouble(SaveMapForm.Instance.comboBox2.Text)) / 100f *
-                       (Map.Bottom - 600 + (600 / 2)) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
-                 else
-                     Y = -Pos.Y - (100f + RY * (float)Convert.ToDouble(SaveMapForm.Instance.comboBox2.Text)) / 100 *
-                       (Map.SaveMapBottom - 600 + (600 / 2) - 100) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
+                if (Map.Info.ContainsKey("VRLeft"))
+                    Y = -Pos.Y - (100f + RY * (float)Convert.ToDouble(SaveMapForm.Instance.comboBox2.Text)) / 100f *
+                      (Map.Bottom - 600 + (600 / 2)) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
+                else
+                    Y = -Pos.Y - (100f + RY * (float)Convert.ToDouble(SaveMapForm.Instance.comboBox2.Text)) / 100 *
+                      (Map.SaveMapBottom - 600 + (600 / 2) - 100) + Map.Top - SaveMapForm.Instance.comboBox1.Text.ToInt();
             }
+        }
+
+        if (Front)
+        {
+            if (Map.ShowFront)
+                Visible = true;
+            else
+                Visible = false;
+        }
+        else
+        {
+            if (Map.ShowBack)
+                Visible = true;
+            else
+                Visible = false;
         }
 
     }
     public override void DoDraw()
     {
         base.DoDraw();
+      
         if (ResetPos)
             ResetPos = false;
     }
@@ -381,6 +397,20 @@ public class SpineBack : SpriteEx
     {
         X = -Pos.X - (100f + RX) / 100f * (Engine.Camera.X + Map.DisplaySize.X / 2) + Engine.Camera.X;
         Y = -Pos.Y - (100f + RY) / 100f * (Engine.Camera.Y + Map.DisplaySize.Y / 2 + Map.OffsetY) + Engine.Camera.Y;
+        if (Z>0)
+        {
+            if (Map.ShowFront)
+                Visible = true;
+            else
+                Visible = false;
+        }
+        else
+        {
+            if (Map.ShowBack)
+                Visible = true;
+            else
+                Visible = false;
+        }
     }
     public override void Draw()
     {
