@@ -103,6 +103,7 @@ public class Mob : JumperSprite
         if (!MobList.Contains(ID))
         {
             Wz.DumpData(Wz.GetNode("Mob/" + ID + ".img"), Wz.Data, Wz.ImageLib);
+       
             MobList.Add(ID);
         }
         var Link = Wz.GetNode("Mob/" + ID + ".img/info/link");
@@ -130,6 +131,13 @@ public class Mob : JumperSprite
         else
             Mob.ID = ID;
         Mob.Value = 1;
+       
+
+        Sound.DumpSounds(Wz.GetNode("Sound/Mob.img/" + Mob.ID));
+        //Sound.DumpSounds(Wz.GetNode("Sound/Mob.img/" + ID));
+      //  foreach(var k in Sound.SoundDict.Keys)
+       // MainForm.Instance.Text=k;
+
 
         foreach (var Iter in Wz.GetNode("Mob/" + Mob.ID + ".img").Nodes)
         {

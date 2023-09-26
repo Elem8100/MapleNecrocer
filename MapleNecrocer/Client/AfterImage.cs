@@ -61,7 +61,7 @@ public class AfterImage : SpriteEx
             {
                 case true:
                     Right = (int)X - LT.X + 18;
-                    Left = (int)X -  RB.X;
+                    Left = (int)X - RB.X;
                     break;
                 case false:
                     Left = (int)X + LT.X;
@@ -110,26 +110,26 @@ public class AfterImage : SpriteEx
             if (sprite is Mob)
             {
                 var Mob = (Mob)sprite;
-
                 if (Mob.HP > 0)
                 {
                     Mob.Hit = true;
                     Random Random = new Random();
                     Game.Damage = 50000 + Random.Next(700000);
                     Mob.HP -= Game.Damage;
-                    //  if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Damage") !=null)
-                    //  PlaySounds("Mob", Mob.ID + "/Damage");
-                    // else if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Hit1")!=null) 
-                    //PlaySounds("Mob", Mob.ID + "/Hit1");
-                    if (Wz.Data.ContainsKey("Mob/" + Mob.ID + ".img/hit1") )
+
+                    if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Damage") != null)
+                        Sound.Play("Sound/Mob.img/" + Mob.ID + "/Damage");
+                    else if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Hit1") != null)
+                        Sound.Play("Sound/Mob.img/" + Mob.ID + "/Hit1");
+                   
+                    if (Wz.Data.ContainsKey("Mob/" + Mob.ID + ".img/hit1"))
                     {
-                      
                         Mob.GetHit1 = true;
                     }
                 }
                 if ((Mob.HP <= 0) && (!Mob.Die))
                 {
-                    //PlaySounds("Mob", Mob.ID + "/Die");
+                    Sound.Play("Sound/Mob.img/" + Mob.ID + "/Die");
                     Mob.Die = true;
                     Mob.CanCollision = false;
                     // Dead;
