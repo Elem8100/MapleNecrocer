@@ -43,6 +43,7 @@ public partial class MainForm : Form
         RenderForm.TopLevel = false;
         RenderForm.Parent = this;
         RenderForm.Show();
+        Sound.Init();
         //  RenderForm.Show();
     }
     public static RenderForm RenderForm = new RenderForm();

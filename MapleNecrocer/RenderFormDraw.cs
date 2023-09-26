@@ -15,6 +15,7 @@ using Input = Microsoft.Xna.Framework.Input.Keys;
 using System.Security.Cryptography.Xml;
 using System.Security.Claims;
 using WzComparerR2.CharaSim;
+using WzComparerR2;
 
 namespace MapleNecrocer;
 public enum ScreenMode { Normal, Scale, FullScreen }
@@ -116,6 +117,19 @@ public class RenderFormDraw : MonoGameControl
             EngineFunc.SpriteEngine.Draw();
             this.GraphicsDevice.SetRenderTarget(null);
         }
+
+        if (Sound.PlayendList.Count == 100)
+        {
+            for (int i = 0; i < Sound.PlayendList.Count; i++)
+            {
+                if (Sound.PlayendList[i].State != PlayState.Playing)
+                {
+                    Sound.PlayendList[i].UnLoad();
+                    Sound.PlayendList.RemoveAt(i);
+                }
+            }
+        }
+
     }
 
     //  public static float xx;
@@ -135,7 +149,7 @@ public class RenderFormDraw : MonoGameControl
                 EngineFunc.SpriteEngine.Draw();
                 break;
             case ScreenMode.Scale:
-                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, ScaleForm.ScaleX,ScaleForm.ScaleY, Map.DisplaySize.X,Map.DisplaySize.Y);
+                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, ScaleForm.ScaleX, ScaleForm.ScaleY, Map.DisplaySize.X, Map.DisplaySize.Y);
                 break;
         }
 
