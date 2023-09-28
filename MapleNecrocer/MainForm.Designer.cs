@@ -591,6 +591,7 @@ namespace MapleNecrocer
             // 
             // ScaleButton
             // 
+            ScaleButton.Enabled = false;
             ScaleButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
             ScaleButton.Image = Properties.Resources.resize_picture_icon;
             ScaleButton.ImageAlign = ContentAlignment.TopCenter;
@@ -694,7 +695,10 @@ namespace MapleNecrocer
             // 
             // ViewButton
             // 
+            ViewButton.Enabled = false;
             ViewButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ViewButton.Image = (Image)resources.GetObject("ViewButton.Image");
+            ViewButton.ImageAlign = ContentAlignment.TopCenter;
             ViewButton.Location = new Point(1, 1);
             ViewButton.Name = "ViewButton";
             ViewButton.Size = new Size(77, 54);

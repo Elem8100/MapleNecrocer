@@ -8,7 +8,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <ApplicationIcon>MapleStoryGM_Icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="MapleStoryGM_Icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="DevComponents.DotNetBar2">
@@ -16,6 +21,9 @@
     </Reference>
     <Reference Include="ImageListView">
       <HintPath>bin\x64\Release\net6.0-windows\ImageListView.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedBass">
+      <HintPath>bin\x64\Release\net6.0-windows\ManagedBass.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Forms.DX">
       <HintPath>bin\x64\Release\net6.0-windows\MonoGame.Forms.DX.dll</HintPath>

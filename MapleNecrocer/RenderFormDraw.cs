@@ -115,6 +115,14 @@ public class RenderFormDraw : MonoGameControl
         {
             this.GraphicsDevice.SetRenderTarget(ScreenRenderTarget);
             EngineFunc.SpriteEngine.Draw();
+            if (Map.ShowBgmName)
+            {
+                EngineFunc.Canvas.DrawString("Arial13", Map.BgmName, 35, 35, Microsoft.Xna.Framework.Color.Red);
+            }
+            if (Map.ShowFootholds)
+            {
+                FootholdTree.Instance.DrawFootholds();
+            }
             this.GraphicsDevice.SetRenderTarget(null);
         }
 
@@ -135,9 +143,6 @@ public class RenderFormDraw : MonoGameControl
     //  public static float xx;
     protected override void Draw()
     {
-        // if (!CanDraw)
-        //  return;
-
 
         this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
         EngineFunc.SpriteEngine.Dead();
@@ -147,6 +152,14 @@ public class RenderFormDraw : MonoGameControl
         {
             case ScreenMode.Normal:
                 EngineFunc.SpriteEngine.Draw();
+                if (Map.ShowBgmName)
+                {
+                    EngineFunc.Canvas.DrawString("Arial13", Map.BgmName, 35, 35, Microsoft.Xna.Framework.Color.Red);
+                }
+                if(Map.ShowFootholds)
+                {
+                    FootholdTree.Instance.DrawFootholds();
+                }
                 break;
             case ScreenMode.Scale:
                 EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, ScaleForm.ScaleX, ScaleForm.ScaleY, Map.DisplaySize.X, Map.DisplaySize.Y);

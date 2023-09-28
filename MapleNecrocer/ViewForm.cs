@@ -52,6 +52,10 @@ public partial class ViewForm : Form
             case "MobName": Map.ShowMobName = !Map.ShowMobName; break;
             case "ID": Map.ShowID = !Map.ShowID; break;
             case "Portal": Map.ShowPortal = !Map.ShowPortal; break;
+            case "BgmName": Map.ShowBgmName = !Map.ShowBgmName; break;
+            case "Foothold": Map.ShowFootholds = !Map.ShowFootholds; break;
+            case "Player": Map.ShowPlayer = !Map.ShowPlayer; break;
+
         }
 
     }

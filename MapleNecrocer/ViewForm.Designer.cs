@@ -166,6 +166,7 @@
             BgmName.TabIndex = 8;
             BgmName.Text = "Bgm Name";
             BgmName.UseVisualStyleBackColor = true;
+            BgmName.CheckedChanged += Tile_CheckedChanged;
             // 
             // UI
             // 
@@ -230,6 +231,7 @@
             Foothold.TabIndex = 14;
             Foothold.Text = "Foothold";
             Foothold.UseVisualStyleBackColor = true;
+            Foothold.CheckedChanged += Tile_CheckedChanged;
             // 
             // Player
             // 
@@ -242,6 +244,7 @@
             Player.TabIndex = 15;
             Player.Text = "Player";
             Player.UseVisualStyleBackColor = true;
+            Player.CheckedChanged += Tile_CheckedChanged;
             // 
             // NpcName
             // 
@@ -356,6 +359,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "ViewForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "View";
             TopMost = true;
             Shown += ViewForm_Shown;
