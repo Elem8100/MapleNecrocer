@@ -1675,7 +1675,7 @@ public class AvatarParts : SpriteEx
 
         if (ChangeFrame)
             ChangeFrame = false;
-        if (Map.ShowChar)
+        if (Map.ShowPlayer)
             base.DoDraw();
         if (Visible)
             Moved = true;

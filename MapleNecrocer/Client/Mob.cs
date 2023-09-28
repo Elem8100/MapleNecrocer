@@ -131,13 +131,6 @@ public class Mob : JumperSprite
         else
             Mob.ID = ID;
         Mob.Value = 1;
-       
-
-        Sound.DumpSounds(Wz.GetNode("Sound/Mob.img/" + Mob.ID));
-        //Sound.DumpSounds(Wz.GetNode("Sound/Mob.img/" + ID));
-      //  foreach(var k in Sound.SoundDict.Keys)
-       // MainForm.Instance.Text=k;
-
 
         foreach (var Iter in Wz.GetNode("Mob/" + Mob.ID + ".img").Nodes)
         {

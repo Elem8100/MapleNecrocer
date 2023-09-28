@@ -13,7 +13,7 @@ using WzComparerR2.Rendering;
 
 namespace MapleNecrocer;
 
-internal class Sound
+public class Sound
 {
     public static Dictionary<string, BassSoundPlayer> SoundDict = new Dictionary<string, BassSoundPlayer>();
     public static List<BassSoundPlayer> PlayendList=new();
@@ -105,7 +105,47 @@ internal class Sound
 
     }
 
+}
 
+public class Music
+{
+    private static BassSoundPlayer MusicPlayer = new BassSoundPlayer();
+    public static void Play(string Path)
+    {
+        Wz_Node Child;
+        Wz_Node WzNode = Wz.GetNode(Path);
+        if (WzNode.Value is Wz_Uol)
+        {
+            var Entry = WzNode.ParentNode;
+            Child = Entry.Get(WzNode.ToStr());
+            if (Child == null)
+                return;
+            if (Child.Value is Wz_Uol)
+                Child = Child.ParentNode.Get(Child.ToStr());
+        }
+        else
+        {
+            Child = WzNode;
+        }
+
+        if (Child.Value is Wz_Sound)
+        {
+            byte[] Data = ((Wz_Sound)Child.Value).ExtractSound();
+            MusicPlayer.PreLoad(Data);
+            MusicPlayer.Loop=true;
+           // MusicPlayer.Resume();
+        }
+    }
+
+    public static void Pause()
+    {
+        MusicPlayer.Pause();
+    }
+
+    public static void Resume()
+    {
+        MusicPlayer.Resume();
+    }
 
 }
 

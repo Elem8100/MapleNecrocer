@@ -330,7 +330,7 @@ public class AndroidNameTag : MedalTag
 
     public override void DoDraw()
     {
-        if (Map.ShowChar)
+        if (Map.ShowPlayer)
         {
             int WX = (int)(AndroidPlayer.Instance.X) - (int)(Engine.Camera.X);
             int WY = (int)(AndroidPlayer.Instance.Y) - (int)(Engine.Camera.Y);

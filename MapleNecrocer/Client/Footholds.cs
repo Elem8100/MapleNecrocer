@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework;
-
+using Point = Microsoft.Xna.Framework.Point;
 namespace MapleNecrocer;
 
 public class Foothold
@@ -85,7 +86,7 @@ public class FootholdTree
                 {
                     if (F.X1 == F.X2)
                         continue;
-                    MaxY =(float)(F.Y1 - F.Y2) / (F.X1 - F.X2) * (X - F.X1) + F.Y1;
+                    MaxY = (float)(F.Y1 - F.Y2) / (F.X1 - F.X2) * (X - F.X1) + F.Y1;
                     FH = F;
                     if (MaxY >= Y)
                         First = false;
@@ -196,7 +197,20 @@ public class FootholdTree
     public void Insert(Foothold F)
     {
         footholds.Add(F);
+    }
 
+    public void DrawFootholds()
+    {
+        int WX = (int)EngineFunc.SpriteEngine.Camera.X;
+        int WY = (int)EngineFunc.SpriteEngine.Camera.Y;
+        foreach (var FH in Footholds)
+        {
+            EngineFunc.Canvas.DrawLine(new Point(FH.X1 - WX, FH.Y1 - WY), new Point(FH.X2 - WX, FH.Y2 - WY), 1, Microsoft.Xna.Framework.Color.Red);
+            if (FH.X1 != FH.X2)
+                EngineFunc.Canvas.DrawLine(new Point(FH.X1 - WX, FH.Y1 - WY + 1), new Point(FH.X2 - WX, FH.Y2 - WY + 1), 1, Microsoft.Xna.Framework.Color.Red);
+            else
+                EngineFunc.Canvas.DrawLine(new Point(FH.X1 - WX + 1, FH.Y1 - WY), new Point(FH.X2 - WX + 1, FH.Y2 - WY),1, Microsoft.Xna.Framework.Color.Red);
+        }
     }
     public static void CreateFootholds()
     {
@@ -213,7 +227,7 @@ public class FootholdTree
             MaxX2.Clear();
         }
 
-        
+
         Foothold FH;
         foreach (var Iter in Map.Img.Nodes["foothold"].Nodes)
         {

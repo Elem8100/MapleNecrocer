@@ -434,7 +434,7 @@ public class PetNameTag : MedalTag
 
     public override void DoDraw()
     {
-        if (Map.ShowChar)
+        if (Map.ShowPlayer)
         {
             int WX = (int)(Pet.Instance.X) - (int)(Engine.Camera.X);
             int WY = (int)(Pet.Instance.Y) - (int)(Engine.Camera.Y);

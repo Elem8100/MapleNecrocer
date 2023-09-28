@@ -20,7 +20,7 @@ public class Map
         public static int AlphaCounter, AValue;
         public static bool DoFade;
     }
-   
+
     public static string ID;
     public static Wz_Node Img;
     public static Microsoft.Xna.Framework.Point DisplaySize = new(1024, 768);
@@ -37,8 +37,11 @@ public class Map
     public static bool ShowMobName = false;
     public static bool ShowID = false;
     public static bool ShowPortal = true;
-  
-    public static bool ShowChar = true;
+    public static bool ShowBgmName;
+    public static bool ShowFootholds;
+    public static bool ShowPlayer=true;
+
+    
     public static Vector2 Center;
     public static Vector2 CameraSpeed;
     public static int OffsetY;
@@ -49,9 +52,11 @@ public class Map
     public static string NpcNameTagFont;
     public static string NpcBalloonFont;
     public static string MobLvFont;
-    public static GameMode GameMode=GameMode.Play;
+    public static GameMode GameMode = GameMode.Play;
     public static bool ResetPos;
     public static bool SaveMap;
+    public static string BgmName;
+    private static List<string> BgmList = new();
 
     public static int MeasureStringX(string FontNameKey, string Text)
     {
@@ -80,12 +85,12 @@ public class Map
             {
                 if (I.Tag != 1)
                     I.Dead();
-               
-             
-                if(I is Mob)
+
+
+                if (I is Mob)
                 {
                     var Mob = I as Mob;
-                    if (Mob.RenderTarget!=null)
+                    if (Mob.RenderTarget != null)
                     {
                         Mob.RenderTarget.Dispose();
                     }
@@ -121,12 +126,12 @@ public class Map
         Map.Info.Add("centerX", Map.Img.GetValue2("miniMap/centerX", DisplaySize.X / 2));
         Map.Info.Add("centerY", Map.Img.GetValue2("miniMap/centerY", DisplaySize.Y / 2));
 
-       
+
         MapPortal.Create();
         FootholdTree.CreateFootholds();
         if (Map.Info.ContainsKey("VRLeft"))
         {
-            EngineFunc.SpriteEngine.Camera.X = Map.Info["VRLeft"] ;
+            EngineFunc.SpriteEngine.Camera.X = Map.Info["VRLeft"];
             EngineFunc.SpriteEngine.Camera.Y = Map.Info["VRBottom"]; // - DisplaySize.y;
             Map.Left = Map.Info["VRLeft"];
             Map.Bottom = Map.Info["VRBottom"] + 15;
@@ -138,10 +143,10 @@ public class Map
             }
             Map.Top = Map.Info["VRTop"];
             Map.Right = Map.Info["VRRight"];
-            Map.Info.AddOrReplace("MapWidth", Map.Right- Map.Left);
+            Map.Info.AddOrReplace("MapWidth", Map.Right - Map.Left);
             //Map.Info.AddOrReplace("MapHeight", Math.Abs(Map.Top) + Math.Abs(Map.Bottom));
         }
-        else 
+        else
         {
             Map.Left = FootholdTree.MinX1.First();
             Map.Bottom = -Map.Info["centerY"] + Map.Info["MapHeight"] - 55;
@@ -155,15 +160,15 @@ public class Map
         }
 
         Map.CreateResLoader();
-       
+
         LadderRope.Create();
         MapTile.Create();
-       
+
         Obj.Create();
 
         //Map.OffsetY = (DisplaySize.Y - 600) / 2;
         Back.Create();
-       
+
         Particle.Create();
 
         if (!FirstLoaded)
@@ -209,14 +214,25 @@ public class Map
         Mob.Create();
 
         Skill.PlayEnded = true;
-        
+
         Map.OffsetY = (Map.DisplaySize.Y - 600) / 2;
         Back.ResetPos = true;
         Particle.ResetPos = true;
         EngineFunc.SpriteEngine.Move(1);
-        
-        // if( EngineFunc.SpriteEngine.SpriteList==null)
 
+        BgmName = Map.Img.GetStr("info/bgm");
+        BgmList.Add(BgmName);
+        if (BgmList.Count > 2)
+            BgmList.RemoveAt(0);
+        if (BgmList.Count > 1)
+        {
+            if (BgmName == BgmList[0])
+                return;
+        }
+        var Split = BgmName.Split('/');
+        string BgmPath = "Sound/" + Split[0] + ".img/" + Split[1];
+        Music.Play(BgmPath);
+        // if( EngineFunc.SpriteEngine.SpriteList==null)
 
     }
 
