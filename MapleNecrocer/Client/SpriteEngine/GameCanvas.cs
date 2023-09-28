@@ -5,6 +5,8 @@ using WzComparerR2.Rendering;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System.Windows.Forms;
 using MapleNecrocer;
+using Spine;
+
 public enum BlendMode
 {
     Normal,
@@ -312,6 +314,17 @@ public class GameCanvas
     {
         DrawEx(Texture, X, Y, 0, 0, 1, 1, Rotation, false, false, 255, 255, 255, 255, true, BlendMode);
     }
+
+    public void DrawStretch(Texture2D Texture,  int DestWidth, int DestHeight, int SrcWidth,int SrcHeight,BlendMode BlendMode = BlendMode.Normal)
+    {
+        SetBlendMode(BlendMode);
+        SpriteBatch.Draw(Texture,
+                      new Rectangle(0, 0, DestWidth, DestHeight),
+                      new Rectangle(0, 0, SrcWidth, SrcHeight),
+                      new Microsoft.Xna.Framework.Color(255, 255, 255, 255)
+                      );
+        SpriteBatch.End();
+    }
     public void DrawStringEx(string KeyName, string Text, float X, float Y, Color Color)
     {
         SpriteBatch.Begin();
@@ -344,6 +357,12 @@ public class GameCanvas
         SpriteBatch.End();
     }
 
+    public void DrawLine(Point P1,Point P2, int Width, Color Color)
+    {
+        SpriteBatch.Begin();
+        SpriteBatch.DrawLine(P1,P2,Width, Color);
+        SpriteBatch.End();
+    }
     public void DrawTarget(ref RenderTarget2D Target, int Width, int Height, Action Action)
     {
         if (Target != null)
