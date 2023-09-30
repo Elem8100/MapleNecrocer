@@ -42,7 +42,7 @@ public partial class SoulEffectForm : Form
         void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
         {
             string ID = DataGrid.Rows[e.RowIndex].Cells[3].Value.ToString();
-            ItemEffect.Delete(EffectType.Soul);
+            ItemEffect.Remove(EffectType.Soul);
             ItemEffect.Create(ID, EffectType.Soul);
         }
 
@@ -76,7 +76,7 @@ public partial class SoulEffectForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-        ItemEffect.Delete(EffectType.Soul);
+        ItemEffect.Remove(EffectType.Soul);
     }
 
     private void SoulEffectForm_KeyDown(object sender, KeyEventArgs e)

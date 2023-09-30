@@ -28,10 +28,10 @@ public partial class MountForm : Form
         //if (Morph.IsUse)
         // return;
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-        TamingMob.Delete();
+        TamingMob.Remove();
 
-        MapleChair.Delete();
-        ItemEffect.Delete(EffectType.Chair);
+        MapleChair.Remove();
+        ItemEffect.Remove(EffectType.Chair);
 
         TamingMob.IsChairTaming = false;
         TamingMob.Create(ID);
@@ -679,9 +679,9 @@ public partial class MountForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-        TamingMob.Delete();
-        ItemEffect.Delete(EffectType.Chair);
-        MapleChair.Delete();
+        TamingMob.Remove();
+        ItemEffect.Remove(EffectType.Chair);
+        MapleChair.Remove();
         Game.Player.ResetAction = true;
         Game.Player.NewAction = Game.Player.StandType;
     }

@@ -50,6 +50,9 @@
     <Compile Update="ObjInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="OptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="PetForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -40,6 +40,8 @@ public class RenderFormDraw : MonoGameControl
         this.Editor.services.AddService<Random>(new Random());
         this.Editor.services.AddService<IRandom>(new ParticleRandom(Editor.services.GetService<Random>()));
         this.SetMultiSampleCount(0);
+
+        EngineFunc.AddFont(this.GraphicsDevice, "Arial13", "Arial", 13f);
         //GMS font
         EngineFunc.AddD2DFont("Arial13", "Arial", 13f);
         EngineFunc.AddD2DFont("Arial12", "Arial", 12f);
@@ -102,9 +104,9 @@ public class RenderFormDraw : MonoGameControl
         {
             if (Keyboard.KeyPressed(Input.Left) || Keyboard.KeyPressed(Input.Right))
             {
-                MapleChair.Delete();
-                TamingMob.Delete();
-                ItemEffect.Delete(EffectType.Chair);
+                MapleChair.Remove();
+                TamingMob.Remove();
+                ItemEffect.Remove(EffectType.Chair);
                 MapleChair.BodyRelMove.X = 0;
                 MapleChair.BodyRelMove.Y = 0;
             }
@@ -115,6 +117,11 @@ public class RenderFormDraw : MonoGameControl
         {
             this.GraphicsDevice.SetRenderTarget(ScreenRenderTarget);
             EngineFunc.SpriteEngine.Draw();
+            if (Map.FadeScreen.DoFade)
+            {
+                EngineFunc.Canvas.FillRect(0, 0, Map.DisplaySize.X, Map.DisplaySize.Y,
+                    new Microsoft.Xna.Framework.Color(0, 0, 0, Map.FadeScreen.AlphaCounter));
+            }
             if (Map.ShowBgmName)
             {
                 EngineFunc.Canvas.DrawString("Arial13", Map.BgmName, 35, 35, Microsoft.Xna.Framework.Color.Red);
@@ -152,11 +159,16 @@ public class RenderFormDraw : MonoGameControl
         {
             case ScreenMode.Normal:
                 EngineFunc.SpriteEngine.Draw();
+                if (Map.FadeScreen.DoFade)
+                {
+                    EngineFunc.Canvas.FillRect(0, 0, Map.DisplaySize.X, Map.DisplaySize.Y,
+                        new Microsoft.Xna.Framework.Color(0, 0, 0, Map.FadeScreen.AlphaCounter));
+                }
                 if (Map.ShowBgmName)
                 {
                     EngineFunc.Canvas.DrawString("Arial13", Map.BgmName, 35, 35, Microsoft.Xna.Framework.Color.Red);
                 }
-                if(Map.ShowFootholds)
+                if (Map.ShowFootholds)
                 {
                     FootholdTree.Instance.DrawFootholds();
                 }

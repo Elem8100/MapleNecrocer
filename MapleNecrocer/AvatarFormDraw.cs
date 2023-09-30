@@ -28,7 +28,7 @@ public class AvatarFormDraw : MonoGameControl
 
     protected override void Initialize()
     {
-        
+
         base.Initialize();
         this.AlwaysEnableKeyboardInput = true;
         EngineFunc.Canvas.DrawTarget(ref CheckBoardTexture, 260, 200, () =>
@@ -51,26 +51,21 @@ public class AvatarFormDraw : MonoGameControl
         this.SetMultiSampleCount(0);
     }
 
-
     protected override void Update(GameTime gameTime)
     {
-        
-
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(AvatarPanelTexture);
         EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
-        EngineFunc.SpriteEngine.DrawEx("Player","ItemEffect");
+        EngineFunc.SpriteEngine.DrawEx("Player", "ItemEffect", "SetEffect");
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(null);
     }
 
-    //  public static float xx;
     protected override void Draw()
     {
-        this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
-
         EngineFunc.Canvas.Draw(CheckBoardTexture, 0, 0);
+        // Editor.graphics.Clear(Color.Aqua);
         int WX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X - 130 + MapleChair.BodyRelMove.X - TamingMob.Navel.X);
         int WY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 160 + MapleChair.BodyRelMove.Y - TamingMob.Navel.Y);
-        EngineFunc.Canvas.DrawCropArea(AvatarPanelTexture, 0, 0, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + 280, WY + 200), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
+        EngineFunc.Canvas.DrawCropArea(AvatarPanelTexture, 0, 0, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + 280, WY + 200), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false, BlendMode.NonPremultiplied2);
     }
 
 }

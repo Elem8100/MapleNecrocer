@@ -39,7 +39,7 @@ public partial class TotemEffectForm : Form
         void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
         {
             string ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-            ItemEffect.Delete(EffectType.Totem);
+            ItemEffect.Remove(EffectType.Totem);
             ItemEffect.Create(ID, EffectType.Totem);
         }
 
@@ -76,7 +76,7 @@ public partial class TotemEffectForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-        ItemEffect.Delete(EffectType.Totem);
+        ItemEffect.Remove(EffectType.Totem);
     }
 
     private void TotemEffectForm_KeyDown(object sender, KeyEventArgs e)

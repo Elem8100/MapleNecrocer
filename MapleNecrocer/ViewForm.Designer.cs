@@ -293,6 +293,7 @@
             button1.Text = "OK";
             button1.TextAlign = ContentAlignment.TopCenter;
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox1
             // 
@@ -301,6 +302,8 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(256, 27);
             textBox1.TabIndex = 1;
+            textBox1.Text = "SuperGM";
+            textBox1.TextAlign = HorizontalAlignment.Right;
             // 
             // label1
             // 

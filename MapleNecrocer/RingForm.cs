@@ -25,6 +25,9 @@ public partial class RingForm : Form
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
         LabelRingTag.Delete();
         LabelRingTag.Create(ID);
+        LabelRingTag.Instance.MedalName = Game.Player.Name;
+        LabelRingTag.Instance.InitData();
+        LabelRingTag.ReDraw();
     }
     private void RingForm_Shown(object sender, EventArgs e)
     {

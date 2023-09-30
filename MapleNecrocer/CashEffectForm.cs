@@ -26,7 +26,7 @@ public partial class CashEffectForm : Form
     {
 
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-        ItemEffect.Delete(EffectType.Cash);
+        ItemEffect.Remove(EffectType.Cash);
         ItemEffect.Create(ID, EffectType.Cash);
     }
     private void CashEffectForm_Shown(object sender, EventArgs e)
@@ -88,7 +88,7 @@ public partial class CashEffectForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-        ItemEffect.Delete(EffectType.Cash);
+        ItemEffect.Remove(EffectType.Cash);
     }
 
     private void textBox1_TextChanged(object sender, EventArgs e)

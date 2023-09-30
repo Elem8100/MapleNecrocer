@@ -1,6 +1,6 @@
 ﻿namespace MapleNecrocer
 {
-    partial class RenderForm
+    partial class OptionForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,21 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
+            checkBox1 = new CheckBox();
             SuspendLayout();
             // 
-            // RenderForm
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(89, 53);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(63, 22);
+            checkBox1.TabIndex = 0;
+            checkBox1.Text = "Mute";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // OptionForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(1024, 768);
-            Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Pixel);
-            FormBorderStyle = FormBorderStyle.None;
-            Location = new Point(255, 85);
-            Name = "RenderForm";
-            Text = "RrenderForm";
-            Load += RenderForm_Load;
+            ClientSize = new Size(289, 126);
+            Controls.Add(checkBox1);
+            Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            KeyPreview = true;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "OptionForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Option";
+            TopMost = true;
+            Shown += OptionForm_Shown;
+            KeyDown += OptionForm_KeyDown;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private CheckBox checkBox1;
     }
 }

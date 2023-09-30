@@ -154,7 +154,7 @@ public partial class ConsumeForm : Form
             void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
             {
                 string ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-                ItemEffect.Delete(EffectType.Consume);
+                ItemEffect.Remove(EffectType.Consume);
                 ItemEffect.Create(ID, EffectType.Consume);
             }
 
@@ -198,7 +198,7 @@ public partial class ConsumeForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-        ItemEffect.Delete(EffectType.Consume);
+        ItemEffect.Remove(EffectType.Consume);
     }
 
     private void UseButton_Click(object sender, EventArgs e)

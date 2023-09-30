@@ -388,6 +388,7 @@ namespace MapleNecrocer
             OptionButton.Text = "Options";
             OptionButton.TextAlign = ContentAlignment.BottomCenter;
             OptionButton.UseVisualStyleBackColor = true;
+            OptionButton.Click += MobButton_Click;
             // 
             // AndroidButton
             // 

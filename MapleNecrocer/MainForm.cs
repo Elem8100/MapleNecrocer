@@ -539,6 +539,7 @@ public partial class MainForm : Form
             case "ReactorButton": ShowForm(ReactorForm.Instance, () => new ReactorForm().Show()); break;
             case "SaveMapButton": ShowForm(SaveMapForm.Instance, () => new SaveMapForm().Show()); break;
             case "ScaleButton": ShowForm(ScaleForm.Instance, () => new ScaleForm().Show()); break;
+            case "OptionButton": ShowForm(OptionForm.Instance, () => new OptionForm().Show()); break;
         }
     }
 

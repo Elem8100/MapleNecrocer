@@ -36,10 +36,10 @@ public partial class ChairForm : Form
             return;
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
 
-        MapleChair.Delete();
+        MapleChair.Remove();
 
-        TamingMob.Delete();
-        ItemEffect.Delete(EffectType.Chair);
+        TamingMob.Remove();
+        ItemEffect.Remove(EffectType.Chair);
 
         MapleChair.Create(ID);
 

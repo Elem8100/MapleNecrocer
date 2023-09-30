@@ -115,8 +115,8 @@ public partial class AvatarForm : Form
 
             if (NewPart == OldPart)
             {
-                SetEffect.Delete(Player.EqpList[i]);
-                ItemEffect.Delete(Player.EqpList[i]);
+                SetEffect.Remove(Player.EqpList[i]);
+                ItemEffect.Remove(Player.EqpList[i]);
                 Player.EqpList.RemoveAt(i);
             }
             if ((NewPart == PartName.Weapon) && (OldPart == PartName.CashWeapon))
@@ -140,9 +140,8 @@ public partial class AvatarForm : Form
         if (ItemEffect.AllList.Contains(EqpID))
             ItemEffect.Create(EqpID, EffectType.Equip);
 
-        // if (SetEffect.AllList.ContainsKey(EqpID))
-        //   SetEffect.Create(EqpID);
-        //   MainForm.Instance.Text=SetEffect.AllList.Count.ToString();
+        if (SetEffect.AllList.ContainsKey(EqpID))
+            SetEffect.Create(EqpID);
     }
     void ResetDyeGrid()
     {
@@ -239,12 +238,14 @@ public partial class AvatarForm : Form
                     Game.Player.ShowHair = false;
                     Game.Player.DressCap = false;
                     Game.Player.RemoveSprites();
-                    string[] Split = null;
-                    Split = e.Item.FileName.Split("-");
-                    for (int i = 0; i < Split.Length - 1; i++)
+
+                    string[] Split = e.Item.FileName.Split("-");
+                    var EqpList = Split.ToList();
+                    EqpList.Sort();
+                    for (int i = 1; i < EqpList.Count; i++)
                     {
-                        AddEqps(Split[i]);
-                        Game.Player.Spawn(Split[i]);
+                        AddEqps(EqpList[i]);
+                        Game.Player.Spawn(EqpList[i]);
                     }
                     AddInventory();
                     break;
@@ -273,9 +274,9 @@ public partial class AvatarForm : Form
             Player.EqpList.RemoveAt(Row);
 
             if (ItemEffect.AllList.Contains(DeleteID))
-                ItemEffect.Delete(DeleteID);
-            // if( SetEffect.AllList.containsKey(DeleteID)) 
-            // SetEffect.Delete(DeleteID);
+                ItemEffect.Remove(DeleteID);
+            if( SetEffect.AllList.ContainsKey(DeleteID)) 
+             SetEffect.Remove(DeleteID);
 
             var ID = Inventory.Rows[e.RowIndex].Cells[0].Value.ToString();
             Inventory.Rows.RemoveAt(e.RowIndex);
@@ -664,6 +665,6 @@ public partial class AvatarForm : Form
 
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ChangeExpressionListBox=true;
+        ChangeExpressionListBox = true;
     }
 }

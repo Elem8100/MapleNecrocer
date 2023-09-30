@@ -59,4 +59,17 @@ public partial class ViewForm : Form
         }
 
     }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        if (LabelRingTag.Instance != null)
+        {
+            LabelRingTag.Instance.MedalName = textBox1.Text;
+            LabelRingTag.Instance.InitData();
+            LabelRingTag.ReDraw();
+        }
+        Game.Player.Name = textBox1.Text;
+        NameTag.ReDraw = true;
+
+    }
 }
