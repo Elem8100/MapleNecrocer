@@ -6,7 +6,7 @@ Features:
 -64 Bit Client.  
 -Support _Canvas wz files  
 -Support map's skeleton animation and particle system.  
--Auto detect wz country, you don't need to select corresponding wz version   
+-Auto detect wz region, you don't need to select corresponding wz version   
 -A better wz lib (for older and newer wz)   
 
 
