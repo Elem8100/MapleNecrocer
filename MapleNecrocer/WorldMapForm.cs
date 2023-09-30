@@ -34,6 +34,7 @@ public partial class WorldMapForm : Form
         MainForm.Instance.WorldMapListGrid.ColumnCount = 2;
         MainForm.Instance.WorldMapListGrid.Columns[0].Width = 203;
         MainForm.Instance.WorldMapListGrid.Columns[1].Width = 0;
+        
         /*
         var StreetNameDict = new Dictionary<string, string>();
         foreach (var Iter in Wz.GetNodes("String/Map.img"))

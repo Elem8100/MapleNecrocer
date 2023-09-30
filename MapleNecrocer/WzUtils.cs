@@ -33,7 +33,7 @@ internal class Wz
     public static Dictionary<string, Texture2D> ImageKeys = new Dictionary<string, Texture2D>();
     public static Dictionary<Wz_Node, Texture2D> ImageLib = new Dictionary<Wz_Node, Texture2D>();
     public static Dictionary<Wz_Node, Texture2D> EquipImageLib = new Dictionary<Wz_Node, Texture2D>();
-    public static string Country;
+    public static string Region;
     private static List<NodeInfo> NodeList1 = new();
     private static List<NodeInfo> NodeList2 = new();
 
