@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Color = Microsoft.Xna.Framework.Color;
 using System.Drawing.Imaging;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace MapleNecrocer;
 
@@ -16,23 +18,37 @@ public class NameTag : SpriteEx
     public NameTag(Sprite Parent) : base(Parent)
     {
     }
-    static bool ReDraw;
+    public static bool ReDraw;
     static bool CanUse;
-    static string PlayerName;
+    public static string PlayerName;
     static int NameWidth;
     static RenderTarget2D TargetTexture = null;
     public static bool IsUse = true;
+    private static int OffY;
     public static void Create(string Name)
     {
         Game.Player.Name = Name;
         NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, Name);
+        switch (Wz.Region)
+        {
+            case "GMS":
+            case "KMS":
+                OffY = 0;
+                break;
+            case "TMS":
+                OffY = 1;
+                break;
+            case "JMS":
+                OffY = 2;
+                break;
+        }
         EngineFunc.Canvas.DrawTarget(ref TargetTexture, NameWidth + 10, 25, () =>
         {
             int NamePos = NameWidth / 2;
             if (Map.ShowPlayer)
             {
                 EngineFunc.Canvas.FillRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
-                EngineFunc.Canvas.DrawString(Map.NpcNameTagFont, Game.Player.Name, 3, 2, Microsoft.Xna.Framework.Color.White);
+                EngineFunc.Canvas.DrawString(Map.NpcNameTagFont, Game.Player.Name, 3, 2 + OffY, Microsoft.Xna.Framework.Color.White);
             }
         });
 
@@ -47,14 +63,14 @@ public class NameTag : SpriteEx
         base.DoMove(Delta);
         if (ReDraw)
         {
-            NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, Name);
+            NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, Game.Player.Name);
             EngineFunc.Canvas.DrawTarget(ref TargetTexture, NameWidth + 10, 25, () =>
             {
                 int NamePos = NameWidth / 2;
                 if (Map.ShowPlayer)
                 {
-                    Engine.Canvas.FillRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 180));
-                    Engine.Canvas.DrawString(Map.NpcNameTagFont, Game.Player.Name, 3, 2, Microsoft.Xna.Framework.Color.White);
+                    Engine.Canvas.FillRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+                    Engine.Canvas.DrawString(Map.NpcNameTagFont, Game.Player.Name, 3, 2 + OffY, Microsoft.Xna.Framework.Color.White);
                 }
             });
         }
@@ -72,7 +88,7 @@ public class NameTag : SpriteEx
             int WX = (int)(Game.Player.X) - (int)Engine.Camera.X;
             int WY = (int)(Game.Player.Y) - (int)Engine.Camera.Y;
             int NamePos = NameWidth / 2;
-            Engine.Canvas.Draw(TargetTexture, WX - NamePos - 8, WY, BlendMode.NonPremultiplied);
+            Engine.Canvas.Draw(TargetTexture, WX - NamePos - 8, WY, BlendMode.NonPremultiplied2);
         }
         if (ReDraw)
             ReDraw = false;
@@ -102,7 +118,7 @@ public class MedalTag : SpriteEx
 
     private static void ChangeAlpha(ref Bitmap bmp)
     {
-        BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+        BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
         IntPtr ptr = bmpData.Scan0;
         int numBytes = bmp.Width * bmp.Height * 4;
         byte[] argbValues = new byte[numBytes];
@@ -114,17 +130,20 @@ public class MedalTag : SpriteEx
         }
         System.Runtime.InteropServices.Marshal.Copy(argbValues, 0, ptr, numBytes);
         bmp.UnlockBits(bmpData);
+
     }
 
     private static Texture2D FixAlpha(Bitmap Bmp)
     {
         ChangeAlpha(ref Bmp);
+        /*
         int[] imgData = new int[Bmp.Width * Bmp.Height];
+        
         Texture2D Texture = new Texture2D(RenderFormDraw.Instance.GraphicsDevice, Bmp.Width, Bmp.Height);
         unsafe
         {
             System.Drawing.Imaging.BitmapData origdata =
-                Bmp.LockBits(new System.Drawing.Rectangle(0, 0, Bmp.Width, Bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, Bmp.PixelFormat);
+                Bmp.LockBits(new System.Drawing.Rectangle(0, 0, Bmp.Width, Bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             uint* byteData = (uint*)origdata.Scan0;
             // Switch bgra -> rgba
             for (int i = 0; i < imgData.Length; i++)
@@ -136,6 +155,20 @@ public class MedalTag : SpriteEx
             Bmp.UnlockBits(origdata);
         }
         Texture.SetData(imgData);
+        */
+
+        Texture2D Texture = null;
+        using (MemoryStream Stream = new MemoryStream())
+        {
+            Bmp.Save(Stream, System.Drawing.Imaging.ImageFormat.Bmp);
+            Stream.Seek(0, SeekOrigin.Begin);
+            Texture = Texture2D.FromStream(RenderFormDraw.Instance.GraphicsDevice, Stream);
+            Microsoft.Xna.Framework.Color[] Buffer = new Microsoft.Xna.Framework.Color[Texture.Width * Texture.Height];
+            Texture.GetData(Buffer);
+            for (int i = 0; i < Buffer.Length; i++)
+                Buffer[i] = Microsoft.Xna.Framework.Color.FromNonPremultiplied(Buffer[i].R, Buffer[i].G, Buffer[i].B, Buffer[i].A);
+            Texture.SetData(Buffer);
+        }
         return Texture;
     }
 
@@ -146,12 +179,12 @@ public class MedalTag : SpriteEx
             CenterLength = Map.MeasureStringX(Map.NpcNameTagFont, MedalName) + 10;
             var WestImage = Wz.EquipData[Entry.FullPathToFile2() + "/w"];
             var WestX = 150 - (CenterLength + EastWidth + WestWidth) / 2;
-            Wz.EquipImageLib[WestImage] = FixAlpha(WestImage.ExtractPng());
+            Wz.EquipImageLib[WestImage] = FixAlpha(Entry.GetBmp("w"));
             Engine.Canvas.Draw(Wz.EquipImageLib[WestImage], WestX, -WestImage.GetNode("origin").ToVector().Y + 38);
 
             var CenterImage = Wz.EquipData[Entry.FullPathToFile2() + "/c"];
             int Count = CenterLength / CenterWidth;
-            Wz.EquipImageLib[CenterImage] = FixAlpha(CenterImage.ExtractPng());
+            Wz.EquipImageLib[CenterImage] = FixAlpha(Entry.GetBmp("c"));
             for (int i = 1; i <= Count; i++)
             {
                 Engine.Canvas.Draw(Wz.EquipImageLib[CenterImage], WestX + ((i - 1) * CenterWidth) + WestWidth, -
@@ -182,12 +215,12 @@ public class MedalTag : SpriteEx
             }
 
             var EastImage = Wz.EquipData[Entry.FullPathToFile2() + "/e"];
-            Wz.EquipImageLib[EastImage] = FixAlpha(EastImage.ExtractPng());
+            Wz.EquipImageLib[EastImage] = FixAlpha(Entry.GetBmp("e"));
             Engine.Canvas.Draw(Wz.EquipImageLib[EastImage], WestX + CenterLength + WestWidth - OffX,
                 -EastImage.GetNode("origin").ToVector().Y + 38);
 
             int OffY = 0;
-            switch (Wz.Country)
+            switch (Wz.Region)
             {
                 case "GMS": OffY = 0; break;
                 case "JMS": OffY = 2; break;
@@ -247,7 +280,7 @@ public class MedalTag : SpriteEx
         {
             int WX = (int)(Game.Player.X) - (int)(Engine.Camera.X);
             int WY = (int)(Game.Player.Y) - (int)(Engine.Camera.Y);
-            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 8, BlendMode.NonPremultiplied);
+            Engine.Canvas.Draw(TargetTexture, WX - 150, WY - 8, BlendMode.NonPremultiplied2);
         }
         if (IsReDraw)
             IsReDraw = false;
@@ -307,7 +340,7 @@ public class NickNameTag : MedalTag
     {
         Instance = new NickNameTag(EngineFunc.SpriteEngine);
         Instance.IntMove = true;
-        int TagNum = Wz.GetNode("Item/Install/0370.img/"+ ItemID + "/info/nickTag").ToInt();
+        int TagNum = Wz.GetNode("Item/Install/0370.img/" + ItemID + "/info/nickTag").ToInt();
         Instance.Entry = Wz.GetNode("UI/NameTag.img/nick/" + TagNum);
         Wz.DumpData(Instance.Entry, Wz.EquipData, Wz.EquipImageLib);
         Instance.MedalName = Wz.GetNode("String/Ins.img/" + ItemID.RightStr(7)).GetStr("name");
@@ -345,7 +378,7 @@ public class LabelRingTag : MedalTag
         if (IsReDraw)
             IsReDraw = false;
     }
-    static void ReDraw()
+    public static void ReDraw()
     {
         if (Instance != null)
             Instance.IsReDraw = true;

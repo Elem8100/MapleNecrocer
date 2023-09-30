@@ -49,13 +49,14 @@ public class SetEffect : SpriteEx
         }
     }
 
-    public static void Delete(string ID)
+    public static void Remove(string ID)
     {
         if (SetEffect.UseList.ContainsKey(ID))
         {
             SetEffect.UseList[ID].Dead();
             SetEffect.UseList.Remove(ID);
         }
+        EngineFunc.SpriteEngine.Dead();
     }
 
     public static void Create(string ID)
@@ -152,13 +153,14 @@ public class SetEffect : SpriteEx
         switch (FlipX)
         {
             case true:
-                Origin.X = (int)(origin.X - ImageWidth - BrowPos.X + BodyRelMove.X + 3);
+                Origin.X = (int)(-origin.X + ImageWidth + BrowPos.X - BodyRelMove.X + 3);
                 break;
             case false:
-                Origin.X = (int)(-origin.X - BrowPos.X + 12 + BodyRelMove.X);
+                Origin.X = (int)(origin.X + BrowPos.X - 12 - BodyRelMove.X);
                 break;
         }
-        Origin.Y = (int)(-origin.Y - BrowPos.Y + OffY + BodyRelMove.Y);
+        Origin.Y = (int)(origin.Y + BrowPos.Y - OffY - BodyRelMove.Y);
+       
     }
 
 }
@@ -183,7 +185,7 @@ public class ItemEffect : SpriteEx
         foreach (var Iter in Wz.GetNodeA("Effect/ItemEff.img").Nodes)
             ItemEffect.AllList.Add("0" + Iter.Text);
     }
-    public static void Delete(string ID)
+    public static void Remove(string ID)
     {
         if (ItemEffect.UseList.ContainsKey(ID))
         {
@@ -192,7 +194,7 @@ public class ItemEffect : SpriteEx
         }
     }
 
-    public static void Delete(EffectType EffType)
+    public static void Remove(EffectType EffType)
     {
         foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
         {

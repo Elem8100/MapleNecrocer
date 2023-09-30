@@ -502,9 +502,9 @@ public class Player : JumperSprite
     {
         foreach (var Iter in PartSpriteList)
         {
-
             Iter.Dead();
         }
+        EngineFunc.SpriteEngine.Dead();
         PartSpriteList.Clear();
     }
     public override void DoMove(float Delta)
@@ -590,7 +590,7 @@ public class Player : JumperSprite
             {
                 if ((Portal.PortalType == 2) || (Portal.PortalType == 1))
                 {
-                    // PlaySounds('Game', 'Portal');
+                    Sound.Play("Sound/Game.img/Portal");
                     CurrentX = X;
                     CurrentPortal = Portal;
                     Map.FadeScreen.DoFade = true;
@@ -986,7 +986,7 @@ public class AvatarParts : SpriteEx
             string AfterImagePath = "Character/Afterimage/" + Owner.AfterImageStr + ".img/0/" + State + "/" + Frame + "/0";
             if (Wz.HasDataE(AfterImagePath))
             {
-                //PlaySounds('Weapon', 'swordL/Attack');
+                Sound.Play("Sound/Weapon.img/"+ "swordL/Attack");
                 AfterImage.Create(AfterImagePath);
             }
         }

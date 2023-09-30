@@ -155,7 +155,7 @@ public class Skill : Sprite
                             "screen", "screen0", "ball", "keydown", "keydown0", "keydowned"};
         Skill.ID = ID;
         Skill.PlayEnded = false;
-        //PlaySounds('Skill', ID + '/Use');
+        Sound.Play("Sound/Skill.img/"+ ID + "/Use");
         Wz_Node Entry = null;
         if (Wz.HasNode("Skill/" + GetJobImg(ID) + ".img"))
         {
@@ -315,7 +315,7 @@ public class Skill : Sprite
                     Skill.Attacking = true;
                     Skill.Create(Skill.HotKeyList[K]);
                 }
-
+               
             }
 
         }
@@ -478,10 +478,11 @@ public class SkillCollision : SpriteEx
                 Random Random = new Random();
                 Game.Damage = 50000 + Random.Next(700000);
                 Mob.HP -= Game.Damage;
-                //  if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Damage") !=null)
-                //  PlaySounds("Mob", Mob.ID + "/Damage");
-                // else if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Hit1")!=null) 
-                //PlaySounds("Mob", Mob.ID + "/Hit1");
+               
+                if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Damage") != null)
+                    Sound.Play("Sound/Mob.img/" + Mob.ID + "/Damage");
+                else if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Hit1") != null)
+                    Sound.Play("Sound/Mob.img/" + Mob.ID + "/Hit1");
                 if (Wz.Data.ContainsKey("Mob/" + Mob.ID + ".img/hit1"))
                 {
 

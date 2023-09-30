@@ -234,7 +234,7 @@ public class MapleChair : SpriteEx
         }
     }
 
-    public static void Delete()
+    public static void Remove()
     {
         MapleChair.IsUse = false;
         foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)

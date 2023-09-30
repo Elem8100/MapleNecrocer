@@ -121,7 +121,7 @@ public class Npc : SpriteEx
             {
                 string Str1 = Iter2.ToStr();
 
-                if (Wz.Country == "GMS")
+                if (Wz.Region == "GMS")
                 {
                     Npc.Msgs.Add(Str1);
                 }
@@ -273,7 +273,7 @@ public class NpcText : SpriteEx
             if (HideName)
                 return;
             int OffsetY = 0;
-            switch (Wz.Country)
+            switch (Wz.Region)
             {
                 case "GMS": OffsetY = 0; break;
                 case "KMS": case "TMS": OffsetY = 1; break;

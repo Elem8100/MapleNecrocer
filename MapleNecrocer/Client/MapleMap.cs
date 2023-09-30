@@ -39,9 +39,9 @@ public class Map
     public static bool ShowPortal = true;
     public static bool ShowBgmName;
     public static bool ShowFootholds;
-    public static bool ShowPlayer=true;
+    public static bool ShowPlayer = true;
 
-    
+
     public static Vector2 Center;
     public static Vector2 CameraSpeed;
     public static int OffsetY;
@@ -177,28 +177,28 @@ public class Map
             switch (Name)
             {
                 case "Snail":
-                    Wz.Country = "GMS";
+                    Wz.Region = "GMS";
                     Map.NpcNameTagFont = "Arial13";
                     Map.NpcBalloonFont = "Arial12";
                     Map.MobLvFont = "Arial10";
                     UseD2D = true;
                     break;
                 case "달팽이":
-                    Wz.Country = "KMS";
+                    Wz.Region = "KMS";
                     Map.NpcNameTagFont = "Arial12";
                     Map.NpcBalloonFont = "Arial12";
                     Map.MobLvFont = "Arial10";
                     UseD2D = true;
                     break;
                 case "デンデン":
-                    Wz.Country = "JMS";
+                    Wz.Region = "JMS";
                     Map.NpcNameTagFont = "MSGothic12";
                     Map.NpcBalloonFont = "Verdana11";
                     Map.MobLvFont = "Verdana9";
                     UseD2D = false;
                     break;
                 default:
-                    Wz.Country = "TMS";
+                    Wz.Region = "TMS";
                     Map.NpcNameTagFont = "SimSun13";
                     Map.NpcBalloonFont = "Verdana11";
                     Map.MobLvFont = "Verdana9";
@@ -229,9 +229,17 @@ public class Map
             if (BgmName == BgmList[0])
                 return;
         }
-        var Split = BgmName.Split('/');
-        string BgmPath = "Sound/" + Split[0] + ".img/" + Split[1];
-        Music.Play(BgmPath);
+
+        if (BgmName.Contains(".img"))
+        {
+            Music.Play("Sound/" + BgmName);
+        }
+        else
+        {
+            var Split = BgmName.Split('/');
+            string BgmPath = "Sound/" + Split[0] + ".img/" + Split[1];
+            Music.Play(BgmPath);
+        }
         // if( EngineFunc.SpriteEngine.SpriteList==null)
 
     }

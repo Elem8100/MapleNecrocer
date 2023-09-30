@@ -118,7 +118,7 @@ public class ChatBalloon : SpriteEx
         String Line = String.Empty;
         String ReturnString = String.Empty;
         String[] WordArray = null;
-        if (Wz.Country == "GMS")
+        if (Wz.Region == "GMS")
             WordArray = Text.Split(' ');
         else
             WordArray = Text.Split('=');
@@ -163,7 +163,7 @@ public class ChatBalloon : SpriteEx
         if (Msg == null) return;
         String Line = String.Empty;
         String[] WordArray = null;
-        if (Wz.Country == "GMS")
+        if (Wz.Region == "GMS")
             WordArray = Msg.Split(' ');
         else
             WordArray = Msg.Split('=');

@@ -794,10 +794,11 @@ public class MobCollision : SpriteEx
                 Random Random = new Random();
                 Game.Damage = 50000 + Random.Next(550000);
                 Owner.HP -= Game.Damage;
-                //if (Wz.HasNode("Sound/Mob.img/" + Owner.ID + "/Damage"))
-                //  PlaySounds("Mob", Owner.ID + "/Damage");
-                //else if (Wz.HasNode("Sound/Mob.img/" + Owner.ID + "/Hit1")
-                //PlaySounds("Mob", Owner.ID + "/Hit1");
+               
+                if (Wz.GetNode("Sound/Mob.img/" + Owner.ID + "/Damage") != null)
+                    Sound.Play("Sound/Mob.img/" + Owner.ID + "/Damage");
+                else if (Wz.GetNode("Sound/Mob.img/" + Owner.ID + "/Hit1") != null)
+                    Sound.Play("Sound/Mob.img/" + Owner.ID + "/Hit1");
                 if (Wz.Data.ContainsKey("Mob/" + Owner.ID + ".img/hit1"))
                 {
                     Owner.GetHit1 = true;
@@ -806,7 +807,7 @@ public class MobCollision : SpriteEx
 
             if (Owner.HP <= 0 && !Owner.Die)
             {
-                //PlaySounds('Mob', SelfID + '/Die');
+                Sound.Play("Sound/Mob.img/"+ Owner.ID + "/Die");
                 Owner.Die = true;
                 //  Collisioned := False;
                 // Dead;

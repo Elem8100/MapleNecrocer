@@ -53,7 +53,7 @@ public class TamingMob : SpriteEx
 
     }
 
-    public static void Delete()
+    public static void Remove()
     {
         TamingMob.IsUse = false;
         foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
