@@ -142,7 +142,7 @@ public partial class MobForm : Form
 
         if (e.Alt)
             e.Handled = true;
-        if (!textBox1.Focused)
+        if (!textBox2.Focused)
             ActiveControl = null;
 
     }

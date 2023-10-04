@@ -17,6 +17,18 @@
     <Compile Update="ChairForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="CharaSimControl\AfrmEquip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CharaSimControl\AfrmItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CharaSimControl\AfrmStat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CharaSimControl\AfrmTooltip.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ConsumeForm.cs">
       <SubType>Form</SubType>
     </Compile>

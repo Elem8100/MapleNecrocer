@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Globalization;
+
 namespace MapleNecrocer;
 
 public partial class AndroidForm : Form
@@ -149,6 +151,7 @@ public partial class AndroidForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
+       
         AndroidNameTag.Remove();
         if (AndroidPlayer.Instance != null)
         {

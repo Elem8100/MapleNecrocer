@@ -9,13 +9,18 @@
     <Platforms>AnyCPU;x64</Platforms>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <ApplicationIcon>MapleStoryGM_Icon.ico</ApplicationIcon>
+   
   </PropertyGroup>
 
+  
   <ItemGroup>
     <Content Include="MapleStoryGM_Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="CharaSimResource">
+      <HintPath>bin\x64\Release\net6.0-windows\CharaSimResource.dll</HintPath>
+    </Reference>
     <Reference Include="DevComponents.DotNetBar2">
       <HintPath>bin\x64\Release\net6.0-windows\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>

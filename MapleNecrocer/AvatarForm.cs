@@ -12,6 +12,8 @@ using DevComponents.DotNetBar.Controls;
 using Manina.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
 using WzComparerR2.CharaSim;
+using WzComparerR2.CharaSimControl;
+using WzComparerR2.Common;
 using WzComparerR2.PluginBase;
 using WzComparerR2.Text;
 using WzComparerR2.WzLib;
@@ -36,6 +38,7 @@ public partial class AvatarForm : Form
     public static bool ChangeExpressionListBox;
     public static AvatarForm Instance;
     public static AvatarFormDraw AvatarFormDraw;
+    static bool ShowToolTip = true;
     ImageListView[] ImageGrids = new ImageListView[21];
     ImageListView AvatarListView;
     public DataGridViewEx Inventory;
@@ -207,6 +210,18 @@ public partial class AvatarForm : Form
                     Game.Player.Spawn(Player.EqpList[i]);
                 }
             };
+            ImageGrids[i].ItemHover += (o, e) =>
+            {
+                if (ShowToolTip)
+                {
+                    if (e.Item == null) return;
+                    Wz_Node Node = Wz.GetIDNode(e.Item.FileName);
+                    MainForm.Instance.QuickView(Node);
+                    MainForm.Instance.ToolTipView.BringToFront();
+
+                }
+            };
+
         }
 
         AvatarListView = new ImageListView();
@@ -260,7 +275,7 @@ public partial class AvatarForm : Form
         Inventory.RowTemplate.Height = 45;
         Inventory.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         Inventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-        Inventory.DefaultCellStyle.Font = new Font("Tahoma", 14, GraphicsUnit.Pixel);
+        Inventory.DefaultCellStyle.Font = new Font("Tahoma", 15, GraphicsUnit.Pixel);
         Inventory.Anchor = (AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom);
         Inventory.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.White;
         Inventory.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
@@ -275,8 +290,8 @@ public partial class AvatarForm : Form
 
             if (ItemEffect.AllList.Contains(DeleteID))
                 ItemEffect.Remove(DeleteID);
-            if( SetEffect.AllList.ContainsKey(DeleteID)) 
-             SetEffect.Remove(DeleteID);
+            if (SetEffect.AllList.ContainsKey(DeleteID))
+                SetEffect.Remove(DeleteID);
 
             var ID = Inventory.Rows[e.RowIndex].Cells[0].Value.ToString();
             Inventory.Rows.RemoveAt(e.RowIndex);
@@ -311,6 +326,7 @@ public partial class AvatarForm : Form
     List<string> PartList = new();
     private void button1_Click(object sender, EventArgs e)
     {
+        MainForm.Instance.ToolTipView.Visible = false;
         tabControl1.SelectedIndex = 0;
         string CharacterDir = "";
         string ButtonText = ((Button)sender).Text.Trim(' ');
@@ -528,6 +544,7 @@ public partial class AvatarForm : Form
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
+
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
         label1.Text = ID;
         label2.Text = SearchGrid.Rows[e.RowIndex].Cells[1].Value.ToString();
@@ -553,9 +570,20 @@ public partial class AvatarForm : Form
         }
         pictureBox1.Image = Bmp;
 
+        if (ShowToolTip)
+        {
+            Wz_Node Node = Wz.GetIDNode(ID);
+            MainForm.Instance.QuickView(Node);
+            MainForm.Instance.ToolTipView.Location = new Point(448, 395);
+
+        }
+
+
     }
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if (tabControl1.SelectedIndex != 0)
+            MainForm.Instance.ToolTipView.Visible = false;
 
         void LoadAvatarPics()
         {
@@ -574,6 +602,18 @@ public partial class AvatarForm : Form
         {
             case 0:
 
+                if (MainForm.Instance.ToolTipView.Parent != null)
+                {
+                    MainForm.Instance.ToolTipView.Dispose();
+                    MainForm.Instance.ToolTipView = null;
+                    MainForm.Instance.ToolTipView = new AfrmTooltip();
+                    MainForm.Instance.ToolTipView.Visible = true;
+                    MainForm.Instance.ToolTipView.StringLinker = MainForm.Instance.stringLinker;
+                    MainForm.Instance.ToolTipView.ShowID = true;
+                    MainForm.Instance.ToolTipView.ShowMenu = true;
+                    MainForm.Instance.ToolTipView.StartPosition = FormStartPosition.CenterParent;
+                }
+
                 break;
             case 1:
                 if (!Loaded)
@@ -590,7 +630,7 @@ public partial class AvatarForm : Form
             case 3:
                 if (!SearchGridLoaded)
                 {
-                    SearchGrid = new(60, 184, 202, 104, 315, 400, false, tabControl1.TabPages[3]);
+                    SearchGrid = new(60, 184, 114, 109, 315, 400, false, tabControl1.TabPages[3]);
                     SearchGrid.CellClick += (s, e) =>
                     {
                         CellClick(SearchGrid, e);
@@ -613,6 +653,9 @@ public partial class AvatarForm : Form
                     SearchGrid.Refresh();
                     SearchGridLoaded = true;
                 }
+                MainForm.Instance.ToolTipView.TopLevel = false;
+                MainForm.Instance.ToolTipView.IsMdiContainer = false;
+                MainForm.Instance.ToolTipView.Parent = this;
                 break;
 
             case 4:
@@ -666,5 +709,19 @@ public partial class AvatarForm : Form
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
         ChangeExpressionListBox = true;
+    }
+
+
+
+    private void ShowToolTil_CheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        ShowToolTip = !ShowToolTip;
+        MainForm.Instance.ToolTipView.Visible = ShowToolTip;
+    }
+
+
+    private void AvatarForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

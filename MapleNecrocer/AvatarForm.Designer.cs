@@ -66,6 +66,7 @@
             tabPage5 = new TabPage();
             label4 = new Label();
             comboBox1 = new ComboBox();
+            ShowToolTil_CheckBox = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DyeGrid).BeginInit();
@@ -468,16 +469,16 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(277, 73);
+            textBox1.Location = new Point(184, 76);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(239, 24);
+            textBox1.Size = new Size(245, 24);
             textBox1.TabIndex = 2;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(209, 76);
+            label3.Location = new Point(116, 79);
             label3.Name = "label3";
             label3.Size = new Size(52, 18);
             label3.TabIndex = 1;
@@ -490,7 +491,7 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label2);
-            panel1.Location = new Point(202, 18);
+            panel1.Location = new Point(114, 21);
             panel1.Name = "panel1";
             panel1.Size = new Size(315, 49);
             panel1.TabIndex = 0;
@@ -561,10 +562,25 @@
             comboBox1.TabIndex = 23;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
+            // ShowToolTil_CheckBox
+            // 
+            ShowToolTil_CheckBox.AutoSize = true;
+            ShowToolTil_CheckBox.Checked = true;
+            ShowToolTil_CheckBox.CheckState = CheckState.Checked;
+            ShowToolTil_CheckBox.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ShowToolTil_CheckBox.Location = new Point(27, 226);
+            ShowToolTil_CheckBox.Name = "ShowToolTil_CheckBox";
+            ShowToolTil_CheckBox.Size = new Size(83, 22);
+            ShowToolTil_CheckBox.TabIndex = 24;
+            ShowToolTil_CheckBox.Text = "Tool Tip";
+            ShowToolTil_CheckBox.UseVisualStyleBackColor = true;
+            ShowToolTil_CheckBox.CheckedChanged += ShowToolTil_CheckBox_CheckedChanged;
+            // 
             // AvatarForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1040, 835);
+            Controls.Add(ShowToolTil_CheckBox);
             Controls.Add(comboBox1);
             Controls.Add(label4);
             Controls.Add(tabControl1);
@@ -595,6 +611,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Avatar";
             TopMost = true;
+            FormClosing += AvatarForm_FormClosing;
             Load += AvatarForm_Load;
             tabControl1.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
@@ -647,5 +664,6 @@
         private TabPage tabPage5;
         private Label label4;
         public ComboBox comboBox1;
+        private CheckBox ShowToolTil_CheckBox;
     }
 }

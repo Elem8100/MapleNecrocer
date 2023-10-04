@@ -35,6 +35,8 @@ public partial class DamageSkinForm : Form
             this.Hide();
             e1.Cancel = true;
         };
+        if(!Wz.HasNode("Effect/DamageSkin.img"))
+            return;
 
         DamageSkinListGrid = new(120, 1, 0, 0, 210, 400, true, tabControl1.TabPages[0]);
         DamageSkinListGrid.Dock = DockStyle.Fill;

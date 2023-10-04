@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using System.Xml;
 using Microsoft.Xna.Framework.Audio;
 using DevComponents.AdvTree;
+using System.Reflection.Metadata.Ecma335;
 
 namespace MapleNecrocer;
 
@@ -357,6 +358,136 @@ internal class Wz
         return null;
     }
 
+    public static Wz_Node GetIDNode(string ID)
+    {
+        switch (ID.LeftStr(2))
+        {
+            case "05":
+                return GetNode("Item/Cash/" + ID.LeftStr(4) + ".img/" + ID);
+                //return "Item/Cash/0501.img/05010000";
+                break;
+            case "03":
+                if (GetNode("Item/Install/03010.img") != null)
+                {
+                    switch (ID.LeftStr(5))
+                    {
+                        case "03015":
+                            return GetNode("Item/Install/" + ID.LeftStr(6) + ".img/" + ID);
+                            break;
+                        case "03010":
+                        case "03011":
+                        case "03012":
+                        case "03013":
+                        case "03014":
+                        case "03016":
+                        case "03017":
+                        case "03018":
+                            return GetNode("Item/Install/" + ID.LeftStr(5) + ".img/" + ID);
+                            break;
+                        default:
+                            return GetNode("Item/Install/" + ID.LeftStr(4) + ".img/" + ID);
+                            break;
+                    }
+                }
+                else
+                {
+                    return GetNode("Item/Install/" + ID.LeftStr(4) + ".img/" + ID);
+                }
+                break;
+        }
+
+        switch (int.Parse(ID) / 10000)
+        {
+            case 2:
+                return GetNode("Character/Face/" + ID + ".img");
+                break;
+            case 3:
+            case 4:
+            case 6:
+                return GetNode("Character/Hair/" + ID + ".img");
+                break;
+            case 101:
+            case 102:
+            case 103:
+            case 112:
+            case 113:
+            case 114:
+            case 115:
+            case 116:
+            case 118:
+            case 119:
+                return GetNode("Character/Accessory/" + ID + ".img");
+                break;
+            case 120:
+                return GetNode("Character/Totem/" + ID + ".img");
+                break;
+            case 100:
+                return GetNode("Character/Cap/" + ID + ".img");
+                break;
+            case 110:
+                return GetNode("Character/Cape/" + ID + ".img");
+                break;
+            case 104:
+                return GetNode("Character/Coat/" + ID + ".img");
+                break;
+            case 105:
+                return GetNode("Character/Longcoat/" + ID + ".img");
+                break;
+            case 106:
+                return GetNode("Character/Pants/" + ID + ".img");
+                break;
+            case 107:
+                return GetNode("Character/Shoes/" + ID + ".img");
+                break;
+            case 108:
+                return GetNode("Character/Glove/" + ID + ".img");
+            case 109:
+                return GetNode("Character/Shield/" + ID + ".img");
+                break;
+
+            case 111:
+                return GetNode("Character/Ring/" + ID + ".img");
+                break;
+
+            case 161:
+                return GetNode("Character/Mechanic/" + ID + ".img");
+                break;
+
+            case 166:
+            case 167:
+                return GetNode("Character/Android/" + ID + ".img");
+                break;
+            case 168:
+                return GetNode("Character/Bits/" + ID + ".img");
+                break;
+            case int n when (n >= 121 && n <= 170):
+                return GetNode("Character/Weapon/" + ID + ".img");
+                break;
+            case int n when (n >= 190 && n <= 199):
+                return GetNode("Character/TamingMob/" + ID + ".img");
+                break;
+            case 180:
+                return GetNode("Character/PetEquip/" + ID + ".img");
+                break;
+            case 996:
+            case 997:
+                return GetNode("Character/Familiar/" + ID + ".img");
+                break;
+            case int n when (n >= 200 && n <= 294):
+                return GetNode("Item/Consume/" + ID.LeftStr(4) + ".img/" + ID);
+                break;
+            case int n when (n >= 400 && n <= 446):
+                return GetNode("Item/Etc/" + ID.LeftStr(4) + ".img/" + ID);
+                break;
+
+            case 500:
+                return GetNode("Item/Pet/" + ID + ".img");
+                break;
+        }
+        return null;
+    }
+
+
 }
 
 internal class WzDict
@@ -531,7 +662,7 @@ public static class Wz_NodeExtension3
         return null;
     }
 
-    public static Wz_Node.WzNodeCollection GetNodes(this Wz_Node Node,string Path)
+    public static Wz_Node.WzNodeCollection GetNodes(this Wz_Node Node, string Path)
     {
         return Node.GetNode(Path).Nodes;
     }
