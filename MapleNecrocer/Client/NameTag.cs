@@ -101,6 +101,7 @@ public class MedalTag : SpriteEx
 {
     public MedalTag(Sprite Parent) : base(Parent)
     {
+        Tag=1;
     }
     int EastWidth;
     int WestWidth;
@@ -135,6 +136,7 @@ public class MedalTag : SpriteEx
 
     private static Texture2D FixAlpha(Bitmap Bmp)
     {
+
         ChangeAlpha(ref Bmp);
         /*
         int[] imgData = new int[Bmp.Width * Bmp.Height];
