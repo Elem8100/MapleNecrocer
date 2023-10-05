@@ -8,8 +8,10 @@
     ".NETCoreApp,Version=v6.0": {
       "MapleNecrocer/1.0.0": {
         "dependencies": {
+          "CharaSimResource": "1.0.0.0",
           "DevComponents.DotNetBar2": "12.5.0.2",
           "ImageListView": "13.8.2.0",
+          "ManagedBass": "3.1.0.0",
           "MonoGame.Forms.DX": "2.4.0.0",
           "MonoGame.Framework": "3.8.0.1641",
           "SharpDX.Direct3D11": "4.0.1.0",
@@ -22,6 +24,14 @@
         },
         "runtime": {
           "MapleNecrocer.dll": {}
+        }
+      },
+      "CharaSimResource/1.0.0.0": {
+        "runtime": {
+          "CharaSimResource.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "DevComponents.DotNetBar2/12.5.0.2": {
@@ -37,6 +47,14 @@
           "ImageListView.dll": {
             "assemblyVersion": "13.8.2.0",
             "fileVersion": "13.8.2.0"
+          }
+        }
+      },
+      "ManagedBass/3.1.0.0": {
+        "runtime": {
+          "ManagedBass.dll": {
+            "assemblyVersion": "3.1.0.0",
+            "fileVersion": "3.1.0.0"
           }
         }
       },
@@ -144,12 +162,22 @@
       "serviceable": false,
       "sha512": ""
     },
+    "CharaSimResource/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "DevComponents.DotNetBar2/12.5.0.2": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "ImageListView/13.8.2.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ManagedBass/3.1.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
