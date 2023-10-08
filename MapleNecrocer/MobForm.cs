@@ -83,12 +83,13 @@ public partial class MobForm : Form
         Win32.SendMessage(MobListGrid.Handle, false);
         foreach (var Iter in MainForm.TreeNode.Nodes["Mob"].Nodes)
         {
+        
             if (!Char.IsNumber(Iter.Text, 0))
                 continue;
             ID = Iter.Text.LeftStr(7);
-            Name = Wz.GetNodeA("String/Mob.img/" + ID.IntID()).GetStr("name");
+            Name = Wz.GetStr("String/Mob.img/" + ID.IntID()+"/name");
             MobListGrid.Rows.Add(ID, Name);
-
+        
         }
         Win32.SendMessage(MobListGrid.Handle, true);
         MobListGrid.Refresh();
