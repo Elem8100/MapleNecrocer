@@ -184,8 +184,9 @@ public class Player : JumperSprite
             Equip.DataS.Add("0000" + I.ToString() + "/swingOF/1/arm", "swingOF/1");
             Equip.DataS.Add("0000" + I.ToString() + "/swingOF/2/arm", "swingOF/2");
         }
+             
 
-        string[] DefaultEqps = { "01302030", "00002000", "01062055", "01072054", "01040005", "00020000", "00030020", "00012000" };
+        string[] DefaultEqps = { "01302000", "00002000", "01060002", "01070000", "01040005", "00020000", "00030020", "00012000" };
         for (int I = 0; I <= 7; I++)
         {
             Game.Player.CreateEquip(DefaultEqps[I], Game.Player.AvatarEngine);
@@ -227,6 +228,7 @@ public class Player : JumperSprite
     public bool ShowHair;
     public bool DressCap;
     public int CapType;
+    public string EarType = "humanEar";
     public string WeaponNum;
     public bool ResetAction;
     public string NewAction;
@@ -986,7 +988,7 @@ public class AvatarParts : SpriteEx
             string AfterImagePath = "Character/Afterimage/" + Owner.AfterImageStr + ".img/0/" + State + "/" + Frame + "/0";
             if (Wz.HasDataE(AfterImagePath))
             {
-                Sound.Play("Sound/Weapon.img/"+ "swordL/Attack");
+                Sound.Play("Sound/Weapon.img/" + "swordL/Attack");
                 AfterImage.Create(AfterImagePath);
             }
         }
@@ -1180,8 +1182,23 @@ public class AvatarParts : SpriteEx
         }
 
 
-        if ((Image == "ear") || (Image == "lefEar") || (Image == "highlefEar"))
-            Alpha = 0;
+        // if ((Image == "ear") || (Image == "lefEar") || (Image == "highlefEar"))
+        //  Alpha = 0;
+
+        if (Part == PartName.Head)
+        {
+            if (Image == "head")
+            {
+                Visible = true;
+            }
+            else
+            {
+                if (Image == Owner.EarType)
+                    Visible = true;
+                else
+                    Visible = false;
+            }
+        }
 
         if (Wz.HasDataE(Path + "/z"))
         {
@@ -1232,10 +1249,10 @@ public class AvatarParts : SpriteEx
             {
                 Expression = "blink";
                 FaceCount = 0;
-                AvatarForm.Instance.comboBox1.Text="";
+                AvatarForm.Instance.comboBox1.Text = "";
             }
         }
-       
+
 
         BlinkCount += 1;
         if (BlinkCount >= 220)

@@ -12,7 +12,7 @@ public class DamageNumber : SpriteEx
 {
     public DamageNumber(Sprite Parent) : base(Parent)
     {
-       
+
     }
     int Number;
     int Counter;
@@ -40,7 +40,10 @@ public class DamageNumber : SpriteEx
         else
         {
             for (int I = 0; I <= 7; I++)
-                Wz.DumpData(Entry.Nodes[StyleList[I]], Wz.EquipData, Wz.EquipImageLib);
+            {
+                if (Wz.HasNode("Effect/BasicEff.img/" + StyleList[I]))
+                    Wz.DumpData(Entry.Nodes[StyleList[I]], Wz.EquipData, Wz.EquipImageLib);
+            }
         }
     }
 

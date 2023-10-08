@@ -160,7 +160,7 @@ public class SetEffect : SpriteEx
                 break;
         }
         Origin.Y = (int)(origin.Y + BrowPos.Y - OffY - BodyRelMove.Y);
-       
+
     }
 
 }
@@ -182,8 +182,11 @@ public class ItemEffect : SpriteEx
     public static Dictionary<string, ItemEffect> UseList = new();
     public static void LoadList()
     {
-        foreach (var Iter in Wz.GetNodeA("Effect/ItemEff.img").Nodes)
-            ItemEffect.AllList.Add("0" + Iter.Text);
+        if (Wz.HasNode("Effect/ItemEff.img"))
+        {
+            foreach (var Iter in Wz.GetNodeA("Effect/ItemEff.img").Nodes)
+                ItemEffect.AllList.Add("0" + Iter.Text);
+        }
     }
     public static void Remove(string ID)
     {
@@ -328,9 +331,9 @@ public class ItemEffect : SpriteEx
                 }
             }
             else if (ID.LeftStr(1) == "8")
-            { 
+            {
                 ItemEffect.EffType = EffectType.Soul;
-              
+
                 ItemEffect.Path = Entry.FullPathToFile2();
             }
             else
@@ -343,7 +346,7 @@ public class ItemEffect : SpriteEx
     }
 
     public override void DoMove(float Delta)
-    { 
+    {
         base.DoMove(Delta);
         if (Wz.HasDataE(Path + "/" + Game.Player.Action + "/" + Frame))
         {
@@ -374,12 +377,12 @@ public class ItemEffect : SpriteEx
         {
             Visible = false;
         }
-        
+
         if (ImageNode == null)
-          return;
-       
+            return;
+
         Delay = ImageNode.GetInt("delay", 100);
-        
+
         FTime += 17;
         if (FTime > Delay)
         {
@@ -405,7 +408,7 @@ public class ItemEffect : SpriteEx
             }
             FTime = 0;
         }
-        
+
         FlipX = Game.Player.FlipX;
         X = Game.Player.X - 10;
         int Pos = ImageNode.ParentNode.GetInt("pos", -1);
@@ -447,9 +450,9 @@ public class ItemEffect : SpriteEx
         Z = Game.Player.Z + ImageNode.ParentNode.GetInt("z", 0);
         if (EffType == EffectType.Chair)
             Z = Game.Player.Z + ImageNode.GetInt("z", 0) - 1;
-        
+
         Wz_Vector origin = ImageNode.GetVector("origin");
-        
+
         Vector2 BrowPos;
         Wz_Vector BodyRelMove = new(0, 0);
         int OffY = 0;
@@ -483,7 +486,7 @@ public class ItemEffect : SpriteEx
 
     public override void DoDraw()
     {
-        if(ImageNode==null)
+        if (ImageNode == null)
             return;
         base.DoDraw();
     }

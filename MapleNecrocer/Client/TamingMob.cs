@@ -11,8 +11,6 @@ using WzComparerR2.WzLib;
 using Keyboard = SpriteEngine.Keyboard;
 using Input = Microsoft.Xna.Framework.Input.Keys;
 using System.Security.Cryptography;
-
-
 namespace MapleNecrocer;
 
 public class TamingMob : SpriteEx
@@ -43,14 +41,16 @@ public class TamingMob : SpriteEx
     static Dictionary<string, Wz_Node> Data = new();
     public static void LoadSaddleList()
     {
-        foreach (var Img in Wz.GetNode("Character/TamingMob").Nodes)
+        if (Wz.HasNode("Character/TamingMob"))
         {
-            if (Img.Text.LeftStr(4) == "0191")
-                foreach (var Iter in Wz.GetNode("Character/TamingMob/" + Img.Text).Nodes)
-                    if (Char.IsNumber(Iter.Text[0]))
-                        SaddleList.AddOrReplace("0" + Iter.Text, Img.Text.LeftStr(8));
+            foreach (var Img in Wz.GetNode("Character/TamingMob").Nodes)
+            {
+                if (Img.Text.LeftStr(4) == "0191")
+                    foreach (var Iter in Wz.GetNode("Character/TamingMob/" + Img.Text).Nodes)
+                        if (Char.IsNumber(Iter.Text[0]))
+                            SaddleList.AddOrReplace("0" + Iter.Text, Img.Text.LeftStr(8));
+            }
         }
-
     }
 
     public static void Remove()
