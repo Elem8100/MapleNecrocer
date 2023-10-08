@@ -1,15 +1,7 @@
-﻿using MonoGame.SpriteEngine;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Forms;
 using WzComparerR2.CharaSim;
+using WzComparerR2.WzLib;
 
 namespace MapleNecrocer;
 
@@ -77,29 +69,21 @@ public partial class ChairForm : Form
             CellClick(ChairListGrid.SearchGrid, e);
         };
 
-
-        Dictionary<string, string> Dict = new();
-        foreach (var Iter in Wz.GetNode("String/Ins.img").Nodes)
-        {
-            if (Iter.Text.LeftStr(3) == "301" || Iter.Text.LeftStr(3) == "302")
-            {
-                Dict.AddOrReplace(Iter.Text, Iter.GetStr("name"));
-            }
-        }
-
-        string ChairName = "";
         Bitmap Bmp = null;
         Win32.SendMessage(ChairListGrid.Handle, false);
+
+        Wz_Node Entry = null;
+        if (Wz.HasNode("String/Ins.img"))
+            Entry = Wz.GetNode("String/Ins.img");
+        else if (Wz.HasNode("String/Item.img/Ins")) //old Data.wz
+            Entry = Wz.GetNode("String/Item.img/Ins");
         foreach (var Img in Wz.GetNodeA("Item/Install").Nodes)
         {
             if (Img.Text.LeftStr(4) != "0301" && Img.Text.LeftStr(4) != "0302")
                 continue;
             foreach (var Iter in Wz.GetNodeA("Item/Install/" + Img.Text).Nodes)
             {
-                if (Dict.ContainsKey(Iter.Text.IntID()))
-                    ChairName = Dict[Iter.Text.IntID()];
-                else
-                    ChairName = "";
+                string ChairName = Entry.GetStr(Iter.Text.IntID() + "/name");
                 if (Iter.HasNode("info/icon"))
                     Bmp = Iter.GetNode("info/icon").ExtractPng();
                 ChairListGrid.Rows.Add(Iter.Text, Bmp, ChairName);

@@ -35,7 +35,12 @@ internal class Wz
     public static Dictionary<Wz_Node, Texture2D> ImageLib = new Dictionary<Wz_Node, Texture2D>();
     public static Dictionary<Wz_Node, Texture2D> EquipImageLib = new Dictionary<Wz_Node, Texture2D>();
     public static string Region;
+    public static bool HasStringWz;
+    //very old Data.wz has no Map1,Map2,Map3... dir
+    public static bool HasMap9Dir;
+    public static bool IsDataWz;
     private static List<NodeInfo> NodeList1 = new();
+
     private static List<NodeInfo> NodeList2 = new();
 
 
@@ -343,6 +348,7 @@ internal class Wz
     }
     public static Wz_Node GetImgNode(string Path)
     {
+      //  Path = Path.Replace("Data/", "");
         var Split = Path.Split(".img/");
         return PluginManager.FindWz(Split[0] + ".img").Get2(Split[1]);
     }
@@ -487,7 +493,6 @@ internal class Wz
         return null;
     }
 
-
 }
 
 internal class WzDict
@@ -577,6 +582,10 @@ public static class Wz_NodeExtension3
                 string[] Split = FullPath.Split('/');
                 switch (Split[0])
                 {
+                    case "Data":
+                        FullPath = FullPath.Replace("Data/", "");
+                        break;
+
                     case "Map001":
                         FullPath = FullPath.Replace("Map001", "Map");
                         break;
@@ -696,10 +705,15 @@ public static class Wz_NodeExtension3
 
     public static Wz_Node Get2(this Wz_Node Node, string Path)
     {
+
+
         var Split = Path.Split('/');
         var Result = Node;
+
+
         for (int i = 0; i < Split.Length; i++)
         {
+
             if (Split[i] == "..")
                 Result = Result.ParentNode;
             else

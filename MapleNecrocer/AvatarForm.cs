@@ -65,7 +65,11 @@ public partial class AvatarForm : Form
             var ID = Player.EqpList[i];
 
             string Dir = Equip.GetDir(ID);
-            string Name = Wz.GetNodeA("String/Eqp.img/Eqp").GetStr(Dir + ID.IntID() + "/name");
+            string Name = "";
+            if (Wz.HasNode("String/Eqp.img"))
+                Name = Wz.GetNodeA("String/Eqp.img/Eqp").GetStr(Dir + ID.IntID() + "/name");
+            else if(Wz.HasNode("String/Item.img/Eqp"))
+                Name = Wz.GetNodeA("String/Item.img/Eqp").GetStr(Dir + ID.IntID() + "/name");
             var Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
             PartName PartName = Equip.GetPart(ID);
 
@@ -318,7 +322,19 @@ public partial class AvatarForm : Form
         AddEqps("00002000");
         AddInventory();
         ResetDyeGrid();
+        foreach (var Iter in Wz.GetNodes("Character/00012000.img/front"))
+        {
+            if (Iter.Text != "head")
+            {
+                EarListBox.Items.Add(Iter.Text);
+            }
+        }
 
+        if (EarListBox.Items.Count == 0)
+        {
+            EarListBox.Visible = false;
+            label5.Visible = false;
+        }
 
     }
 
@@ -723,5 +739,10 @@ public partial class AvatarForm : Form
     private void AvatarForm_FormClosing(object sender, FormClosingEventArgs e)
     {
         MainForm.Instance.ToolTipView.Visible = false;
+    }
+
+    private void EarListBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Game.Player.EarType = EarListBox.Text;
     }
 }

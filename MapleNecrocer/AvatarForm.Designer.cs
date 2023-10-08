@@ -67,6 +67,8 @@
             label4 = new Label();
             comboBox1 = new ComboBox();
             ShowToolTil_CheckBox = new CheckBox();
+            label5 = new Label();
+            EarListBox = new ComboBox();
             tabControl1.SuspendLayout();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DyeGrid).BeginInit();
@@ -545,7 +547,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            label4.Location = new Point(453, 227);
+            label4.Location = new Point(453, 224);
             label4.Name = "label4";
             label4.Size = new Size(77, 18);
             label4.TabIndex = 22;
@@ -556,7 +558,7 @@
             comboBox1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "blink", "hit", "smile", "troubled", "cry", "angry", "bewildered", "stunned", "vomit", "oops", "cheers", "chu", "wink", "pain", "glitter", "despair", "love", "shine", "blaze", "hum", "bowing", "hot", "dam", "qBlue" });
-            comboBox1.Location = new Point(533, 225);
+            comboBox1.Location = new Point(533, 222);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(134, 25);
             comboBox1.TabIndex = 23;
@@ -576,10 +578,32 @@
             ShowToolTil_CheckBox.UseVisualStyleBackColor = true;
             ShowToolTil_CheckBox.CheckedChanged += ShowToolTil_CheckBox_CheckedChanged;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            label5.Location = new Point(501, 257);
+            label5.Name = "label5";
+            label5.Size = new Size(29, 18);
+            label5.TabIndex = 25;
+            label5.Text = "Ear";
+            // 
+            // EarListBox
+            // 
+            EarListBox.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            EarListBox.FormattingEnabled = true;
+            EarListBox.Location = new Point(533, 253);
+            EarListBox.Name = "EarListBox";
+            EarListBox.Size = new Size(134, 25);
+            EarListBox.TabIndex = 26;
+            EarListBox.SelectedIndexChanged += EarListBox_SelectedIndexChanged;
+            // 
             // AvatarForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1040, 835);
+            Controls.Add(EarListBox);
+            Controls.Add(label5);
             Controls.Add(ShowToolTil_CheckBox);
             Controls.Add(comboBox1);
             Controls.Add(label4);
@@ -665,5 +689,7 @@
         private Label label4;
         public ComboBox comboBox1;
         private CheckBox ShowToolTil_CheckBox;
+        private Label label5;
+        private ComboBox EarListBox;
     }
 }

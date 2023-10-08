@@ -25,6 +25,8 @@ using System.Runtime.CompilerServices;
 using WzComparerR2.CharaSimControl;
 using System.Text.RegularExpressions;
 using WzComparerR2.CharaSim;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace MapleNecrocer;
 
@@ -71,10 +73,6 @@ public partial class MainForm : Form
     {
         this.CenterToScreen();
     }
-    Wz_Node GetWzNode(string Path)
-    {
-        return Wz.GetNode(Path);
-    }
 
     public static void OpenWZ(string wzFilePath)
     {
@@ -91,8 +89,9 @@ public partial class MainForm : Form
 
     public void DumpMapIDs()
     {
+        //  if(Wz.HasNode("Map/Map/Map0"))
 
-        foreach (var Iter in GetWzNode("String/Map.img").Nodes)
+        foreach (var Iter in Wz.GetNodes("String/Map.img"))
         {
             foreach (var Iter2 in Iter.Nodes)
             {
@@ -104,7 +103,7 @@ public partial class MainForm : Form
         }
 
         Win32.SendMessage(MapListBox.Handle, false);
-        foreach (var Dir in GetWzNode("Map/Map").Nodes)
+        foreach (var Dir in Wz.GetNodes("Map/Map"))
         {
             if (LeftStr(Dir.Text, 3) != "Map")
                 continue;
@@ -154,7 +153,6 @@ public partial class MainForm : Form
                     if (wz_f.Header.FileName.RightStr(5) == "ES.wz") continue;
                     if (wz_f.Header.FileName.RightStr(5) == "FR.wz") continue;
                     if (wz_f.Header.FileName.RightStr(5) == "DE.wz") continue;
-
                     if (wz_f.Type == e.WzType)
                     {
                         preSearch.Add(wz_f.Node);
@@ -176,6 +174,7 @@ public partial class MainForm : Form
                         if (node.Text == key && node.Nodes.Count > 0)
                         {
                             preSearch.Add(node);
+
                         }
                     }
                 }
@@ -327,6 +326,24 @@ public partial class MainForm : Form
         {
             //  advTree1.EndUpdate();
         }
+
+        Wz.IsDataWz=false;
+        if(Wz.GetNode("Mob").FullPathToFile.LeftStr(4)=="Data")
+            Wz.IsDataWz = true;
+
+        Wz.HasStringWz = true;
+        if (Wz.HasNode("Mob/0100100.img/info/name"))
+        {
+            Wz.HasStringWz = false;
+        }
+
+        Wz.HasMap9Dir = false;
+        if (Wz.HasNode("Map/Map/Map1"))
+        {
+            Wz.HasMap9Dir = true;
+        }
+
+
     }
 
     public void RemoveWz()
@@ -345,198 +362,335 @@ public partial class MainForm : Form
 
     public void QuickView(Wz_Node node)
     {
-        Wz_File findStringWz()
-        {
-            foreach (Wz_Structure wz in openedWz)
-            {
-                foreach (Wz_File file in wz.wz_files)
-                {
-                    if (file.Type == Wz_Type.String)
-                    {
-                        return file;
-                    }
-                }
-            }
-            return null;
-        }
-
-        Wz_File findItemWz()
-        {
-            foreach (Wz_Structure wz in openedWz)
-            {
-                foreach (Wz_File file in wz.wz_files)
-                {
-                    if (file.Type == Wz_Type.Item)
-                    {
-                        return file;
-                    }
-                }
-            }
-            return null;
-        }
-
-        Wz_File findEtcWz()
-        {
-            foreach (Wz_Structure wz in openedWz)
-            {
-                foreach (Wz_File file in wz.wz_files)
-                {
-                    if (file.Type == Wz_Type.Etc)
-                    {
-                        return file;
-                    }
-                }
-            }
-            return null;
-        }
-
-
+      
         Wz_Node selectedNode = node;
         if (selectedNode == null)
         {
-
             return;
         }
 
-        Wz_Image image;
-
-        Wz_File wzf = selectedNode.GetNodeWzFile();
-
-
-        if (wzf == null)
+        if (!Wz.IsDataWz)
         {
-
-            // labelItemStatus.Text = "The WZ file where the node belongs to has not been found.";
-            return;
-        }
-
-        if (!this.stringLinker.HasValues)
-        {
-            this.stringLinker.Load(findStringWz(), findItemWz(), findEtcWz());
-        }
-
-        object obj = null;
-        string fileName = null;
-        switch (wzf.Type)
-        {
-            case Wz_Type.Character:
-                if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
-                    return;
-                CharaSimLoader.LoadSetItemsIfEmpty();
-                CharaSimLoader.LoadExclusiveEquipsIfEmpty();
-                CharaSimLoader.LoadCommoditiesIfEmpty();
-                var gear = Gear.CreateFromNode(image.Node, PluginManager.FindWz);
-                obj = gear;
-                if (gear != null)
+            Wz_File findStringWz()
+            {
+                foreach (Wz_Structure wz in openedWz)
                 {
-                    fileName = gear.ItemID + ".png";
-                }
-                break;
-            case Wz_Type.Item:
-                CharaSimLoader.LoadCommoditiesIfEmpty();
-                Wz_Node itemNode = selectedNode;
-                if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\(Cash|Consume|Etc|Install|Cash)\\\d{4,6}.img\\\d+$") || Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Special\\0910.img\\\d+$"))
-                {
-                    var item = Item.CreateFromNode(itemNode, PluginManager.FindWz);
-                    obj = item;
-                    if (item != null)
+                    foreach (Wz_File file in wz.wz_files)
                     {
-                        fileName = item.ItemID + ".png";
+                        if (file.Type == Wz_Type.String)
+                        {
+                            return file;
+                        }
                     }
                 }
-                else if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Pet\\\d{7}.img"))
+                return null;
+            }
+
+            Wz_File findItemWz()
+            {
+                foreach (Wz_Structure wz in openedWz)
                 {
-                    if (CharaSimLoader.LoadedSetItems.Count == 0) //宠物 预读套装
+                    foreach (Wz_File file in wz.wz_files)
                     {
-                        CharaSimLoader.LoadSetItemsIfEmpty();
+                        if (file.Type == Wz_Type.Item)
+                        {
+                            return file;
+                        }
                     }
+                }
+                return null;
+            }
+
+            Wz_File findEtcWz()
+            {
+                foreach (Wz_Structure wz in openedWz)
+                {
+                    foreach (Wz_File file in wz.wz_files)
+                    {
+                        if (file.Type == Wz_Type.Etc)
+                        {
+                            return file;
+                        }
+                    }
+                }
+                return null;
+            }
+
+
+            Wz_Image image;
+            Wz_File wzf = selectedNode.GetNodeWzFile();
+            if (wzf == null)
+            {
+                // labelItemStatus.Text = "The WZ file where the node belongs to has not been found.";
+                return;
+            }
+
+            if (!this.stringLinker.HasValues)
+            {
+                this.stringLinker.Load(findStringWz(), findItemWz(), findEtcWz());
+            }
+
+            object obj = null;
+            string fileName = null;
+            switch (wzf.Type)
+            {
+                case Wz_Type.Character:
                     if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
                         return;
-                    var item = Item.CreateFromNode(image.Node, PluginManager.FindWz);
-                    obj = item;
-                    if (item != null)
+                    CharaSimLoader.LoadSetItemsIfEmpty();
+                    CharaSimLoader.LoadExclusiveEquipsIfEmpty();
+                    CharaSimLoader.LoadCommoditiesIfEmpty();
+                    var gear = Gear.CreateFromNode(image.Node, PluginManager.FindWz);
+                    obj = gear;
+                    if (gear != null)
                     {
-                        fileName = item.ItemID + ".png";
+                        fileName = gear.ItemID + ".png";
                     }
-                }
-
-                break;
-            case Wz_Type.Skill:
-                Wz_Node skillNode = selectedNode;
-                //模式路径分析
-                if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\Recipe_\d+.img\\\d+$"))
-                {
-                    Recipe recipe = Recipe.CreateFromNode(skillNode);
-                    obj = recipe;
-                    if (recipe != null)
+                    break;
+                case Wz_Type.Item:
+                    CharaSimLoader.LoadCommoditiesIfEmpty();
+                    Wz_Node itemNode = selectedNode;
+                    if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\(Cash|Consume|Etc|Install|Cash)\\\d{4,6}.img\\\d+$") || Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Special\\0910.img\\\d+$"))
                     {
-                        fileName = "recipe_" + recipe.RecipeID + ".png";
-                    }
-                }
-                else if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\\d+.img\\skill\\\d+$"))
-                {
-                    WzComparerR2.CharaSim.Skill skill = WzComparerR2.CharaSim.Skill.CreateFromNode(skillNode, PluginManager.FindWz);
-                    if (skill != null)
-                    {
-                        switch (this.skillDefaultLevel)
+                        var item = Item.CreateFromNode(itemNode, PluginManager.FindWz);
+                        obj = item;
+                        if (item != null)
                         {
-                            case DefaultLevel.Level0: skill.Level = 0; break;
-                            case DefaultLevel.Level1: skill.Level = 1; break;
-                            case DefaultLevel.LevelMax: skill.Level = skill.MaxLevel; break;
-                            case DefaultLevel.LevelMaxWithCO: skill.Level = skill.MaxLevel + 2; break;
+                            fileName = item.ItemID + ".png";
                         }
-                        obj = skill;
-                        fileName = "skill_" + skill.SkillID + ".png";
                     }
-                }
-                break;
-
-            case Wz_Type.Mob:
-                if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
-                    return;
-                var mob = WzComparerR2.CharaSim.Mob.CreateFromNode(image.Node, PluginManager.FindWz);
-                obj = mob;
-                if (mob != null)
-                {
-                    fileName = mob.ID + ".png";
-                }
-                break;
-
-            case Wz_Type.Npc:
-                if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
-                    return;
-                var npc = WzComparerR2.CharaSim.Npc.CreateFromNode(image.Node, PluginManager.FindWz);
-                obj = npc;
-                if (npc != null)
-                {
-                    fileName = npc.ID + ".png";
-                }
-                break;
-
-            case Wz_Type.Etc:
-                CharaSimLoader.LoadSetItemsIfEmpty();
-                Wz_Node setItemNode = selectedNode;
-                if (Regex.IsMatch(setItemNode.FullPathToFile, @"^Etc\\SetItemInfo.img\\-?\d+$"))
-                {
-                    SetItem setItem;
-                    if (!CharaSimLoader.LoadedSetItems.TryGetValue(Convert.ToInt32(selectedNode.Text), out setItem))
-                        return;
-                    obj = setItem;
-                    if (setItem != null)
+                    else if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Pet\\\d{7}.img"))
                     {
-                        fileName = setItem.SetItemID + ".png";
+                        if (CharaSimLoader.LoadedSetItems.Count == 0) //宠物 预读套装
+                        {
+                            CharaSimLoader.LoadSetItemsIfEmpty();
+                        }
+                        if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
+                            return;
+                        var item = Item.CreateFromNode(image.Node, PluginManager.FindWz);
+                        obj = item;
+                        if (item != null)
+                        {
+                            fileName = item.ItemID + ".png";
+                        }
                     }
-                }
-                break;
+
+                    break;
+                case Wz_Type.Skill:
+                    Wz_Node skillNode = selectedNode;
+                    //模式路径分析
+                    if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\Recipe_\d+.img\\\d+$"))
+                    {
+                        Recipe recipe = Recipe.CreateFromNode(skillNode);
+                        obj = recipe;
+                        if (recipe != null)
+                        {
+                            fileName = "recipe_" + recipe.RecipeID + ".png";
+                        }
+                    }
+                    else if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\\d+.img\\skill\\\d+$"))
+                    {
+                        WzComparerR2.CharaSim.Skill skill = WzComparerR2.CharaSim.Skill.CreateFromNode(skillNode, PluginManager.FindWz);
+                        if (skill != null)
+                        {
+                            switch (this.skillDefaultLevel)
+                            {
+                                case DefaultLevel.Level0: skill.Level = 0; break;
+                                case DefaultLevel.Level1: skill.Level = 1; break;
+                                case DefaultLevel.LevelMax: skill.Level = skill.MaxLevel; break;
+                                case DefaultLevel.LevelMaxWithCO: skill.Level = skill.MaxLevel + 2; break;
+                            }
+                            obj = skill;
+                            fileName = "skill_" + skill.SkillID + ".png";
+                        }
+                    }
+                    break;
+
+                case Wz_Type.Mob:
+                    if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
+                        return;
+                    var mob = WzComparerR2.CharaSim.Mob.CreateFromNode(image.Node, PluginManager.FindWz);
+                    obj = mob;
+                    if (mob != null)
+                    {
+                        fileName = mob.ID + ".png";
+                    }
+                    break;
+
+                case Wz_Type.Npc:
+                    if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
+                        return;
+                    var npc = WzComparerR2.CharaSim.Npc.CreateFromNode(image.Node, PluginManager.FindWz);
+                    obj = npc;
+                    if (npc != null)
+                    {
+                        fileName = npc.ID + ".png";
+                    }
+                    break;
+
+                case Wz_Type.Etc:
+                    CharaSimLoader.LoadSetItemsIfEmpty();
+                    Wz_Node setItemNode = selectedNode;
+                    if (Regex.IsMatch(setItemNode.FullPathToFile, @"^Etc\\SetItemInfo.img\\-?\d+$"))
+                    {
+                        SetItem setItem;
+                        if (!CharaSimLoader.LoadedSetItems.TryGetValue(Convert.ToInt32(selectedNode.Text), out setItem))
+                            return;
+                        obj = setItem;
+                        if (setItem != null)
+                        {
+                            fileName = setItem.SetItemID + ".png";
+                        }
+                    }
+                    break;
+            }
+
+            if (obj != null)
+            {
+                ToolTipView.TargetItem = obj;
+                ToolTipView.ImageFileName = fileName;
+                ToolTipView.Refresh();
+                ToolTipView.HideOnHover = false;
+                ToolTipView.Show();
+            }
         }
-        if (obj != null)
+        else
         {
-            ToolTipView.TargetItem = obj;
-            ToolTipView.ImageFileName = fileName;
-            ToolTipView.Refresh();
-            ToolTipView.HideOnHover = false;
-            ToolTipView.Show();
+            if (!this.stringLinker.HasValues)
+            {
+                this.stringLinker.Load(Wz.GetNode("String"),Wz.GetNode("Item"),Wz.GetNode("Etc"));
+            }
+            
+            string[] Split=selectedNode.FullPathToFileEx().Split('/');
+            object obj = null;
+            string fileName = null;
+            Wz_Image image;
+            switch (Split[1])
+            {
+                case "Character":
+                    if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
+                        return;
+                    CharaSimLoader.LoadSetItemsIfEmpty();
+                    CharaSimLoader.LoadExclusiveEquipsIfEmpty();
+                    CharaSimLoader.LoadCommoditiesIfEmpty();
+                    var gear = Gear.CreateFromNode(image.Node, PluginManager.FindWz);
+                    obj = gear;
+                    if (gear != null)
+                    {
+                        fileName = gear.ItemID + ".png";
+                    }
+                    break;
+                case "Item":
+                    CharaSimLoader.LoadCommoditiesIfEmpty();
+                    Wz_Node itemNode = selectedNode;
+                    if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\(Cash|Consume|Etc|Install|Cash)\\\d{4,6}.img\\\d+$") || Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Special\\0910.img\\\d+$"))
+                    {
+                        var item = Item.CreateFromNode(itemNode, PluginManager.FindWz);
+                        obj = item;
+                        if (item != null)
+                        {
+                            fileName = item.ItemID + ".png";
+                        }
+                    }
+                    else if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Pet\\\d{7}.img"))
+                    {
+                        if (CharaSimLoader.LoadedSetItems.Count == 0) //宠物 预读套装
+                        {
+                            CharaSimLoader.LoadSetItemsIfEmpty();
+                        }
+                        if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
+                            return;
+                        var item = Item.CreateFromNode(image.Node, PluginManager.FindWz);
+                        obj = item;
+                        if (item != null)
+                        {
+                            fileName = item.ItemID + ".png";
+                        }
+                    }
+
+                    break;
+                case "Skill":
+                    Wz_Node skillNode = selectedNode;
+                    //模式路径分析
+                    if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\Recipe_\d+.img\\\d+$"))
+                    {
+                        Recipe recipe = Recipe.CreateFromNode(skillNode);
+                        obj = recipe;
+                        if (recipe != null)
+                        {
+                            fileName = "recipe_" + recipe.RecipeID + ".png";
+                        }
+                    }
+                    else if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\\d+.img\\skill\\\d+$"))
+                    {
+                        WzComparerR2.CharaSim.Skill skill = WzComparerR2.CharaSim.Skill.CreateFromNode(skillNode, PluginManager.FindWz);
+                        if (skill != null)
+                        {
+                            switch (this.skillDefaultLevel)
+                            {
+                                case DefaultLevel.Level0: skill.Level = 0; break;
+                                case DefaultLevel.Level1: skill.Level = 1; break;
+                                case DefaultLevel.LevelMax: skill.Level = skill.MaxLevel; break;
+                                case DefaultLevel.LevelMaxWithCO: skill.Level = skill.MaxLevel + 2; break;
+                            }
+                            obj = skill;
+                            fileName = "skill_" + skill.SkillID + ".png";
+                        }
+                    }
+                    break;
+
+                case "Mob":
+                    if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
+                        return;
+                    var mob = WzComparerR2.CharaSim.Mob.CreateFromNode(image.Node, PluginManager.FindWz);
+                    obj = mob;
+                    if (mob != null)
+                    {
+                        fileName = mob.ID + ".png";
+                    }
+                    break;
+
+                case "Npc":
+                    if ((image = selectedNode.GetValue<Wz_Image>()) == null || !image.TryExtract())
+                        return;
+                    var npc = WzComparerR2.CharaSim.Npc.CreateFromNode(image.Node, PluginManager.FindWz);
+                    obj = npc;
+                    if (npc != null)
+                    {
+                        fileName = npc.ID + ".png";
+                    }
+                    break;
+
+                case "Etc":
+                    CharaSimLoader.LoadSetItemsIfEmpty();
+                    Wz_Node setItemNode = selectedNode;
+                    if (Regex.IsMatch(setItemNode.FullPathToFile, @"^Etc\\SetItemInfo.img\\-?\d+$"))
+                    {
+                        SetItem setItem;
+                        if (!CharaSimLoader.LoadedSetItems.TryGetValue(Convert.ToInt32(selectedNode.Text), out setItem))
+                            return;
+                        obj = setItem;
+                        if (setItem != null)
+                        {
+                            fileName = setItem.SetItemID + ".png";
+                        }
+                    }
+                    break;
+            }
+            
+            if (obj != null)
+            {
+                ToolTipView.TargetItem = obj;
+                ToolTipView.ImageFileName = fileName;
+                ToolTipView.Refresh();
+                ToolTipView.HideOnHover = false;
+                ToolTipView.Show();
+            }
+          
+
+
         }
+
     }
 
 
@@ -544,18 +698,18 @@ public partial class MainForm : Form
     {
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
         var LeftNum = LeftStr(ID, 1);
-        var Node = GetWzNode("Map/Map/Map" + LeftNum + '/' + ID + ".img/info/link");
+        var Node = Wz.GetNode("Map/Map/Map" + LeftNum + '/' + ID + ".img/info/link");
         if (Node == null)
             Map.ID = ID;
         else
             Map.ID = Node.Value.ToString();
 
         LeftNum = LeftStr(Map.ID, 1);
-        Node = GetWzNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap");
+        Node = Wz.GetNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap");
 
         if (Node != null)
         {
-            pictureBox1.Image = GetWzNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap/canvas").ExtractPng();
+            pictureBox1.Image = Wz.GetBmp("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap/canvas");
             // Map.Img = GetWzNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img");
         }
         else
@@ -599,8 +753,8 @@ public partial class MainForm : Form
 
     private void LoadMap()
     {
+      
         Map.LoadMap(Map.ID);
-
         int PX = 0, PY = 0;
         foreach (var Portals in MapPortal.PortalList)
         {
