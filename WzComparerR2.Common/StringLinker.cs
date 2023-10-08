@@ -236,7 +236,207 @@ namespace WzComparerR2.Common
             return this.HasValues;
         }
 
-         public bool Load(Wz_File stringWz)
+        public bool Load(Wz_Node stringWz, Wz_Node itemWz, Wz_Node etcWz)
+        {
+            if (stringWz == null || itemWz == null || etcWz == null)
+                return false;
+            this.Clear();
+            int id;
+            foreach (Wz_Node node in stringWz.Nodes)
+            {
+                Wz_Image image = node.Value as Wz_Image;
+                if (image == null)
+                    continue;
+                switch (node.Text)
+                {
+                    case "Item.img":
+                        foreach (Wz_Node tree0 in image.Node.Nodes)
+                        {
+                            if (tree0.Text == "Eqp")
+                            {
+                                foreach (Wz_Node tree1 in tree0.Nodes)
+                                {
+                                    foreach (Wz_Node tree in tree1.Nodes)
+                                    {
+                                        if (Int32.TryParse(tree.Text, out id))
+                                        {
+                                            StringResult strResult = new StringResult();
+                                            strResult.Name = GetDefaultString(tree, "name");
+                                            strResult.Desc = GetDefaultString(tree, "desc");
+                                            strResult.FullPath = tree.FullPath;
+
+                                            AddAllValue(strResult, tree);
+                                            stringEqp[id] = strResult;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                foreach (Wz_Node tree1 in tree0.Nodes)
+                                {
+                                    if (Int32.TryParse(tree1.Text, out id))
+                                    {
+                                        StringResult strResult = new StringResult();
+                                        strResult.Name = GetDefaultString(tree1, "name");
+                                        strResult.Desc = GetDefaultString(tree1, "desc");
+                                        strResult.AutoDesc = GetDefaultString(tree1, "autodesc");
+                                        strResult.FullPath = tree1.FullPath;
+
+                                        AddAllValue(strResult, tree1);
+                                        stringEqp[id] = strResult;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+
+                    case "Mob.img":
+                        if (!image.TryExtract()) break;
+                        foreach (Wz_Node tree in image.Node.Nodes)
+                        {
+                            if (Int32.TryParse(tree.Text, out id))
+                            {
+                                StringResult strResult = new StringResult();
+                                strResult.Name = GetDefaultString(tree, "name");
+                                strResult.FullPath = tree.FullPath;
+
+                                AddAllValue(strResult, tree);
+                                stringMob[id] = strResult;
+                            }
+                        }
+                        break;
+                    case "Npc.img":
+                        if (!image.TryExtract()) break;
+                        foreach (Wz_Node tree in image.Node.Nodes)
+                        {
+                            if (Int32.TryParse(tree.Text, out id))
+                            {
+                                StringResult strResult = new StringResult();
+                                strResult.Name = GetDefaultString(tree, "name");
+                                strResult.Desc = GetDefaultString(tree, "func");
+                                strResult.FullPath = tree.FullPath;
+
+                                AddAllValue(strResult, tree);
+                                stringNpc[id] = strResult;
+                            }
+                        }
+                        break;
+                    case "Map.img":
+                        if (!image.TryExtract()) break;
+                        foreach (Wz_Node tree0 in image.Node.Nodes)
+                        {
+                            foreach (Wz_Node tree in tree0.Nodes)
+                            {
+                                if (Int32.TryParse(tree.Text, out id))
+                                {
+                                    StringResult strResult = new StringResult();
+                                    strResult.Name = string.Format("{0} : {1}",
+                                        GetDefaultString(tree, "streetName"),
+                                        GetDefaultString(tree, "mapName"));
+                                    strResult.Desc = GetDefaultString(tree, "mapDesc");
+                                    strResult.FullPath = tree.FullPath;
+
+                                    AddAllValue(strResult, tree);
+                                    stringMap[id] = strResult;
+                                }
+                            }
+                        }
+                        break;
+                    case "Skill.img":
+                        if (!image.TryExtract()) break;
+                        foreach (Wz_Node tree in image.Node.Nodes)
+                        {
+                            StringResult strResult = new StringResultSkill();
+                            strResult.Name = GetDefaultString(tree, "name");//?? GetDefaultString(tree, "bookName");
+                            strResult.Desc = GetDefaultString(tree, "desc");
+                            strResult.Pdesc = GetDefaultString(tree, "pdesc");
+                            strResult.SkillH.Add(GetDefaultString(tree, "h"));
+                            strResult.SkillpH.Add(GetDefaultString(tree, "ph"));
+                            strResult.SkillhcH.Add(GetDefaultString(tree, "hch"));
+                            if (strResult.SkillH[0] == null)
+                            {
+                                strResult.SkillH.RemoveAt(0);
+                                for (int i = 1; ; i++)
+                                {
+                                    string hi = GetDefaultString(tree, "h" + i);
+                                    if (string.IsNullOrEmpty(hi))
+                                        break;
+                                    strResult.SkillH.Add(hi);
+                                }
+                            }
+                            strResult.SkillH.TrimExcess();
+                            strResult.SkillpH.TrimExcess();
+                            strResult.FullPath = tree.FullPath;
+
+                            AddAllValue(strResult, tree);
+                            if (tree.Text.Length >= 7 && Int32.TryParse(tree.Text, out id))
+                            {
+                                stringSkill[id] = strResult;
+                            }
+                            stringSkill2[tree.Text] = strResult;
+                        }
+                        break;
+
+                }
+            }
+
+            foreach (Wz_Node node in itemWz.FindNodeByPath("Special").Nodes)
+            {
+                Wz_Image image = node.Value as Wz_Image;
+                if (image == null)
+                    continue;
+                switch (node.Text)
+                {
+                    case "0910.img":
+                        if (!image.TryExtract()) break;
+                        foreach (Wz_Node tree in image.Node.Nodes)
+                        {
+                            if (Int32.TryParse(tree.Text, out id))
+                            {
+                                StringResult strResult = new StringResult();
+                                strResult.Name = GetDefaultString(tree, "name");
+                                strResult.Desc = GetDefaultString(tree, "desc");
+                                strResult.FullPath = tree.FullPath;
+
+                                AddAllValue(strResult, tree);
+                                stringItem[id] = strResult;
+                            }
+                        }
+                        break;
+                }
+            }
+
+            foreach (Wz_Node node in etcWz.Nodes)
+            {
+                Wz_Image image = node.Value as Wz_Image;
+                if (image == null)
+                    continue;
+                switch (node.Text)
+                {
+                    case "SetItemInfo.img":
+                        if (!image.TryExtract()) break;
+                        foreach (Wz_Node tree in image.Node.Nodes)
+                        {
+                            if (Int32.TryParse(tree.Text, out id))
+                            {
+                                StringResult strResult = new StringResult();
+                                strResult.Name = GetDefaultString(tree, "setItemName");
+                                strResult.FullPath = tree.FullPath;
+
+                                AddAllValue(strResult, tree);
+                                stringSetItem[id] = strResult;
+                            }
+                        }
+                        break;
+                }
+            }
+
+            return this.HasValues;
+        }
+
+
+        public bool Load(Wz_File stringWz)
         {
             if (stringWz == null || stringWz.Node == null)
                 return false;
