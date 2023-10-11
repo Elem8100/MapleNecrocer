@@ -11,6 +11,7 @@ using WzComparerR2.PluginBase;
 using WzComparerR2.WzLib;
 using WzComparerR2.Common;
 using WzComparerR2.CharaSim;
+using GraphicsExtension;
 
 namespace WzComparerR2.CharaSimControl
 {
@@ -263,9 +264,11 @@ namespace WzComparerR2.CharaSimControl
                 //绘制背景区域
                 GearGraphics.DrawNewTooltipBack(g, 0, 0, itemBmp.Width, picHeight);
                 //复制图像
-                g.DrawImage(itemBmp, 0, 0, new Rectangle(0, 0, itemBmp.Width, picHeight), GraphicsUnit.Pixel);
+                var itemBmp2=itemBmp;
+                itemBmp2.SetResolution(120,120);
+                g.DrawImage(itemBmp2, 0, 0, new Rectangle(0, 0, itemBmp.Width, picHeight), GraphicsUnit.Pixel);
                 //左上角
-                g.DrawImage(Resource.UIToolTip_img_Item_Frame2_cover, 3, 3);
+                g.DrawImage2(Resource.UIToolTip_img_Item_Frame2_cover, 3, 3);
 
                 if (this.ShowObjectID)
                 {
@@ -276,7 +279,9 @@ namespace WzComparerR2.CharaSimControl
             //绘制配方
             if (recipeInfoBmp != null)
             {
-                g.DrawImage(recipeInfoBmp, recipeInfoOrigin.X, recipeInfoOrigin.Y,
+                var recipeInfoBmp2= recipeInfoBmp;
+                recipeInfoBmp2.SetResolution(120,120);
+                g.DrawImage(recipeInfoBmp2, recipeInfoOrigin.X, recipeInfoOrigin.Y,
                     new Rectangle(Point.Empty, recipeInfoBmp.Size), GraphicsUnit.Pixel);
             }
 
@@ -286,7 +291,8 @@ namespace WzComparerR2.CharaSimControl
                 int itemCnt = recipeItemBmps.Count;
                 for (int i = 0; i < itemCnt; ++i)
                 {
-                    g.DrawImage(recipeItemBmps[i], recipeItemOrigins[i].X, recipeItemOrigins[i].Y,
+                   
+                    g.DrawImage2(recipeItemBmps[i], recipeItemOrigins[i].X, recipeItemOrigins[i].Y,
                         new Rectangle(Point.Empty, recipeItemBmps[i].Size), GraphicsUnit.Pixel);
                 }
             }
@@ -294,7 +300,7 @@ namespace WzComparerR2.CharaSimControl
             //绘制套装
             if (setItemBmp != null)
             {
-                g.DrawImage(setItemBmp, setItemOrigin.X, setItemOrigin.Y,
+                g.DrawImage2(setItemBmp, setItemOrigin.X, setItemOrigin.Y,
                     new Rectangle(Point.Empty, setItemBmp.Size), GraphicsUnit.Pixel);
             }
 
@@ -303,7 +309,7 @@ namespace WzComparerR2.CharaSimControl
                 //绘制背景区域
                 GearGraphics.DrawNewTooltipBack(g, levelOrigin.X, levelOrigin.Y, levelBmp.Width, levelHeight);
                 //复制图像
-                g.DrawImage(levelBmp, levelOrigin.X, levelOrigin.Y, new Rectangle(0, 0, levelBmp.Width, levelHeight), GraphicsUnit.Pixel);
+                g.DrawImage2(levelBmp, levelOrigin.X, levelOrigin.Y, new Rectangle(0, 0, levelBmp.Width, levelHeight), GraphicsUnit.Pixel);
             }
 
             if (itemBmp != null)
@@ -499,7 +505,7 @@ namespace WzComparerR2.CharaSimControl
                 //hasPart2 = true;
                 foreach (string expireTimeLine in expireTime.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    g.DrawImage(Resource.ToolTip_Equip_Dot_1, 9, picH + 6);//GMS Version, default value is 9, + X?
+                    g.DrawImage2(Resource.ToolTip_Equip_Dot_1, 9, picH + 6);//GMS Version, default value is 9, + X?
                     TextRenderer.DrawText(g, expireTimeLine, GearGraphics.EquipDetailFont, new Point(tooltip.Width / 25, picH), Color.White, TextFormatFlags.Left);
                     picH += 16;
                 }
@@ -519,12 +525,12 @@ namespace WzComparerR2.CharaSimControl
             int iconY = picH;
             int iconX = 10;
           
-            g.DrawImage(Resource.UIToolTip_img_Item_ItemIcon_base, iconX, picH);
+            g.DrawImage2(Resource.UIToolTip_img_Item_ItemIcon_base, iconX, picH);
             
             if (item.Icon.Bitmap != null)
             {
                 
-                g.DrawImage(GearGraphics.EnlargeBitmap(item.Icon.Bitmap),
+                g.DrawImage2(GearGraphics.EnlargeBitmap(item.Icon.Bitmap),
                 iconX + 6 + (1 - item.Icon.Origin.X) * 2,
                 picH + 6 + (33 - item.Icon.Origin.Y) * 2);
               
@@ -555,18 +561,18 @@ namespace WzComparerR2.CharaSimControl
                     cashImg = Resource.CashItem_0;
                 }
 
-                g.DrawImage(GearGraphics.EnlargeBitmap(cashImg),
+                g.DrawImage2(GearGraphics.EnlargeBitmap(cashImg),
                     iconX + 6 + 68 - cashOrigin.X * 2 - 2,
                     picH + 6 + 68 - cashOrigin.Y * 2 - 2);
             }
-            g.DrawImage(Resource.UIToolTip_img_Item_ItemIcon_new, iconX + 7, picH + 7);
-            g.DrawImage(Resource.UIToolTip_img_Item_ItemIcon_cover, iconX + 4, picH + 4); //绘制左上角cover
+            g.DrawImage2(Resource.UIToolTip_img_Item_ItemIcon_new, iconX + 7, picH + 7);
+            g.DrawImage2(Resource.UIToolTip_img_Item_ItemIcon_cover, iconX + 4, picH + 4); //绘制左上角cover
 
             value = 0;
             if (item.Props.TryGetValue(ItemPropType.reqLevel, out value) || item.ItemID / 10000 == 301 || item.ItemID / 1000 == 5204)
             {
                 picH += 4;//default value is 4
-                g.DrawImage(Resource.ToolTip_Equip_Can_reqLEV, 100, picH);
+                g.DrawImage2(Resource.ToolTip_Equip_Can_reqLEV, 100, picH);
                 GearGraphics.DrawGearDetailNumber(g, 150, picH, value.ToString(), true);
                 picH += 15;
             }
@@ -846,7 +852,7 @@ namespace WzComparerR2.CharaSimControl
                 }
                 if (item.Sample.Bitmap != null)
                 {
-                    g.DrawImage(item.Sample.Bitmap, (tooltip.Width - item.Sample.Bitmap.Width) / 2, picH);
+                    g.DrawImage2(item.Sample.Bitmap, (tooltip.Width - item.Sample.Bitmap.Width) / 2, picH);
                     picH += item.Sample.Bitmap.Height;
                     picH += 2;
                 }
