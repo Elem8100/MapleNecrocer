@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WzComparerR2.CharaSim;
+using WzComparerR2.WzLib;
 
 namespace MapleNecrocer;
 
@@ -24,10 +26,7 @@ public partial class MobForm : Form
     private void MobForm_Load(object sender, EventArgs e)
     {
 
-
-
     }
-
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
@@ -36,7 +35,6 @@ public partial class MobForm : Form
         if (Link != null)
         {
             MobID = Link.ToStr();
-
         }
         Bitmap Bitmap;
         if (Wz.GetNodeA("Mob/" + MobID + ".img/stand/0") != null)
@@ -46,8 +44,6 @@ public partial class MobForm : Form
         else
             return;
         pictureBox1.Image = Bitmap;
-
-
     }
 
     private void MobForm_Shown(object sender, EventArgs e)
@@ -57,8 +53,6 @@ public partial class MobForm : Form
             this.Hide();
             e1.Cancel = true;
         };
-
-
         MobListGrid = new(60, 164, 0, 0, 220, 400, false, tabControl1.TabPages[0]);
         MobListGrid.Dock = DockStyle.Fill;
         MobListGrid.SearchGrid.Dock = DockStyle.Fill;
@@ -66,7 +60,6 @@ public partial class MobForm : Form
         var Graphic = MobListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
-
 
         MobListGrid.CellClick += (s, e) =>
         {
@@ -78,18 +71,59 @@ public partial class MobForm : Form
             CellClick(MobListGrid.SearchGrid, e);
         };
 
+        MobListGrid.CellMouseEnter += (s, e) =>
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                MobListGrid[0, e.RowIndex].Style.BackColor = Color.LightCyan;
+                MobListGrid[1, e.RowIndex].Style.BackColor = Color.LightCyan;
+            }
+            string MobID = MobListGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+            Wz_Node Node = Wz.GetIDNode(MobID, WzType.Mob);
+            MainForm.Instance.QuickView(Node);
+        };
+
+        MobListGrid.CellMouseLeave += (s, e) =>
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                MobListGrid[0, e.RowIndex].Style.BackColor = Color.White;
+                MobListGrid[1, e.RowIndex].Style.BackColor = Color.White;
+            }
+        };
+
+        MobListGrid.SearchGrid.CellMouseEnter += (s, e) =>
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                MobListGrid.SearchGrid[0, e.RowIndex].Style.BackColor = Color.LightCyan;
+                MobListGrid.SearchGrid[1, e.RowIndex].Style.BackColor = Color.LightCyan;
+            }
+            string MobID = MobListGrid.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+            Wz_Node Node = Wz.GetIDNode(MobID, WzType.Mob);
+            MainForm.Instance.QuickView(Node);
+            MainForm.Instance.ToolTipView.Owner = this;
+        };
+
+        MobListGrid.SearchGrid.CellMouseLeave += (s, e) =>
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                MobListGrid.SearchGrid[0, e.RowIndex].Style.BackColor = Color.White;
+                MobListGrid.SearchGrid[1, e.RowIndex].Style.BackColor = Color.White;
+            }
+        };
+
         string ID = null;
         string Name = null;
         Win32.SendMessage(MobListGrid.Handle, false);
         foreach (var Iter in MainForm.TreeNode.Nodes["Mob"].Nodes)
         {
-        
             if (!Char.IsNumber(Iter.Text, 0))
                 continue;
             ID = Iter.Text.LeftStr(7);
-            Name = Wz.GetStr("String/Mob.img/" + ID.IntID()+"/name");
+            Name = Wz.GetStr("String/Mob.img/" + ID.IntID() + "/name");
             MobListGrid.Rows.Add(ID, Name);
-        
         }
         Win32.SendMessage(MobListGrid.Handle, true);
         MobListGrid.Refresh();
@@ -140,11 +174,15 @@ public partial class MobForm : Form
 
     private void MobForm_KeyDown(object sender, KeyEventArgs e)
     {
-
         if (e.Alt)
             e.Handled = true;
         if (!textBox2.Focused)
             ActiveControl = null;
 
+    }
+
+    private void MobForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

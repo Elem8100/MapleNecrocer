@@ -77,7 +77,6 @@ public partial class MainForm : Form
     public static void OpenWZ(string wzFilePath)
     {
         MainForm.Instance.openWz(wzFilePath);
-
     }
 
     string LeftStr(string s, int count)
@@ -90,7 +89,6 @@ public partial class MainForm : Form
     public void DumpMapIDs()
     {
         //  if(Wz.HasNode("Map/Map/Map0"))
-
         foreach (var Iter in Wz.GetNodes("String/Map.img"))
         {
             foreach (var Iter2 in Iter.Nodes)
@@ -125,7 +123,6 @@ public partial class MainForm : Form
 
         MapListBox.Refresh();
         tabControl1.Enabled = true;
-
     }
     void WzFileFinding(object sender, FindWzEventArgs e)
     {
@@ -309,9 +306,7 @@ public partial class MainForm : Form
             // node.Expand();
             // advTree1.Nodes.Add(node);
             this.openedWz.Add(wz);
-
             // QueryPerformance.End();
-
         }
         catch (FileNotFoundException)
         {
@@ -327,8 +322,8 @@ public partial class MainForm : Form
             //  advTree1.EndUpdate();
         }
 
-        Wz.IsDataWz=false;
-        if(Wz.GetNode("Mob").FullPathToFile.LeftStr(4)=="Data")
+        Wz.IsDataWz = false;
+        if (Wz.GetNode("Mob").FullPathToFile.LeftStr(4) == "Data")
             Wz.IsDataWz = true;
 
         Wz.HasStringWz = true;
@@ -342,8 +337,6 @@ public partial class MainForm : Form
         {
             Wz.HasMap9Dir = true;
         }
-
-
     }
 
     public void RemoveWz()
@@ -362,13 +355,11 @@ public partial class MainForm : Form
 
     public void QuickView(Wz_Node node)
     {
-      
         Wz_Node selectedNode = node;
         if (selectedNode == null)
         {
             return;
         }
-
         if (!Wz.IsDataWz)
         {
             Wz_File findStringWz()
@@ -415,7 +406,6 @@ public partial class MainForm : Form
                 }
                 return null;
             }
-
 
             Wz_Image image;
             Wz_File wzf = selectedNode.GetNodeWzFile();
@@ -558,10 +548,10 @@ public partial class MainForm : Form
         {
             if (!this.stringLinker.HasValues)
             {
-                this.stringLinker.Load(Wz.GetNode("String"),Wz.GetNode("Item"),Wz.GetNode("Etc"));
+                this.stringLinker.Load(Wz.GetNode("String"), Wz.GetNode("Item"), Wz.GetNode("Etc"));
             }
-            
-            string[] Split=selectedNode.FullPathToFileEx().Split('/');
+
+            string[] Split = selectedNode.FullPathToFileEx().Split('/');
             object obj = null;
             string fileName = null;
             Wz_Image image;
@@ -582,8 +572,9 @@ public partial class MainForm : Form
                     break;
                 case "Item":
                     CharaSimLoader.LoadCommoditiesIfEmpty();
+
                     Wz_Node itemNode = selectedNode;
-                    if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\(Cash|Consume|Etc|Install|Cash)\\\d{4,6}.img\\\d+$") || Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Special\\0910.img\\\d+$"))
+                    if (Regex.IsMatch(itemNode.FullPathToFile.Replace("Data\\", ""), @"^Item\\(Cash|Consume|Etc|Install|Cash)\\\d{4,6}.img\\\d+$") || Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Special\\0910.img\\\d+$"))
                     {
                         var item = Item.CreateFromNode(itemNode, PluginManager.FindWz);
                         obj = item;
@@ -677,7 +668,7 @@ public partial class MainForm : Form
                     }
                     break;
             }
-            
+
             if (obj != null)
             {
                 ToolTipView.TargetItem = obj;
@@ -686,9 +677,6 @@ public partial class MainForm : Form
                 ToolTipView.HideOnHover = false;
                 ToolTipView.Show();
             }
-          
-
-
         }
 
     }
@@ -743,6 +731,7 @@ public partial class MainForm : Form
             new SelectFolderForm().Show();
         else
             SelectFolderForm.Instance.Show();
+        OpenFolderButton.Enabled = false;
     }
 
     private void MapListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -753,7 +742,6 @@ public partial class MainForm : Form
 
     private void LoadMap()
     {
-      
         Map.LoadMap(Map.ID);
         int PX = 0, PY = 0;
         foreach (var Portals in MapPortal.PortalList)
@@ -824,6 +812,35 @@ public partial class MainForm : Form
                     ((System.Windows.Forms.Button)Iter).Enabled = true;
                 }
             }
+
+            if (!Wz.HasNode("Character/TamingMob"))
+                MountButton.Enabled = false;
+            if (!Wz.HasNode("Item/Cash"))
+            {
+                CashButton.Enabled = false;
+                CashEffectButton.Enabled = false;
+            }
+            if (!Wz.HasNode("Morph"))
+                MorphButton.Enabled = false;
+            if (!Wz.HasNode("Effect/DamageSkin.img"))
+                DamageSkinButton.Enabled = false;
+            if (!Wz.HasNode("Character/Accessory/01142000.img"))
+                MedalButton.Enabled = false;
+            if (!Wz.HasNode("Item/Install/0370.img"))
+                TitleButton.Enabled = false;
+            if (!Wz.HasNode("Character/Ring/01112100.img"))
+                RingButton.Enabled = false;
+            if (!Wz.HasNode("Character/Familiar"))
+                FamiliarButton.Enabled = false;
+            if (!Wz.HasNode("Character/Android"))
+                AndroidButton.Enabled = false;
+            if (!Wz.HasNode("Character/Totem"))
+                TotemEffectButton.Enabled = false;
+            if (!Wz.HasNode("Item/Consume/0259.img"))
+                SoulEffectButton.Enabled = false;
+            if (Wz.IsDataWz)
+                ReactorButton.Enabled = false;
+
             LoadedEff = true;
         }
 
@@ -848,7 +865,7 @@ public partial class MainForm : Form
         Map.DisplaySize.X = Split[0].ToInt();
         Map.DisplaySize.Y = Split[1].ToInt();
         bool Result;
-        Result = MoveWindow(this.Handle, this.Left, this.Top, Map.DisplaySize.X + 283, Map.DisplaySize.Y + 140, true);
+        Result = MoveWindow(this.Handle, this.Left, this.Top, Map.DisplaySize.X + 287, Map.DisplaySize.Y + 152, true);
         //this.Width = Map.DisplaySize.X + 283;
         //this.Height = Map.DisplaySize.Y + 124;
 
@@ -862,17 +879,15 @@ public partial class MainForm : Form
         EngineFunc.SpriteEngine.VisibleHeight = Map.DisplaySize.Y + 200;
         Map.ResetPos = true;
         this.CenterToScreen();
+        Refresh();
     }
 
     private void comboBox2_Click(object sender, EventArgs e)
     {
-
-
     }
 
     private void SerachMapBox_TextChanged(object sender, EventArgs e)
     {
-
         MapListBox.Search(SearchMapBox.Text);
     }
 
@@ -918,14 +933,12 @@ public partial class MainForm : Form
 
     private void MainForm_KeyDown(object sender, KeyEventArgs e)
     {
-
         if (e.Alt)
             e.Handled = true;
         if (!SearchMapBox.Focused)
             ActiveControl = null;
         //  if (Skill.PlayEnded)
         //  SearchMapBox.Clear();
-
     }
 
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -1018,14 +1031,18 @@ public partial class MainForm : Form
                     LoadMapButton.Enabled = true;
             };
         }
-
-
-
     }
 
     private void FullScreenButton_Click(object sender, EventArgs e)
     {
 
+    }
+
+     Pen pen = new( System.Drawing.Color.FromArgb(153,180,209), 2);
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        e.Graphics.DrawRectangle(pen, new System.Drawing.Rectangle(256, 92, RenderForm.Width + 2,RenderForm.Height + 2));
     }
 }
 

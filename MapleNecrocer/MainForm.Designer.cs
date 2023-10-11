@@ -118,7 +118,7 @@ namespace MapleNecrocer
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(6, 1);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(240, 417);
+            tabControl1.Size = new Size(240, 415);
             tabControl1.TabIndex = 4;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
@@ -127,7 +127,7 @@ namespace MapleNecrocer
             tabPage1.Location = new Point(4, 25);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(0, 2, 2, 1);
-            tabPage1.Size = new Size(232, 388);
+            tabPage1.Size = new Size(232, 386);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Map";
             tabPage1.UseVisualStyleBackColor = true;
@@ -135,10 +135,10 @@ namespace MapleNecrocer
             // tabPage2
             // 
             tabPage2.Controls.Add(WorldMapListGrid);
-            tabPage2.Location = new Point(4, 26);
+            tabPage2.Location = new Point(4, 25);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 387);
+            tabPage2.Size = new Size(232, 388);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -165,7 +165,7 @@ namespace MapleNecrocer
             WorldMapListGrid.ShowCellToolTips = false;
             WorldMapListGrid.ShowEditingIcon = false;
             WorldMapListGrid.ShowRowErrors = false;
-            WorldMapListGrid.Size = new Size(226, 381);
+            WorldMapListGrid.Size = new Size(226, 382);
             WorldMapListGrid.TabIndex = 2;
             WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 

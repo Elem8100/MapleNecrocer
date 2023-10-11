@@ -35,10 +35,13 @@ public partial class PetForm : Form
         }
         else
         {
-            PetNameTag.Create(PetID);
-            PetNameTag.Instance.MedalName = DataGrid.Rows[e.RowIndex].Cells[2].Value.ToString();
-            PetNameTag.Instance.InitData();
-            PetNameTag.ReDraw();
+            if (Wz.HasNode("UI/NameTag.img/pet"))
+            {
+                PetNameTag.Create(PetID);
+                PetNameTag.Instance.MedalName = DataGrid.Rows[e.RowIndex].Cells[2].Value.ToString();
+                PetNameTag.Instance.InitData();
+                PetNameTag.ReDraw();
+            }
         }
 
         PetEquipListGrid.Rows.Clear();
@@ -117,8 +120,8 @@ public partial class PetForm : Form
             string ID = Img.ImgID();
             if (Wz.HasNode("String/Pet.img/" + ID))
                 PetName = Wz.GetStr("String/Pet.img/" + ID + "/name");
-            else
-                PetName = "";
+            if (Wz.HasNode("String/Item.img/Pet/" + ID))
+                PetName = Wz.GetStr("String/Item.img/Pet/" + ID + "/name");
             Bmp = Wz.GetBmp("Item/Pet/" + Img.Text + "/info/iconD");
             PetListGrid.Rows.Add(ID, Bmp, PetName);
         }

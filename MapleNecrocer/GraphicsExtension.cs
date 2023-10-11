@@ -36,4 +36,18 @@ public static class GraphicsExtension
         g.DrawImage(Bmp, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttr, null);
     }
 
+    public static void DrawImage2(
+      this Graphics g,
+      Image Image,
+      int X,
+      int Y,
+      Rectangle srcRect,
+      GraphicsUnit srcUnit
+      )
+    {
+        Bitmap Bmp = Image as Bitmap;
+        Bmp.SetResolution(120, 120);
+        g.DrawImage(Bmp, new Rectangle(X, Y, srcRect.Width, srcRect.Height), srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, srcUnit,  null);
+    }
+
 }

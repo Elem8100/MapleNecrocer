@@ -35,7 +35,7 @@ public partial class ScaleForm : Form
         RenderFormDraw.ScreenMode = ScreenMode.Scale;
 
         bool Result;
-        Result = MainForm.MoveWindow(MainForm.Instance.Handle, MainForm.Instance.Left, MainForm.Instance.Top, ScaleX + 283, ScaleY + 140, true);
+        Result = MainForm.MoveWindow(MainForm.Instance.Handle, MainForm.Instance.Left, MainForm.Instance.Top, ScaleX + 287, ScaleY + 152, true);
         //this.Width = Map.DisplaySize.X + 283;
         //this.Height = Map.DisplaySize.Y + 124;
 
@@ -49,7 +49,7 @@ public partial class ScaleForm : Form
         EngineFunc.SpriteEngine.VisibleHeight = Map.DisplaySize.Y + 200;
         Map.ResetPos = true;
         MainForm.Instance.CenterToScreen2();
-
+        MainForm.Instance.Refresh();
 
     }
 

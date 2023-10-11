@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -56,20 +57,22 @@ public partial class RingForm : Form
 
         string RingName = null;
         Bitmap Bmp = null;
-        foreach (var Img in Wz.GetNode("Character/Ring").Nodes)
+        foreach (var Img in Wz.GetNodes("Character/Ring"))
         {
             if (Img.Text.LeftStr(6) != "011121" && Img.Text.LeftStr(6) != "011151" && Img.Text.LeftStr(6) != "'011153")
                 continue;
             if (!Wz.HasNode("Character/Ring/" + Img.Text + "/info/nameTag"))
                 continue;
-            int TagNum = Wz.GetNode("Character/Ring/" + Img.Text + "/info/nameTag").ToInt();
+            int TagNum = Wz.GetInt("Character/Ring/" + Img.Text + "/info/nameTag");
             if (!Wz.HasNode("UI/NameTag.img/" + TagNum))
                 continue;
             string ID = Img.ImgID();
             if (Wz.HasNode("String/Eqp.img/Eqp/Ring/" + ID.IntID()))
-                RingName = Wz.GetNode("String/Eqp.img/Eqp/Ring/" + ID.IntID() + "/name").ToStr();
+                RingName = Wz.GetStr("String/Eqp.img/Eqp/Ring/" + ID.IntID() + "/name");
+            else if (Wz.HasNode("String/Item.img/Eqp/Ring/" + ID.IntID()))
+                RingName = Wz.GetStr("String/Item.img/Eqp/Ring/" + ID.IntID() + "/name");
             if (Wz.HasNode("Character/Ring/" + Img.Text + "/info/icon"))
-                Bmp = Wz.GetNode("Character/Ring/" + Img.Text + "/info/icon").ExtractPng();
+                Bmp = Wz.GetBmp("Character/Ring/" + Img.Text + "/info/icon");
             RingListGrid.Rows.Add(ID, Bmp, RingName);
         }
         for (int i = 0; i < RingListGrid.Rows.Count; i++)

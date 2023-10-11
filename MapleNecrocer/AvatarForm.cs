@@ -68,7 +68,7 @@ public partial class AvatarForm : Form
             string Name = "";
             if (Wz.HasNode("String/Eqp.img"))
                 Name = Wz.GetNodeA("String/Eqp.img/Eqp").GetStr(Dir + ID.IntID() + "/name");
-            else if(Wz.HasNode("String/Item.img/Eqp"))
+            else if (Wz.HasNode("String/Item.img/Eqp"))
                 Name = Wz.GetNodeA("String/Item.img/Eqp").GetStr(Dir + ID.IntID() + "/name");
             var Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
             PartName PartName = Equip.GetPart(ID);
@@ -202,6 +202,7 @@ public partial class AvatarForm : Form
             ImageGrids[i].BackColor = SystemColors.Window;
             ImageGrids[i].Colors.BackColor = SystemColors.ButtonFace;
             ImageGrids[i].Colors.SelectedBorderColor = Color.Red;
+           
             ImageGrids[i].BorderStyle = BorderStyle.Fixed3D;
             ImageGrids[i].ThumbnailSize = new System.Drawing.Size(32, 32);
             ImageGrids[i].ItemClick += (o, e) =>
@@ -213,16 +214,18 @@ public partial class AvatarForm : Form
                 {
                     Game.Player.Spawn(Player.EqpList[i]);
                 }
+               
             };
             ImageGrids[i].ItemHover += (o, e) =>
             {
                 if (ShowToolTip)
                 {
                     if (e.Item == null) return;
-                    Wz_Node Node = Wz.GetIDNode(e.Item.FileName);
+                    Wz_Node Node = Wz.GetIDNode(e.Item.FileName, WzType.Character);
                     MainForm.Instance.QuickView(Node);
-                    MainForm.Instance.ToolTipView.BringToFront();
-
+          
+                    MainForm.Instance.ToolTipView.Owner=this;
+                   
                 }
             };
 
@@ -507,8 +510,6 @@ public partial class AvatarForm : Form
             PartList.Add(ButtonText);
         }
 
-
-
     }
 
     private void SaveCharButton_Click(object sender, EventArgs e)
@@ -560,13 +561,15 @@ public partial class AvatarForm : Form
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
-
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
         label1.Text = ID;
         label2.Text = SearchGrid.Rows[e.RowIndex].Cells[1].Value.ToString();
         string Dir = Equip.GetDir(ID);
-        string Name = Wz.GetNodeA("String/Eqp.img/Eqp").GetStr(Dir + ID.IntID() + "/name");
-
+        string Name = "";
+        // if (Wz.IsDataWz)
+        //   Name = Wz.GetStr("String/Eqp.img/Eqp/" + Dir + ID.IntID() + "/name");
+        // else
+        //   Name = Wz.GetStr("String/Item.img/Eqp/" + Dir + ID.IntID() + "/name");
         var Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
         PartName PartName = Equip.GetPart(ID);
         Bitmap Bmp = null;
@@ -585,16 +588,7 @@ public partial class AvatarForm : Form
                 break;
         }
         pictureBox1.Image = Bmp;
-
-        if (ShowToolTip)
-        {
-            Wz_Node Node = Wz.GetIDNode(ID);
-            MainForm.Instance.QuickView(Node);
-            MainForm.Instance.ToolTipView.Location = new Point(448, 395);
-
-        }
-
-
+      
     }
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -657,6 +651,57 @@ public partial class AvatarForm : Form
                         CellClick(SearchGrid.SearchGrid, e);
                     };
 
+
+                    SearchGrid.CellMouseEnter += (s, e) =>
+                    {
+                        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+                        {
+                            SearchGrid[0, e.RowIndex].Style.BackColor = Color.LightCyan;
+                            SearchGrid[1, e.RowIndex].Style.BackColor = Color.LightCyan;
+                        }
+                        if (ShowToolTip)
+                        {
+                            string ID = SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+                            Wz_Node Node = Wz.GetIDNode(ID, WzType.Character);
+                            MainForm.Instance.QuickView(Node);
+                            MainForm.Instance.ToolTipView.Location = new Point(448, 395);
+                        }
+                    };
+
+                    SearchGrid.CellMouseLeave += (s, e) =>
+                    {
+                        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+                        {
+                            SearchGrid[0, e.RowIndex].Style.BackColor = Color.White;
+                            SearchGrid[1, e.RowIndex].Style.BackColor = Color.White;
+                        }
+                    };
+
+                    SearchGrid.SearchGrid.CellMouseEnter += (s, e) =>
+                    {
+                        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+                        {
+                            SearchGrid.SearchGrid[0, e.RowIndex].Style.BackColor = Color.LightCyan;
+                            SearchGrid.SearchGrid[1, e.RowIndex].Style.BackColor = Color.LightCyan;
+                        }
+                        if (ShowToolTip)
+                        {
+                            string ID = SearchGrid.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+                            Wz_Node Node = Wz.GetIDNode(ID, WzType.Character);
+                            MainForm.Instance.QuickView(Node);
+                            MainForm.Instance.ToolTipView.Location = new Point(448, 395);
+                        }
+                    };
+
+                    SearchGrid.SearchGrid.CellMouseLeave += (s, e) =>
+                    {
+                        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+                        {
+                            SearchGrid.SearchGrid[0, e.RowIndex].Style.BackColor = Color.White;
+                            SearchGrid.SearchGrid[1, e.RowIndex].Style.BackColor = Color.White;
+                        }
+                    };
+
                     var Graphic = SearchGrid.CreateGraphics();
                     var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
                     Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
@@ -664,7 +709,10 @@ public partial class AvatarForm : Form
                     string ID = null;
                     string name = null;
                     Win32.SendMessage(SearchGrid.Handle, false);
-                    DumpEqpString(Wz.GetNodeA("String/Eqp.img/Eqp"));
+                    if (Wz.IsDataWz)
+                        DumpEqpString(Wz.GetNodeA("String/Item.img/Eqp"));
+                    else
+                        DumpEqpString(Wz.GetNodeA("String/Eqp.img/Eqp"));
                     Win32.SendMessage(SearchGrid.Handle, true);
                     SearchGrid.Refresh();
                     SearchGridLoaded = true;

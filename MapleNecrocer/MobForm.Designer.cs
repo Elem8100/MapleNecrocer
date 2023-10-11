@@ -160,6 +160,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Mob";
             TopMost = true;
+            FormClosing += MobForm_FormClosing;
             Load += MobForm_Load;
             Shown += MobForm_Shown;
             KeyDown += MobForm_KeyDown;

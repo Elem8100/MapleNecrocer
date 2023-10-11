@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using WzComparerR2.CharaSim;
+using WzComparerR2.WzLib;
 
 namespace MapleNecrocer;
 
@@ -48,6 +49,18 @@ public partial class ConsumeForm : Form
             label1.Text = ID;
             pictureBox1.Image = Wz.GetBmp("Item/Consume/" + ID.LeftStr(4) + ".img/" + ID + "/info/icon");
             label2.Text = Wz.GetStr("String/Consume.img/" + ID.IntID() + "/name");
+        };
+
+        ImageGrid.ItemHover += (o, e) =>
+        {
+         //   if (ShowToolTip)
+            {
+                if (e.Item == null) return;
+                Wz_Node Node = Wz.GetIDNode(e.Item.FileName, WzType.Item);
+                MainForm.Instance.QuickView(Node);
+                MainForm.Instance.ToolTipView.Owner=this;
+            }
+           
         };
 
         var Graphic = ImageGrid.CreateGraphics();
@@ -122,6 +135,9 @@ public partial class ConsumeForm : Form
                     string IntID = ID.IntID();
                     if (Wz.HasNode("String/Consume.img/" + IntID))
                         ConsumeName = Wz.GetStr("String/Consume.img/" + IntID + "/name");
+                    else if (Wz.HasNode("String/Item.img/Con/" + IntID))
+                        ConsumeName = Wz.GetStr("String/Item.img/Con/" + IntID + "/name");
+
                     if (Iter.HasNode("info/icon"))
                         Bmp = Iter.GetBmp("info/icon");
                     ConsumeListGrid.Rows.Add(ID, Bmp, ConsumeName);

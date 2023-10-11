@@ -36,7 +36,7 @@
             ClientSize = new Size(1024, 768);
             Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Pixel);
             FormBorderStyle = FormBorderStyle.None;
-            Location = new Point(255, 85);
+            Location = new Point(257, 93);
             Name = "RenderForm";
             Text = "RrenderForm";
             Load += RenderForm_Load;
