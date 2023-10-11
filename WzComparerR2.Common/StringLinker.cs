@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WzComparerR2.WzLib;
 
+
 namespace WzComparerR2.Common
 {
     public class StringLinker
@@ -235,7 +236,7 @@ namespace WzComparerR2.Common
 
             return this.HasValues;
         }
-
+      
         public bool Load(Wz_Node stringWz, Wz_Node itemWz, Wz_Node etcWz)
         {
             if (stringWz == null || itemWz == null || etcWz == null)
@@ -250,6 +251,7 @@ namespace WzComparerR2.Common
                 switch (node.Text)
                 {
                     case "Item.img":
+                        if (!image.TryExtract()) break;
                         foreach (Wz_Node tree0 in image.Node.Nodes)
                         {
                             if (tree0.Text == "Eqp")
@@ -273,24 +275,24 @@ namespace WzComparerR2.Common
                             }
                             else
                             {
-                                foreach (Wz_Node tree1 in tree0.Nodes)
-                                {
-                                    if (Int32.TryParse(tree1.Text, out id))
+                                foreach (Wz_Node tree in tree0.Nodes)
+                                { 
+                                    if (Int32.TryParse(tree.Text, out id))
                                     {
                                         StringResult strResult = new StringResult();
-                                        strResult.Name = GetDefaultString(tree1, "name");
-                                        strResult.Desc = GetDefaultString(tree1, "desc");
-                                        strResult.AutoDesc = GetDefaultString(tree1, "autodesc");
-                                        strResult.FullPath = tree1.FullPath;
-
-                                        AddAllValue(strResult, tree1);
-                                        stringEqp[id] = strResult;
+                                        strResult.Name = GetDefaultString(tree, "name");
+                                        strResult.Desc = GetDefaultString(tree, "desc");
+                                        strResult.AutoDesc = GetDefaultString(tree, "autodesc");
+                                        strResult.FullPath = tree.FullPath;
+                                      
+                                        AddAllValue(strResult, tree);
+                                        stringItem[id] = strResult;
                                     }
                                 }
                             }
                         }
                         break;
-
+                     
                     case "Mob.img":
                         if (!image.TryExtract()) break;
                         foreach (Wz_Node tree in image.Node.Nodes)
@@ -377,7 +379,7 @@ namespace WzComparerR2.Common
                             stringSkill2[tree.Text] = strResult;
                         }
                         break;
-
+                     
                 }
             }
 

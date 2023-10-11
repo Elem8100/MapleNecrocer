@@ -178,6 +178,9 @@ namespace WzComparerR2.Common
             string[] Split = FullPath.Split('/');
             switch (Split[0])
             {
+                case "Data":
+                    FullPath = FullPath.Replace("Data/", "");
+                    break;
                 case "Map001":
                     FullPath = FullPath.Replace("Map001", "Map");
                     break;
