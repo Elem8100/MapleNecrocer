@@ -100,6 +100,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Chair";
             TopMost = true;
+            FormClosing += ChairForm_FormClosing;
             Load += ChairForm_Load;
             Shown += ChairForm_Shown;
             KeyDown += ChairForm_KeyDown;

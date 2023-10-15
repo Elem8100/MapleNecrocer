@@ -63,6 +63,7 @@ public partial class MountForm : Form
             CellClick(MountListGrid.SearchGrid, e);
         };
 
+        MountListGrid.SetToolTipEvent(WzType.Character, this);
 
         string MountName = "";
         Bitmap Bmp = null;
@@ -693,5 +694,10 @@ public partial class MountForm : Form
         if (!textBox1.Focused)
             ActiveControl = null;
 
+    }
+
+    private void MountForm_ForeColorChanged(object sender, EventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

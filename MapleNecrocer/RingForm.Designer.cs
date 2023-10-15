@@ -87,6 +87,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ring";
             TopMost = true;
+            FormClosing += RingForm_FormClosing;
             Shown += RingForm_Shown;
             KeyDown += RingForm_KeyDown;
             ResumeLayout(false);

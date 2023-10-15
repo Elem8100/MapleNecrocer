@@ -120,7 +120,7 @@
             tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3, 3, 3, 5);
-            tabPage2.Size = new Size(412, 529);
+            tabPage2.Size = new Size(412, 550);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Search";
             tabPage2.UseVisualStyleBackColor = true;
@@ -145,6 +145,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CashForm";
             TopMost = true;
+            FormClosing += CashForm_FormClosing;
             Shown += CashForm_Shown;
             KeyDown += CashForm_KeyDown;
             panel1.ResumeLayout(false);

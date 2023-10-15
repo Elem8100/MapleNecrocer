@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevComponents.DotNetBar;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -84,6 +85,7 @@ public partial class PetForm : Form
             e1.Cancel = true;
         };
         PetListGrid = new(80, 179, 0, 0, 220, 400, true, panel1);
+
         PetListGrid.Dock = DockStyle.Fill;
         PetListGrid.SearchGrid.Dock = DockStyle.Fill;
         PetListGrid.RowTemplate.Height = 40;
@@ -110,6 +112,8 @@ public partial class PetForm : Form
         {
             CellClick2(PetEquipListGrid, e);
         };
+
+        PetListGrid.SetToolTipEvent(WzType.Item, this);
 
         string PetName = null;
         Bitmap Bmp = null;
@@ -149,5 +153,10 @@ public partial class PetForm : Form
     {
         Pet.Remove();
         PetNameTag.Remove();
+    }
+
+    private void PetForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

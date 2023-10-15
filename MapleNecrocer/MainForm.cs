@@ -57,6 +57,7 @@ public partial class MainForm : Form
         ToolTipView.ShowID = true;
         ToolTipView.ShowMenu = true;
         ToolTipView.StartPosition = FormStartPosition.CenterParent;
+        
         //  RenderForm.Show();
     }
     public static RenderForm RenderForm = new RenderForm();
@@ -583,7 +584,7 @@ public partial class MainForm : Form
                             fileName = item.ItemID + ".png";
                         }
                     }
-                    else if (Regex.IsMatch(itemNode.FullPathToFile, @"^Item\\Pet\\\d{7}.img"))
+                    else if (Regex.IsMatch(itemNode.FullPathToFile.Replace("Data\\", ""), @"^Item\\Pet\\\d{7}.img"))
                     {
                         if (CharaSimLoader.LoadedSetItems.Count == 0) //宠物 预读套装
                         {

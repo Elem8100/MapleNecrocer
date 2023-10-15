@@ -54,6 +54,8 @@ public partial class TitleForm : Form
         {
             CellClick(TitleListGrid.SearchGrid, e);
         };
+        TitleListGrid.SetToolTipEvent(WzType.Item,this);
+
 
         string TitleName = null;
         Bitmap Bmp = null;

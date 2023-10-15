@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System.Reflection;
+using System.Windows.Forms;
+using WzComparerR2.WzLib;
 
 namespace MapleNecrocer;
 
@@ -66,10 +68,9 @@ public class BaseDataGridView : DataGridView
             DefaultCellStyle.Font = new Font("Arial", 13, GraphicsUnit.Pixel);
             Columns.AddRange(ID, Name);
         }
-       
 
+        
     }
-
    
 }
 
@@ -96,12 +97,10 @@ public class DataGridViewEx : BaseDataGridView
 
     string Trim(string s)
     {
-
         return s.Trim(' ');
     }
     public void Search(string Text)
     {
-
         foreach (DataGridViewRow i in SearchGrid.Rows)
         {
             if (i != null)
@@ -140,8 +139,50 @@ public class DataGridViewEx : BaseDataGridView
             SearchGrid.Visible = true;
             SearchGrid.Refresh();
         }
-
     }
 
+    public  void SetToolTipEvent(WzType WzType, Form Form)
+    {  
+        this.CellMouseEnter += (s, e) =>
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+              this.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCyan; 
+            }
+            this.Refresh();
+            string ID = this.Rows[e.RowIndex].Cells[0].Value.ToString();
+            Wz_Node Node = Wz.GetNodeByID(ID, WzType);
+            MainForm.Instance.QuickView(Node);
+        };
+
+        this.CellMouseLeave += (s, e) =>
+        {
+           if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                this.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+            }
+        };
+
+        this.SearchGrid.CellMouseEnter += (s, e) =>
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                this.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCyan;
+            }
+            this.Refresh();
+            string ID = this.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+            Wz_Node Node = Wz.GetNodeByID(ID, WzType);
+            MainForm.Instance.QuickView(Node);
+            MainForm.Instance.ToolTipView.Owner = Form;
+        };
+
+        this.SearchGrid.CellMouseLeave += (s, e) =>
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                this.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+            }
+        };
+    }
 
 }

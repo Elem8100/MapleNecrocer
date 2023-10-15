@@ -69,6 +69,8 @@ public partial class ChairForm : Form
             CellClick(ChairListGrid.SearchGrid, e);
         };
 
+        ChairListGrid.SetToolTipEvent(WzType.Item, this);
+
         Bitmap Bmp = null;
         Win32.SendMessage(ChairListGrid.Handle, false);
 
@@ -112,5 +114,10 @@ public partial class ChairForm : Form
             e.Handled = true;
         if (!textBox1.Focused)
             ActiveControl = null;
+    }
+
+    private void ChairForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

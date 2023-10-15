@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevComponents.DotNetBar;
 using Manina.Windows.Forms;
 using WzComparerR2.CharaSim;
 using WzComparerR2.WzLib;
@@ -48,19 +49,21 @@ public partial class ConsumeForm : Form
             string ID = (e.Item.FileName);
             label1.Text = ID;
             pictureBox1.Image = Wz.GetBmp("Item/Consume/" + ID.LeftStr(4) + ".img/" + ID + "/info/icon");
-            label2.Text = Wz.GetStr("String/Consume.img/" + ID.IntID() + "/name");
+            string Name = "";
+            if (Wz.HasNode("String/Consume.img"))
+                Name = Wz.GetStr("String/Consume.img/" + ID.IntID() + "/name");
+            else if (Wz.HasNode("String/Item.img/Con"))
+                Name = Wz.GetStr("String/Item.img/Con/" + ID.IntID() + "/name");
+            label2.Text = Name;
+
         };
 
         ImageGrid.ItemHover += (o, e) =>
         {
-         //   if (ShowToolTip)
-            {
-                if (e.Item == null) return;
-                Wz_Node Node = Wz.GetIDNode(e.Item.FileName, WzType.Item);
-                MainForm.Instance.QuickView(Node);
-                MainForm.Instance.ToolTipView.Owner=this;
-            }
-           
+            if (e.Item == null) return;
+            Wz_Node Node = Wz.GetNodeByID(e.Item.FileName, WzType.Item);
+            MainForm.Instance.QuickView(Node);
+            MainForm.Instance.ToolTipView.Owner = this;
         };
 
         var Graphic = ImageGrid.CreateGraphics();
@@ -97,7 +100,7 @@ public partial class ConsumeForm : Form
             ConsumeListGrid = new(80, 185, 0, 20, 220, 530, true, tabControl1.TabPages[1]);
             ConsumeListGrid.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom);
             ConsumeListGrid.Dock = DockStyle.Fill;
-            tabControl1.TabPages[1].Padding = new Padding(0, 35, 0, 0);
+            tabControl1.TabPages[1].Padding = new System.Windows.Forms.Padding(0, 35, 0, 0);
             ConsumeListGrid.SearchGrid.Dock = DockStyle.Fill;
             ConsumeListGrid.RowTemplate.Height = 40;
 
@@ -121,6 +124,8 @@ public partial class ConsumeForm : Form
             {
                 CellClick(ConsumeListGrid.SearchGrid, e);
             };
+
+            ConsumeListGrid.SetToolTipEvent(WzType.Item, this);
 
             Win32.SendMessage(ConsumeListGrid.Handle, false);
             Bitmap Bmp = null;
@@ -161,7 +166,7 @@ public partial class ConsumeForm : Form
             ConsumeEffectListGrid = new(80, 185, 0, 20, 220, 530, true, tabControl1.TabPages[2]);
             ConsumeEffectListGrid.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom);
             ConsumeEffectListGrid.Dock = DockStyle.Fill;
-            tabControl1.TabPages[2].Padding = new Padding(0, 35, 0, 0);
+            tabControl1.TabPages[2].Padding = new System.Windows.Forms.Padding(0, 35, 0, 0);
             ConsumeEffectListGrid.SearchGrid.Dock = DockStyle.Fill;
             ConsumeEffectListGrid.RowTemplate.Height = 40;
             var Graphic = ConsumeEffectListGrid.CreateGraphics();
@@ -229,5 +234,10 @@ public partial class ConsumeForm : Form
             e.Handled = true;
         if (!textBox1.Focused)
             ActiveControl = null;
+    }
+
+    private void ConsumeForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

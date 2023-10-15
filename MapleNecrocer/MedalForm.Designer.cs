@@ -85,6 +85,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Medal";
             TopMost = true;
+            FormClosing += MedalForm_FormClosing;
             Shown += MedalForm_Shown;
             KeyDown += MedalForm_KeyDown;
             ResumeLayout(false);

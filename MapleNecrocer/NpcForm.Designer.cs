@@ -48,7 +48,7 @@
             tabControl1.Location = new Point(9, 231);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(260, 357);
+            tabControl1.Size = new Size(260, 457);
             tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -56,7 +56,7 @@
             tabPage1.Location = new Point(4, 28);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(252, 325);
+            tabPage1.Size = new Size(252, 425);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@
             // NpcForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(272, 592);
+            ClientSize = new Size(272, 692);
             Controls.Add(tabControl1);
             Controls.Add(pictureBox1);
             Controls.Add(textBox2);
@@ -138,6 +138,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Npc";
             TopMost = true;
+            FormClosing += NpcForm_FormClosing;
             Shown += NpcForm_Shown;
             KeyDown += NpcForm_KeyDown;
             tabControl1.ResumeLayout(false);

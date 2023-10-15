@@ -99,6 +99,8 @@ public partial class AndroidForm : Form
             CellClick(AndroidListGrid.SearchGrid, e);
         };
 
+        AndroidListGrid.SetToolTipEvent(WzType.Character, this);
+
         ImageGrid = new ImageListView();
         ImageGrid.Parent = tabControl1.TabPages[1];
         ImageGrid.Anchor = (AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom);
@@ -151,7 +153,6 @@ public partial class AndroidForm : Form
 
     private void button1_Click(object sender, EventArgs e)
     {
-       
         AndroidNameTag.Remove();
         if (AndroidPlayer.Instance != null)
         {
@@ -194,5 +195,10 @@ public partial class AndroidForm : Form
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
         AndroidListGrid.Search(textBox1.Text);
+    }
+
+    private void AndroidForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

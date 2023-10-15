@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WzComparerR2.WzLib;
 
 namespace MapleNecrocer;
 
@@ -46,6 +47,14 @@ public partial class CashForm : Form
             label1.Text = ID;
             pictureBox1.Image = Wz.GetBmp("Item/Cash/" + ID.LeftStr(4) + ".img/" + ID + "/info/icon");
             label2.Text = Wz.GetStr("String/Cash.img/" + ID.IntID() + "/name");
+        };
+
+        ImageGrid.ItemHover += (o, e) =>
+        {
+            if (e.Item == null) return;
+            Wz_Node Node = Wz.GetNodeByID(e.Item.FileName, WzType.Item);
+            MainForm.Instance.QuickView(Node);
+            MainForm.Instance.ToolTipView.Owner = this;
         };
 
         var Graphic = ImageGrid.CreateGraphics();
@@ -106,6 +115,8 @@ public partial class CashForm : Form
             {
                 CellClick(CashListGrid.SearchGrid, e);
             };
+            CashListGrid.SetToolTipEvent(WzType.Item, this);
+
 
             Win32.SendMessage(CashListGrid.Handle, false);
             Bitmap Bmp = null;
@@ -154,5 +165,10 @@ public partial class CashForm : Form
             e.Handled = true;
         if (!textBox1.Focused)
             ActiveControl = null;
+    }
+
+    private void CashForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

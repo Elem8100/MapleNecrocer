@@ -372,7 +372,7 @@ internal class Wz
         return null;
     }
 
-    public static Wz_Node GetIDNode(string ID, WzType wzType)
+    public static Wz_Node GetNodeByID(string ID, WzType wzType)
     {
         if (wzType == WzType.Item)
         {
@@ -380,10 +380,13 @@ internal class Wz
             {
                 case "02":
                     return GetNode("Item/Consume/" + ID.LeftStr(4) + ".img/" + ID);
+                case "04":
+                    return GetNode("Item/Etc/" + ID.LeftStr(4) + ".img/" + ID);
                 case "05":
                     return GetNode("Item/Cash/" + ID.LeftStr(4) + ".img/" + ID);
-                    //return "Item/Cash/0501.img/05010000";
-                    break;
+                case "50":
+                    return GetNode("Item/Pet/" + ID + ".img");
+                  
                 case "03":
                     if (GetNode("Item/Install/03010.img") != null)
                     {
@@ -508,6 +511,10 @@ internal class Wz
         else if (wzType == WzType.Mob)
         {
             return GetNode("Mob/" + ID + ".img");
+        }
+        else if (wzType == WzType.Npc)
+        {
+            return GetNode("Npc/" + ID + ".img");
         }
         return null;
     }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WzComparerR2.WzLib;
 
 namespace MapleNecrocer;
 
@@ -45,7 +46,20 @@ public partial class EtcForm : Form
             string ID = (e.Item.FileName);
             label1.Text = ID;
             pictureBox1.Image = Wz.GetBmp("Item/Etc/" + ID.LeftStr(4) + ".img/" + ID + "/info/icon");
-            label2.Text = Wz.GetStr("String/Etc.img/Etc" + ID.IntID() + "/name");
+            string Name = "";
+            if (Wz.HasNode("String/Etc.img"))
+                Name = Wz.GetStr("String/Etc.img/Etc" + ID.IntID() + "/name");
+            else if (Wz.HasNode("String/Item.img/Etc"))
+                Name = Wz.GetStr("String/Item.img/Etc/" + ID.IntID() + "/name");
+            label2.Text = Name;
+        };
+
+        ImageGrid.ItemHover += (o, e) =>
+        {
+            if (e.Item == null) return;
+            Wz_Node Node = Wz.GetNodeByID(e.Item.FileName, WzType.Item);
+            MainForm.Instance.QuickView(Node);
+            MainForm.Instance.ToolTipView.Owner = this;
         };
 
         var Graphic = ImageGrid.CreateGraphics();
@@ -108,9 +122,11 @@ public partial class EtcForm : Form
                 CellClick(EtcListGrid.SearchGrid, e);
             };
 
+            EtcListGrid.SetToolTipEvent(WzType.Item, this);
+
             Win32.SendMessage(EtcListGrid.Handle, false);
             Bitmap Bmp = null;
-            string ConsumeName = "";
+
             foreach (var Img in Wz.GetNodes("Item/Etc"))
             {
                 if (!Char.IsNumber(Img.Text[0]))
@@ -119,11 +135,14 @@ public partial class EtcForm : Form
                 {
                     string ID = Iter.Text;
                     string IntID = ID.IntID();
+                    string EtcName = "";
                     if (Wz.HasNode("String/Etc.img/Etc/" + IntID))
-                        ConsumeName = Wz.GetStr("String/Etc.img/Etc/" + IntID + "/name");
+                        EtcName = Wz.GetStr("String/Etc.img/Etc/" + IntID + "/name");
+                    else if (Wz.HasNode("String/Item.img/Etc"))
+                        EtcName = Wz.GetStr("String/Item.img/Etc/" + IntID + "/name");
                     if (Iter.HasNode("info/icon"))
                         Bmp = Iter.GetBmp("info/icon");
-                    EtcListGrid.Rows.Add(ID, Bmp, ConsumeName);
+                    EtcListGrid.Rows.Add(ID, Bmp, EtcName);
                 }
             }
 
@@ -156,5 +175,10 @@ public partial class EtcForm : Form
             e.Handled = true;
         if (!textBox1.Focused)
             ActiveControl = null;
+    }
+
+    private void EtcForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

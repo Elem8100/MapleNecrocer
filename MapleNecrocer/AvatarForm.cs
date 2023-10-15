@@ -221,7 +221,7 @@ public partial class AvatarForm : Form
                 if (ShowToolTip)
                 {
                     if (e.Item == null) return;
-                    Wz_Node Node = Wz.GetIDNode(e.Item.FileName, WzType.Character);
+                    Wz_Node Node = Wz.GetNodeByID(e.Item.FileName, WzType.Character);
                     MainForm.Instance.QuickView(Node);
           
                     MainForm.Instance.ToolTipView.Owner=this;
@@ -662,7 +662,7 @@ public partial class AvatarForm : Form
                         if (ShowToolTip)
                         {
                             string ID = SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-                            Wz_Node Node = Wz.GetIDNode(ID, WzType.Character);
+                            Wz_Node Node = Wz.GetNodeByID(ID, WzType.Character);
                             MainForm.Instance.QuickView(Node);
                             MainForm.Instance.ToolTipView.Location = new Point(448, 395);
                         }
@@ -687,7 +687,7 @@ public partial class AvatarForm : Form
                         if (ShowToolTip)
                         {
                             string ID = SearchGrid.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-                            Wz_Node Node = Wz.GetIDNode(ID, WzType.Character);
+                            Wz_Node Node = Wz.GetNodeByID(ID, WzType.Character);
                             MainForm.Instance.QuickView(Node);
                             MainForm.Instance.ToolTipView.Location = new Point(448, 395);
                         }

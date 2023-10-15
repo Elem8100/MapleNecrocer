@@ -56,6 +56,9 @@ public partial class MedalForm : Form
         {
             CellClick(MedalListGrid.SearchGrid, e);
         };
+
+        MedalListGrid.SetToolTipEvent(WzType.Character, this);
+
         string MedalName = null;
         Bitmap Bmp = null;
         foreach (var Img in Wz.GetNode("Character/Accessory").Nodes)
@@ -99,5 +102,10 @@ public partial class MedalForm : Form
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
         MedalListGrid.Search(textBox1.Text);
+    }
+
+    private void MedalForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

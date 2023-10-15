@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
+﻿using WzComparerR2.WzLib;
 namespace MapleNecrocer;
 
 public partial class RingForm : Form
@@ -55,6 +45,8 @@ public partial class RingForm : Form
             CellClick(RingListGrid.SearchGrid, e);
         };
 
+        RingListGrid.SetToolTipEvent(WzType.Character,this);
+       
         string RingName = null;
         Bitmap Bmp = null;
         foreach (var Img in Wz.GetNodes("Character/Ring"))
@@ -98,5 +90,10 @@ public partial class RingForm : Form
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
         RingListGrid.Search(textBox1.Text);
+    }
+
+    private void RingForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

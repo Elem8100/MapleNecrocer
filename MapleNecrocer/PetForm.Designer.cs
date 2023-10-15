@@ -107,6 +107,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "PetForm";
             TopMost = true;
+            FormClosing += PetForm_FormClosing;
             Shown += PetForm_Shown;
             KeyDown += PetForm_KeyDown;
             ResumeLayout(false);

@@ -114,6 +114,7 @@
             Text = "Mount";
             TopMost = true;
             Shown += MountForm_Shown;
+            ForeColorChanged += MountForm_ForeColorChanged;
             KeyDown += MountForm_KeyDown;
             tabControl1.ResumeLayout(false);
             ResumeLayout(false);

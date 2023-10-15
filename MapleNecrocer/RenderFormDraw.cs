@@ -66,7 +66,7 @@ public class RenderFormDraw : MonoGameControl
 
     protected override void Update(GameTime gameTime)
     {
-
+        
         if (Map.GameMode == GameMode.Viewer)
         {
             if (Keyboard.KeyDown(Input.Right))
@@ -144,13 +144,13 @@ public class RenderFormDraw : MonoGameControl
                 }
             }
         }
-
+       
     }
 
-    //  public static float xx;
+  
     protected override void Draw()
     {
-
+       
         this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
         EngineFunc.SpriteEngine.Dead();
         // EngineFunc.SpriteEngine.Draw();
@@ -178,7 +178,6 @@ public class RenderFormDraw : MonoGameControl
                 break;
         }
 
-
         if (Map.ResetPos)
         {
             Map.OffsetY = (Map.DisplaySize.Y - 600) / 2;
@@ -187,9 +186,7 @@ public class RenderFormDraw : MonoGameControl
             Particle.ResetPos = true;
             Map.ResetPos = false;
         }
-
-
-        // MainForm.Instance.Text = EngineFunc.SpriteEngine.Camera.X.ToString();
+      
 
     }
 

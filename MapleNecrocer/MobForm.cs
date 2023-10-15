@@ -23,6 +23,8 @@ public partial class MobForm : Form
     public static MobForm Instance;
     public DataGridViewEx MobListGrid;
     string MobID;
+
+   
     private void MobForm_Load(object sender, EventArgs e)
     {
 
@@ -71,49 +73,8 @@ public partial class MobForm : Form
             CellClick(MobListGrid.SearchGrid, e);
         };
 
-        MobListGrid.CellMouseEnter += (s, e) =>
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                MobListGrid[0, e.RowIndex].Style.BackColor = Color.LightCyan;
-                MobListGrid[1, e.RowIndex].Style.BackColor = Color.LightCyan;
-            }
-            string MobID = MobListGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-            Wz_Node Node = Wz.GetIDNode(MobID, WzType.Mob);
-            MainForm.Instance.QuickView(Node);
-        };
-
-        MobListGrid.CellMouseLeave += (s, e) =>
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                MobListGrid[0, e.RowIndex].Style.BackColor = Color.White;
-                MobListGrid[1, e.RowIndex].Style.BackColor = Color.White;
-            }
-        };
-
-        MobListGrid.SearchGrid.CellMouseEnter += (s, e) =>
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                MobListGrid.SearchGrid[0, e.RowIndex].Style.BackColor = Color.LightCyan;
-                MobListGrid.SearchGrid[1, e.RowIndex].Style.BackColor = Color.LightCyan;
-            }
-            string MobID = MobListGrid.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-            Wz_Node Node = Wz.GetIDNode(MobID, WzType.Mob);
-            MainForm.Instance.QuickView(Node);
-            MainForm.Instance.ToolTipView.Owner = this;
-        };
-
-        MobListGrid.SearchGrid.CellMouseLeave += (s, e) =>
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                MobListGrid.SearchGrid[0, e.RowIndex].Style.BackColor = Color.White;
-                MobListGrid.SearchGrid[1, e.RowIndex].Style.BackColor = Color.White;
-            }
-        };
-
+        MobListGrid.SetToolTipEvent(WzType.Mob, this);
+       
         string ID = null;
         string Name = null;
         Win32.SendMessage(MobListGrid.Handle, false);

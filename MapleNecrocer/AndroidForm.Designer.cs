@@ -112,6 +112,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Android";
             TopMost = true;
+            FormClosing += AndroidForm_FormClosing;
             Shown += AndroidForm_Shown;
             KeyDown += AndroidForm_KeyDown;
             tabControl1.ResumeLayout(false);

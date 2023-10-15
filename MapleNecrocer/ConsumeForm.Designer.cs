@@ -56,7 +56,7 @@
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(6, 0);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(420, 590);
+            tabControl1.Size = new Size(420, 585);
             tabControl1.TabIndex = 7;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
@@ -65,7 +65,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(412, 562);
+            tabPage1.Size = new Size(412, 557);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Icons";
             tabPage1.UseVisualStyleBackColor = true;
@@ -76,7 +76,7 @@
             tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3, 3, 3, 5);
-            tabPage2.Size = new Size(412, 565);
+            tabPage2.Size = new Size(412, 560);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Search";
             tabPage2.UseVisualStyleBackColor = true;
@@ -94,7 +94,7 @@
             tabPage3.Controls.Add(button1);
             tabPage3.Location = new Point(4, 26);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(412, 565);
+            tabPage3.Size = new Size(412, 560);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Consume Effect";
             tabPage3.UseVisualStyleBackColor = true;
@@ -170,6 +170,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Consume";
             TopMost = true;
+            FormClosing += ConsumeForm_FormClosing;
             Shown += ConsumeForm_Shown;
             KeyDown += ConsumeForm_KeyDown;
             tabControl1.ResumeLayout(false);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using WzComparerR2.WzLib;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -70,6 +64,8 @@ public partial class NpcForm : Form
         {
             CellClick(NpcListGrid.SearchGrid, e);
         };
+
+        NpcListGrid.SetToolTipEvent(WzType.Npc, this);
 
         string ID = null;
         string Name = null;
@@ -151,5 +147,10 @@ public partial class NpcForm : Form
             e.Handled = true;
         if (!textBox2.Focused)
             ActiveControl = null;
+    }
+
+    private void NpcForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }
