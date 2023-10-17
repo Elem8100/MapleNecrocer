@@ -23,8 +23,17 @@ public partial class MobForm : Form
     public static MobForm Instance;
     public DataGridViewEx MobListGrid;
     string MobID;
-
-   
+    /*
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000;
+            return cp;
+        }
+    }
+    */
     private void MobForm_Load(object sender, EventArgs e)
     {
 
@@ -74,7 +83,7 @@ public partial class MobForm : Form
         };
 
         MobListGrid.SetToolTipEvent(WzType.Mob, this);
-       
+
         string ID = null;
         string Name = null;
         Win32.SendMessage(MobListGrid.Handle, false);
@@ -137,7 +146,7 @@ public partial class MobForm : Form
     {
         if (e.Alt)
             e.Handled = true;
-        if (!textBox2.Focused)
+        if (!textBox2.Focused && !textBox1.Focused)
             ActiveControl = null;
 
     }

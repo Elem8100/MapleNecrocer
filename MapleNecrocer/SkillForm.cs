@@ -23,7 +23,15 @@ public partial class SkillForm : Form
     public static SkillForm Instance;
     public DataGridViewEx SkillListGrid, UseListGrid;
     int SelectRow;
-
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000;
+            return cp;
+        }
+    }
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
         var Rec = DataGrid.GetCellDisplayRectangle(1, e.RowIndex, true);
@@ -72,6 +80,8 @@ public partial class SkillForm : Form
         {
             comboBox1.Visible = false;
         };
+
+        SkillListGrid.SetToolTipEvent(WzType.Skill, this);
         var Graphic = SkillListGrid.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
@@ -151,5 +161,8 @@ public partial class SkillForm : Form
 
     }
 
-
+    private void SkillForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
+    }
 }

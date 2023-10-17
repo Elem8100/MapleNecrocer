@@ -386,7 +386,7 @@ internal class Wz
                     return GetNode("Item/Cash/" + ID.LeftStr(4) + ".img/" + ID);
                 case "50":
                     return GetNode("Item/Pet/" + ID + ".img");
-                  
+
                 case "03":
                     if (GetNode("Item/Install/03010.img") != null)
                     {
@@ -515,6 +515,13 @@ internal class Wz
         else if (wzType == WzType.Npc)
         {
             return GetNode("Npc/" + ID + ".img");
+        }
+        else if (wzType == WzType.Skill)
+        {
+            if (ID.LeftStr(1) == "8")
+                return GetNode("Skill/" + (int.Parse(ID) / 100).ToString() + ".img/skill/" + ID);
+            else
+                return GetNode("Skill/" + (int.Parse(ID) / 10000).ToString() + ".img/skill/" + ID);
         }
         return null;
     }

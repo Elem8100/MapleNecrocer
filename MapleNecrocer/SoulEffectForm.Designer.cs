@@ -63,6 +63,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SoulEffect";
             TopMost = true;
+            FormClosing += SoulEffectForm_FormClosing;
             Shown += SoulEffectForm_Shown;
             KeyDown += SoulEffectForm_KeyDown;
             ResumeLayout(false);

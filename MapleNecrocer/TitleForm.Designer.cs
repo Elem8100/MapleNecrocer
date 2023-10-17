@@ -87,6 +87,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TitleForm";
             TopMost = true;
+            FormClosing += TitleForm_FormClosing;
             Shown += TitleForm_Shown;
             KeyDown += TitleForm_KeyDown;
             ResumeLayout(false);

@@ -19,6 +19,15 @@ public partial class SoulEffectForm : Form
     }
     public static SoulEffectForm Instance;
     public DataGridViewEx SoulEffectListGrid;
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000;
+            return cp;
+        }
+    }
 
     private void SoulEffectForm_Shown(object sender, EventArgs e)
     {
@@ -55,6 +64,7 @@ public partial class SoulEffectForm : Form
         {
             CellClick(SoulEffectListGrid.SearchGrid, e);
         };
+        SoulEffectListGrid.SetToolTipEvent(WzType.Item, this);
 
         Bitmap Bmp = null;
         string Name = "";
@@ -83,12 +93,17 @@ public partial class SoulEffectForm : Form
     {
         if (e.Alt)
             e.Handled = true;
-      
-         ActiveControl = null;
+
+        ActiveControl = null;
     }
 
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
 
+    }
+
+    private void SoulEffectForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

@@ -35,6 +35,16 @@ public partial class AvatarForm : Form
         Instance = this;
     }
 
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000;
+            return cp;
+        }
+    }
+
     public static bool ChangeExpressionListBox;
     public static AvatarForm Instance;
     public static AvatarFormDraw AvatarFormDraw;
@@ -223,7 +233,6 @@ public partial class AvatarForm : Form
                     if (e.Item == null) return;
                     Wz_Node Node = Wz.GetNodeByID(e.Item.FileName, WzType.Character);
                     MainForm.Instance.QuickView(Node);
-          
                     MainForm.Instance.ToolTipView.Owner=this;
                    
                 }
@@ -321,6 +330,8 @@ public partial class AvatarForm : Form
                 ResetDyeGrid();
 
         };
+
+        Inventory.SetToolTipEvent(WzType.Character,this);
 
         AddEqps("00002000");
         AddInventory();

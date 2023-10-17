@@ -106,6 +106,7 @@
             Controls.Add(tabControl1);
             Controls.Add(textBox1);
             Controls.Add(button1);
+            DoubleBuffered = true;
             Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Pixel);
             KeyPreview = true;
             MaximumSize = new Size(377, 1000);

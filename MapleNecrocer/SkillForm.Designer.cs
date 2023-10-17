@@ -96,6 +96,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Skill";
             TopMost = true;
+            FormClosing += SkillForm_FormClosing;
             Shown += SkillForm_Shown;
             ResumeLayout(false);
             PerformLayout();

@@ -154,6 +154,7 @@
             Controls.Add(button1);
             Controls.Add(tabControl1);
             Controls.Add(pictureBox1);
+            DoubleBuffered = true;
             KeyPreview = true;
             MaximumSize = new Size(290, 2000);
             Name = "MobForm";

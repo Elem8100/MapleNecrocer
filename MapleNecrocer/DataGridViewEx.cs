@@ -153,6 +153,7 @@ public class DataGridViewEx : BaseDataGridView
             string ID = this.Rows[e.RowIndex].Cells[0].Value.ToString();
             Wz_Node Node = Wz.GetNodeByID(ID, WzType);
             MainForm.Instance.QuickView(Node);
+            MainForm.Instance.ToolTipView.Owner = Form;
         };
 
         this.CellMouseLeave += (s, e) =>
@@ -161,13 +162,14 @@ public class DataGridViewEx : BaseDataGridView
             {
                 this.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
             }
+           
         };
 
         this.SearchGrid.CellMouseEnter += (s, e) =>
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                this.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCyan;
+                this.SearchGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCyan;
             }
             this.Refresh();
             string ID = this.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
@@ -180,7 +182,7 @@ public class DataGridViewEx : BaseDataGridView
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                this.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                this.SearchGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
             }
         };
     }

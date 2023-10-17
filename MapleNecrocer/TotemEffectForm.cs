@@ -15,10 +15,19 @@ public partial class TotemEffectForm : Form
     public TotemEffectForm()
     {
         InitializeComponent();
-        Instance=this;
+        Instance = this;
     }
     public static TotemEffectForm Instance;
     public DataGridViewEx TotemEffectListGrid;
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000;
+            return cp;
+        }
+    }
 
     private void TotemEffectForm_Shown(object sender, EventArgs e)
     {
@@ -53,6 +62,7 @@ public partial class TotemEffectForm : Form
             CellClick(TotemEffectListGrid.SearchGrid, e);
         };
 
+        TotemEffectListGrid.SetToolTipEvent(WzType.Character, this);
         Bitmap Bmp = null;
         string Name = "";
         foreach (var Iter in Wz.GetNodes("Effect/ItemEff.img"))
@@ -90,5 +100,10 @@ public partial class TotemEffectForm : Form
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
         TotemEffectListGrid.Search(textBox1.Text);
+    }
+
+    private void TotemEffectForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }

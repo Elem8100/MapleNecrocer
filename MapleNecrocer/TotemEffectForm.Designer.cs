@@ -85,6 +85,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TotemEffect";
             TopMost = true;
+            FormClosing += TotemEffectForm_FormClosing;
             Shown += TotemEffectForm_Shown;
             KeyDown += TotemEffectForm_KeyDown;
             ResumeLayout(false);

@@ -27,6 +27,15 @@ public partial class ConsumeForm : Form
     DataGridViewEx ConsumeListGrid;
     DataGridViewEx ConsumeEffectListGrid;
     bool HasLoaded1, HasLoaded2;
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000;
+            return cp;
+        }
+    }
     private void ConsumeForm_Shown(object sender, EventArgs e)
     {
         this.FormClosing += (s, e1) =>

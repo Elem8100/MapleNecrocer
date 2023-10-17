@@ -18,6 +18,15 @@ public partial class TitleForm : Form
     }
     public static TitleForm Instance;
     public DataGridViewEx TitleListGrid;
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000;
+            return cp;
+        }
+    }
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
@@ -54,7 +63,7 @@ public partial class TitleForm : Form
         {
             CellClick(TitleListGrid.SearchGrid, e);
         };
-        TitleListGrid.SetToolTipEvent(WzType.Item,this);
+        TitleListGrid.SetToolTipEvent(WzType.Item, this);
 
 
         string TitleName = null;
@@ -86,5 +95,10 @@ public partial class TitleForm : Form
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
         TitleListGrid.Search(textBox1.Text);
+    }
+
+    private void TitleForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 }
