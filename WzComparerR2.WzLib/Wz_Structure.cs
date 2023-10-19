@@ -16,7 +16,7 @@ namespace WzComparerR2.WzLib
             this.has_basewz = false;
             this.TextEncoding = Wz_Structure.DefaultEncoding;
             this.AutoDetectExtFiles = true;//Wz_Structure.DefaultAutoDetectExtFiles;
-            this.ImgCheckDisabled =  Wz_Structure.DefaultImgCheckDisabled;
+            this.ImgCheckDisabled = Wz_Structure.DefaultImgCheckDisabled;
             // this.WzVersionVerifyMode = Wz_Structure.DefaultWzVersionVerifyMode;
             this.WzVersionVerifyMode = WzVersionVerifyMode.Fast;
         }
@@ -125,6 +125,7 @@ namespace WzComparerR2.WzLib
             {
                 file = new Wz_File(fileName, this);
                 file.TextEncoding = this.TextEncoding;
+                file.Node = node;
                 var imgNode = new Wz_Node(node.Text);
                 //跳过checksum检测
                 var img = new Wz_Image(node.Text, (int)file.FileStream.Length, 0, 0, 0, file)
@@ -134,7 +135,9 @@ namespace WzComparerR2.WzLib
                     IsChecksumChecked = true
                 };
                 imgNode.Value = img;
+
                 node.Nodes.Add(imgNode);
+                node.Value = file;
                 this.wz_files.Add(file);
             }
             catch
