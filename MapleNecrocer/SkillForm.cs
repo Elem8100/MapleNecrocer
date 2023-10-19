@@ -1,5 +1,6 @@
 ﻿using DevComponents.DotNetBar.Controls;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,15 +24,9 @@ public partial class SkillForm : Form
     public static SkillForm Instance;
     public DataGridViewEx SkillListGrid, UseListGrid;
     int SelectRow;
-    protected override CreateParams CreateParams
-    {
-        get
-        {
-            CreateParams cp = base.CreateParams;
-            cp.ExStyle |= 0x02000000;
-            return cp;
-        }
-    }
+    
+   
+    
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
         var Rec = DataGrid.GetCellDisplayRectangle(1, e.RowIndex, true);
@@ -83,6 +78,7 @@ public partial class SkillForm : Form
 
         SkillListGrid.SetToolTipEvent(WzType.Skill, this);
         var Graphic = SkillListGrid.CreateGraphics();
+       
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
         Win32.SendMessage(SkillListGrid.Handle, false);

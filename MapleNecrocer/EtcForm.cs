@@ -23,15 +23,7 @@ public partial class EtcForm : Form
     ImageListView ImageGrid;
     DataGridViewEx EtcListGrid;
     bool HasLoaded1;
-    protected override CreateParams CreateParams
-    {
-        get
-        {
-            CreateParams cp = base.CreateParams;
-            cp.ExStyle |= 0x02000000;
-            return cp;
-        }
-    }
+   
     private void EtcForm_Shown(object sender, EventArgs e)
     {
         this.FormClosing += (s, e1) =>

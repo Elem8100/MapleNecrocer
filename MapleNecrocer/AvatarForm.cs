@@ -34,17 +34,7 @@ public partial class AvatarForm : Form
         AvatarFormDraw.Parent = this;
         Instance = this;
     }
-
-    protected override CreateParams CreateParams
-    {
-        get
-        {
-            CreateParams cp = base.CreateParams;
-            cp.ExStyle |= 0x02000000;
-            return cp;
-        }
-    }
-
+  
     public static bool ChangeExpressionListBox;
     public static AvatarForm Instance;
     public static AvatarFormDraw AvatarFormDraw;
@@ -624,7 +614,7 @@ public partial class AvatarForm : Form
             case 0:
 
                 if (MainForm.Instance.ToolTipView.Parent != null)
-                {
+                {  
                     MainForm.Instance.ToolTipView.Dispose();
                     MainForm.Instance.ToolTipView = null;
                     MainForm.Instance.ToolTipView = new AfrmTooltip();

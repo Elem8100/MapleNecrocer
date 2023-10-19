@@ -19,16 +19,7 @@ public partial class SoulEffectForm : Form
     }
     public static SoulEffectForm Instance;
     public DataGridViewEx SoulEffectListGrid;
-    protected override CreateParams CreateParams
-    {
-        get
-        {
-            CreateParams cp = base.CreateParams;
-            cp.ExStyle |= 0x02000000;
-            return cp;
-        }
-    }
-
+   
     private void SoulEffectForm_Shown(object sender, EventArgs e)
     {
         this.FormClosing += (s, e1) =>

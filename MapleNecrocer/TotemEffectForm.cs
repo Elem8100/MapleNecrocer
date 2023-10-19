@@ -19,15 +19,7 @@ public partial class TotemEffectForm : Form
     }
     public static TotemEffectForm Instance;
     public DataGridViewEx TotemEffectListGrid;
-    protected override CreateParams CreateParams
-    {
-        get
-        {
-            CreateParams cp = base.CreateParams;
-            cp.ExStyle |= 0x02000000;
-            return cp;
-        }
-    }
+  
 
     private void TotemEffectForm_Shown(object sender, EventArgs e)
     {

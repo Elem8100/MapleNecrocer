@@ -21,15 +21,7 @@ public partial class PetForm : Form
     public static PetForm Instance;
     public DataGridViewEx PetListGrid, PetEquipListGrid;
     public static string PetID;
-    protected override CreateParams CreateParams
-    {
-        get
-        {
-            CreateParams cp = base.CreateParams;
-            cp.ExStyle |= 0x02000000;
-            return cp;
-        }
-    }
+  
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
