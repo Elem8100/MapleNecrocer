@@ -52,6 +52,7 @@ public class Map
     public static string NpcNameTagFont;
     public static string NpcBalloonFont;
     public static string MobLvFont;
+    public static string ToolTipFont;
     public static GameMode GameMode = GameMode.Play;
     public static bool ResetPos;
     public static bool SaveMap;
@@ -184,6 +185,7 @@ public class Map
                     Map.NpcNameTagFont = "Arial13";
                     Map.NpcBalloonFont = "Arial12";
                     Map.MobLvFont = "Arial10";
+                    Map.ToolTipFont = "Arial14";
                     UseD2D = true;
                     break;
                 case "달팽이":
@@ -191,6 +193,7 @@ public class Map
                     Map.NpcNameTagFont = "Arial12";
                     Map.NpcBalloonFont = "Arial12";
                     Map.MobLvFont = "Arial10";
+                    Map.ToolTipFont = "Arial14";
                     UseD2D = true;
                     break;
                 case "デンデン":
@@ -198,6 +201,7 @@ public class Map
                     Map.NpcNameTagFont = "MSGothic12";
                     Map.NpcBalloonFont = "Verdana11";
                     Map.MobLvFont = "Verdana9";
+                    Map.ToolTipFont = "MSGothic14";
                     UseD2D = false;
                     break;
                 default:
@@ -205,6 +209,7 @@ public class Map
                     Map.NpcNameTagFont = "SimSun13";
                     Map.NpcBalloonFont = "Verdana11";
                     Map.MobLvFont = "Verdana9";
+                    Map.ToolTipFont = "SimSun14";
                     UseD2D = false;
                     break;
             }
@@ -215,6 +220,7 @@ public class Map
         
         Npc.Create();
         Mob.Create();
+        ObjToolTip.Create();
 
         Skill.PlayEnded = true;
 
