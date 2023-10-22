@@ -43,17 +43,19 @@ public class RenderFormDraw : MonoGameControl
 
         EngineFunc.AddFont(this.GraphicsDevice, "Arial13", "Arial", 13f);
         //GMS font
+        EngineFunc.AddD2DFont("Arial14", "Arial", 14f);
         EngineFunc.AddD2DFont("Arial13", "Arial", 13f);
         EngineFunc.AddD2DFont("Arial12", "Arial", 12f);
         EngineFunc.AddD2DFont("Arial10", "Arial", 10f);
         //TMS font
         EngineFunc.AddFont(this.GraphicsDevice, "Verdana11", "Verdana", 11f);
         EngineFunc.AddFont(this.GraphicsDevice, "SimSun13", "SimSun", 13f);
+        EngineFunc.AddFont(this.GraphicsDevice, "SimSun14", "SimSun", 14f);
         EngineFunc.AddFont(this.GraphicsDevice, "Verdana9", "Verdana", 9f);
         //JMS font
         EngineFunc.AddFont(this.GraphicsDevice, "MSGothic11", "MS Gothic", 11f);
         EngineFunc.AddFont(this.GraphicsDevice, "MSGothic12", "MS Gothic", 12f);
-
+        EngineFunc.AddFont(this.GraphicsDevice, "MSGothic14", "MS Gothic", 14f);
         ScreenRenderTarget = new RenderTarget2D(this.GraphicsDevice, 4000, 4000,
                                                    false, SurfaceFormat.Color, DepthFormat.None);
 
