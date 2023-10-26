@@ -14,6 +14,7 @@ using TextFormatFlags = System.Windows.Forms.TextFormatFlags;
 using WzComparerR2.Text;
 using WzComparerR2.WzLib;
 using GraphicsExtension;
+using DPIUtils;
 
 namespace WzComparerR2.CharaSimControl
 {
@@ -327,7 +328,7 @@ namespace WzComparerR2.CharaSimControl
             data = newBitmap.LockBits(new Rectangle(0, 0, newBitmap.Width, newBitmap.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
             Marshal.Copy(newByte, 0, data.Scan0, newByte.Length);
             newBitmap.UnlockBits(data);
-            newBitmap.SetResolution(144,144);
+            newBitmap.SetResolution(DPIUtil.dpiX*1.2f,DPIUtil.dpiY*1.2f);
             return newBitmap;
         }
         private static int getOffset(int x, int y, int width, int unit = 4)

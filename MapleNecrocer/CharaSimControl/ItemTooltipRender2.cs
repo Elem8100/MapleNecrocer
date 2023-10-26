@@ -12,6 +12,7 @@ using WzComparerR2.WzLib;
 using WzComparerR2.Common;
 using WzComparerR2.CharaSim;
 using GraphicsExtension;
+using DPIUtils;
 
 namespace WzComparerR2.CharaSimControl
 {
@@ -265,7 +266,7 @@ namespace WzComparerR2.CharaSimControl
                 GearGraphics.DrawNewTooltipBack(g, 0, 0, itemBmp.Width, picHeight);
                 //复制图像
                 var itemBmp2=itemBmp;
-                itemBmp2.SetResolution(120,120);
+                itemBmp2.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
                 g.DrawImage(itemBmp2, 0, 0, new Rectangle(0, 0, itemBmp.Width, picHeight), GraphicsUnit.Pixel);
                 //左上角
                 g.DrawImage2(Resource.UIToolTip_img_Item_Frame2_cover, 3, 3);
@@ -280,7 +281,7 @@ namespace WzComparerR2.CharaSimControl
             if (recipeInfoBmp != null)
             {
                 var recipeInfoBmp2= recipeInfoBmp;
-                recipeInfoBmp2.SetResolution(120,120);
+                recipeInfoBmp2.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
                 g.DrawImage(recipeInfoBmp2, recipeInfoOrigin.X, recipeInfoOrigin.Y,
                     new Rectangle(Point.Empty, recipeInfoBmp.Size), GraphicsUnit.Pixel);
             }

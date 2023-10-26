@@ -11,6 +11,7 @@ using WzComparerR2.Common;
 using WzComparerR2.CharaSim;
 using WzComparerR2.WzLib;
 using GraphicsExtension;
+using DPIUtils;
 
 namespace WzComparerR2.CharaSimControl
 {
@@ -96,7 +97,7 @@ namespace WzComparerR2.CharaSimControl
 
                 //复制图像
                 var left2=left;
-                left2.SetResolution(120,120);
+                left2.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
                 g.DrawImage(left2, width, 0, new Rectangle(0, 0, left.Width, picH[0]), GraphicsUnit.Pixel);
 
                 //cover
@@ -116,7 +117,7 @@ namespace WzComparerR2.CharaSimControl
 
                 //复制原图
                 var add2=add;
-                add2.SetResolution(120,120);
+                add2.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
                 g.DrawImage(add2, width, 0, new Rectangle(0, 0, add.Width, picH[1]), GraphicsUnit.Pixel);
 
                 width += add.Width;
@@ -133,7 +134,7 @@ namespace WzComparerR2.CharaSimControl
 
                 //复制原图
                 var set2=set;
-                set2.SetResolution(120,120);
+                set2.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
                 g.DrawImage(set2, width, 0, new Rectangle(0, 0, set.Width, picH[2]), GraphicsUnit.Pixel);
                 width += set.Width;
                 set2.Dispose();
@@ -149,7 +150,7 @@ namespace WzComparerR2.CharaSimControl
 
                 //复制原图
                 var levelOrSealed2= levelOrSealed;
-                levelOrSealed2.SetResolution(120,120);
+                levelOrSealed2.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
                 g.DrawImage(levelOrSealed2, width, 0, new Rectangle(0, 0, levelOrSealed2.Width, picH[3]), GraphicsUnit.Pixel);
                 width += levelOrSealed2.Width;
                 levelOrSealed2.Dispose();
