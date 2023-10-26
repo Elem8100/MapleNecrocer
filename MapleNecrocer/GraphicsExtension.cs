@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
+using DPIUtils;
 using MapleNecrocer;
 namespace GraphicsExtension;
 
@@ -17,7 +18,7 @@ public static class GraphicsExtension
     public static void DrawImage2(this Graphics g, Image Image, int X, int Y)
     {
         Bitmap Bmp = Image as Bitmap;
-        Bmp.SetResolution(120, 120);
+        Bmp.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
         g.DrawImage(Bmp, X, Y);
     }
     public static void DrawImage2(
@@ -32,7 +33,7 @@ public static class GraphicsExtension
        ImageAttributes? imageAttr)
     {
         Bitmap Bmp = Image as Bitmap;
-        Bmp.SetResolution(120, 120);
+        Bmp.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
         g.DrawImage(Bmp, destRect, srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttr, null);
     }
 
@@ -46,7 +47,7 @@ public static class GraphicsExtension
       )
     {
         Bitmap Bmp = Image as Bitmap;
-        Bmp.SetResolution(120, 120);
+        Bmp.SetResolution(DPIUtil.dpiX, DPIUtil.dpiY);
         g.DrawImage(Bmp, new Rectangle(X, Y, srcRect.Width, srcRect.Height), srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, srcUnit,  null);
     }
 

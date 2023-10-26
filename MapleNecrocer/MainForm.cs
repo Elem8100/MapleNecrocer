@@ -27,6 +27,7 @@ using System.Text.RegularExpressions;
 using WzComparerR2.CharaSim;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
+using DPIUtils;
 
 namespace MapleNecrocer;
 
@@ -57,7 +58,7 @@ public partial class MainForm : Form
         ToolTipView.ShowID = true;
         ToolTipView.ShowMenu = true;
         ToolTipView.StartPosition = FormStartPosition.CenterParent;
-        
+
         //  RenderForm.Show();
     }
     public static RenderForm RenderForm = new RenderForm();
@@ -724,6 +725,11 @@ public partial class MainForm : Form
         };
 
         comboBox2.SelectedIndex = 1;
+        Graphics graphics = this.CreateGraphics();
+        float dpiX = graphics.DpiX;
+        float dpiY = graphics.DpiY;
+        DPIUtil.dpiX = dpiX;
+        DPIUtil.dpiY = dpiY;
     }
 
     private void OpenFolderButton_Click(object sender, EventArgs e)
@@ -1039,11 +1045,11 @@ public partial class MainForm : Form
 
     }
 
-     Pen pen = new( System.Drawing.Color.FromArgb(153,180,209), 2);
+    Pen pen = new(System.Drawing.Color.FromArgb(153, 180, 209), 2);
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
-        e.Graphics.DrawRectangle(pen, new System.Drawing.Rectangle(256, 92, RenderForm.Width + 2,RenderForm.Height + 2));
+        e.Graphics.DrawRectangle(pen, new System.Drawing.Rectangle(256, 92, RenderForm.Width + 2, RenderForm.Height + 2));
     }
 }
 

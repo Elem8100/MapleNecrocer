@@ -5,10 +5,11 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
-namespace MapleNecrocer;
+namespace DPIUtils;
 
 public static class DPIUtil
 {
+    public static float dpiX,dpiY;
     private const int MinOSVersionBuild = 14393;
     private const int MinOSVersionMajor = 10;
     private static bool _isSupportingDpiPerMonitor;
