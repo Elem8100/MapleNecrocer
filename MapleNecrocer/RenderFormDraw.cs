@@ -16,6 +16,8 @@ using System.Security.Cryptography.Xml;
 using System.Security.Claims;
 using WzComparerR2.CharaSim;
 using WzComparerR2;
+using GameUI;
+using MouseExt;
 
 namespace MapleNecrocer;
 public enum ScreenMode { Normal, Scale, FullScreen }
@@ -58,17 +60,16 @@ public class RenderFormDraw : MonoGameControl
         EngineFunc.AddFont(this.GraphicsDevice, "MSGothic14", "MS Gothic", 14f);
         ScreenRenderTarget = new RenderTarget2D(this.GraphicsDevice, 4000, 4000,
                                                    false, SurfaceFormat.Color, DepthFormat.None);
-
         //kms
         //EngineFunc.AddD2DFont("Arial12", "Arial12", 12f);
         //EngineFunc.AddD2DFont("Arial13", "Arial13", 12f);
-
+        MouseEx.PlatformSetWindowHandle(RenderFormDraw.Instance.Handle);
     }
     private static Vector2 NewPos, CurrentPos;
 
     protected override void Update(GameTime gameTime)
     {
-        
+
         if (Map.GameMode == GameMode.Viewer)
         {
             if (Keyboard.KeyDown(Input.Right))
@@ -146,13 +147,13 @@ public class RenderFormDraw : MonoGameControl
                 }
             }
         }
-       
+
     }
 
-  
+
     protected override void Draw()
     {
-       
+
         this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
         EngineFunc.SpriteEngine.Dead();
         // EngineFunc.SpriteEngine.Draw();
@@ -188,8 +189,26 @@ public class RenderFormDraw : MonoGameControl
             Particle.ResetPos = true;
             Map.ResetPos = false;
         }
-      
 
+        if (UI.ControlManager != null)
+        {
+           // var m = MouseEx.GetState();
+            UI.ControlManager.Update();
+            UI.ControlManager.Draw();
+            //  EngineFunc.SpriteEngine.Canvas.Draw(Wz.EquipImageLib[Wz.GetNode("UI/UIWindow.img/Shop/backgrnd")],
+            //  m.X, m.Y);
+        }
+
+
+    }
+    protected override void OnMouseEnter(EventArgs e)
+    {
+        // Cursor.Hide();
+    }
+
+    protected override void OnMouseLeave(EventArgs e)
+    {
+        // Cursor.Show();
     }
 
 }
