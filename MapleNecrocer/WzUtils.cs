@@ -42,6 +42,8 @@ internal class Wz
     public static Dictionary<string, Texture2D> ImageKeys = new Dictionary<string, Texture2D>();
     public static Dictionary<Wz_Node, Texture2D> ImageLib = new Dictionary<Wz_Node, Texture2D>();
     public static Dictionary<Wz_Node, Texture2D> EquipImageLib = new Dictionary<Wz_Node, Texture2D>();
+    public static Dictionary<Wz_Node, Texture2D> UIImageLib = new Dictionary<Wz_Node, Texture2D>();
+    public static Dictionary<string, Wz_Node> UIData = new Dictionary<string, Wz_Node>();
     public static string Region;
     public static bool HasStringWz;
     //very old Data.wz has no Map1,Map2,Map3... dir
