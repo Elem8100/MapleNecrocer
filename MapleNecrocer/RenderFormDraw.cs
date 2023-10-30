@@ -199,16 +199,20 @@ public class RenderFormDraw : MonoGameControl
             //  m.X, m.Y);
         }
 
+        if(Map.FirstLoaded)
+          GameCursor.Draw();  
 
     }
     protected override void OnMouseEnter(EventArgs e)
     {
-        // Cursor.Hide();
+       if(Map.FirstLoaded)
+         Cursor.Hide();
     }
 
     protected override void OnMouseLeave(EventArgs e)
     {
-        // Cursor.Show();
+        if (Map.FirstLoaded)
+            Cursor.Show();
     }
 
 }
