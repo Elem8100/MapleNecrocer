@@ -8,6 +8,7 @@ using WzComparerR2.MapRender2;
 using Microsoft.Xna.Framework;
 using WzComparerR2.Rendering;
 using MonoGame.SpriteEngine;
+using GameUI;
 
 namespace MapleNecrocer;
 
@@ -77,7 +78,7 @@ public class Map
         ResLoader = new ResourceLoader(RenderFormDraw.Instance.GraphicsDevice);
     }
     public static void LoadMap(string ID)
-    { 
+    {
         if (ID == null)
             return;
         if (EngineFunc.SpriteEngine.SpriteList != null)
@@ -115,22 +116,22 @@ public class Map
 
         if (EngineFunc.SpriteEngine.ImageLib != null)
             EngineFunc.SpriteEngine.ImageLib.Clear();
-        
+
         //
         string LeftNum = ID.LeftStr(1);
         Map.Img = Wz.GetNode("Map/Map/Map" + LeftNum + "/" + ID + ".img");
-        
-        
+
+
         Map.Info.Clear();
         foreach (var Iter in Map.Img.GetNode("info").Nodes)
             Map.Info.Add(Iter.Text, Iter.ToInt());
-        
+
         Map.Info.Add("MapWidth", Map.Img.GetValue2("miniMap/width", 0));
         Map.Info.Add("MapHeight", Map.Img.GetValue2("miniMap/height", 0));
         Map.Info.Add("centerX", Map.Img.GetValue2("miniMap/centerX", DisplaySize.X / 2));
         Map.Info.Add("centerY", Map.Img.GetValue2("miniMap/centerY", DisplaySize.Y / 2));
 
-        
+
         MapPortal.Create();
         FootholdTree.CreateFootholds();
         if (Map.Info.ContainsKey("VRLeft"))
@@ -215,9 +216,14 @@ public class Map
             }
             Player.SpawnNew();
             NameTag.Create("SuperGM");
+            GameCursor.LoadRes("0");
+            if (Wz.HasNode("UI/Basic.img/Cursor/12"))
+                GameCursor.LoadRes("12");
+            else
+                GameCursor.IsDataWz = true;
             FirstLoaded = true;
         }
-        
+
         Npc.Create();
         Mob.Create();
         ObjToolTip.Create();
