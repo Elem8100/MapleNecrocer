@@ -67,9 +67,8 @@ public class RenderFormDraw : MonoGameControl
     }
     private static Vector2 NewPos, CurrentPos;
 
-    protected override void Update(GameTime gameTime)
+    void UpdateGame()
     {
-
         if (Map.GameMode == GameMode.Viewer)
         {
             if (Keyboard.KeyDown(Input.Right))
@@ -100,7 +99,7 @@ public class RenderFormDraw : MonoGameControl
         NewPos = EngineFunc.SpriteEngine.Camera;
         Map.CameraSpeed = NewPos - CurrentPos;
         CurrentPos = EngineFunc.SpriteEngine.Camera;
-        EngineFunc.SpriteEngine.Move((float)(gameTime.ElapsedGameTime.TotalMilliseconds / 16.66));
+        EngineFunc.SpriteEngine.Move(1);
         //   EngineFunc.SpriteEngine.Camera.X+=0.2f*(float)(gameTime.ElapsedGameTime.TotalMilliseconds/16.66f);
 
         if (MapleChair.IsUse)
@@ -114,7 +113,6 @@ public class RenderFormDraw : MonoGameControl
                 MapleChair.BodyRelMove.Y = 0;
             }
         }
-
 
         if (ScreenMode == ScreenMode.Scale)
         {
@@ -147,7 +145,33 @@ public class RenderFormDraw : MonoGameControl
                 }
             }
         }
+    }
 
+    private static float FixedUpdateDelta = 0.016666f;
+    // helper variables for the fixed update
+    private static float PreviousTime = 0;
+    private static float Accumulator = 0.0f;
+    protected override void Update(GameTime gameTime)
+    {
+        if (PreviousTime == 0)
+        {
+            PreviousTime = (float)gameTime.TotalGameTime.TotalMilliseconds;
+        }
+
+        float Now = (float)gameTime.TotalGameTime.TotalMilliseconds;
+        float FrameTime = Now - PreviousTime;
+        if (FrameTime > 0.016666f)
+        {
+            FrameTime = 0.016666f;
+        }
+
+        PreviousTime = Now;
+        Accumulator += FrameTime;
+        while (Accumulator >= FixedUpdateDelta)
+        {
+            UpdateGame();
+            Accumulator -= FixedUpdateDelta;
+        }
     }
 
 
@@ -192,21 +216,21 @@ public class RenderFormDraw : MonoGameControl
 
         if (UI.ControlManager != null)
         {
-           // var m = MouseEx.GetState();
+            // var m = MouseEx.GetState();
             UI.ControlManager.Update();
             UI.ControlManager.Draw();
             //  EngineFunc.SpriteEngine.Canvas.Draw(Wz.EquipImageLib[Wz.GetNode("UI/UIWindow.img/Shop/backgrnd")],
             //  m.X, m.Y);
         }
 
-        if(Map.FirstLoaded)
-          GameCursor.Draw();  
+        if (Map.FirstLoaded)
+            GameCursor.Draw();
 
     }
     protected override void OnMouseEnter(EventArgs e)
     {
-       if(Map.FirstLoaded)
-         Cursor.Hide();
+        if (Map.FirstLoaded)
+            Cursor.Hide();
     }
 
     protected override void OnMouseLeave(EventArgs e)
