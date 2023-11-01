@@ -18,6 +18,7 @@ using WzComparerR2.CharaSim;
 using WzComparerR2;
 using GameUI;
 using MouseExt;
+using System.Runtime.InteropServices;
 
 namespace MapleNecrocer;
 public enum ScreenMode { Normal, Scale, FullScreen }
@@ -32,6 +33,14 @@ public class RenderFormDraw : MonoGameControl
     public static bool CanDraw;
     public static ScreenMode ScreenMode = ScreenMode.Normal;
     static RenderTarget2D ScreenRenderTarget;
+    static float TimeDelta;
+
+    [DllImport("user32.dll")]
+    static extern IntPtr GetDC(IntPtr hdc);
+    [DllImport("user32.dll", EntryPoint = "ReleaseDC")]
+    static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
+    [DllImport("gdi32.dll")]
+    static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
     protected override void Initialize()
     {
         //if (!CanDraw)
@@ -64,6 +73,10 @@ public class RenderFormDraw : MonoGameControl
         //EngineFunc.AddD2DFont("Arial12", "Arial12", 12f);
         //EngineFunc.AddD2DFont("Arial13", "Arial13", 12f);
         MouseEx.PlatformSetWindowHandle(RenderFormDraw.Instance.Handle);
+        IntPtr hdc = GetDC(IntPtr.Zero);
+        TimeDelta = (float)1 / GetDeviceCaps(hdc, 116);
+        ReleaseDC(IntPtr.Zero, hdc);
+
     }
     private static Vector2 NewPos, CurrentPos;
 
@@ -146,23 +159,23 @@ public class RenderFormDraw : MonoGameControl
             }
         }
     }
-
-    private static float FixedUpdateDelta = 0.016666f;
-    // helper variables for the fixed update
+    
+    private static float FixedUpdateDelta = 0.016666668f;
     private static float PreviousTime = 0;
     private static float Accumulator = 0.0f;
     protected override void Update(GameTime gameTime)
     {
-        if (PreviousTime == 0)
+        if (PreviousTime==0)
         {
-            PreviousTime = (float)gameTime.TotalGameTime.TotalMilliseconds;
+               PreviousTime = (float)gameTime.TotalGameTime.TotalMilliseconds;
         }
-
+     
         float Now = (float)gameTime.TotalGameTime.TotalMilliseconds;
         float FrameTime = Now - PreviousTime;
-        if (FrameTime > 0.016666f)
+       
+        if (FrameTime > TimeDelta)
         {
-            FrameTime = 0.016666f;
+            FrameTime =  TimeDelta;
         }
 
         PreviousTime = Now;
@@ -174,10 +187,8 @@ public class RenderFormDraw : MonoGameControl
         }
     }
 
-
     protected override void Draw()
     {
-
         this.Editor.graphics.Clear(Microsoft.Xna.Framework.Color.Black);
         EngineFunc.SpriteEngine.Dead();
         // EngineFunc.SpriteEngine.Draw();
