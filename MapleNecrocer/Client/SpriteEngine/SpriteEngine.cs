@@ -788,8 +788,8 @@ public class SpriteEx : Sprite
     {
         // if (DoLookAt)
         //   Angle = Direction256 / -PIConv256;
-        X += (float)(Sin256(Direction256) * Speed * Delta);
-        Y -= (float)(Cos256(Direction256) * Speed * Delta);
+        X += (float)(Sin256(Direction256) * Speed );
+        Y -= (float)(Cos256(Direction256) * Speed );
 
     }
     bool SameValue(float A, float B, float Epsilon)
@@ -811,8 +811,8 @@ public class SpriteEx : Sprite
         {
             if ((!SameValue(X, TargetX, Speed + 1)) || (!SameValue(Y, TargetY, Speed + 1)))
             {
-                X += (float)(Sin256(Direction256) * Speed * Delta);
-                Y -= (float)(Cos256(Direction256) * Speed * Delta);
+                X += (float)(Sin256(Direction256) * Speed);
+                Y -= (float)(Cos256(Direction256) * Speed);
             }
             else
             {
@@ -822,8 +822,8 @@ public class SpriteEx : Sprite
         }
         else
         {
-            X += (float)(Sin256(Direction256) * Speed * Delta);
-            Y -= (float)(Cos256(Direction256) * Speed * Delta);
+            X += (float)(Sin256(Direction256) * Speed);
+            Y -= (float)(Cos256(Direction256) * Speed);
         }
     }
 
@@ -835,17 +835,17 @@ public class SpriteEx : Sprite
         if (!SameValue(SrcAngle, DestAngle, RotateSpeed + 1))
         {
             if (SpriteUtils.AngleDiff(SrcAngle, DestAngle) > 0)
-                SrcAngle = SrcAngle + RotateSpeed * Delta;
+                SrcAngle = SrcAngle + RotateSpeed;
             if (SpriteUtils.AngleDiff(SrcAngle, DestAngle) < 0)
-                SrcAngle = SrcAngle - RotateSpeed * Delta;
+                SrcAngle = SrcAngle - RotateSpeed;
         }
         if (SrcAngle > 255)
             SrcAngle = SrcAngle - 255;
         if (SrcAngle < 0)
             SrcAngle = 255 + SrcAngle;
         Angle = SrcAngle / -PIConv256;
-        X += (float)(Sin256((int)SrcAngle) * MoveSpeed * Delta);
-        Y -= (float)(Cos256((int)SrcAngle) * MoveSpeed * Delta);
+        X += (float)(Sin256((int)SrcAngle) * MoveSpeed);
+        Y -= (float)(Cos256((int)SrcAngle) * MoveSpeed);
     }
 
     // toward(rotate self angle automation)(straight) move  direction
@@ -858,9 +858,9 @@ public class SpriteEx : Sprite
         if (!SameValue(SrcAngle, DestAngle, RotateSpeed + 1))
         {
             if (SpriteUtils.AngleDiff(SrcAngle, DestAngle) > 0)
-                SrcAngle = SrcAngle + RotateSpeed * Delta;
+                SrcAngle = SrcAngle + RotateSpeed;
             if (SpriteUtils.AngleDiff(SrcAngle, DestAngle) < 0)
-                SrcAngle = SrcAngle - RotateSpeed * Delta;
+                SrcAngle = SrcAngle - RotateSpeed;
         }
         if (SrcAngle > 255)
             SrcAngle = SrcAngle - 255;
@@ -881,16 +881,16 @@ public class SpriteEx : Sprite
         if (!SameValue(SrcAngle, DestAngle, RotateSpeed + 1))
         {
             if (SpriteUtils.AngleDiff(SrcAngle, DestAngle) > 0)
-                SrcAngle = SrcAngle + RotateSpeed * Delta;
+                SrcAngle = SrcAngle + RotateSpeed;
             if (SpriteUtils.AngleDiff(SrcAngle, DestAngle) < 0)
-                SrcAngle = SrcAngle - RotateSpeed * Delta;
+                SrcAngle = SrcAngle - RotateSpeed;
         }
         if (SrcAngle > 255)
             SrcAngle = SrcAngle - 255;
         if (SrcAngle < 0)
             SrcAngle = 255 + SrcAngle;
-        X += (float)(Sin256((int)SrcAngle) * MoveSpeed * Delta);
-        Y -= (float)(Cos256((int)SrcAngle) * MoveSpeed * Delta);
+        X += (float)(Sin256((int)SrcAngle) * MoveSpeed);
+        Y -= (float)(Cos256((int)SrcAngle) * MoveSpeed);
     }
 
     // move by rotation speed to destination position,but not straight direction(no rotae self)
@@ -1027,7 +1027,7 @@ public class SpriteEx : Sprite
     }
     public override void DoDraw()
     {
-        //if (ImageNode == null)
+      //  if (ImageNode == null)
          //   return;
        
         switch (SpriteSheetMode)
@@ -1242,7 +1242,7 @@ public class AnimatedSprite : SpriteEx
         switch (AnimPlayMode)
         {
             case AnimPlayMode.Forward:
-                AnimPos = AnimPos + AnimSpeed * Delta;
+                AnimPos = AnimPos + AnimSpeed;
                 if (AnimPos >= animStart + AnimCount)
                 {
                     if ((int)AnimPos == animStart)
@@ -1264,7 +1264,7 @@ public class AnimatedSprite : SpriteEx
                 break;
             //
             case AnimPlayMode.Backward:
-                AnimPos = AnimPos - AnimSpeed * Delta;
+                AnimPos = AnimPos - AnimSpeed;
                 if (AnimPos < animStart)
                 {
                     if (AnimLooped)
@@ -1283,7 +1283,7 @@ public class AnimatedSprite : SpriteEx
                 break;
             //
             case AnimPlayMode.PingPong:
-                AnimPos = AnimPos + AnimSpeed * Delta;
+                AnimPos = AnimPos + AnimSpeed;
                 if (AnimLooped)
                 {
                     if ((AnimPos > animStart + AnimCount - 1) || (AnimPos < animStart))
@@ -1402,11 +1402,11 @@ public class ParticleSprite : AnimatedSprite
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
-        X = X + VelocityX * UpdateSpeed * Delta;
-        Y = Y + VelocityY * UpdateSpeed * Delta;
+        X = X + VelocityX * UpdateSpeed;
+        Y = Y + VelocityY * UpdateSpeed;
         VelocityX = VelocityX + AccelX * UpdateSpeed;
         VelocityY = VelocityY + AccelY * UpdateSpeed;
-        LifeTime = LifeTime - Decay * Delta;
+        LifeTime = LifeTime - Decay;
         if (LifeTime <= 0)
             Dead();
     }
@@ -1503,8 +1503,8 @@ public class PlayerSprite : AnimatedSprite
     public void UpdatePos(float Delta)
     {
         base.DoMove(Delta);
-        X += VelocityX * Delta;
-        Y += VelocityY * Delta;
+        X += VelocityX;
+        Y += VelocityY;
     }
 }
 
@@ -1583,14 +1583,14 @@ public class JumperSprite : PlayerSprite
 
             case JumpState.jsJumping:
 
-                Y += VelocityY * Delta;
+                Y += VelocityY;
                 VelocityY += JumpSpeed;
                 if (VelocityY > 0)
                     jumpState = JumpState.jsFalling;
                 break;
 
             case JumpState.jsFalling:
-                Y = Y + VelocityY * Delta;
+                Y = Y + VelocityY;
                 VelocityY = VelocityY + JumpSpeed;
                 if (VelocityY > MaxFallSpeed)
                     VelocityY = MaxFallSpeed;
@@ -1692,16 +1692,16 @@ public class JumperSpriteEx : PlayerSprite
                 }
                 if (JumpCount > HighJumpValue)
                     JumpSpeed = HighJumpSpeed;
-                Y += VelocityY * Delta;
-                VelocityY += JumpSpeed * Delta;
+                Y += VelocityY;
+                VelocityY += JumpSpeed;
                 if (VelocityY > 0)
                     JumpState = JumpState.jsFalling;
                 break;
             case JumpState.jsFalling:
                 JumpCount = 0;
                 JumpSpeed = FallingSpeed;
-                Y += VelocityY * Delta;
-                VelocityY += JumpSpeed * Delta;
+                Y += VelocityY;
+                VelocityY += JumpSpeed;
                 if (VelocityY > MaxFallSpeed)
                     VelocityY = MaxFallSpeed;
                 break;
@@ -1789,7 +1789,7 @@ public class PathSprite : AnimatedSprite
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
-        Distance = Distance + MoveSpeed * Delta;
+        Distance = Distance + MoveSpeed;
         X = Position.X;
         Y = Position.Y;
     }
@@ -1822,8 +1822,8 @@ public class NPathSprite : PathSprite
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
-        Distance = Distance + MoveSpeed * UpdateSpeed * Delta;
-        MoveSpeed = MoveSpeed + Accel * UpdateSpeed * Delta;
+        Distance = Distance + MoveSpeed * UpdateSpeed;
+        MoveSpeed = MoveSpeed + Accel * UpdateSpeed;
         if (Distance > MaxParameter)
             Distance = MaxParameter;
         if (Distance < 0)
