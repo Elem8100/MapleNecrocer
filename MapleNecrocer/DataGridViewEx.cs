@@ -154,6 +154,7 @@ public class DataGridViewEx : BaseDataGridView
             Wz_Node Node = Wz.GetNodeByID(ID, WzType);
             MainForm.Instance.QuickView(Node);
             MainForm.Instance.ToolTipView.Owner = Form;
+            
         };
 
         this.CellMouseLeave += (s, e) =>

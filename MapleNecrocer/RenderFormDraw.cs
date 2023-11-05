@@ -133,7 +133,7 @@ public class RenderFormDraw : MonoGameControl
             EngineFunc.SpriteEngine.Draw();
             if (Map.FadeScreen.DoFade)
             {
-                EngineFunc.Canvas.FillRect(0, 0, Map.DisplaySize.X, Map.DisplaySize.Y,
+                EngineFunc.Canvas.FillRoundRect(0, 0, Map.DisplaySize.X, Map.DisplaySize.Y,
                     new Microsoft.Xna.Framework.Color(0, 0, 0, Map.FadeScreen.AlphaCounter));
             }
             if (Map.ShowBgmName)
@@ -199,7 +199,7 @@ public class RenderFormDraw : MonoGameControl
                 EngineFunc.SpriteEngine.Draw();
                 if (Map.FadeScreen.DoFade)
                 {
-                    EngineFunc.Canvas.FillRect(0, 0, Map.DisplaySize.X, Map.DisplaySize.Y,
+                    EngineFunc.Canvas.FillRoundRect(0, 0, Map.DisplaySize.X, Map.DisplaySize.Y,
                         new Microsoft.Xna.Framework.Color(0, 0, 0, Map.FadeScreen.AlphaCounter));
                 }
                 if (Map.ShowBgmName)

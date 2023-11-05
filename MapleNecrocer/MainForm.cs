@@ -96,9 +96,13 @@ public partial class MainForm : Form
             foreach (var Iter2 in Iter.Nodes)
             {
                 string ID = Iter2.Text.PadLeft(9, '0');
-                var MapName = Iter2.GetValue2("mapName", "");
+                var MapName = Iter2.GetStr("mapName");
+                var StreetName = Iter2.GetStr("streetName");
+                Map.MapNameList.AddOrReplace(ID, new MapNameRec(ID, MapName, StreetName));
                 if (!MapNames.ContainsKey(ID))
+                {
                     MapNames.Add(ID, MapName);
+                }
             }
         }
 
@@ -543,6 +547,7 @@ public partial class MainForm : Form
                 ToolTipView.ImageFileName = fileName;
                 ToolTipView.Refresh();
                 ToolTipView.HideOnHover = false;
+                ToolTipView.TopMost=true;
                 ToolTipView.Show();
             }
         }
