@@ -343,8 +343,17 @@ public class GameCanvas
             DrawStringD2D(KeyName, Text, X, Y, Color);
         else
             DrawStringEx(KeyName, Text, X, Y, Color);
+   
     }
+
     public void FillRect(int X, int Y, int Width, int Height, Color Color)
+    {
+        SpriteBatch.Begin();
+        SpriteBatch.FillRectangle(new Microsoft.Xna.Framework.Rectangle(X, Y, Width, Height), Color);
+        SpriteBatch.End();
+    }
+
+    public void FillRoundRect(int X, int Y, int Width, int Height, Color Color)
     {
         SpriteBatch.Begin();
         SpriteBatch.FillRoundedRectangle(new Microsoft.Xna.Framework.Rectangle(X, Y, Width, Height), Color);
