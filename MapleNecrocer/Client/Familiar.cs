@@ -386,7 +386,7 @@ public class FamiliarNameTag : SpriteEx
             int NamePos = NameWidth / 2;
             if (Map.ShowPlayer)
             {
-                EngineFunc.Canvas.FillRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+                EngineFunc.Canvas.FillRoundRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
                 EngineFunc.Canvas.DrawString(Map.NpcNameTagFont, Name, 3, 2, Microsoft.Xna.Framework.Color.White);
             }
         });
@@ -408,7 +408,7 @@ public class FamiliarNameTag : SpriteEx
                 int NamePos = NameWidth / 2;
                 if (Map.ShowPlayer)
                 {
-                    Engine.Canvas.FillRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 180));
+                    Engine.Canvas.FillRoundRect(0, 2, NameWidth + 8, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 180));
                     Engine.Canvas.DrawString(Map.NpcNameTagFont, MobName, 3, 2, Microsoft.Xna.Framework.Color.White);
                 }
             });

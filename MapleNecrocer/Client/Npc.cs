@@ -264,7 +264,7 @@ public class NpcText : SpriteEx
         if (Map.ShowID)
         {
             float IDPos = WX - IDWidth / 2;
-            Engine.Canvas.FillRect((int)IDPos - 2, (int)WY + 36, IDWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+            Engine.Canvas.FillRoundRect((int)IDPos - 2, (int)WY + 36, IDWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
             Engine.Canvas.DrawString(Map.NpcNameTagFont, ID, IDPos, WY + 37, Microsoft.Xna.Framework.Color.Cyan);
         }
 
@@ -280,13 +280,13 @@ public class NpcText : SpriteEx
                 case "JMS": OffsetY = 2; break;
             }
             int NamePos = WX - NameWidth / 2;
-            Engine.Canvas.FillRect((int)NamePos - 2, (int)WY + 3, NameWidth + 5, 16, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+            Engine.Canvas.FillRoundRect((int)NamePos - 2, (int)WY + 3, NameWidth + 5, 16, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
             Engine.Canvas.DrawString(Map.NpcNameTagFont, NpcName, NamePos, WY + 4 + OffsetY, Microsoft.Xna.Framework.Color.Yellow);
 
             if (HasFunc)
             {
                 float FuncPos = WX - FuncWidth / 2;
-                Engine.Canvas.FillRect((int)FuncPos - 2, (int)WY + 21, FuncWidth + 5, 16, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+                Engine.Canvas.FillRoundRect((int)FuncPos - 2, (int)WY + 21, FuncWidth + 5, 16, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
                 Engine.Canvas.DrawString(Map.NpcNameTagFont, NpcFunc, FuncPos, WY + 22 + OffsetY, Microsoft.Xna.Framework.Color.Yellow);
             }
         }

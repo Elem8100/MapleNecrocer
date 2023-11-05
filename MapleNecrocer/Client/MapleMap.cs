@@ -9,10 +9,25 @@ using Microsoft.Xna.Framework;
 using WzComparerR2.Rendering;
 using MonoGame.SpriteEngine;
 using GameUI;
+using MonoGame.UI.Forms;
 
 namespace MapleNecrocer;
 
 public enum GameMode { Play, Viewer };
+
+public struct MapNameRec
+{
+    public string ID;
+    public string MapName;
+    public string StreetName;
+
+    public MapNameRec(string id, string mapName, string streetName)
+    {
+        ID = id;
+        MapName = mapName;
+        StreetName = streetName;
+    }
+}
 
 public class Map
 {
@@ -21,7 +36,7 @@ public class Map
         public static int AlphaCounter, AValue;
         public static bool DoFade;
     }
-
+    public static Dictionary<string, MapNameRec> MapNameList = new();
     public static string ID;
     public static Wz_Node Img;
     public static Microsoft.Xna.Framework.Point DisplaySize = new(1024, 768);
@@ -41,6 +56,7 @@ public class Map
     public static bool ShowBgmName;
     public static bool ShowFootholds;
     public static bool ShowPlayer = true;
+    public static bool HasMiniMap;
 
 
     public static Vector2 Center;
@@ -59,6 +75,7 @@ public class Map
     public static bool SaveMap;
     public static string BgmName;
     private static List<string> BgmList = new();
+    static MiniMap MiniMap;
 
     public static int MeasureStringX(string FontNameKey, string Text)
     {
@@ -175,7 +192,7 @@ public class Map
         Back.Create();
 
         Particle.Create();
-
+      
         if (!FirstLoaded)
         {
             string Name = Wz.GetNode("String/Mob.img/100100/name").ToStr();
@@ -213,6 +230,7 @@ public class Map
                     Map.ToolTipFont = "SimSun14";
                     UseD2D = false;
                     break;
+                  
             }
             Player.SpawnNew();
             NameTag.Create("SuperGM");
@@ -221,9 +239,16 @@ public class Map
                 GameCursor.LoadRes("12");
             else
                 GameCursor.IsDataWz = true;
+            MiniMap = new MiniMap();
+            UI.ControlManager.Controls.Add(MiniMap);
+            if(Wz.HasNode("UI/UIWindow4.img"))
+                MiniMap.Version=3;
+            else
+                MiniMap.Version=1;
             FirstLoaded = true;
         }
 
+        MiniMap.ReDraw();
         Npc.Create();
         Mob.Create();
         ObjToolTip.Create();
@@ -256,7 +281,6 @@ public class Map
             Music.Play(BgmPath);
         }
         // if( EngineFunc.SpriteEngine.SpriteList==null)
-
     }
 
 }

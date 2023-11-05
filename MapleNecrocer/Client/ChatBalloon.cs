@@ -50,7 +50,7 @@ public class ChatBalloon : SpriteEx
     int FontColor;
     RenderTarget2D RenderTarget;
     BalloonInfo GetData(string TileName)
-    {
+    {   
         BalloonInfo Result = new BalloonInfo();
         if (WzNode.ParentNode.Text == "ChatBalloon.img")
             Result.ImageNode = Wz.GetNodeA("UI/ChatBalloon.img/" + Style + "/" + TileName);

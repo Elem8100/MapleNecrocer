@@ -59,7 +59,7 @@ public class ObjToolTip : SpriteEx
         }
         else
         {
-            Engine.Canvas.FillRect(15,5,Width+10,20,new Microsoft.Xna.Framework.Color(0,50,150,180));
+            Engine.Canvas.FillRoundRect(15,5,Width+10,20,new Microsoft.Xna.Framework.Color(0,50,150,180));
             Engine.Canvas.DrawString(Map.ToolTipFont, Text, 20, 8, Microsoft.Xna.Framework.Color.White);
         }
 

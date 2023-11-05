@@ -33,6 +33,7 @@ public class Mob : JumperSprite
         SpriteSheetMode = SpriteSheetMode.NoneSingle;
         CollideMode = CollideMode.Rect;
         IntMove = true;
+       
     }
     int Frame;
     float Time;
@@ -228,18 +229,18 @@ public class Mob : JumperSprite
     void RenderTargetFunc()
     {
         float LvPosX = LevelWidth - (NameWidth / 2) + 4;
-        Engine.Canvas.FillRect(0, 5, LevelWidth + 5, 11, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+        Engine.Canvas.FillRoundRect(0, 5, LevelWidth + 5, 11, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
         Engine.Canvas.DrawString(Map.MobLvFont, "Lv." + Level, 2, 5, Microsoft.Xna.Framework.Color.White);
 
         float NamePosX = LevelWidth + 6;
-        Engine.Canvas.FillRect((int)NamePosX, 3, NameWidth + 4, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+        Engine.Canvas.FillRoundRect((int)NamePosX, 3, NameWidth + 4, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
         Engine.Canvas.DrawString(Map.NpcNameTagFont, MobName, NamePosX + 2, 4, Microsoft.Xna.Framework.Color.White);
     }
 
     void IDRenderTargetFunc()
     {
         
-        Engine.Canvas.FillRect(0, 1, IDWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
+        Engine.Canvas.FillRoundRect(0, 1, IDWidth + 5, 15, new Microsoft.Xna.Framework.Color(0, 0, 0, 150));
         Engine.Canvas.DrawString(Map.NpcNameTagFont, "ID:" + ID, 2, 2, Microsoft.Xna.Framework.Color.Cyan);
     }
 
