@@ -18,6 +18,7 @@ namespace MonoGame.UI.Forms
         {
             BackgroundColor = Color.Gray;
             Controls = new List<Control>();
+            IsMovable=true;
         }
         internal override void DoDraw(Vector2 offset)
         {
