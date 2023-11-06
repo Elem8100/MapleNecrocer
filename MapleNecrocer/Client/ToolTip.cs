@@ -36,24 +36,24 @@ public class ObjToolTip : SpriteEx
     {
         if (Wz.HasNode("UI/UIToolTip.img"))
         {
-            var nw = Wz.GetNode("UI/UIToolTip.img/Item/Frame2/nw");
+            var nw = Wz.GetImgNodeA("UI/UIToolTip.img/Item/Frame2/nw");
             Engine.Canvas.Draw(Wz.ImageLib[nw], 15 - nw.GetVector("origin").X, 15 - nw.GetVector("origin").Y);
 
-            var ne = Wz.GetNode("UI/UIToolTip.img/Item/Frame2/ne");
+            var ne = Wz.GetImgNodeA("UI/UIToolTip.img/Item/Frame2/ne");
             Engine.Canvas.Draw(Wz.ImageLib[ne], 15 + Width - ne.GetVector("origin").X, 15 - ne.GetVector("origin").Y);
 
-            var n = Wz.GetNode("UI/UIToolTip.img/Item/Frame2/n");
-            var s = Wz.GetNode("UI/UIToolTip.img/Item/Frame2/s");
+            var n = Wz.GetImgNodeA("UI/UIToolTip.img/Item/Frame2/n");
+            var s = Wz.GetImgNodeA("UI/UIToolTip.img/Item/Frame2/s");
             for (int i = 0; i < Width; i++)
             {
                 Engine.Canvas.Draw(Wz.ImageLib[n], 15 - n.GetVector("origin").X + i, 15 - n.GetVector("origin").Y);
                 Engine.Canvas.Draw(Wz.ImageLib[s], 15 - n.GetVector("origin").X + i, 15 - s.GetVector("origin").Y);
             }
 
-            var sw = Wz.GetNode("UI/UIToolTip.img/Item/Frame2/sw");
+            var sw = Wz.GetImgNodeA("UI/UIToolTip.img/Item/Frame2/sw");
             Engine.Canvas.Draw(Wz.ImageLib[sw], 15 - sw.GetVector("origin").X, 15 - sw.GetVector("origin").Y);
 
-            var se = Wz.GetNode("UI/UIToolTip.img/Item/Frame2/se");
+            var se = Wz.GetImgNodeA("UI/UIToolTip.img/Item/Frame2/se");
             Engine.Canvas.Draw(Wz.ImageLib[se], 15 + Width - se.GetVector("origin").X, 15 - se.GetVector("origin").Y);
             Engine.Canvas.DrawString(Map.ToolTipFont, Text, 15, 8, Microsoft.Xna.Framework.Color.White);
         }
