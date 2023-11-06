@@ -56,8 +56,7 @@ public class Map
     public static bool ShowBgmName;
     public static bool ShowFootholds;
     public static bool ShowPlayer = true;
-    public static bool HasMiniMap;
-
+    public static bool ShowMiniMap=true;
 
     public static Vector2 Center;
     public static Vector2 CameraSpeed;
