@@ -182,13 +182,15 @@
             // MiniMap
             // 
             MiniMap.AutoSize = true;
-            MiniMap.Enabled = false;
+            MiniMap.Checked = true;
+            MiniMap.CheckState = CheckState.Checked;
             MiniMap.Location = new Point(12, 54);
             MiniMap.Name = "MiniMap";
             MiniMap.Size = new Size(87, 22);
             MiniMap.TabIndex = 10;
             MiniMap.Text = "Mini Map";
             MiniMap.UseVisualStyleBackColor = true;
+            MiniMap.CheckedChanged += Tile_CheckedChanged;
             // 
             // PortalInfo
             // 

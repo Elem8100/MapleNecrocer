@@ -55,9 +55,8 @@ public partial class ViewForm : Form
             case "BgmName": Map.ShowBgmName = !Map.ShowBgmName; break;
             case "Foothold": Map.ShowFootholds = !Map.ShowFootholds; break;
             case "Player": Map.ShowPlayer = !Map.ShowPlayer; break;
-
+            case "MiniMap": Map.ShowMiniMap = !Map.ShowMiniMap; break;
         }
-
     }
 
     private void button1_Click(object sender, EventArgs e)
@@ -70,6 +69,5 @@ public partial class ViewForm : Form
         }
         Game.Player.Name = textBox1.Text;
         NameTag.ReDraw = true;
-
     }
 }
