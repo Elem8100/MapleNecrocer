@@ -564,7 +564,7 @@ public partial class AvatarForm : Form
     {
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
         label1.Text = ID;
-        label2.Text = SearchGrid.Rows[e.RowIndex].Cells[1].Value.ToString();
+        label2.Text = DataGrid.Rows[e.RowIndex].Cells[1].Value.ToString();
         string Dir = Equip.GetDir(ID);
         string Name = "";
         // if (Wz.IsDataWz)
@@ -665,7 +665,7 @@ public partial class AvatarForm : Form
                             string ID = SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
                             Wz_Node Node = Wz.GetNodeByID(ID, WzType.Character);
                             MainForm.Instance.QuickView(Node);
-                            MainForm.Instance.ToolTipView.Location = new Point(448, 395);
+                           // MainForm.Instance.ToolTipView.Location = new Point(448, 395);
                         }
                     };
 
@@ -690,7 +690,7 @@ public partial class AvatarForm : Form
                             string ID = SearchGrid.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
                             Wz_Node Node = Wz.GetNodeByID(ID, WzType.Character);
                             MainForm.Instance.QuickView(Node);
-                            MainForm.Instance.ToolTipView.Location = new Point(448, 395);
+                           // MainForm.Instance.ToolTipView.Location = new Point(448, 395);
                         }
                     };
 
@@ -718,9 +718,9 @@ public partial class AvatarForm : Form
                     SearchGrid.Refresh();
                     SearchGridLoaded = true;
                 }
-                MainForm.Instance.ToolTipView.TopLevel = false;
-                MainForm.Instance.ToolTipView.IsMdiContainer = false;
-                MainForm.Instance.ToolTipView.Parent = this;
+              // MainForm.Instance.ToolTipView.TopLevel = false;
+               // MainForm.Instance.ToolTipView.IsMdiContainer = false;
+               // MainForm.Instance.ToolTipView.Parent = this;
                 break;
 
             case 4:

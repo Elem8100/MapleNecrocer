@@ -120,8 +120,8 @@ public partial class ConsumeForm : Form
             {
                 string ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
                 label1.Text = ID;
-                pictureBox1.Image = (Bitmap)ConsumeListGrid.Rows[e.RowIndex].Cells[1].Value;
-                label2.Text = ConsumeListGrid.Rows[e.RowIndex].Cells[2].Value.ToString();
+                pictureBox1.Image = (Bitmap)DataGrid.Rows[e.RowIndex].Cells[1].Value;
+                label2.Text = DataGrid.Rows[e.RowIndex].Cells[2].Value.ToString();
             }
 
             ConsumeListGrid.CellClick += (s, e) =>
