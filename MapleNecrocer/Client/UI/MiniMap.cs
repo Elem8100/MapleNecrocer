@@ -3,28 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.UI.Forms;
 using MapleNecrocer;
 using WzComparerR2.WzLib;
 using Color = Microsoft.Xna.Framework.Color;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
-using System.Drawing;
-
 namespace GameUI;
-
 public class MiniMap : UIForm
 {
     public static int Version;
-
     public static bool HasMiniMap;
     int PWidth;
     int cx, cy;
     int OffX, OffY;
     int AddHeight, AddWidth;
     bool HasMark;
-
     RenderTarget2D RenderTarget;
     Wz_Node PlayerMark;
     void DrawVersion1()
@@ -126,15 +120,14 @@ public class MiniMap : UIForm
             Canvas.DrawString(Map.NpcNameTagFont, Map.MapNameList[Map.ID].StreetName, 49, 26, Color.White);
             Canvas.DrawString(Map.NpcNameTagFont, Map.MapNameList[Map.ID].MapName, 49, 43, Color.White);
         }
-
     }
 
     void DrawVersion3()
     {
         Wz_Node UIEntry = Wz.GetNodeA("UI/UIWindow2.img/MiniMap/MaxMap");
-       // Wz.UIImageLib.Clear();
-        if (!Wz.UIData.ContainsKey("UI/UIWindow2.img/MiniMap/MaxMap")) 
-           Wz.DumpData(UIEntry, Wz.UIData, Wz.UIImageLib);
+        // Wz.UIImageLib.Clear();
+        if (!Wz.UIData.ContainsKey("UI/UIWindow2.img/MiniMap/MaxMap"))
+            Wz.DumpData(UIEntry, Wz.UIData, Wz.UIImageLib);
         int PicWidth, PicHeight;
         var Canvas = EngineFunc.Canvas;
         if (Map.Img.HasNode("miniMap"))
@@ -162,7 +155,7 @@ public class MiniMap : UIForm
             PicHeight = 100;
             Canvas.FillRect(9, 62, PicWidth, PicHeight, new Color(0, 0, 0, 180));
         }
-        
+
         for (int X = 0; X <= PicWidth - 111; X++)
         {
             Canvas.Draw(Wz.UIImageLib[UIEntry.Get("n")], 64 + X, 0);
@@ -196,7 +189,6 @@ public class MiniMap : UIForm
                   16) + OffX + 2, ((Iter.GetInt("y") + cy) / 16) + 48);
         }
 
-
         var MapMarkName = Map.Img.GetStr("info/mapMark");
         if (MapMarkName != "None")
         {
@@ -211,7 +203,6 @@ public class MiniMap : UIForm
             Canvas.DrawString(Map.NpcNameTagFont, Map.MapNameList[Map.ID].StreetName, 50, 20, Color.White);
             Canvas.DrawString(Map.NpcNameTagFont, Map.MapNameList[Map.ID].MapName, 50, 37, Color.White);
         }
-
     }
 
     public void RenderTargetFunc()
@@ -250,23 +241,28 @@ public class MiniMap : UIForm
             AddHeight = 0;
         }
 
-        var MiniMapPng = Map.Img.GetBmp("miniMap/canvas");
-        PWidth = Math.Max((int)Length, MiniMapPng.Width + AddWidth) + 40;
-        EngineFunc.Canvas.DrawTarget(ref RenderTarget, PWidth + 50, MiniMapPng.Height + 80 + AddHeight, () => RenderTargetFunc());
-        this.Size = new Microsoft.Xna.Framework.Vector2(PWidth + 20, MiniMapPng.Height + 40);
-
+        if (Map.Img.HasNode("miniMap"))
+        {
+            var MiniMapPng = Map.Img.GetBmp("miniMap/canvas");
+            PWidth = Math.Max((int)Length, MiniMapPng.Width + AddWidth) + 40;
+            EngineFunc.Canvas.DrawTarget(ref RenderTarget, PWidth + 50, MiniMapPng.Height + 80 + AddHeight, () => RenderTargetFunc());
+            this.Size = new Microsoft.Xna.Framework.Vector2(PWidth + 20, MiniMapPng.Height + 40);
+        }
+        else
+        {
+            EngineFunc.Canvas.DrawTarget(ref RenderTarget, 1, 1, () => RenderTargetFunc());
+            this.Size = new Microsoft.Xna.Framework.Vector2(1, 1);
+        }
     }
 
     internal override void DoDraw(Vector2 offset)
     {
         if (!IsVisible)
             return;
-       
+
         if (HasMiniMap)
         {
             SpriteBatch.Draw(RenderTarget, new Vector2(Location.X, Location.Y), Color.White);
-
-
             int px = (int)(Game.Player.X + cx) / 16;
             int py = (int)(Game.Player.Y + cy) / 16;
             if (Version == 1)
