@@ -131,8 +131,10 @@ public class MiniMap : UIForm
 
     void DrawVersion3()
     {
-        Wz_Node UIEntry = Wz.GetNode("UI/UIWindow2.img/MiniMap/MaxMap");
-        Wz.DumpData(UIEntry, Wz.UIData, Wz.UIImageLib);
+        Wz_Node UIEntry = Wz.GetNodeA("UI/UIWindow2.img/MiniMap/MaxMap");
+       // Wz.UIImageLib.Clear();
+        if (!Wz.UIData.ContainsKey("UI/UIWindow2.img/MiniMap/MaxMap")) 
+           Wz.DumpData(UIEntry, Wz.UIData, Wz.UIImageLib);
         int PicWidth, PicHeight;
         var Canvas = EngineFunc.Canvas;
         if (Map.Img.HasNode("miniMap"))
@@ -163,22 +165,22 @@ public class MiniMap : UIForm
         
         for (int X = 0; X <= PicWidth - 111; X++)
         {
-            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("n")], 64 + X, 0);
-            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("s")], 64 + X, PicHeight + 62);
+            Canvas.Draw(Wz.UIImageLib[UIEntry.Get("n")], 64 + X, 0);
+            Canvas.Draw(Wz.UIImageLib[UIEntry.Get("s")], 64 + X, PicHeight + 62);
         }
 
         for (int Y = 0; Y <= PicHeight - 24; Y++)
         {
-            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("w")], 0, 67 + Y);
-            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("e")], PicWidth + 9, 67 + Y);
+            Canvas.Draw(Wz.UIImageLib[UIEntry.Get("w")], 0, 67 + Y);
+            Canvas.Draw(Wz.UIImageLib[UIEntry.Get("e")], PicWidth + 9, 67 + Y);
         }
-        Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("nw")], 0, 0); //left top
-        Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("ne")], PicWidth - 46, 0); //right top
+        Canvas.Draw(Wz.UIImageLib[UIEntry.Get("nw")], 0, 0); //left top
+        Canvas.Draw(Wz.UIImageLib[UIEntry.Get("ne")], PicWidth - 46, 0); //right top
         Canvas.Draw(Wz.UIImageLib[UIEntry.Get("sw")], 0, PicHeight + 44); // right bottom
         Canvas.Draw(Wz.UIImageLib[UIEntry.Get("se")], PicWidth - 46, PicHeight + 44); // left botton
         Wz.DumpData(Wz.GetNode("Map/MapHelper.img/minimap"), Wz.UIData, Wz.UIImageLib);
 
-        var NpcMark = Wz.GetNode("Map/MapHelper.img/minimap/npc");
+        var NpcMark = Wz.GetNodeA("Map/MapHelper.img/minimap/npc");
         foreach (var Iter in Map.Img.GetNodes("life"))
         {
             if (Iter.GetStr("type") == "n" && Iter.GetInt("hide") != 1)
@@ -186,7 +188,7 @@ public class MiniMap : UIForm
                   + OffX + 4, ((Iter.GetInt("y") + cy) / 16) + 50);
         }
 
-        var PortalMark = Wz.GetNode("Map/MapHelper.img/minimap/portal");
+        var PortalMark = Wz.GetNodeA("Map/MapHelper.img/minimap/portal");
         foreach (var Iter in Map.Img.GetNodes("portal"))
         {
             if (Iter.GetInt("pt") == 2 || Iter.GetInt("pt") == 7)
@@ -198,12 +200,11 @@ public class MiniMap : UIForm
         var MapMarkName = Map.Img.GetStr("info/mapMark");
         if (MapMarkName != "None")
         {
-            var MapMarkPic = Wz.GetNode("Map/MapHelper.img/mark/" + MapMarkName);
+            var MapMarkPic = Wz.GetNodeA("Map/MapHelper.img/mark/" + MapMarkName);
             Wz.DumpData(MapMarkPic, Wz.UIData, Wz.UIImageLib);
             Canvas.Draw(Wz.UIImageLib[MapMarkPic], 7, 17);
         }
-        PlayerMark = Wz.GetNode("Map/MapHelper.img/minimap/user");
-       
+        PlayerMark = Wz.GetNodeA("Map/MapHelper.img/minimap/user");
 
         if (Map.MapNameList.ContainsKey(Map.ID))
         {
@@ -260,7 +261,7 @@ public class MiniMap : UIForm
     {
         if (!IsVisible)
             return;
-
+       
         if (HasMiniMap)
         {
             SpriteBatch.Draw(RenderTarget, new Vector2(Location.X, Location.Y), Color.White);
