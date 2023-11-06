@@ -25,7 +25,7 @@ namespace MonoGame.UI.Forms
             if (!IsVisible)
                 return;
             ImagePath = UIPath;
-            SpriteBatch.Draw(Wz.UIImageLib[Wz.GetNode(ImagePath)], new Vector2(Location.X, Location.Y), Color.White);
+            SpriteBatch.Draw(Wz.UIImageLib[Wz.UIData[ImagePath]], new Vector2(Location.X, Location.Y), Color.White);
             foreach (var control in Controls)
             {
                 if (control.IsVisible)

@@ -48,7 +48,7 @@ namespace MonoGame.UI.Forms
                         ImagePath = UIPath + "/mouseOver/0";
                     break;
             }
-            SpriteBatch.Draw(Wz.UIImageLib[Wz.GetNode(ImagePath)], Location + offset, Color.White);
+            SpriteBatch.Draw(Wz.UIImageLib[Wz.UIData[ImagePath]], Location + offset, Color.White);
         }
 
         internal override void LoadContent(DrawHelper helper)
