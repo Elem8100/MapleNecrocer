@@ -547,7 +547,7 @@ public partial class MainForm : Form
                 ToolTipView.ImageFileName = fileName;
                 ToolTipView.Refresh();
                 ToolTipView.HideOnHover = false;
-                ToolTipView.TopMost=true;
+                ToolTipView.TopMost = true;
                 ToolTipView.Show();
             }
         }
@@ -940,6 +940,7 @@ public partial class MainForm : Form
             case "SaveMapButton": ShowForm(SaveMapForm.Instance, () => new SaveMapForm().Show()); break;
             case "ScaleButton": ShowForm(ScaleForm.Instance, () => new ScaleForm().Show()); break;
             case "OptionButton": ShowForm(OptionForm.Instance, () => new OptionForm().Show()); break;
+            case "EffectRingButton": ShowForm(EffectRingForm.Instance, () => new EffectRingForm().Show()); break;
         }
     }
 

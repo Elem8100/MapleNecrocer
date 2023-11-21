@@ -38,6 +38,9 @@
     <Compile Update="DataGridViewEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="EffectRingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="EtcForm.cs">
       <SubType>Form</SubType>
     </Compile>

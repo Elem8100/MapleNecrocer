@@ -44,6 +44,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            EffectRingButton = new Button();
             ReactorButton = new Button();
             SoulEffectButton = new Button();
             TotemEffectButton = new Button();
@@ -135,10 +136,10 @@ namespace MapleNecrocer
             // tabPage2
             // 
             tabPage2.Controls.Add(WorldMapListGrid);
-            tabPage2.Location = new Point(4, 25);
+            tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 388);
+            tabPage2.Size = new Size(232, 385);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -165,7 +166,7 @@ namespace MapleNecrocer
             WorldMapListGrid.ShowCellToolTips = false;
             WorldMapListGrid.ShowEditingIcon = false;
             WorldMapListGrid.ShowRowErrors = false;
-            WorldMapListGrid.Size = new Size(226, 382);
+            WorldMapListGrid.Size = new Size(226, 379);
             WorldMapListGrid.TabIndex = 2;
             WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 
@@ -240,6 +241,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(EffectRingButton);
             panel1.Controls.Add(ReactorButton);
             panel1.Controls.Add(SoulEffectButton);
             panel1.Controls.Add(TotemEffectButton);
@@ -271,6 +273,23 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // EffectRingButton
+            // 
+            EffectRingButton.AutoSize = true;
+            EffectRingButton.Enabled = false;
+            EffectRingButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            EffectRingButton.Image = (Image)resources.GetObject("EffectRingButton.Image");
+            EffectRingButton.ImageAlign = ContentAlignment.TopCenter;
+            EffectRingButton.Location = new Point(2042, 1);
+            EffectRingButton.Name = "EffectRingButton";
+            EffectRingButton.RightToLeft = RightToLeft.No;
+            EffectRingButton.Size = new Size(78, 52);
+            EffectRingButton.TabIndex = 27;
+            EffectRingButton.Text = "EffectRing";
+            EffectRingButton.TextAlign = ContentAlignment.BottomCenter;
+            EffectRingButton.UseVisualStyleBackColor = true;
+            EffectRingButton.Click += MobButton_Click;
             // 
             // ReactorButton
             // 
@@ -799,5 +818,6 @@ namespace MapleNecrocer
         private Button SoulEffectButton;
         private Button ReactorButton;
         public DataGridView WorldMapListGrid;
+        private Button EffectRingButton;
     }
 }
