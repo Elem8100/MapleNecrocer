@@ -32,12 +32,36 @@ public partial class AvatarForm : Form
         AvatarFormDraw.Left = 453;
         AvatarFormDraw.Top = 9;
         AvatarFormDraw.Parent = this;
+
+        FrameListDraw = new();
+        FrameListDraw.Width = 512;
+        FrameListDraw.Height = 512;
+        FrameListDraw.Left = 0;
+        FrameListDraw.Top = 0;
+        FrameListDraw.Parent = panel2;
         Instance = this;
     }
-  
+    private string[] AllFrames = {"walk1.0", "walk1.1", "walk1.2", "walk1.3", "walk2.0", "walk2.1", "walk2.2", "walk2.3",
+        "stand1.0", "stand1.1", "stand1.2", "stand2.0", "stand2.1", "stand2.2", "alert.0", "alert.1", "alert.2",
+        "swingO1.0", "swingO1.1", "swingO1.2", "swingO2.0", "swingO2.1", "swingO2.2", "swingO3.0", "swingO3.1", "swingO3.2",
+        "swingOF.0", "swingOF.1", "swingOF.2", "swingOF.3",
+        "swingT1.0", "swingT1.1", "swingT1.2", "swingT2.0", "swingT2.1", "swingT2.2", "swingT3.0", "swingT3.1", "swingT3.2",
+        "swingTF.0", "swingTF.1", "swingTF.2", "swingTF.3",
+        "swingP1.0", "swingP1.1", "swingP1.2", "swingP2.0", "swingP2.1", "swingP2.2",
+        "swingPF.0", "swingPF.1", "swingPF.2", "swingPF.3",
+        "stabO1.0", "stabO1.1", "stabO2.0", "stabO2.1", "stabOF.0", "stabOF.1", "stabOF.2",
+        "stabT1.0", "stabT1.1", "stabT1.2", "stabT2.0", "stabT2.1", "stabT2.2", "stabTF.0", "stabTF.1", "stabTF.2", "stabTF.3",
+        "shoot1.0", "shoot1.1", "shoot1.2", "shoot2.0", "shoot2.1", "shoot2.2", "shoot2.3", "shoot2.4", "shootF.0", "shootF.1", "shootF.2",
+        "proneStab.0", "proneStab.1", "prone.0", "heal.0", "heal.1", "heal.2", "fly.0", "fly.1", "jump.0", "sit.0", "ladder.0", "ladder.1", "rope.0", "rope.1", "rope.1" };
+    private static bool LoadedFrameList;
+    public static bool SelectedFrame;
+    public static int SelectedFrameNum;
+    public static string SelectedAction;
+    public static int AdjustX = 45, AdjustY = 18, AdjustW = 200, AdjustH = 200;
     public static bool ChangeExpressionListBox;
     public static AvatarForm Instance;
     public static AvatarFormDraw AvatarFormDraw;
+    public static FrameListDraw FrameListDraw;
     static bool ShowToolTip = true;
     ImageListView[] ImageGrids = new ImageListView[21];
     ImageListView AvatarListView;
@@ -202,7 +226,7 @@ public partial class AvatarForm : Form
             ImageGrids[i].BackColor = SystemColors.Window;
             ImageGrids[i].Colors.BackColor = SystemColors.ButtonFace;
             ImageGrids[i].Colors.SelectedBorderColor = Color.Red;
-           
+
             ImageGrids[i].BorderStyle = BorderStyle.Fixed3D;
             ImageGrids[i].ThumbnailSize = new System.Drawing.Size(32, 32);
             ImageGrids[i].ItemClick += (o, e) =>
@@ -214,7 +238,7 @@ public partial class AvatarForm : Form
                 {
                     Game.Player.Spawn(Player.EqpList[i]);
                 }
-               
+
             };
             ImageGrids[i].ItemHover += (o, e) =>
             {
@@ -223,8 +247,8 @@ public partial class AvatarForm : Form
                     if (e.Item == null) return;
                     Wz_Node Node = Wz.GetNodeByID(e.Item.FileName, WzType.Character);
                     MainForm.Instance.QuickView(Node);
-                    MainForm.Instance.ToolTipView.Owner=this;
-                   
+                    MainForm.Instance.ToolTipView.Owner = this;
+
                 }
             };
 
@@ -277,7 +301,7 @@ public partial class AvatarForm : Form
             }
         };
 
-        Inventory = new(75, 174, 730, 8, 300, 820, true, this);
+        Inventory = new(75, 174, 795, 8, 300, 880, true, this);
         Inventory.RowTemplate.Height = 45;
         Inventory.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         Inventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -321,7 +345,7 @@ public partial class AvatarForm : Form
 
         };
 
-        Inventory.SetToolTipEvent(WzType.Character,this);
+        Inventory.SetToolTipEvent(WzType.Character, this);
 
         AddEqps("00002000");
         AddInventory();
@@ -589,7 +613,7 @@ public partial class AvatarForm : Form
                 break;
         }
         pictureBox1.Image = Bmp;
-      
+
     }
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -614,7 +638,7 @@ public partial class AvatarForm : Form
             case 0:
 
                 if (MainForm.Instance.ToolTipView.Parent != null)
-                {  
+                {
                     MainForm.Instance.ToolTipView.Dispose();
                     MainForm.Instance.ToolTipView = null;
                     MainForm.Instance.ToolTipView = new AfrmTooltip();
@@ -624,7 +648,7 @@ public partial class AvatarForm : Form
                     MainForm.Instance.ToolTipView.ShowMenu = true;
                     MainForm.Instance.ToolTipView.StartPosition = FormStartPosition.CenterParent;
                 }
-
+                SelectedFrame = false;
                 break;
             case 1:
                 if (!Loaded)
@@ -633,9 +657,11 @@ public partial class AvatarForm : Form
                     Loaded = true;
                 }
                 AvatarListView.Parent = tabControl1.TabPages[1];
+                SelectedFrame = false;
                 break;
             case 2:
                 ResetDyeGrid();
+                SelectedFrame = false;
                 break;
 
             case 3:
@@ -665,7 +691,7 @@ public partial class AvatarForm : Form
                             string ID = SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
                             Wz_Node Node = Wz.GetNodeByID(ID, WzType.Character);
                             MainForm.Instance.QuickView(Node);
-                           // MainForm.Instance.ToolTipView.Location = new Point(448, 395);
+                            // MainForm.Instance.ToolTipView.Location = new Point(448, 395);
                         }
                     };
 
@@ -690,7 +716,7 @@ public partial class AvatarForm : Form
                             string ID = SearchGrid.SearchGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
                             Wz_Node Node = Wz.GetNodeByID(ID, WzType.Character);
                             MainForm.Instance.QuickView(Node);
-                           // MainForm.Instance.ToolTipView.Location = new Point(448, 395);
+                            // MainForm.Instance.ToolTipView.Location = new Point(448, 395);
                         }
                     };
 
@@ -718,9 +744,10 @@ public partial class AvatarForm : Form
                     SearchGrid.Refresh();
                     SearchGridLoaded = true;
                 }
-              // MainForm.Instance.ToolTipView.TopLevel = false;
-               // MainForm.Instance.ToolTipView.IsMdiContainer = false;
-               // MainForm.Instance.ToolTipView.Parent = this;
+                // MainForm.Instance.ToolTipView.TopLevel = false;
+                // MainForm.Instance.ToolTipView.IsMdiContainer = false;
+                // MainForm.Instance.ToolTipView.Parent = this;
+                SelectedFrame = false;
                 break;
 
             case 4:
@@ -730,6 +757,17 @@ public partial class AvatarForm : Form
                     Loaded = true;
                 }
                 AvatarListView.Parent = tabControl1.TabPages[4];
+                SelectedFrame = false;
+                break;
+
+            case 5:
+                if (!LoadedFrameList)
+                {
+                    foreach (var i in AllFrames)
+                        FrameListBox.Items.Add(i);
+                    LoadedFrameList = true;
+                }
+
                 break;
         }
 
@@ -788,10 +826,62 @@ public partial class AvatarForm : Form
     private void AvatarForm_FormClosing(object sender, FormClosingEventArgs e)
     {
         MainForm.Instance.ToolTipView.Visible = false;
+        SelectedFrame = false;
     }
 
     private void EarListBox_SelectedIndexChanged(object sender, EventArgs e)
     {
         Game.Player.EarType = EarListBox.Text;
+    }
+
+    private void FrameListBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SelectedFrame = true;
+        string SelectedItem = FrameListBox.SelectedItem.ToString();
+        var Split = SelectedItem.Split('.');
+        SelectedFrameNum = Split[1].ToInt();
+        SelectedAction = Split[0];
+    }
+
+    private void button21_Click(object sender, EventArgs e)
+    {
+        RenderTarget2D SaveTexture = null;
+        int WX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X - 155) + AdjustX;
+        int WY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 160) + AdjustY;
+
+        int Width = WX + AdjustW - WX;
+        int Height = WY + AdjustH - WY;
+        EngineFunc.Canvas.DrawTarget(ref SaveTexture, Width, Height, () =>
+        {
+            EngineFunc.Canvas.DrawCropArea(FrameListDraw.AvatarPanelTexture, 0, 0, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + AdjustW, WY + AdjustH), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
+        });
+        Stream stream = File.OpenWrite(System.Environment.CurrentDirectory + "\\Export\\" + FrameListBox.SelectedItem.ToString() + ".png");
+        SaveTexture.SaveAsPng(stream, Width, Height);
+        stream.Dispose();
+        SaveTexture.Dispose();
+    }
+
+    private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
+    {
+        switch (((HScrollBar)sender).Name)
+        {
+            case "ScrollBarX":
+                AdjX.Text = ScrollBarX.Value.ToString();
+                AdjustX = ScrollBarX.Value;
+                break;
+            case "ScrollBarY":
+                AdjY.Text = ScrollBarY.Value.ToString();
+                AdjustY = AdjY.Text.ToInt();
+                break;
+            case "ScrollBarW":
+                AdjW.Text = ScrollBarW.Value.ToString();
+                AdjustW = AdjW.Text.ToInt();
+                break;
+            case "ScrollBarH":
+                AdjH.Text = ScrollBarH.Value.ToString();
+                AdjustH = AdjH.Text.ToInt();
+                break;
+
+        }
     }
 }

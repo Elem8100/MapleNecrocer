@@ -64,6 +64,22 @@
             label1 = new Label();
             label2 = new Label();
             tabPage5 = new TabPage();
+            tabPage6 = new TabPage();
+            label10 = new Label();
+            ScrollBarH = new HScrollBar();
+            AdjH = new Label();
+            AdjW = new Label();
+            ScrollBarW = new HScrollBar();
+            label13 = new Label();
+            YLabel = new Label();
+            ScrollBarY = new HScrollBar();
+            AdjY = new Label();
+            AdjX = new Label();
+            ScrollBarX = new HScrollBar();
+            Xlabel = new Label();
+            button21 = new Button();
+            panel2 = new Panel();
+            FrameListBox = new ListBox();
             label4 = new Label();
             comboBox1 = new ComboBox();
             ShowToolTil_CheckBox = new CheckBox();
@@ -75,6 +91,7 @@
             tabPage4.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            tabPage6.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -396,11 +413,12 @@
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage5);
+            tabControl1.Controls.Add(tabPage6);
             tabControl1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             tabControl1.Location = new Point(7, 260);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(716, 568);
+            tabControl1.Size = new Size(779, 636);
             tabControl1.TabIndex = 21;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
@@ -409,7 +427,7 @@
             tabPage1.Location = new Point(4, 26);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(708, 538);
+            tabPage1.Size = new Size(771, 606);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Equip";
             tabPage1.UseVisualStyleBackColor = true;
@@ -419,7 +437,7 @@
             tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(708, 538);
+            tabPage2.Size = new Size(771, 606);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Load  Character";
             tabPage2.UseVisualStyleBackColor = true;
@@ -430,7 +448,7 @@
             tabPage3.Location = new Point(4, 26);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(708, 538);
+            tabPage3.Size = new Size(771, 606);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Dye";
             tabPage3.UseVisualStyleBackColor = true;
@@ -452,7 +470,7 @@
             DyeGrid.RowHeadersWidth = 40;
             DyeGrid.RowTemplate.Height = 40;
             DyeGrid.ShowCellToolTips = false;
-            DyeGrid.Size = new Size(702, 532);
+            DyeGrid.Size = new Size(765, 600);
             DyeGrid.TabIndex = 0;
             DyeGrid.CellClick += DyeGrid_CellClick;
             // 
@@ -464,7 +482,7 @@
             tabPage4.Location = new Point(4, 26);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(708, 538);
+            tabPage4.Size = new Size(771, 606);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Search";
             tabPage4.UseVisualStyleBackColor = true;
@@ -538,10 +556,183 @@
             tabPage5.Location = new Point(4, 26);
             tabPage5.Name = "tabPage5";
             tabPage5.Padding = new Padding(3);
-            tabPage5.Size = new Size(708, 538);
+            tabPage5.Size = new Size(771, 606);
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Spawn";
             tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tabPage6
+            // 
+            tabPage6.Controls.Add(label10);
+            tabPage6.Controls.Add(ScrollBarH);
+            tabPage6.Controls.Add(AdjH);
+            tabPage6.Controls.Add(AdjW);
+            tabPage6.Controls.Add(ScrollBarW);
+            tabPage6.Controls.Add(label13);
+            tabPage6.Controls.Add(YLabel);
+            tabPage6.Controls.Add(ScrollBarY);
+            tabPage6.Controls.Add(AdjY);
+            tabPage6.Controls.Add(AdjX);
+            tabPage6.Controls.Add(ScrollBarX);
+            tabPage6.Controls.Add(Xlabel);
+            tabPage6.Controls.Add(button21);
+            tabPage6.Controls.Add(panel2);
+            tabPage6.Controls.Add(FrameListBox);
+            tabPage6.Location = new Point(4, 26);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Padding = new Padding(3);
+            tabPage6.Size = new Size(771, 606);
+            tabPage6.TabIndex = 5;
+            tabPage6.Text = "Export";
+            tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(534, 48);
+            label10.Name = "label10";
+            label10.Size = new Size(23, 18);
+            label10.TabIndex = 14;
+            label10.Text = "H:";
+            // 
+            // ScrollBarH
+            // 
+            ScrollBarH.LargeChange = 1;
+            ScrollBarH.Location = new Point(581, 49);
+            ScrollBarH.Maximum = 512;
+            ScrollBarH.Minimum = 100;
+            ScrollBarH.Name = "ScrollBarH";
+            ScrollBarH.Size = new Size(184, 17);
+            ScrollBarH.TabIndex = 13;
+            ScrollBarH.Value = 200;
+            ScrollBarH.Scroll += hScrollBar1_Scroll;
+            // 
+            // AdjH
+            // 
+            AdjH.AutoSize = true;
+            AdjH.Location = new Point(554, 50);
+            AdjH.Name = "AdjH";
+            AdjH.Size = new Size(32, 18);
+            AdjH.TabIndex = 12;
+            AdjH.Text = "200";
+            // 
+            // AdjW
+            // 
+            AdjW.AutoSize = true;
+            AdjW.Location = new Point(291, 50);
+            AdjW.Name = "AdjW";
+            AdjW.Size = new Size(32, 18);
+            AdjW.TabIndex = 11;
+            AdjW.Text = "200";
+            // 
+            // ScrollBarW
+            // 
+            ScrollBarW.LargeChange = 1;
+            ScrollBarW.Location = new Point(318, 50);
+            ScrollBarW.Maximum = 512;
+            ScrollBarW.Minimum = 100;
+            ScrollBarW.Name = "ScrollBarW";
+            ScrollBarW.ScaleScrollBarForDpiChange = false;
+            ScrollBarW.Size = new Size(174, 18);
+            ScrollBarW.TabIndex = 10;
+            ScrollBarW.Value = 200;
+            ScrollBarW.Scroll += hScrollBar1_Scroll;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(265, 50);
+            label13.Name = "label13";
+            label13.Size = new Size(27, 18);
+            label13.TabIndex = 9;
+            label13.Text = "W:";
+            // 
+            // YLabel
+            // 
+            YLabel.AutoSize = true;
+            YLabel.Location = new Point(534, 16);
+            YLabel.Name = "YLabel";
+            YLabel.Size = new Size(23, 18);
+            YLabel.TabIndex = 8;
+            YLabel.Text = "Y:";
+            // 
+            // ScrollBarY
+            // 
+            ScrollBarY.LargeChange = 1;
+            ScrollBarY.Location = new Point(581, 17);
+            ScrollBarY.Maximum = 256;
+            ScrollBarY.Minimum = -256;
+            ScrollBarY.Name = "ScrollBarY";
+            ScrollBarY.Size = new Size(184, 17);
+            ScrollBarY.TabIndex = 7;
+            ScrollBarY.Value = 18;
+            ScrollBarY.Scroll += hScrollBar1_Scroll;
+            // 
+            // AdjY
+            // 
+            AdjY.AutoSize = true;
+            AdjY.Location = new Point(554, 17);
+            AdjY.Name = "AdjY";
+            AdjY.Size = new Size(24, 18);
+            AdjY.TabIndex = 6;
+            AdjY.Text = "18";
+            // 
+            // AdjX
+            // 
+            AdjX.AutoSize = true;
+            AdjX.Location = new Point(281, 18);
+            AdjX.Name = "AdjX";
+            AdjX.Size = new Size(24, 18);
+            AdjX.TabIndex = 5;
+            AdjX.Text = "45";
+            // 
+            // ScrollBarX
+            // 
+            ScrollBarX.LargeChange = 1;
+            ScrollBarX.Location = new Point(308, 18);
+            ScrollBarX.Maximum = 256;
+            ScrollBarX.Minimum = -256;
+            ScrollBarX.Name = "ScrollBarX";
+            ScrollBarX.Size = new Size(184, 18);
+            ScrollBarX.TabIndex = 4;
+            ScrollBarX.Value = 45;
+            ScrollBarX.Scroll += hScrollBar1_Scroll;
+            // 
+            // Xlabel
+            // 
+            Xlabel.AutoSize = true;
+            Xlabel.Location = new Point(265, 18);
+            Xlabel.Name = "Xlabel";
+            Xlabel.Size = new Size(22, 18);
+            Xlabel.TabIndex = 3;
+            Xlabel.Text = "X:";
+            // 
+            // button21
+            // 
+            button21.Location = new Point(177, 28);
+            button21.Name = "button21";
+            button21.Size = new Size(71, 38);
+            button21.TabIndex = 2;
+            button21.Text = "Save";
+            button21.UseVisualStyleBackColor = true;
+            button21.Click += button21_Click;
+            // 
+            // panel2
+            // 
+            panel2.Location = new Point(204, 80);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(512, 513);
+            panel2.TabIndex = 1;
+            // 
+            // FrameListBox
+            // 
+            FrameListBox.FormattingEnabled = true;
+            FrameListBox.ItemHeight = 17;
+            FrameListBox.Location = new Point(16, 28);
+            FrameListBox.Name = "FrameListBox";
+            FrameListBox.Size = new Size(143, 565);
+            FrameListBox.TabIndex = 0;
+            FrameListBox.SelectedIndexChanged += FrameListBox_SelectedIndexChanged;
             // 
             // label4
             // 
@@ -601,7 +792,7 @@
             // AvatarForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(1040, 835);
+            ClientSize = new Size(1103, 903);
             Controls.Add(EarListBox);
             Controls.Add(label5);
             Controls.Add(ShowToolTil_CheckBox);
@@ -645,6 +836,8 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            tabPage6.ResumeLayout(false);
+            tabPage6.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -691,5 +884,21 @@
         private CheckBox ShowToolTil_CheckBox;
         private Label label5;
         private ComboBox EarListBox;
+        private TabPage tabPage6;
+        private ListBox FrameListBox;
+        private Panel panel2;
+        private Label Xlabel;
+        private Button button21;
+        private Label label10;
+        private HScrollBar ScrollBarH;
+        private Label AdjH;
+        private Label AdjW;
+        private HScrollBar ScrollBarW;
+        private Label label13;
+        private Label YLabel;
+        private HScrollBar ScrollBarY;
+        private Label AdjY;
+        private Label AdjX;
+        private HScrollBar ScrollBarX;
     }
 }
