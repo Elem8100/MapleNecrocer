@@ -346,6 +346,12 @@ public class GameCanvas
    
     }
 
+    public void DrawRectangle(int X, int Y, int Width, int Height, Color Color)
+    {
+        SpriteBatch.Begin();
+        SpriteBatch.DrawRectangle(new Microsoft.Xna.Framework.Rectangle(X, Y, Width, Height), Color);
+        SpriteBatch.End();
+    }
     public void FillRect(int X, int Y, int Width, int Height, Color Color)
     {
         SpriteBatch.Begin();
