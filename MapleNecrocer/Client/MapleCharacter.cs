@@ -184,7 +184,7 @@ public class Player : JumperSprite
             Equip.DataS.Add("0000" + I.ToString() + "/swingOF/1/arm", "swingOF/1");
             Equip.DataS.Add("0000" + I.ToString() + "/swingOF/2/arm", "swingOF/2");
         }
-             
+
 
         string[] DefaultEqps = { "01302000", "00002000", "01060002", "01070000", "01040005", "00020000", "00030020", "00012000" };
         for (int I = 0; I <= 7; I++)
@@ -1048,19 +1048,17 @@ public class AvatarParts : SpriteEx
             Frame = S[1].ToInt();
         }
         */
-        /*
-        if (AvatarForm.SaveSingleFrame) and(not Owner.OtherPlayer) then
-  begin
-    Animate= false;
-    Time= 0;
-    BodyDelay= 0;
-    Animend= false;
-        var Index := AvatarForm.AllFrameListBox.ItemIndex;
-        var S := AvatarForm.AllFrameListBox.Items[Index].Split(['.']);
-    State:= S[0];
-    Frame:= S[1].ToInteger;
-        end;
 
+        if (AvatarForm.SelectedFrame && !Owner.OtherPlayer)
+        {
+            Animate = false;
+            Time = 0;
+            BodyDelay = 0;
+            AnimEnd = false;
+            State = AvatarForm.SelectedAction;
+            Frame = AvatarForm.SelectedFrameNum;
+        }
+        /*
         if PlayActionForm.DoPlay then
         begin
     Animend= false;
