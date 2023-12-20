@@ -18,12 +18,12 @@ public class MapleChair : SpriteEx
     int Frame;
     int FTime;
     int Delay;
-    Wz_Vector origin=new(0,0);
+    Wz_Vector origin = new(0, 0);
     public static bool CanUse;
     public static bool IsUse;
     public static bool HasSitAction;
     public static bool UseTamingNavel;
-    public static Wz_Vector BodyRelMove=new(0,0);
+    public static Wz_Vector BodyRelMove = new(0, 0);
     public static string CharacterAction;
 
     public static void Create(string ID)
@@ -66,6 +66,11 @@ public class MapleChair : SpriteEx
                         break;
                 }
             }
+        }
+
+        if (Wz.HasNode("Item/Cash/0520.img/" + ID))
+        {
+            Entry = Wz.GetNode("Item/Cash/0520.img");
         }
 
         CharacterAction = "sit";
@@ -269,7 +274,7 @@ public class MapleChair : SpriteEx
     }
 
     public override void DoMove(float Delta)
-    {  
+    {
         base.DoMove(Delta);
         ImageNode = Wz.EquipData[Path + "/" + Frame];
         Delay = ImageNode.GetInt("delay", 100);
@@ -283,8 +288,8 @@ public class MapleChair : SpriteEx
         }
         if (ImageNode.HasNode("origin"))
             origin = ImageNode.GetVector("origin");
-    
-        
+
+
         if (UseTamingNavel)
         {
             switch (FlipX)
