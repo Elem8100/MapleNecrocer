@@ -19,7 +19,7 @@ public partial class ChairForm : Form
     {
 
     }
-   
+
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
@@ -72,7 +72,7 @@ public partial class ChairForm : Form
 
         ChairListGrid.SetToolTipEvent(WzType.Item, this);
 
-        Bitmap Bmp = null;
+
         Win32.SendMessage(ChairListGrid.Handle, false);
 
         Wz_Node Entry = null;
@@ -87,9 +87,25 @@ public partial class ChairForm : Form
             foreach (var Iter in Wz.GetNodeA("Item/Install/" + Img.Text).Nodes)
             {
                 string ChairName = Entry.GetStr(Iter.Text.IntID() + "/name");
+                Bitmap Bmp = null;
                 if (Iter.HasNode("info/icon"))
                     Bmp = Iter.GetNode("info/icon").ExtractPng();
                 ChairListGrid.Rows.Add(Iter.Text, Bmp, ChairName);
+            }
+        }
+
+        if (Wz.HasNode("Item/Cash/0520.img"))
+        {
+            foreach (var Iter in Wz.GetNodes("Item/Cash/0520.img"))
+            {
+                if (Iter.Text.LeftStr(5) != "05204")
+                    continue;
+                string ChairName = Wz.GetStr("String/Cash.img/" + Iter.Text.IntID() + "/name");
+                Bitmap Bmp = null;
+                if (Iter.HasNode("info/icon"))
+                    Bmp = Iter.GetNode("info/icon").ExtractPng();
+                ChairListGrid.Rows.Add(Iter.Text, Bmp, ChairName);
+
             }
         }
         Win32.SendMessage(ChairListGrid.Handle, true);
