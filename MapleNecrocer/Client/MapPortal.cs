@@ -12,7 +12,7 @@ namespace MapleNecrocer;
 
 public struct PortalInfo
 {
-    public string PortalName, ToName,ToMap;
+    public string PortalName, ToName, ToMap;
     public int X, Y, PortalType;
 }
 public class MapPortal : SpriteEx
@@ -28,7 +28,7 @@ public class MapPortal : SpriteEx
     int PortalType;
     string ToName;
     int ToMap;
-    public static List<PortalInfo> PortalList=new();
+    public static List<PortalInfo> PortalList = new();
     public static PortalInfo PortalInfo;
     public static void Create()
     {
@@ -42,7 +42,7 @@ public class MapPortal : SpriteEx
         else
             Node = Wz.GetNode("Map/MapHelper.img/portal/game/pv/default");
         Wz.DumpData(Node, Wz.Data, Wz.ImageLib);
-        
+
         PortalInfo = new PortalInfo();
         int PType;
         foreach (var Iter in Map.Img.Nodes["portal"].Nodes)
@@ -92,7 +92,7 @@ public class MapPortal : SpriteEx
         base.DoMove(Delta);
         ImageNode = Wz.Data[InfoPath + "/" + Frame];
         string ImagePath = InfoPath + "/" + Frame;
-        Time += 16.66f * Delta;
+        Time += 16.66f;
         if (Time > 100)
         {
             Frame += 1;
@@ -109,6 +109,16 @@ public class MapPortal : SpriteEx
     {
         if (Map.ShowPortal)
             base.DoDraw();
+
+        if (Map.ShowPortalInfo)
+        {
+            int WX = (int)X - (int)Engine.Camera.X;
+            int WY = (int)Y - (int)Engine.Camera.Y;
+                                      
+            Engine.Canvas.DrawString(Map.ToolTipFont, "pn (Name)  : " + PortalName, WX - 50, WY - 170, Microsoft.Xna.Framework.Color.Red);
+            Engine.Canvas.DrawString(Map.ToolTipFont, "tm (ToMap) : " + ToMap.ToString().PadLeft(9,'0'), WX - 50, WY - 150, Microsoft.Xna.Framework.Color.Red);
+            Engine.Canvas.DrawString(Map.ToolTipFont, "tn (ToName): " + ToName, WX - 50, WY - 130, Microsoft.Xna.Framework.Color.Red);
+        }
     }
 
 

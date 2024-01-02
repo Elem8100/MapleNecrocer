@@ -53,6 +53,7 @@ public class Map
     public static bool ShowMobName = false;
     public static bool ShowID = false;
     public static bool ShowPortal = true;
+    public static bool ShowPortalInfo = false;
     public static bool ShowBgmName;
     public static bool ShowFootholds;
     public static bool ShowPlayer = true;
