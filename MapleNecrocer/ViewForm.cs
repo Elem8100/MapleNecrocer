@@ -56,6 +56,7 @@ public partial class ViewForm : Form
             case "Foothold": Map.ShowFootholds = !Map.ShowFootholds; break;
             case "Player": Map.ShowPlayer = !Map.ShowPlayer; break;
             case "MiniMap": Map.ShowMiniMap = !Map.ShowMiniMap; break;
+            case "PortalInfo": Map.ShowPortalInfo = !Map.ShowPortalInfo; break;
         }
     }
 

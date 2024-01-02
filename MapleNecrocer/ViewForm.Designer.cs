@@ -201,6 +201,7 @@
             PortalInfo.TabIndex = 11;
             PortalInfo.Text = "Portal Info";
             PortalInfo.UseVisualStyleBackColor = true;
+            PortalInfo.CheckedChanged += Tile_CheckedChanged;
             // 
             // MobInfo
             // 
