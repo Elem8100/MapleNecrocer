@@ -376,6 +376,16 @@ namespace WzComparerR2.CharaSimControl
                 }
             }
 
+            if (Skill.LT.X != 0)
+            {
+                skillDescEx.Add("#c[Coordinate] LT: (" + Skill.LT.X + "," + Skill.LT.Y + ")" + " / " +
+                                            "RB: (" + Skill.RB.X + "," + Skill.RB.Y + ")");
+                int LT = Math.Abs(Skill.LT.X) + Skill.RB.X;
+                int RB = Math.Abs(Skill.LT.Y) + Skill.RB.Y;
+                skillDescEx.Add("#c[Range] " + LT + " X " + RB);
+            }
+
+
             if (skillDescEx.Count > 0)
             {
                 //g.DrawLine(Pens.White, 6, picH, 493, picH);//original values: 6, 283
@@ -388,6 +398,8 @@ namespace WzComparerR2.CharaSimControl
                 }
                 picH += 3;//original value: 9
             }
+
+
 
             picH += 6;
 
