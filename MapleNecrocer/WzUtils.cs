@@ -77,19 +77,19 @@ internal class Wz
     }
 
     public static void DumpData(Wz_Node WzNode, Dictionary<string, Wz_Node> DataLib, Dictionary<Wz_Node, Texture2D> ImageLib,
-       bool UseDye = false, int Hue = 0, int Saturation = 0)
+       bool UseDye = false, int Hue = 0, int Saturation = 0, int Lightness = 0)
     {
         NodeList1.Clear();
         NodeList2.Clear();
-        Scan1(WzNode, DataLib, ImageLib, UseDye, Hue, Saturation);
+        Scan1(WzNode, DataLib, ImageLib, UseDye, Hue, Saturation, Lightness);
         foreach (var P in NodeList1)
-            Scan2(P.OriNode, P.UOLNode, P.UOLEntry, DataLib, ImageLib, UseDye, Hue, Saturation);
+            Scan2(P.OriNode, P.UOLNode, P.UOLEntry, DataLib, ImageLib, UseDye, Hue, Saturation,Lightness);
         foreach (var P in NodeList2)
             Scan3(P.OriNode, P.UOLNode, P.UOLEntry, DataLib);
     }
 
     static void Scan1(Wz_Node WzNode, Dictionary<string, Wz_Node> DataLib, Dictionary<Wz_Node, Texture2D> ImageLib,
-          bool UseDye = false, int Hue = 0, int Saturation = 0)
+          bool UseDye = false, int Hue = 0, int Saturation = 0,int Lightness=0)
     {
         switch (WzNode.Value)
         {
@@ -113,7 +113,7 @@ internal class Wz
                 DataLib.AddOrReplace(WzNode.FullPathToFile2(), WzNode);
                 if (UseDye)
                 {
-                    Texture2D Texture = ImageFilter.GetHSL(RenderFormDraw.Instance.GraphicsDevice, GetImgNode(WzNode.FullPathToFile2()).ExtractPng(), Hue, Saturation);
+                    Texture2D Texture = ImageFilter.GetHSL(RenderFormDraw.Instance.GraphicsDevice, GetImgNode(WzNode.FullPathToFile2()).ExtractPng(), Hue, Saturation,Lightness);
                     ImageLib.AddOrReplace(WzNode, Texture);
                 }
                 else
@@ -128,11 +128,11 @@ internal class Wz
         }
 
         foreach (var C in WzNode.Nodes)
-            Scan1(C, DataLib, ImageLib, UseDye, Hue, Saturation);
+            Scan1(C, DataLib, ImageLib, UseDye, Hue, Saturation,Lightness);
     }
 
     static void Scan2(string OriNode, string UOLNode, Wz_Node WzNode, Dictionary<string, Wz_Node> DataLib, Dictionary<Wz_Node, Texture2D> ImageLib,
-           bool UseDye = false, int Hue = 0, int Saturation = 0)
+           bool UseDye = false, int Hue = 0, int Saturation = 0,int Lightness = 0)
     {
         Wz_Node Child;
         if (WzNode.Value is Wz_Uol)
@@ -168,7 +168,7 @@ internal class Wz
 
                 if (UseDye)
                 {
-                    Texture2D Texture = ImageFilter.GetHSL(RenderFormDraw.Instance.GraphicsDevice, GetImgNode(WzNode.FullPathToFile2()).ExtractPng(), Hue, Saturation);
+                    Texture2D Texture = ImageFilter.GetHSL(RenderFormDraw.Instance.GraphicsDevice, GetImgNode(WzNode.FullPathToFile2()).ExtractPng(), Hue, Saturation, Lightness);
                     ImageLib.AddOrReplace(WzNode, Texture);
                 }
                 else
