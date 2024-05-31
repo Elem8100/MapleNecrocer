@@ -208,6 +208,37 @@ public partial class AvatarForm : Form
         }
     }
 
+    void ResetDyeGrid2()
+    {
+        DyeGrid2.Rows.Clear();
+        DyeGrid2.Columns.Clear();
+        if (DyeGrid2.Columns.Count == 0)
+        {
+            foreach (DataGridViewColumn dgvc in Inventory.Columns)
+            {
+                DyeGrid2.Columns.Add(dgvc.Clone() as DataGridViewColumn);
+            }
+        }
+
+        DataGridViewRow row = new DataGridViewRow();
+
+        for (int i = 0; i < Inventory.Rows.Count; i++)
+        {
+            row = (DataGridViewRow)Inventory.Rows[i].Clone();
+            int intColIndex = 0;
+            foreach (DataGridViewCell cell in Inventory.Rows[i].Cells)
+            {
+                row.Cells[intColIndex].Value = cell.Value;
+                intColIndex++;
+            }
+            DyeGrid2.Rows.Add(row);
+        }
+
+        DyeGrid2.AllowUserToAddRows = false;
+        DyeGrid2.Refresh();
+        DyeGrid2.Columns[3].Visible = false;
+    }
+
     private void AvatarForm_Load(object sender, EventArgs e)
     {
 
@@ -238,7 +269,7 @@ public partial class AvatarForm : Form
                 {
                     Game.Player.Spawn(Player.EqpList[i]);
                 }
-
+                ResetDye2();
             };
             ImageGrids[i].ItemHover += (o, e) =>
             {
@@ -267,7 +298,7 @@ public partial class AvatarForm : Form
         AvatarListView.ThumbnailSize = new System.Drawing.Size(100, 100);
         AvatarListView.ItemClick += (o, e) =>
         {
-
+            ResetDye2();
             switch (tabControl1.SelectedIndex)
             {
                 case 1:
@@ -294,7 +325,7 @@ public partial class AvatarForm : Form
                     }
                     AddInventory();
                     break;
-                case 4:
+                case 5:
                     string IDs = e.Item.FileName;
                     PlayerEx.Spawn(IDs);
                     break;
@@ -342,7 +373,9 @@ public partial class AvatarForm : Form
             }
             if (tabControl1.SelectedIndex == 2)
                 ResetDyeGrid();
-
+            if (tabControl1.SelectedIndex == 3)
+                ResetDyeGrid2();
+            ResetDye2();
         };
 
         Inventory.SetToolTipEvent(WzType.Character, this);
@@ -350,6 +383,7 @@ public partial class AvatarForm : Form
         AddEqps("00002000");
         AddInventory();
         ResetDyeGrid();
+        ResetDyeGrid2();
         foreach (var Iter in Wz.GetNodes("Character/00012000.img/front"))
         {
             if (Iter.Text != "head")
@@ -661,13 +695,18 @@ public partial class AvatarForm : Form
                 break;
             case 2:
                 ResetDyeGrid();
+
                 SelectedFrame = false;
                 break;
 
             case 3:
+                ResetDyeGrid2();
+                SelectedFrame = false;
+                break;
+            case 4:
                 if (!SearchGridLoaded)
                 {
-                    SearchGrid = new(60, 184, 114, 109, 315, 400, false, tabControl1.TabPages[3]);
+                    SearchGrid = new(60, 184, 114, 109, 315, 400, false, tabControl1.TabPages[4]);
                     SearchGrid.CellClick += (s, e) =>
                     {
                         CellClick(SearchGrid, e);
@@ -750,17 +789,17 @@ public partial class AvatarForm : Form
                 SelectedFrame = false;
                 break;
 
-            case 4:
+            case 5:
                 if (!Loaded)
                 {
                     LoadAvatarPics();
                     Loaded = true;
                 }
-                AvatarListView.Parent = tabControl1.TabPages[4];
+                AvatarListView.Parent = tabControl1.TabPages[5];
                 SelectedFrame = false;
                 break;
 
-            case 5:
+            case 6:
                 if (!LoadedFrameList)
                 {
                     foreach (var i in AllFrames)
@@ -807,6 +846,8 @@ public partial class AvatarForm : Form
         {
             Game.Player.Spawn(Player.EqpList[i]);
         }
+
+        ResetDye2();
     }
 
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -883,5 +924,71 @@ public partial class AvatarForm : Form
                 break;
 
         }
+    }
+
+
+    int RowIndex;
+
+    private void DyeGrid2_CellClick(object sender, DataGridViewCellEventArgs e)
+    {
+        HueTrackBar.Value = 0;
+        SatTrackBar.Value = 0;
+        LightnessTrackBar.Value = 0;
+        LabelHue.Text = "0";
+        LabelSat.Text = "0";
+        LabelLightness.Text = "0";
+        DyePicture.Image = (Bitmap)DyeGrid2.Rows[e.RowIndex].Cells[1].Value;
+        RowIndex = e.RowIndex;
+    }
+
+    void SetDye2()
+    {
+        if (DyePicture.Image == null)
+            return;
+        Bitmap Bmp = (Bitmap)DyeGrid2.Rows[RowIndex].Cells[1].Value;
+        ImageFilter.HSL(ref Bmp, HueTrackBar.Value, SatTrackBar.Value, LightnessTrackBar.Value);
+        DyePicture.Image = Bmp;
+        LabelHue.Text = HueTrackBar.Value.ToString();
+        LabelSat.Text = SatTrackBar.Value.ToString();
+        LabelLightness.Text = LightnessTrackBar.Value.ToString();
+    }
+
+    void ResetDye2()
+    {
+        DyePicture.Image = null;
+        HueTrackBar.Value = 0;
+        SatTrackBar.Value = 0;
+        LightnessTrackBar.Value = 0;
+        LabelHue.Text = "0";
+        LabelSat.Text = "0";
+        LabelLightness.Text = "0";
+    }
+
+    private void HueTrackBar_Scroll(object sender, EventArgs e)
+    {
+        SetDye2();
+    }
+
+    private void SatTrackBar_Scroll(object sender, EventArgs e)
+    {
+        SetDye2();
+    }
+
+    private void LightnessTrackBar_Scroll(object sender, EventArgs e)
+    {
+        SetDye2();
+    }
+
+    private void button22_Click(object sender, EventArgs e)
+    {
+        string ID = DyeGrid2.Rows[RowIndex].Cells[0].Value.ToString();
+        string Dir = Equip.GetDir(ID);
+        Wz_Node Entry;
+        if (ItemEffect.AllList.Contains(ID))
+            Entry = Wz.GetNodeA("Effect/ItemEff.img/" + ID.IntID());
+        else
+            Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
+
+        Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib, true, HueTrackBar.Value, SatTrackBar.Value, LightnessTrackBar.Value);
     }
 }

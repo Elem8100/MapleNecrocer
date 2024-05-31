@@ -55,6 +55,19 @@
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
             DyeGrid = new DataGridView();
+            tabPage7 = new TabPage();
+            button22 = new Button();
+            LabelLightness = new Label();
+            LabelSat = new Label();
+            LabelHue = new Label();
+            label8 = new Label();
+            label7 = new Label();
+            label6 = new Label();
+            LightnessTrackBar = new TrackBar();
+            SatTrackBar = new TrackBar();
+            HueTrackBar = new TrackBar();
+            DyePicture = new PictureBox();
+            DyeGrid2 = new DataGridView();
             tabPage4 = new TabPage();
             textBox1 = new TextBox();
             label3 = new Label();
@@ -88,6 +101,12 @@
             tabControl1.SuspendLayout();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DyeGrid).BeginInit();
+            tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)LightnessTrackBar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)SatTrackBar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)HueTrackBar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DyePicture).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DyeGrid2).BeginInit();
             tabPage4.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -411,6 +430,7 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage7);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage5);
             tabControl1.Controls.Add(tabPage6);
@@ -473,6 +493,162 @@
             DyeGrid.Size = new Size(765, 600);
             DyeGrid.TabIndex = 0;
             DyeGrid.CellClick += DyeGrid_CellClick;
+            // 
+            // tabPage7
+            // 
+            tabPage7.Controls.Add(button22);
+            tabPage7.Controls.Add(LabelLightness);
+            tabPage7.Controls.Add(LabelSat);
+            tabPage7.Controls.Add(LabelHue);
+            tabPage7.Controls.Add(label8);
+            tabPage7.Controls.Add(label7);
+            tabPage7.Controls.Add(label6);
+            tabPage7.Controls.Add(LightnessTrackBar);
+            tabPage7.Controls.Add(SatTrackBar);
+            tabPage7.Controls.Add(HueTrackBar);
+            tabPage7.Controls.Add(DyePicture);
+            tabPage7.Controls.Add(DyeGrid2);
+            tabPage7.Location = new Point(4, 26);
+            tabPage7.Name = "tabPage7";
+            tabPage7.Size = new Size(771, 606);
+            tabPage7.TabIndex = 6;
+            tabPage7.Text = "Dye2";
+            tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // button22
+            // 
+            button22.Location = new Point(295, 526);
+            button22.Name = "button22";
+            button22.Size = new Size(144, 44);
+            button22.TabIndex = 11;
+            button22.Text = "OK";
+            button22.UseVisualStyleBackColor = true;
+            button22.Click += button22_Click;
+            // 
+            // LabelLightness
+            // 
+            LabelLightness.AutoSize = true;
+            LabelLightness.Font = new Font("Tahoma", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            LabelLightness.Location = new Point(152, 477);
+            LabelLightness.Name = "LabelLightness";
+            LabelLightness.Size = new Size(18, 19);
+            LabelLightness.TabIndex = 10;
+            LabelLightness.Text = "0";
+            // 
+            // LabelSat
+            // 
+            LabelSat.AutoSize = true;
+            LabelSat.Font = new Font("Tahoma", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            LabelSat.Location = new Point(152, 435);
+            LabelSat.Name = "LabelSat";
+            LabelSat.Size = new Size(18, 19);
+            LabelSat.TabIndex = 9;
+            LabelSat.Text = "0";
+            // 
+            // LabelHue
+            // 
+            LabelHue.AutoSize = true;
+            LabelHue.Font = new Font("Tahoma", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            LabelHue.Location = new Point(152, 393);
+            LabelHue.Name = "LabelHue";
+            LabelHue.Size = new Size(18, 19);
+            LabelHue.TabIndex = 8;
+            LabelHue.Text = "0";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Tahoma", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            label8.Location = new Point(68, 477);
+            label8.Name = "label8";
+            label8.Size = new Size(86, 19);
+            label8.TabIndex = 7;
+            label8.Text = "Lightness :";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Tahoma", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            label7.Location = new Point(62, 435);
+            label7.Name = "label7";
+            label7.Size = new Size(92, 19);
+            label7.TabIndex = 6;
+            label7.Text = "Saturation :";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Tahoma", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            label6.Location = new Point(106, 393);
+            label6.Name = "label6";
+            label6.Size = new Size(48, 19);
+            label6.TabIndex = 5;
+            label6.Text = "Hue :";
+            // 
+            // LightnessTrackBar
+            // 
+            LightnessTrackBar.AutoSize = false;
+            LightnessTrackBar.Location = new Point(202, 475);
+            LightnessTrackBar.Maximum = 100;
+            LightnessTrackBar.Minimum = -100;
+            LightnessTrackBar.Name = "LightnessTrackBar";
+            LightnessTrackBar.Size = new Size(356, 25);
+            LightnessTrackBar.TabIndex = 4;
+            LightnessTrackBar.TickStyle = TickStyle.None;
+            LightnessTrackBar.Scroll += LightnessTrackBar_Scroll;
+            // 
+            // SatTrackBar
+            // 
+            SatTrackBar.AutoSize = false;
+            SatTrackBar.LargeChange = 1;
+            SatTrackBar.Location = new Point(202, 431);
+            SatTrackBar.Maximum = 100;
+            SatTrackBar.Minimum = -100;
+            SatTrackBar.Name = "SatTrackBar";
+            SatTrackBar.Size = new Size(356, 25);
+            SatTrackBar.TabIndex = 3;
+            SatTrackBar.TickStyle = TickStyle.None;
+            SatTrackBar.Scroll += SatTrackBar_Scroll;
+            // 
+            // HueTrackBar
+            // 
+            HueTrackBar.AutoSize = false;
+            HueTrackBar.LargeChange = 1;
+            HueTrackBar.Location = new Point(202, 389);
+            HueTrackBar.Maximum = 360;
+            HueTrackBar.Name = "HueTrackBar";
+            HueTrackBar.Size = new Size(356, 25);
+            HueTrackBar.TabIndex = 2;
+            HueTrackBar.TickStyle = TickStyle.None;
+            HueTrackBar.Scroll += HueTrackBar_Scroll;
+            // 
+            // DyePicture
+            // 
+            DyePicture.BorderStyle = BorderStyle.FixedSingle;
+            DyePicture.Location = new Point(325, 300);
+            DyePicture.Name = "DyePicture";
+            DyePicture.Size = new Size(93, 79);
+            DyePicture.SizeMode = PictureBoxSizeMode.CenterImage;
+            DyePicture.TabIndex = 1;
+            DyePicture.TabStop = false;
+            // 
+            // DyeGrid2
+            // 
+            DyeGrid2.AllowUserToAddRows = false;
+            DyeGrid2.AllowUserToDeleteRows = false;
+            DyeGrid2.AllowUserToResizeColumns = false;
+            DyeGrid2.AllowUserToResizeRows = false;
+            DyeGrid2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DyeGrid2.ColumnHeadersVisible = false;
+            DyeGrid2.Location = new Point(202, 24);
+            DyeGrid2.Name = "DyeGrid2";
+            DyeGrid2.RowHeadersVisible = false;
+            DyeGrid2.RowHeadersWidth = 51;
+            DyeGrid2.RowTemplate.Height = 29;
+            DyeGrid2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DyeGrid2.Size = new Size(356, 268);
+            DyeGrid2.TabIndex = 0;
+            DyeGrid2.CellClick += DyeGrid2_CellClick;
             // 
             // tabPage4
             // 
@@ -589,7 +765,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(534, 48);
+            label10.Location = new Point(528, 50);
             label10.Name = "label10";
             label10.Size = new Size(23, 18);
             label10.TabIndex = 14;
@@ -610,7 +786,7 @@
             // AdjH
             // 
             AdjH.AutoSize = true;
-            AdjH.Location = new Point(554, 50);
+            AdjH.Location = new Point(548, 50);
             AdjH.Name = "AdjH";
             AdjH.Size = new Size(32, 18);
             AdjH.TabIndex = 12;
@@ -619,7 +795,7 @@
             // AdjW
             // 
             AdjW.AutoSize = true;
-            AdjW.Location = new Point(291, 50);
+            AdjW.Location = new Point(289, 50);
             AdjW.Name = "AdjW";
             AdjW.Size = new Size(32, 18);
             AdjW.TabIndex = 11;
@@ -633,7 +809,7 @@
             ScrollBarW.Minimum = 100;
             ScrollBarW.Name = "ScrollBarW";
             ScrollBarW.ScaleScrollBarForDpiChange = false;
-            ScrollBarW.Size = new Size(174, 18);
+            ScrollBarW.Size = new Size(184, 18);
             ScrollBarW.TabIndex = 10;
             ScrollBarW.Value = 200;
             ScrollBarW.Scroll += hScrollBar1_Scroll;
@@ -650,7 +826,7 @@
             // YLabel
             // 
             YLabel.AutoSize = true;
-            YLabel.Location = new Point(534, 16);
+            YLabel.Location = new Point(527, 16);
             YLabel.Name = "YLabel";
             YLabel.Size = new Size(23, 18);
             YLabel.TabIndex = 8;
@@ -671,7 +847,7 @@
             // AdjY
             // 
             AdjY.AutoSize = true;
-            AdjY.Location = new Point(554, 17);
+            AdjY.Location = new Point(546, 17);
             AdjY.Name = "AdjY";
             AdjY.Size = new Size(24, 18);
             AdjY.TabIndex = 6;
@@ -680,7 +856,7 @@
             // AdjX
             // 
             AdjX.AutoSize = true;
-            AdjX.Location = new Point(281, 18);
+            AdjX.Location = new Point(283, 18);
             AdjX.Name = "AdjX";
             AdjX.Size = new Size(24, 18);
             AdjX.TabIndex = 5;
@@ -689,11 +865,11 @@
             // ScrollBarX
             // 
             ScrollBarX.LargeChange = 1;
-            ScrollBarX.Location = new Point(308, 18);
+            ScrollBarX.Location = new Point(324, 18);
             ScrollBarX.Maximum = 256;
             ScrollBarX.Minimum = -256;
             ScrollBarX.Name = "ScrollBarX";
-            ScrollBarX.Size = new Size(184, 18);
+            ScrollBarX.Size = new Size(178, 18);
             ScrollBarX.TabIndex = 4;
             ScrollBarX.Value = 45;
             ScrollBarX.Scroll += hScrollBar1_Scroll;
@@ -831,6 +1007,13 @@
             tabControl1.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DyeGrid).EndInit();
+            tabPage7.ResumeLayout(false);
+            tabPage7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)LightnessTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)SatTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)HueTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DyePicture).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DyeGrid2).EndInit();
             tabPage4.ResumeLayout(false);
             tabPage4.PerformLayout();
             panel1.ResumeLayout(false);
@@ -900,5 +1083,18 @@
         private Label AdjY;
         private Label AdjX;
         private HScrollBar ScrollBarX;
+        private TabPage tabPage7;
+        private DataGridView DyeGrid2;
+        private PictureBox DyePicture;
+        private TrackBar SatTrackBar;
+        private TrackBar HueTrackBar;
+        private TrackBar LightnessTrackBar;
+        private Label LabelLightness;
+        private Label LabelSat;
+        private Label LabelHue;
+        private Label label8;
+        private Label label7;
+        private Label label6;
+        private Button button22;
     }
 }

@@ -30,7 +30,7 @@ internal class ImageFilter
         double min, max, dif, sum;
         double f1, f2;
         double v1, v2, v3;
-        double sat = 127 * Saturation / 100;
+        double sat = 255 * Saturation / 100;
         double lum = 127 * Lightness / 100;
         // Copy the RGB values into the array.
         System.Runtime.InteropServices.Marshal.Copy(ptr, pixels, 0, size);
