@@ -628,7 +628,7 @@
             DyePicture.Location = new Point(325, 300);
             DyePicture.Name = "DyePicture";
             DyePicture.Size = new Size(93, 79);
-            DyePicture.SizeMode = PictureBoxSizeMode.CenterImage;
+            DyePicture.SizeMode = PictureBoxSizeMode.StretchImage;
             DyePicture.TabIndex = 1;
             DyePicture.TabStop = false;
             // 
