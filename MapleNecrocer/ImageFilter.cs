@@ -30,8 +30,8 @@ internal class ImageFilter
         double min, max, dif, sum;
         double f1, f2;
         double v1, v2, v3;
-        double sat = 255 * Saturation / 100;
-        double lum = 97 * Lightness / 100;//127 * Lightness / 100;
+        double sat = 255 * Saturation / 100;//255 * Saturation / 100;
+        double lum = 127 * Lightness / 100;//127 * Lightness / 100;
         // Copy the RGB values into the array.
         System.Runtime.InteropServices.Marshal.Copy(ptr, pixels, 0, size);
         // Main loop.
@@ -67,7 +67,7 @@ internal class ImageFilter
                 }
                 else
                 {
-                    if ((L < 127.5))
+                      if ((L < 127.5))
                         S = 255.0 * dif / sum;
                     else
                         S = 255.0 * dif / (510.0 - sum);
@@ -98,7 +98,7 @@ internal class ImageFilter
                 }
                 else
                 {
-                    if ((L < 127.5))
+                     if ((L < 127.5))
                         v2 = c1o255 * L * (255 + S);
                     else
                         v2 = L + S - c1o255 * S * L;
