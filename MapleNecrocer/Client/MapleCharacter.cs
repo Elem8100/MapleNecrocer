@@ -266,6 +266,7 @@ public class Player : JumperSprite
         PartName Part = Equip.GetPart(EquipID);
         Wz_Node Img = Wz.GetNodeA("Character/" + Dir + EquipID + ".img");
         string Path;
+       
         if (!EquipDumpList.Contains(EquipID))
         {
             Wz.DumpData(Img, Wz.EquipData, Wz.EquipImageLib);
@@ -909,7 +910,7 @@ public class Player : JumperSprite
 
             int WX = (int)MoveX - (int)Engine.Camera.X;
             int WY = (int)MoveY - (int)Engine.Camera.Y;
-            Engine.Canvas.Draw(AvatarTargetTexture, WX - 180 - 400, WY - 180 - 400);
+            Engine.Canvas.Draw(AvatarTargetTexture, WX - 180 - 400, WY - 180 - 400,MonoGame.SpriteEngine.BlendMode.NonPremultiplied2);
         }
     }
 
