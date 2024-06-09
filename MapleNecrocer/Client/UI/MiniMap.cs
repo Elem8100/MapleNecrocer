@@ -257,6 +257,8 @@ public class MiniMap : UIForm
 
     internal override void DoDraw(Vector2 offset)
     {
+        if (!Map.ShowMiniMap)
+            return;
         if (!IsVisible)
             return;
 
