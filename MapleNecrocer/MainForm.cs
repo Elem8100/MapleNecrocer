@@ -941,6 +941,7 @@ public partial class MainForm : Form
             case "ScaleButton": ShowForm(ScaleForm.Instance, () => new ScaleForm().Show()); break;
             case "OptionButton": ShowForm(OptionForm.Instance, () => new OptionForm().Show()); break;
             case "EffectRingButton": ShowForm(EffectRingForm.Instance, () => new EffectRingForm().Show()); break;
+            case "ChatRingButton": ShowForm(ChatRingForm.Instance, () => new ChatRingForm().Show()); break;
         }
     }
 

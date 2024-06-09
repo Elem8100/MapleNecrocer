@@ -58,10 +58,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ChatRingButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vgAADr4B6kKxwAAAAd9JREFUSEutlQuRwzAMREOhFEKhFEKhFEKhFEIhFEohFEIhFEJBt0+2fG7r3qW9
+        03TH+VhvHVmedh+GVfooakANsu00mQ2L2flWPz8UnrDMna3oJtiSxHOHTqvZspvNm9/nnF/DlqkN9mtW
+        fBV4FVg/17gegiew5GCpBhf4RStn1YAxGXXfl/I0jQp4E8S2QZkXJfcFbpuugavODqQ0jNwLboOEcWMf
+        Crg/JfHMDWx1g4Dv/ZxMNBZhQLnYA8bK4A48nO8+LZsoQUaA0dpdbcvaTxX8JjhfVMMLuE+KF1UkAz5d
+        iQAxSCbpa7yLKBOjykOOJx6Gs7rc3xjsKo+XiusoD+9VHnI88Rhc9Vfd3YCNC/E1oVz3urRqrd5GPQDM
+        eB2eDL43lRGI+rsoQ6n5qNwnOMAAN+CEg701dQaidedrEtAQc1NKimKApsvPBnHIWgaselQ+c1MKcB2c
+        myYADr0yqAV0GjVX84GT9wgn3jGowxvCTXJOG75fCnweT64DBg6vwS04UQwC3jBombhBgF/BCT8wYRAr
+        CoMHExdnJOCUJz9/GcWg3oOAx5kIAafbANM95CfM60hHPpv8JzjCJ7MPdFLAAYYAR7/n+W9HMuFPJCRo
+        gOM9E/8SNahWI7ruC7KTJY6HzfblAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="EffectRingButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAAAd9JREFUSEutlQuRwzAMREOhFEKhFEKhFEKhFEIhFEohFEIhFEJBt0+2fG7r3qW9
+        vwAADr8BOAVTJAAAAd9JREFUSEutlQuRwzAMREOhFEKhFEKhFEKhFEIhFEohFEIhFEJBt0+2fG7r3qW9
         03TH+VhvHVmedh+GVfooakANsu00mQ2L2flWPz8UnrDMna3oJtiSxHOHTqvZspvNm9/nnF/DlqkN9mtW
         fBV4FVg/17gegiew5GCpBhf4RStn1YAxGXXfl/I0jQp4E8S2QZkXJfcFbpuugavODqQ0jNwLboOEcWMf
         Crg/JfHMDWx1g4Dv/ZxMNBZhQLnYA8bK4A48nO8+LZsoQUaA0dpdbcvaTxX8JjhfVMMLuE+KF1UkAz5d

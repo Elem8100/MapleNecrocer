@@ -44,6 +44,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            ChatRingButton = new Button();
             EffectRingButton = new Button();
             ReactorButton = new Button();
             SoulEffectButton = new Button();
@@ -136,10 +137,10 @@ namespace MapleNecrocer
             // tabPage2
             // 
             tabPage2.Controls.Add(WorldMapListGrid);
-            tabPage2.Location = new Point(4, 25);
+            tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 386);
+            tabPage2.Size = new Size(232, 385);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -166,7 +167,7 @@ namespace MapleNecrocer
             WorldMapListGrid.ShowCellToolTips = false;
             WorldMapListGrid.ShowEditingIcon = false;
             WorldMapListGrid.ShowRowErrors = false;
-            WorldMapListGrid.Size = new Size(226, 380);
+            WorldMapListGrid.Size = new Size(226, 379);
             WorldMapListGrid.TabIndex = 2;
             WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 
@@ -241,6 +242,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(ChatRingButton);
             panel1.Controls.Add(EffectRingButton);
             panel1.Controls.Add(ReactorButton);
             panel1.Controls.Add(SoulEffectButton);
@@ -273,6 +275,23 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // ChatRingButton
+            // 
+            ChatRingButton.AutoSize = true;
+            ChatRingButton.Enabled = false;
+            ChatRingButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            ChatRingButton.Image = (Image)resources.GetObject("ChatRingButton.Image");
+            ChatRingButton.ImageAlign = ContentAlignment.TopCenter;
+            ChatRingButton.Location = new Point(2120, 1);
+            ChatRingButton.Name = "ChatRingButton";
+            ChatRingButton.RightToLeft = RightToLeft.No;
+            ChatRingButton.Size = new Size(78, 52);
+            ChatRingButton.TabIndex = 28;
+            ChatRingButton.Text = "ChatRing";
+            ChatRingButton.TextAlign = ContentAlignment.BottomCenter;
+            ChatRingButton.UseVisualStyleBackColor = true;
+            ChatRingButton.Click += MobButton_Click;
             // 
             // EffectRingButton
             // 
@@ -819,5 +838,6 @@ namespace MapleNecrocer
         private Button ReactorButton;
         public DataGridView WorldMapListGrid;
         private Button EffectRingButton;
+        private Button ChatRingButton;
     }
 }
