@@ -8,12 +8,27 @@ using Bitmap = System.Drawing.Bitmap;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.SpriteEngine;
+using AForge;
+using AForge.Imaging.Filters;
 namespace MapleNecrocer;
 
-internal class ImageFilter
+
+
+
+internal  class ImageFilter
 {
-    public static void HSL(ref System.Drawing.Bitmap img, int Hue, int Saturation = 0, int Lightness = 0)
+     public ImageFilter()
     {
+
+
+    }
+
+    private static HSLLinear DarkFilter = new HSLLinear();
+    private static LevelsLinear BrightFilter = new LevelsLinear();
+
+
+    public static void HSL(ref System.Drawing.Bitmap img, int Hue, int Saturation = 0, int Lightness = 0)
+    {    
         const double c1o60 = 1 / (double)60;
         const double c1o255 = 1 / (double)255;
         Bitmap result = new Bitmap(img);
@@ -31,7 +46,7 @@ internal class ImageFilter
         double f1, f2;
         double v1, v2, v3;
         double sat = 255 * Saturation / 100;//255 * Saturation / 100;
-        double lum = 127 * Lightness / 100;//127 * Lightness / 100;
+        double lum = 127 * 0 / 100;//127 * Lightness / 100;
         // Copy the RGB values into the array.
         System.Runtime.InteropServices.Marshal.Copy(ptr, pixels, 0, size);
         // Main loop.
@@ -146,11 +161,33 @@ internal class ImageFilter
         System.Runtime.InteropServices.Marshal.Copy(pixels, 0, ptr, size);
         // Unlock the bits.
         result.UnlockBits(bmpData);
+
+        if (Lightness > 0)
+        {
+            BrightFilter.InBlue = new IntRange(0, 255);
+            BrightFilter.InGreen = new IntRange(0, 255);
+            BrightFilter.InRed = new IntRange(0, 255);
+            BrightFilter.OutRed = new IntRange((int)(Lightness * 2.55f), 255);
+            BrightFilter.OutGreen = new IntRange((int)(Lightness * 2.55f), 255);
+            BrightFilter.OutBlue = new IntRange((int)(Lightness * 2.55f), 255);
+            BrightFilter.Apply2(ref result);
+
+
+        }
+        if (Lightness < 0)
+        {
+            DarkFilter.InSaturation = new AForge.Range(0, 1);
+            DarkFilter.OutSaturation = new AForge.Range(0, 1);
+            DarkFilter.InLuminance = new AForge.Range(-Lightness * 0.01f * 0.6f, 1);
+            DarkFilter.Apply2(ref result);
+        }
+
         img = result;
         //  return result;
 
     }
 
+   
     public static Texture2D GetHSL(GraphicsDevice dev,Bitmap Bmp, int Hue, int Saturation = 0, int Lightness = 0)
     {
         HSL(ref Bmp, Hue, Saturation, Lightness);
@@ -178,4 +215,58 @@ internal class ImageFilter
 
     }
 
+}
+
+
+public static class AForgeExtension
+{
+    public static void Apply2(this HSLLinear filter, ref Bitmap image)
+    {
+        BitmapData srcData = image.LockBits(
+          new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
+          ImageLockMode.ReadOnly, image.PixelFormat);
+
+        Bitmap dstImage = null;
+
+        try
+        {
+            // apply the filter
+            dstImage = filter.Apply(srcData);
+            if ((image.HorizontalResolution > 0) && (image.VerticalResolution > 0))
+            {
+                dstImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            }
+        }
+        finally
+        {
+            // unlock source image
+            image.UnlockBits(srcData);
+        }
+        image = dstImage;
+    }
+
+    public static void Apply2(this LevelsLinear filter, ref Bitmap image)
+    {
+        BitmapData srcData = image.LockBits(
+          new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
+          ImageLockMode.ReadOnly, image.PixelFormat);
+
+        Bitmap dstImage = null;
+
+        try
+        {
+            // apply the filter
+            dstImage = filter.Apply(srcData);
+            if ((image.HorizontalResolution > 0) && (image.VerticalResolution > 0))
+            {
+                dstImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            }
+        }
+        finally
+        {
+            // unlock source image
+            image.UnlockBits(srcData);
+        }
+        image = dstImage;
+    }
 }

@@ -19,6 +19,9 @@ using WzComparerR2.Text;
 using WzComparerR2.WzLib;
 using static Manina.Windows.Forms.Utility;
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Drawing.Imaging;
+
 namespace MapleNecrocer;
 
 public partial class AvatarForm : Form
@@ -407,7 +410,7 @@ public partial class AvatarForm : Form
         MainForm.Instance.ToolTipView.Visible = false;
         tabControl1.SelectedIndex = 0;
         string CharacterDir = "";
-        string ButtonText = ((Button)sender).Text.Trim(' ');
+        string ButtonText = ((System.Windows.Forms.Button)sender).Text.Trim(' ');
 
         switch (ButtonText)
         {
@@ -440,7 +443,7 @@ public partial class AvatarForm : Form
                 CharacterDir = ButtonText;
                 break;
         }
-        int PartIndex = ((Button)sender).Tag.ToString().ToInt();
+        int PartIndex = ((System.Windows.Forms.Button)sender).Tag.ToString().ToInt();
         for (int i = 1; i <= 20; i++)
             ImageGrids[i].Visible = false;
         ImageGrids[PartIndex].Visible = true;
@@ -940,13 +943,16 @@ public partial class AvatarForm : Form
         DyePicture.Image = (Bitmap)DyeGrid2.Rows[e.RowIndex].Cells[1].Value;
         RowIndex = e.RowIndex;
     }
+   
 
     void SetDye2()
     {
         if (DyePicture.Image == null)
             return;
         Bitmap Bmp = (Bitmap)DyeGrid2.Rows[RowIndex].Cells[1].Value;
+        Bitmap Image = null;
         ImageFilter.HSL(ref Bmp, HueTrackBar.Value, SatTrackBar.Value, LightnessTrackBar.Value);
+       
         DyePicture.Image = Bmp;
         LabelHue.Text = HueTrackBar.Value.ToString();
         LabelSat.Text = SatTrackBar.Value.ToString();
@@ -992,3 +998,4 @@ public partial class AvatarForm : Form
         Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib, true, HueTrackBar.Value, SatTrackBar.Value, LightnessTrackBar.Value);
     }
 }
+

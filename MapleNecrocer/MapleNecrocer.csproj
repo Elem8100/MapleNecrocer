@@ -18,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>bin\x64\Release\net6.0-windows\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>bin\x64\Release\net6.0-windows\AForge.Imaging.dll</HintPath>
+    </Reference>
     <Reference Include="CharaSimResource">
       <HintPath>bin\x64\Release\net6.0-windows\CharaSimResource.dll</HintPath>
     </Reference>
@@ -72,10 +78,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Client\UI\Framework\" />
   </ItemGroup>
 
 </Project>

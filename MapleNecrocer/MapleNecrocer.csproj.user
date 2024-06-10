@@ -29,6 +29,9 @@
     <Compile Update="CharaSimControl\AfrmTooltip.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ChatRingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ConsumeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -46,6 +49,9 @@
     </Compile>
     <Compile Update="FamiliarForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FrameListDraw.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Update="MedalForm.cs">
       <SubType>Form</SubType>
