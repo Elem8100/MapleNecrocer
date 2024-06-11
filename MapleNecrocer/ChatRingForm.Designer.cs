@@ -46,6 +46,7 @@
             // 
             // richTextBox1
             // 
+            richTextBox1.Font = new Font("Tahoma", 10F, FontStyle.Regular, GraphicsUnit.Point);
             richTextBox1.Location = new Point(14, 18);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.Size = new Size(364, 86);
@@ -67,6 +68,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(143, 24);
             textBox1.TabIndex = 11;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // button1
             // 

@@ -109,4 +109,9 @@ public partial class ChatRingForm : Form
     {
         MainForm.Instance.ToolTipView.Visible = false;
     }
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+        ChatRingListGrid.Search(textBox1.Text);
+    }
 }
