@@ -46,14 +46,20 @@ public class ChatBalloon : SpriteEx
     public string Msg;
     int Counter;
     Microsoft.Xna.Framework.Color Color = new Color(0);
-    byte R, G, B;
+    int R, G, B;
     int FontColor;
-    RenderTarget2D RenderTarget;
+    public RenderTarget2D RenderTarget;
     BalloonInfo GetData(string TileName)
-    {   
+    {
         BalloonInfo Result = new BalloonInfo();
         if (WzNode.ParentNode.Text == "ChatBalloon.img")
-            Result.ImageNode = Wz.GetNodeA("UI/ChatBalloon.img/" + Style + "/" + TileName);
+        {
+            if (Wz.HasNode("UI/ChatBalloon.img/" + Style + "/c"))
+                Result.ImageNode = Wz.GetNode("UI/ChatBalloon.img/" + Style + "/" + TileName);
+            else
+                Result.ImageNode = Wz.GetNode("UI/ChatBalloon.img/" + Style + "/0/" + TileName);
+
+        }
         else
             Result.ImageNode = Wz.GetNodeA("UI/ChatBalloon.img/" + Directory + "/" + Style + "/" + TileName);
         Result.Width = WzNode.GetNode(TileName).ExtractPng().Width;
@@ -68,7 +74,13 @@ public class ChatBalloon : SpriteEx
         Directory = Dir;
         Style = BalloonStyle;
         if (Directory == "")
-            WzNode = Wz.GetNodeA("UI/ChatBalloon.img/" + Style);
+        {
+            if (Wz.HasNode("UI/ChatBalloon.img/" + Style + "/c"))
+                WzNode = Wz.GetNode("UI/ChatBalloon.img/" + Style);
+            else
+
+                WzNode = Wz.GetNode("UI/ChatBalloon.img/" + Style + "/0");
+        }
         else
             WzNode = Wz.GetNodeA("UI/ChatBalloon.img/" + Directory + "/" + Style);
         Wz.DumpData(WzNode, Wz.Data, Wz.ImageLib);
@@ -187,9 +199,14 @@ public class ChatBalloon : SpriteEx
         int Cx3 = 0;
         int Mid = (Col * N.Width / 2);
 
+
         for (int I = 1; I <= Col + 1; I++)
         {
+
             Cx1 += Part1[I - 1].Width;
+            Wz.ImageLib[Part1[I].ImageNode] = MedalTag.FixAlpha(Part1[I].ImageNode.ExtractPng());
+            Wz.ImageLib[Part2[I].ImageNode] = MedalTag.FixAlpha(Part2[I].ImageNode.ExtractPng());
+            Wz.ImageLib[Part3[I].ImageNode] = MedalTag.FixAlpha(Part3[I].ImageNode.ExtractPng());
             Engine.Canvas.Draw(Wz.ImageLib[Part1[I].ImageNode], Cx1 - NW.Origin.X - Mid + 70, -Part1[I].Origin.Y - OffH + 500);
             Cx2 += Part2[I - 1].Width;
             for (int J = 0; J <= Row - 1; J++)
@@ -197,13 +214,58 @@ public class ChatBalloon : SpriteEx
             Cx3 += Part3[I - 1].Width;
             Engine.Canvas.Draw(Wz.ImageLib[Part3[I].ImageNode], Cx3 - SW.Origin.X - Mid + 70, -Part3[I].Origin.Y + (Row * C.Height) - OffH + 500);
         }
+
+        if (Arrow.ImageNode != null)
+            Wz.ImageLib[Arrow.ImageNode] = MedalTag.FixAlpha(Arrow.ImageNode.ExtractPng());
         if (WzNode.Get("arrow") != null)
             Engine.Canvas.Draw(Wz.ImageLib[Arrow.ImageNode], 70, Arrow.Origin.Y + (Row * C.Height) - OffH + 500);
-
-        Engine.Canvas.DrawString(Map.NpcBalloonFont, ParseText(Msg, SplitWidth), -Mid + 82, -OffH + 500, new Color(155, 0, 0, 255));
-
+        if (Style == 0)
+            Engine.Canvas.DrawString(Map.NpcBalloonFont, ParseText(Msg, SplitWidth), -Mid + 82, -OffH + 500, new Color(155, 0, 0, 255));
+        else
+            Engine.Canvas.DrawString(Map.NpcBalloonFont, ParseText(Msg, SplitWidth), -Mid + 82, -OffH + 500, new Color(R, G, B, 255));
     }
 
 }
 
+public class ChatRingBalloon : ChatBalloon
+{
+    public ChatRingBalloon(Sprite Parent) : base(Parent)
+    {
 
+    }
+    public void ReDraw()
+    {
+
+        Engine.Canvas.DrawTarget(ref RenderTarget, 150, 512, () => { RenderTargetFunc(); });
+    }
+
+    public override void DoDraw()
+    {
+
+        Engine.Canvas.Draw(RenderTarget, (int)X - 70 - (int)Engine.Camera.X - Game.Player.BrowPos.X + MapleChair.BodyRelMove.X,
+            (int)Y - 500 - (int)Engine.Camera.Y - Game.Player.BrowPos.Y + MapleChair.BodyRelMove.Y);
+    }
+
+    public override void DoMove(float Delta)
+    {
+        X = Game.Player.X - 10;
+        Y = Game.Player.Y - 60;
+        Z = Game.Player.Z + 100;
+    }
+
+    public static void Remove()
+    {
+        MapleChair.IsUse = false;
+        foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
+        {
+            if (Iter is ChatRingBalloon)
+            {
+                Iter.Dead();
+                var s = Iter;
+                s = null;
+            }
+        }
+        EngineFunc.SpriteEngine.Dead();
+    }
+
+}
