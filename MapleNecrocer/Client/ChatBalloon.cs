@@ -18,6 +18,7 @@ using static System.Net.Mime.MediaTypeNames;
 using MonoGame.SpriteEngine;
 using System.Security.Cryptography;
 using DevComponents.DotNetBar.Controls;
+using System.ComponentModel.Design;
 
 namespace MapleNecrocer;
 
@@ -83,7 +84,7 @@ public class ChatBalloon : SpriteEx
         }
         else
             WzNode = Wz.GetNodeA("UI/ChatBalloon.img/" + Directory + "/" + Style);
-        Wz.DumpData(WzNode, Wz.Data, Wz.ImageLib);
+        Wz.DumpData(WzNode, Wz.Data, Wz.EquipImageLib);
 
         Engine.Canvas.DrawTarget(ref RenderTarget, 150, 512, () => { });
         if (WzNode.Get("clr") != null)
@@ -169,7 +170,7 @@ public class ChatBalloon : SpriteEx
             Engine.Canvas.Draw(RenderTarget, (int)X - 70 - (int)Engine.Camera.X, (int)Y - 500 - (int)Engine.Camera.Y);
         //Engine.Canvas.Draw(RenderTarget, X - 70 - Engine.Camera.X, Y - 500 - Engine.Camera.Y);
     }
-
+    static bool Loaded;
     public void RenderTargetFunc()
     {
         if (Msg == null) return;
@@ -204,25 +205,45 @@ public class ChatBalloon : SpriteEx
         {
 
             Cx1 += Part1[I - 1].Width;
-            Wz.ImageLib[Part1[I].ImageNode] = MedalTag.FixAlpha(Part1[I].ImageNode.ExtractPng());
-            Wz.ImageLib[Part2[I].ImageNode] = MedalTag.FixAlpha(Part2[I].ImageNode.ExtractPng());
-            Wz.ImageLib[Part3[I].ImageNode] = MedalTag.FixAlpha(Part3[I].ImageNode.ExtractPng());
-            Engine.Canvas.Draw(Wz.ImageLib[Part1[I].ImageNode], Cx1 - NW.Origin.X - Mid + 70, -Part1[I].Origin.Y - OffH + 500);
+
+            if (!Loaded)
+            {
+                Wz.EquipImageLib[Part1[I].ImageNode] = MedalTag.FixAlpha(Part1[I].ImageNode.ExtractPng());
+                Wz.EquipImageLib[Part2[I].ImageNode] = MedalTag.FixAlpha(Part2[I].ImageNode.ExtractPng());
+                Wz.EquipImageLib[Part3[I].ImageNode] = MedalTag.FixAlpha(Part3[I].ImageNode.ExtractPng());
+            }
+            if (Style > 0)
+            {
+                Wz.EquipImageLib[Part1[I].ImageNode] = MedalTag.FixAlpha(Part1[I].ImageNode.ExtractPng());
+                Wz.EquipImageLib[Part2[I].ImageNode] = MedalTag.FixAlpha(Part2[I].ImageNode.ExtractPng());
+                Wz.EquipImageLib[Part3[I].ImageNode] = MedalTag.FixAlpha(Part3[I].ImageNode.ExtractPng());
+            }
+
+            Engine.Canvas.Draw(Wz.EquipImageLib[Part1[I].ImageNode], Cx1 - NW.Origin.X - Mid + 70, -Part1[I].Origin.Y - OffH + 500);
             Cx2 += Part2[I - 1].Width;
             for (int J = 0; J <= Row - 1; J++)
-                Engine.Canvas.Draw(Wz.ImageLib[Part2[I].ImageNode], Cx2 - W.Origin.X - Mid + 70, -Part2[I].Origin.Y + (J * C.Height) - OffH + 500);
+                Engine.Canvas.Draw(Wz.EquipImageLib[Part2[I].ImageNode], Cx2 - W.Origin.X - Mid + 70, -Part2[I].Origin.Y + (J * C.Height) - OffH + 500);
             Cx3 += Part3[I - 1].Width;
-            Engine.Canvas.Draw(Wz.ImageLib[Part3[I].ImageNode], Cx3 - SW.Origin.X - Mid + 70, -Part3[I].Origin.Y + (Row * C.Height) - OffH + 500);
+            Engine.Canvas.Draw(Wz.EquipImageLib[Part3[I].ImageNode], Cx3 - SW.Origin.X - Mid + 70, -Part3[I].Origin.Y + (Row * C.Height) - OffH + 500);
         }
+       
 
         if (Arrow.ImageNode != null)
-            Wz.ImageLib[Arrow.ImageNode] = MedalTag.FixAlpha(Arrow.ImageNode.ExtractPng());
+        {
+            if (!Loaded)
+                Wz.EquipImageLib[Arrow.ImageNode] = MedalTag.FixAlpha(Arrow.ImageNode.ExtractPng());
+            if (Style > 0)
+                Wz.EquipImageLib[Arrow.ImageNode] = MedalTag.FixAlpha(Arrow.ImageNode.ExtractPng());
+        }
+        Loaded = true;
+
         if (WzNode.Get("arrow") != null)
-            Engine.Canvas.Draw(Wz.ImageLib[Arrow.ImageNode], 70, Arrow.Origin.Y + (Row * C.Height) - OffH + 500);
+            Engine.Canvas.Draw(Wz.EquipImageLib[Arrow.ImageNode], 70, Arrow.Origin.Y + (Row * C.Height) - OffH + 500);
         if (Style == 0)
             Engine.Canvas.DrawString(Map.NpcBalloonFont, ParseText(Msg, SplitWidth), -Mid + 82, -OffH + 500, new Color(155, 0, 0, 255));
         else
             Engine.Canvas.DrawString(Map.NpcBalloonFont, ParseText(Msg, SplitWidth), -Mid + 82, -OffH + 500, new Color(R, G, B, 255));
+
     }
 
 }
