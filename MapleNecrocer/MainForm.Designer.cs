@@ -632,7 +632,7 @@ namespace MapleNecrocer
             // 
             ScaleButton.Enabled = false;
             ScaleButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            ScaleButton.Image = Properties.Resources.resize_picture_icon;
+            ScaleButton.Image = (Image)resources.GetObject("ScaleButton.Image");
             ScaleButton.ImageAlign = ContentAlignment.TopCenter;
             ScaleButton.Location = new Point(235, 1);
             ScaleButton.Name = "ScaleButton";
@@ -721,7 +721,7 @@ namespace MapleNecrocer
             // 
             SaveMapButton.Enabled = false;
             SaveMapButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
-            SaveMapButton.Image = Properties.Resources.Aha_Soft_Hardware_Floppy_32;
+            SaveMapButton.Image = (Image)resources.GetObject("SaveMapButton.Image");
             SaveMapButton.ImageAlign = ContentAlignment.TopCenter;
             SaveMapButton.Location = new Point(79, 1);
             SaveMapButton.Name = "SaveMapButton";
