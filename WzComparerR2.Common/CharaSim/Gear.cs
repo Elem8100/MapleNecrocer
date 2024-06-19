@@ -129,10 +129,13 @@ namespace WzComparerR2.CharaSim
         private static readonly int[][] starData = new int[][] {
             new[]{ 0, 5, 3 }, 
             new[]{ 95, 8, 5 }, 
-            new[]{ 110, 10, 8 }, 
-            new[]{ 120, 15, 10 }, 
-            new[]{ 130, 20, 12 }, 
-            new[]{ 140, 25, 15 }, 
+            new[]{ 108, 10, 8 },
+            //new[]{ 120, 12, 10 }, before GMS 25 Stars update
+            new[]{ 118, 15, 10 },
+            //new[]{ 130, 13, 12 }, before GMS 25 Stars update
+            new[]{ 128, 20, 12 },
+            //new[]{ 140, 15, 15 }, before GMS 25 Stars update
+            new[]{ 138, 25, 15 },
         };
 
         public override object Clone()
@@ -152,7 +155,7 @@ namespace WzComparerR2.CharaSim
         {
             if (AbilityTimeLimited.Count > 0)
             {
-                foreach(var kv in AbilityTimeLimited)
+                foreach (var kv in AbilityTimeLimited)
                 {
                     this.Props[kv.Key] = this.Props[kv.Key] + kv.Value;
                 }
@@ -202,6 +205,18 @@ namespace WzComparerR2.CharaSim
             }
         }
 
+        public static bool IsFace(GearType type)
+        {
+            string gearTypeName = Enum.GetName(typeof(GearType), type);
+            return gearTypeName != null && Regex.IsMatch(gearTypeName, @"^face\d*$");
+        }
+
+        public static bool IsHair(GearType type)
+        {
+            string gearTypeName = Enum.GetName(typeof(GearType), type);
+            return gearTypeName != null && Regex.IsMatch(gearTypeName, @"^hair\d*$");
+        }
+
         public static bool IsWeapon(GearType type)
         {
             return IsLeftWeapon(type)
@@ -248,7 +263,8 @@ namespace WzComparerR2.CharaSim
             int _type = (int)type;
             return (_type >= 140 && _type <= 149)
                 || (_type >= 152 && _type <= 159)
-                || type == GearType.boxingCannon;
+                || type == GearType.boxingCannon
+                || type == GearType.chakram;
         }
 
         public static bool IsMechanicGear(GearType type)
@@ -381,10 +397,12 @@ namespace WzComparerR2.CharaSim
                     return GearType.shiningRod;
                 case 1213:
                     return GearType.tuner;
-               // case 1214:
-                 //   return GearType.breathShooter;
+                case 1214:
+                    return GearType.breathShooter;
                 case 1403:
                     return GearType.boxingCannon;
+                case 1404:
+                    return GearType.chakram;
             }
             if (code / 10000 == 135)
             {
@@ -468,9 +486,8 @@ namespace WzComparerR2.CharaSim
             {
                 switch (prop.Key)
                 {
-                  /*
                     case GearPropType.incAllStat:
-                        if (combinedProps.ContainsKey(GearPropType.incAllStat_incMHP25))
+                        if (combinedProps.ContainsKey(GearPropType.incAllStat_incMHP25) || combinedProps.ContainsKey(GearPropType.incAllStat_incMHP50_incMMP50))
                         {
                             break;
                         }
@@ -481,22 +498,30 @@ namespace WzComparerR2.CharaSim
                             combinedProps.Add(GearPropType.incAllStat_incMHP25, prop.Value);
                             break;
                         }
+                        else if (propCache.TryGetValue(GearPropType.incMHP, out obj)
+                            && object.Equals((int)prop.Value * 50, obj)
+                            && propCache.TryGetValue(GearPropType.incMMP, out obj)
+                            && object.Equals((int)prop.Value * 50, obj))
+                        {
+                            combinedProps.Add(GearPropType.incAllStat_incMHP50_incMMP50, prop.Value);
+                            break;
+                        }
                         goto default;
-                  */
+
                     case GearPropType.incMHP:
                         if (combinedProps.ContainsKey(GearPropType.incAllStat_incMHP25))
                         {
                             break;
                         }
                         goto case GearPropType.incMMP;
-
                     case GearPropType.incMMP:
-                        if (combinedProps.ContainsKey(GearPropType.incMHP_incMMP))
+                        if (combinedProps.ContainsKey(GearPropType.incMHP_incMMP) || combinedProps.ContainsKey(GearPropType.incAllStat_incMHP50_incMMP50))
                         {
                             break;
                         }
                         else if (propCache.TryGetValue(prop.Key == GearPropType.incMHP ? GearPropType.incMMP : GearPropType.incMHP, out obj)
-                            && object.Equals(prop.Value, obj))
+                            && object.Equals(prop.Value, obj)
+                            && !combinedProps.ContainsKey(GearPropType.incAllStat_incMHP50_incMMP50))
                         {
                             combinedProps.Add(GearPropType.incMHP_incMMP, prop.Value);
                             break;
@@ -838,9 +863,17 @@ namespace WzComparerR2.CharaSim
                 gear.HasTuc = true;
                 gear.CanPotential = true;
             }
-            else if (Gear.SpecialCanPotential(gear.type))
+            else if (Gear.SpecialCanPotential(gear.type) || Gear.IsSubWeapon(gear.type) || (gear.Props.TryGetValue(GearPropType.tucIgnoreForPotential, out value) && value > 0))
             {
                 gear.CanPotential = true;
+            }
+            if (Gear.IsMechanicGear(gear.type) || Gear.IsDragonGear(gear.type))
+            {
+                gear.CanPotential = false;
+            }
+            else if (gear.Props.TryGetValue(GearPropType.noPotential, out value) && value > 0)
+            {
+                gear.CanPotential = false;
             }
 
             //读取默认gearGrade
@@ -891,12 +924,12 @@ namespace WzComparerR2.CharaSim
             //追加限时属性
             gear.MakeTimeLimitedPropAvailable();
 
-            if (gear.type == GearType.face || gear.type == GearType.face2)
+            if (Gear.IsFace(gear.type))
             {
                 gear.Icon = BitmapOrigin.CreateFromNode(findNode(@"Item\Install\0380.img\03801284\info\icon"), findNode);
                 gear.IconRaw = BitmapOrigin.CreateFromNode(findNode(@"Item\Install\0380.img\03801284\info\iconRaw"), findNode);
             }
-            if (gear.type == GearType.hair || gear.type == GearType.hair2 || gear.type == GearType.hair3)
+            if (Gear.IsHair(gear.type))
             {
                 gear.Icon = BitmapOrigin.CreateFromNode(findNode(@"Item\Install\0380.img\03801283\info\icon"), findNode);
                 gear.IconRaw = BitmapOrigin.CreateFromNode(findNode(@"Item\Install\0380.img\03801283\info\iconRaw"), findNode);

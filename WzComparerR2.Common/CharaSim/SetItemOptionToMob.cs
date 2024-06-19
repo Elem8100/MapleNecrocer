@@ -20,6 +20,18 @@ namespace WzComparerR2.CharaSim
         {
             StringBuilder sb = new StringBuilder();
 
+            foreach (var kv in this.Props)
+            {
+                if (kv.Key == GearPropType.damR)
+                {
+                    sb.AppendFormat("+{0}% Damage , ", kv.Value);
+                }
+                else
+                {
+                    sb.Append(ItemStringHelper.GetGearPropString(kv.Key, kv.Value) + ", ");
+                }
+            }
+
             string mobStr = null;
             if (MobName != null)
             {
@@ -29,21 +41,8 @@ namespace WzComparerR2.CharaSim
             {
                 mobStr = Mobs[0].ToString();
             }
-            sb.AppendFormat("{0} 공격시 ", mobStr);
 
-            foreach (var kv in this.Props)
-            {
-                if (kv.Key == GearPropType.damR)
-                {
-                    sb.AppendFormat("데미지 {0}% 증가, ", kv.Value);
-                }
-                else
-                {
-                    sb.Append(ItemStringHelper.GetGearPropString(kv.Key, kv.Value) + ", ");
-                }
-            }
-
-            return sb.ToString(0, sb.Length - 2);
+            return sb.ToString(0, sb.Length - 2) + string.Format("when attacking {0}", mobStr);
         }
     }
 }

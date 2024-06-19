@@ -60,7 +60,7 @@ namespace WzComparerR2.CharaSim
                         var val = Calculator.Parse(prop.ToLower(), Level);
                         if (options.ConvertCooltimeMS && propKey == "cooltimeMS")
                         {
-                            sb.Append((val / 1000).ToString("f2"));
+                            sb.Append((val / 1000).ToString("f2", System.Globalization.CultureInfo.InvariantCulture));
                         }
                         else if (options.ConvertPerM && propKey.EndsWith("PerM", StringComparison.Ordinal))
                         {
@@ -165,7 +165,7 @@ namespace WzComparerR2.CharaSim
             //bool find = false;
             foreach (var kv in dict)
             {
-                if (kv.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
+                if (kv.Key.Equals(key, StringComparison.CurrentCulture))//'CurrentCultureIgnoreCase' bugged #cR variable etc.
                 {
                     value = kv.Value;
                     return true;

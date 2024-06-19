@@ -15,39 +15,39 @@ namespace WzComparerR2.CharaSim
         hair3 = 6,
 
         /// <summary>
-        /// 臉飾 101
+        /// 脸饰 101
         /// </summary>
         faceAccessory = 101,
         /// <summary>
-        /// 眼飾 102
+        /// 眼饰 102
         /// </summary>
         eyeAccessory = 102,
         /// <summary>
-        /// 耳環 103
+        /// 耳环 103
         /// </summary>
         earrings = 103,
         /// <summary>
-        /// 項鍊 112
+        /// 坠子 112
         /// </summary>
         pendant = 112,
         /// <summary>
-        /// 腰帶 113
+        /// 腰带 113
         /// </summary>
         belt = 113,
         /// <summary>
-        /// 勳章 114
+        /// 勋章 114
         /// </summary>
         medal = 114,
         /// <summary>
-        /// 肩飾 115
+        /// 肩饰 115
         /// </summary>
         shoulderPad = 115,
         /// <summary>
-        /// 頭盔 100
+        /// 头盔 100
         /// </summary>
         cap = 100,
         /// <summary>
-        /// 披風 110
+        /// 披风 110
         /// </summary>
         cape = 110,
         /// <summary>
@@ -55,19 +55,19 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         coat = 104,
         /// <summary>
-        /// 龍魔導士帽子 194
+        /// 龙神帽子 194
         /// </summary>
         dragonMask = 194,
         /// <summary>
-        /// 龍魔導士項鍊 195
+        /// 龙神吊坠 195
         /// </summary>
         dragonPendant = 195,
         /// <summary>
-        /// 龍魔導士翅膀 196
+        /// 龙神翅膀 196
         /// </summary>
         dragonWings = 196,
         /// <summary>
-        /// 龍魔導士尾巴 197
+        /// 龙神尾巴 197
         /// </summary>
         dragonTail = 197,
         /// <summary>
@@ -79,31 +79,31 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         longcoat = 105,
         /// <summary>
-        /// 機甲引擎 161
+        /// 机甲引擎 161
         /// </summary>
         machineEngine = 161,
         /// <summary>
-        /// 機甲手臂 162
+        /// 机甲机械臂 162
         /// </summary>
         machineArms = 162,
         /// <summary>
-        /// 機甲腿部 163
+        /// 机甲机械腿 163
         /// </summary>
         machineLegs = 163,
         /// <summary>
-        /// 機甲機身軀 164
+        /// 机甲机身材质 164
         /// </summary>
         machineBody = 164,
         /// <summary>
-        /// 機甲電晶管 165
+        /// 机甲晶体管 165
         /// </summary>
         machineTransistors = 165,
         /// <summary>
-        /// 機器人 166
+        /// 安卓 166
         /// </summary>
         android = 166,
         /// <summary>
-        /// 心臟 167
+        /// 心脏 167
         /// </summary>
         machineHeart = 167,
         /// <summary>
@@ -115,12 +115,12 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         badge = 118,
         /// <summary>
-        /// 徽章 119
+        /// 纹章 119
         /// </summary>
         emblem = 119,
         powerSource = 119020,
         /// <summary>
-        /// 褲/裙 106
+        /// 裤/裙 106
         /// </summary>
         pants = 106,
         /// <summary>
@@ -132,11 +132,11 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         shield = 109,
         /// <summary>
-        /// 靈魂盾牌 1098xxx
+        /// 灵魂盾 1098xxx
         /// </summary>
         soulShield = 1098,
         /// <summary>
-        /// 力量之盾 1099xxx
+        /// 精气盾 1099xxx
         /// </summary>
         demonShield = 1099,
         /// <summary>
@@ -144,55 +144,59 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         shoes = 107,
         /// <summary>
-        /// 閃亮克魯 1212
+        /// 双头杖 1212
         /// </summary>
         shiningRod = 1212,
         /// <summary>
-        /// 튜너 1213
+        /// 调谐器 1213
         /// </summary>
         tuner = 1213,
         /// <summary>
-        /// 靈魂射手 122
+        /// 龙息臂箭 1214
+        /// </summary>
+        breathShooter = 1214,
+        /// <summary>
+        /// 灵魂手铳 122
         /// </summary>
         soulShooter = 122,
         /// <summary>
-        /// 魔劍 123
+        /// 亡命剑 123
         /// </summary>
         desperado = 123,
         /// <summary>
-        /// 能量劍 124
+        /// 能量剑 124
         /// </summary>
         energySword = 124,
         /// <summary>
-        /// 幻獸棍棒 125
+        /// 驯兽魔法棒 125
         /// </summary>
         magicStick = 125,
         /// <summary>
-        /// ESP限制器 126
+        /// ESP限制器
         /// </summary>
         espLimiter = 126,
         /// <summary>
-        /// 鎖鏈 127
+        /// 锁链 127
         /// </summary>
         chain2 = 127,
         /// <summary>
-        /// 魔法護手 128
+        /// 魔力手套 128
         /// </summary>
         magicGauntlet = 128,
         /// <summary>
-        /// 仙扇 129
+        /// 扇子 129
         /// </summary>
         handFan = 129,
         /// <summary>
-        /// 單手劍 130
+        /// 单手剑 130
         /// </summary>
         ohSword = 130,
         /// <summary>
-        /// 單手斧 131
+        /// 单手斧 131
         /// </summary>
         ohAxe = 131,
         /// <summary>
-        /// 單手棍 132
+        /// 单手钝器 132
         /// </summary>
         ohBlunt = 132,
         /// <summary>
@@ -204,11 +208,11 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         katara = 134,
         /// <summary>
-        /// 魔法箭 135_00
+        /// 魔法箭矢 135_00
         /// </summary>
         magicArrow = 135200,
         /// <summary>
-        /// 卡牌 135_10
+        /// 卡片 135_10
         /// </summary>
         card = 135210,
         /// <summary>
@@ -220,7 +224,7 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         rosario = 135221,
         /// <summary>
-        /// 鎖鏈 135_22
+        /// 铁链 135_22
         /// </summary>
         chain = 135222,
         /// <summary>
@@ -252,7 +256,7 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         nightLordPoutch = 135229,
         /// <summary>
-        /// 寶盒 135_30
+        /// 宝盒 135_30
         /// </summary>
         box = 135230,
         /// <summary>
@@ -260,11 +264,11 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         orb = 135240,
         /// <summary>
-        /// 超新星精華 135_50
+        /// 龙之精髓 135_50
         /// </summary>
         novaMarrow = 135250,
         /// <summary>
-        /// 靈魂之環 135_60
+        /// 灵魂戒指 135_60
         /// </summary>
         soulBangle = 135260,
         /// <summary>
@@ -276,27 +280,23 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         kodachi = 135280,
         /// <summary>
-        /// 祕寶刀 135_83
-        /// </summary>
-        kodachi2 = 135283,
-        /// <summary>
         /// 哨子 135_81
         /// </summary>
         whistle = 135281,
-        /// <summary>
-        /// 哨子 135_84
-        /// </summary>
-        whistle2 = 135284,
         /// <summary>
         /// 拳爪 135_82
         /// </summary>
         boxingClaw = 135282,
         /// <summary>
-        /// 拳爪 135_85
+        /// 小太刀 135_83
         /// </summary>
-        boxingClaw2 = 135285,
+        kodachi2 = 135283,
         /// <summary>
-        /// 拳環 135_86
+        /// 哨子 135_84
+        /// </summary>
+        whistle2 = 135284,
+        /// <summary>
+        /// 拳天 135_86
         /// </summary>
         boxingSky = 135286,
         /// <summary>
@@ -310,7 +310,7 @@ namespace WzComparerR2.CharaSim
         /// <summary>
         /// 火药桶 135_92
         /// </summary>
-        connonGunPowder = 135292,
+        cannonGunPowder = 135292,
         /// <summary>
         /// 砝码 135_93
         /// </summary>
@@ -334,7 +334,7 @@ namespace WzComparerR2.CharaSim
         /// <summary>
         /// 火药桶 135_98
         /// </summary>
-        connonGunPowder2 = 135298,
+        cannonGunPowder2 = 135298,
         /// <summary>
         /// 控制器 135300
         /// </summary>
@@ -344,19 +344,19 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         foxPearl = 135310,
         /// <summary>
-        /// 西洋棋 135320
+        /// 棋子 135320
         /// </summary>
         chess = 135320,
         /// <summary>
-        /// 發信器 135330
+        /// 武器传送装置 135330
         /// </summary>
         transmitter = 135330,
         /// <summary>
-        /// 爆發能力 135340
+        /// 装弹 135340
         /// </summary>
         ExplosivePill = 135340,
         /// <summary>
-        /// 魔法翅膀 135350
+        /// 魔力翅膀 135350
         /// </summary>
         magicWing = 135350,
         /// <summary>
@@ -364,23 +364,29 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         pathOfAbyss = 135360,
         /// <summary>
-        /// 遺物 135370
+        /// 遗物 135370x
         /// </summary>
         relic = 135370,
         /// <summary>
-        /// 扇墜 135380
+        /// 扇坠 135380x
         /// </summary>
         fanTassel = 135380,
         /// <summary>
-        /// 브레이슬릿 135400
+        /// 手链 135400x
         /// </summary>
-        /// 
+        bracelet = 135400,
+        /// <summary>
+        /// 武器腰带 135401x
+        /// </summary>
+        weaponBelt = 135401,
         /// <summary>
         /// 饰品 135402x
         /// </summary>
         ornament = 135402,
-
-        bracelet = 135400,
+        /// <summary>
+        /// 헥스시커 135403x
+        /// </summary>
+        hexSeeker = 135403,
         /// <summary>
         /// 手杖
         /// </summary>
@@ -390,7 +396,7 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         wand = 137,
         /// <summary>
-        /// 長杖 138
+        /// 长杖 138
         /// </summary>
         staff = 138,
         /// <summary>
@@ -398,23 +404,27 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         barehand = 139,
         /// <summary>
-        /// 雙手劍 140
+        /// 双手剑 140
         /// </summary>
         thSword = 140,
         /// <summary>
-        /// 武拳 140_3xxx
+        /// 拳封 140_3xxx
         /// </summary>
         boxingCannon = 1403,
         /// <summary>
-        /// 雙手斧 141
+        /// 차크람 140_4xxx
+        /// </summary>
+        chakram = 1404,
+        /// <summary>
+        /// 双手斧 141
         /// </summary>
         thAxe = 141,
         /// <summary>
-        /// 雙手棍 142
+        /// 双手钝器 142
         /// </summary>
         thBlunt = 142,
         /// <summary>
-        /// 槍 143
+        /// 枪 143
         /// </summary>
         spear = 143,
         /// <summary>
@@ -434,7 +444,7 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         throwingGlove = 147,
         /// <summary>
-        /// 指虎 148
+        /// 指节 148
         /// </summary>
         knuckle = 148,
         /// <summary>
@@ -442,19 +452,19 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         gun = 149,
         /// <summary>
-        /// 採藥 150
+        /// 采药工具 150
         /// </summary>
         shovel = 150,
         /// <summary>
-        /// 採礦 151
+        /// 采矿工具 151
         /// </summary>
         pickaxe = 151,
         /// <summary>
-        /// 雙弩槍 152
+        /// 双弓 152
         /// </summary>
         dualBow = 152,
         /// <summary>
-        /// 加農砲 153
+        /// 手持火炮 153
         /// </summary>
         handCannon = 153,
         /// <summary>
@@ -462,31 +472,32 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         katana = 154,
         /// <summary>
-        /// 扇子 155
+        /// 扇 155
         /// </summary>
         fan = 155,
+
         /// <summary>
-        /// 琉 156
+        /// 大剑 156
         /// </summary>
         swordZB = 156,
         /// <summary>
-        /// 璃 157
+        /// 太刀 157
         /// </summary>
         swordZL = 157,
         /// <summary>
-        /// 重拳槍 158
+        /// 机甲手枪 158
         /// </summary>
         GauntletBuster = 158,
         /// <summary>
-        /// 遠古弓 159
+        /// 远古弓 159
         /// </summary>
         ancientBow = 159,
         /// <summary>
-        /// 拼圖 168
+        /// 拼图 168
         /// </summary>
         bit = 168,
         /// <summary>
-        /// 點裝武器 170
+        /// 点装武器 170
         /// </summary>
         cashWeapon = 170,
         /// <summary>
@@ -498,19 +509,19 @@ namespace WzComparerR2.CharaSim
         /// </summary>
         subWeapon = -2,
         /// <summary>
-        /// 圖騰 120
+        /// 图腾 120
         /// </summary>
         totem = 120,
         /// <summary>
-        /// 寵物裝備 180
+        /// 宠物装备 180
         /// </summary>
         petEquip = 180,
         /// <summary>
-        /// 騎寵 190
+        /// 骑兽 190
         /// </summary>
         taming = 190,
         /// <summary>
-        /// 馬鞍 191
+        /// 鞍子 191
         /// </summary>
         saddle = 191,
         /// <summary>

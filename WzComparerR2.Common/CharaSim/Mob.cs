@@ -18,6 +18,8 @@ namespace WzComparerR2.CharaSim
             this.FirstAttack = false;
             this.BodyAttack = false;
             this.DamagedByMob = false;
+            this.IgnoreMoveImpact = false;
+            this.IgnoreMovable = false;
         }
 
         public int ID { get; set; }
@@ -36,20 +38,39 @@ namespace WzComparerR2.CharaSim
         public int MADamage { get; set; }
         public int PDRate { get; set; }
         public int MDRate { get; set; }
+        public int PDDamage { get; set; }
+        public int MDDamage { get; set; }
         public int Acc { get; set; }
         public int Eva { get; set; }
-        public int Pushed { get; set; }
+        public long Pushed { get; set; }
         public int Exp { get; set; }
+        public int CharismaEXP { get; set; }
+        public int SenseEXP { get; set; }
+        public int InsightEXP { get; set; }
+        public int WillEXP { get; set; }
+        public int CraftEXP { get; set; }
+        public int CharmEXP { get; set; }
         public bool Boss { get; set; }
         public bool Undead { get; set; }
         public int Category { get; set; }
         public bool FirstAttack { get; set; }
         public bool BodyAttack { get; set; }
+        public int FixedBodyAttackDamageR { get; set; }
         public int RemoveAfter { get; set; }
         public bool DamagedByMob { get; set; }
+        public bool ChangeableMob { get; set; }
+        public bool AllyMob { get; set; }
         public bool Invincible { get; set; }
         public bool NotAttack { get; set; }
         public int FixedDamage { get; set; }
+        public bool IgnoreDamage { get; set; }
+        public bool IgnoreMoveImpact { get; set; }
+        public bool IgnoreMovable { get; set; }
+        public bool NoDebuff { get; set; }
+        public bool OnlyNormalAttack { get; set; }
+        public bool OnlyHittedByCommonAttack { get; set; }
+        public bool PartyBonusMob { get; set; }
+        public int WP { get; set; }
         public MobElemAttr ElemAttr { get; set; }
 
         public int? Link { get; set; }
@@ -97,21 +118,40 @@ namespace WzComparerR2.CharaSim
                         case "MADamage": mobInfo.MADamage = propNode.GetValueEx<int>(0); break;
                         case "PDRate": mobInfo.PDRate = propNode.GetValueEx<int>(0); break;
                         case "MDRate": mobInfo.MDRate = propNode.GetValueEx<int>(0); break;
-                        case "acc": mobInfo.Acc = propNode.GetValueEx<int>(0); break;
-                        case "eva": mobInfo.Eva = propNode.GetValueEx<int>(0); break;
-                        case "pushed": mobInfo.Pushed = propNode.GetValueEx<int>(0); break;
+                        case "PDDamage": mobInfo.PDDamage = propNode.GetValueEx<int>(0); break;
+                        case "MDDamage": mobInfo.MDDamage = propNode.GetValueEx<int>(0); break;
+                        //case "acc": mobInfo.Acc = propNode.GetValueEx<int>(0); break; //no longer used
+                        //case "eva": mobInfo.Eva = propNode.GetValueEx<int>(0); break; //no longer used
+                        case "pushed": mobInfo.Pushed = propNode.GetValueEx<long>(0); break;
                         case "exp": mobInfo.Exp = propNode.GetValueEx<int>(0); break;
+                        case "charismaEXP": mobInfo.CharismaEXP = propNode.GetValueEx<int>(0); break;
+                        case "senseEXP": mobInfo.SenseEXP = propNode.GetValueEx<int>(0); break;
+                        case "insightEXP": mobInfo.InsightEXP = propNode.GetValueEx<int>(0); break;
+                        case "willEXP": mobInfo.WillEXP = propNode.GetValueEx<int>(0); break;
+                        case "craftEXP": mobInfo.CraftEXP = propNode.GetValueEx<int>(0); break;
+                        case "charmEXP": mobInfo.CharmEXP = propNode.GetValueEx<int>(0); break;
+                        case "wp": mobInfo.WP = propNode.GetValueEx<int>(0); break;
 
                         case "boss": mobInfo.Boss = propNode.GetValueEx<int>(0) != 0; break;
+                        case "partyBonusMob": mobInfo.PartyBonusMob = propNode.GetValueEx<int>(0) != 0; break;
                         case "undead": mobInfo.Undead = propNode.GetValueEx<int>(0) != 0; break;
                         case "firstAttack": mobInfo.FirstAttack = propNode.GetValueEx<int>(0) != 0; break;
                         case "bodyAttack": mobInfo.BodyAttack = propNode.GetValueEx<int>(0) != 0; break;
+                        case "fixedBodyAttackDamageR": mobInfo.FixedBodyAttackDamageR = propNode.GetValueEx<int>(0); break;
                         case "category": mobInfo.Category = propNode.GetValueEx<int>(0); break;
                         case "removeAfter": mobInfo.RemoveAfter = propNode.GetValueEx<int>(0); break;
                         case "damagedByMob": mobInfo.DamagedByMob = propNode.GetValueEx<int>(0) != 0; break;
+                        case "changeableMob": mobInfo.ChangeableMob = propNode.GetValueEx<int>(0) != 0; break;
+                        case "allyMob": mobInfo.AllyMob = propNode.GetValueEx<int>(0) != 0; break;
                         case "invincible": mobInfo.Invincible = propNode.GetValueEx<int>(0) != 0; break;
                         case "notAttack": mobInfo.NotAttack = propNode.GetValueEx<int>(0) != 0; break;
                         case "fixedDamage": mobInfo.FixedDamage = propNode.GetValueEx<int>(0); break;
+                        case "ignoreDamage": mobInfo.IgnoreDamage = propNode.GetValueEx<int>(0) != 0; break;
+                        case "ignoreMoveImpact": mobInfo.IgnoreMoveImpact = propNode.GetValueEx<int>(0) != 0; break;
+                        case "ignoreMovable": mobInfo.IgnoreMovable = propNode.GetValueEx<int>(0) != 0; break;
+                        case "noDebuff": mobInfo.NoDebuff = propNode.GetValueEx<int>(0) != 0; break;
+                        case "onlyNormalAttack": mobInfo.OnlyNormalAttack = propNode.GetValueEx<int>(0) != 0; break;
+                        case "onlyHittedByCommonAttack": mobInfo.OnlyHittedByCommonAttack = propNode.GetValueEx<int>(0) != 0; break;
                         case "elemAttr": mobInfo.ElemAttr = new MobElemAttr(propNode.GetValueEx<string>(null)); break;
 
                         case "link": mobInfo.Link = propNode.GetValueEx<int>(0); break;

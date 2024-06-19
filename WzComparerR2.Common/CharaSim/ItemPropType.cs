@@ -17,6 +17,7 @@ namespace WzComparerR2.CharaSim
         only,
         tradeAvailable,
         accountSharable,
+        exchangeableOnce,
         timeLimited,
         setItemID,
         charismaEXP,
@@ -47,13 +48,15 @@ namespace WzComparerR2.CharaSim
         consumeMP,
         autoBuff,
         giantPet,
+        consumeCure,
         useTradeBlock,
         level,
         sharableOnce,
         BTSLabel,
+        BLACKPINKLabel,
         addTooltip_tuc,
         addTooltip_tucCnt,
         pointCost,
-        notConsume
+        tamingMob,
     }
 }

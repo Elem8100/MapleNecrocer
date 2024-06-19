@@ -19,24 +19,24 @@ namespace WzComparerR2.CharaSim
                 ElemResistance resist = (ElemResistance)(elemAttr[i + 1] - 48);
                 switch (elemAttr[i])
                 {
-                    case 'I': this.I = resist; break;
-                    case 'L': this.L = resist; break;
-                    case 'F': this.F = resist; break;
-                    case 'S': this.S = resist; break;
-                    case 'H': this.H = resist; break;
-                    case 'D': this.D = resist; break;
                     case 'P': this.P = resist; break;
+                    case 'H': this.H = resist; break;
+                    case 'F': this.F = resist; break;
+                    case 'I': this.I = resist; break;
+                    case 'S': this.S = resist; break;
+                    case 'L': this.L = resist; break;
+                    case 'D': this.D = resist; break;
                 }
             }
         }
         public string StringValue { get; private set; }
-        public ElemResistance I { get; private set; }
-        public ElemResistance L { get; private set; }
-        public ElemResistance F { get; private set; }
-        public ElemResistance S { get; private set; }
-        public ElemResistance H { get; private set; }
-        public ElemResistance D { get; private set; }
         public ElemResistance P { get; private set; }
+        public ElemResistance H { get; private set; }
+        public ElemResistance F { get; private set; }
+        public ElemResistance I { get; private set; }
+        public ElemResistance S { get; private set; }
+        public ElemResistance L { get; private set; }
+        public ElemResistance D { get; private set; }
     }
 
     public enum ElemResistance : byte

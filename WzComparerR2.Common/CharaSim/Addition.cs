@@ -25,25 +25,25 @@ namespace WzComparerR2.CharaSim
             {
                 case AdditionType.boss:
                     sb = new StringBuilder();
-                    sb.Append("攻擊Boss時, ");
+                    //sb.Append("When attacking Bosses, "); NECESSARY FOR GMS VERSION
                     {
                         string v1;
                         if (this.Props.TryGetValue("prob", out v1))
-                            sb.Append("有" + v1 + "的機率率" );
-                        sb.Append("造成" + Props["damage"] + "%的額外傷害");
+                            sb.Append("Has a " + v1 + "% chance ");
+                        sb.Append("to deal " + Props["damage"] + "% extra damage on boss monsters.");
                     }
                     return sb.ToString();
                 case AdditionType.critical:
                     sb = new StringBuilder();
                     {
                         string val;
-                         if (this.Props.TryGetValue("prob", out val))
+                        if (this.Props.TryGetValue("prob", out val))
                         {
-                            sb.AppendFormat("爆擊率{0}%\r\n", val);
+                            sb.AppendFormat("Critical Rate: +{0}%\r\n", val);
                         }
                         if (this.Props.TryGetValue("damage", out val))
                         {
-                            sb.AppendFormat("爆擊傷害增加{0}%\r\n", val);
+                            sb.AppendFormat("Critical Damage: +{0}%\r\n", val);
                         }
                         if (sb.Length > 2)
                         {
@@ -58,65 +58,65 @@ namespace WzComparerR2.CharaSim
                         {
                             switch (v1[0])
                             {
-                                case 'I': elem = "冰"; break;
-                                case 'F': elem = "火"; break;
-                                case 'L': elem = "雷"; break;
+                                case 'I': elem = "Ice"; break;
+                                case 'F': elem = "Fire"; break;
+                                case 'L': elem = "Lightning"; break;
                                 default: elem = v1[0].ToString(); break;
                             }
-                              return elem + "屬性效果強化" + v1.Substring(1) + "%";
+                            return elem + " Attribute: +" + v1.Substring(1) + "%";
                         }
                     }
                     break;
                 case AdditionType.hpmpchange:
                     sb = new StringBuilder();
-                    sb.Append("每10秒恢復");
+                    sb.Append("Recover");
                     {
                         string v1;
                         if (this.Props.TryGetValue("hpChangePerTime", out v1))
                         {
-                            sb.Append("HP " + v1);
+                            sb.Append("HP per 10 seconds " + v1);
                         }
                     }
                     return sb.ToString();
                 case AdditionType.mobcategory:
-                     return "攻擊" + ItemStringHelper.GetMobCategoryName(Convert.ToInt32(this.Props["category"])) + "怪物時，造成" + this.Props["damage"] + "%額外傷害";
+                    return "When attacking " + ItemStringHelper.GetMobCategoryName(Convert.ToInt32(this.Props["category"])) + " enemies, deals " + this.Props["damage"] + "% extra damage.";
                 case AdditionType.mobdie:
                     sb = new StringBuilder();
                     {
                         string v1;
-                       if (this.Props.TryGetValue("hpIncOnMobDie", out v1))
+                        if (this.Props.TryGetValue("hpIncOnMobDie", out v1))
                         {
-                            sb.AppendLine("怪物死亡時 HP恢復" + v1);
+                            sb.AppendLine("When you kill a monster, to recover " + v1 + " HP");
                         }
                         if (this.Props.TryGetValue("hpIncRatioOnMobDie", out v1))
                         {
-                            sb.AppendLine("怪物死亡時 有" + Props["hpRatioProp"] + "%的機率 傷害的" + v1 + "%轉換為HP (但不超過最大HP的10%。)");
+                            sb.AppendLine("When you kill a monster, has a " + Props["hpRatioProp"] + "% chance to recover " + v1 + "% of damage to as HP (Cannot recover more than 10% of Max HP.)");
                         }
                         if (this.Props.TryGetValue("mpIncOnMobDie", out v1))
                         {
-                            sb.AppendLine("怪物死亡時 HP恢復" + v1);
+                            sb.AppendLine("When you kill a monster, to recover " + v1 + " MP");
                         }
                         if (this.Props.TryGetValue("mpIncRatioOnMobDie", out v1))
                         {
-                            sb.AppendLine("怪物死亡時 有" + Props["mpRatioProp"] + "%的機率 傷害的" + v1 + "%轉換為MP (但不超過最大MP的10%。)");
+                            sb.AppendLine("When you kill a monster, has a " + Props["hpRatioProp"] + "% chance to recover " + v1 + "% of damage to as MP (Cannot recover more than 10% of Max MP.)");
                         }
                     }
                     if (sb.Length > 0)
                     {
-                        sb.Append("在部分地區功能可能會受到限制。");
+                        sb.Append("Function may be limited in some locations.");
                         return sb.ToString();
                     }
                     break;
                 case AdditionType.skill:
                     switch (Convert.ToInt32(this.Props["id"]))
                     {
-                        case 90000000: return "有一定幾率增加必殺效果";
-                        case 90001001: return "有一定幾率增加眩暈效果";
-                        case 90001002: return "有一定幾率增加緩速術效果";
-                        case 90001003: return "有一定機率增加毒效果";
-                        case 90001004: return "有一定機率增加暗黑效果";
-                        case 90001005: return "有一定機率增加封印效果";
-                        case 90001006: return "有一定機率增加結冰效果";
+                        case 90000000: return "Has a chance to add: Instant Death effect";
+                        case 90001001: return "Has a chance to add: Knock Down effect";
+                        case 90001002: return "Has a chance to add: Slow effect";
+                        case 90001003: return "Has a chance to add: Poison effect";
+                        case 90001004: return "Has a chance to add: Darkness effect";
+                        case 90001005: return "Has a chance to add: Seal effect";
+                        case 90001006: return "Has a chance to add: Freeze effect";
                     }
                     break;
                 case AdditionType.statinc:
@@ -160,19 +160,19 @@ namespace WzComparerR2.CharaSim
                     {
                         reqJobs[i] = ItemStringHelper.GetJobName(this.ConValue[i]) ?? this.ConValue[i].ToString();
                     }
-                  return "職業為" + string.Join(" 或者 ", reqJobs) + "時";
+                    return "When your job is " + string.Join(" or ", reqJobs) + ",";
                 case GearPropType.reqLevel:
-                    return this.ConValue[0] + "級以上時";
+                    return "When your level is " + this.ConValue[0] + " or higher,";
                 case GearPropType.reqCraft:
                     int lastExp;
-                   return "手藝經驗值在" + this.ConValue[0] + "(" + getPersonalityLevel(this.ConValue[0], out lastExp) + "級" + lastExp + "點)以上時";
+					return "When Diligence EXP is " + this.ConValue[0] + " (Lv. " + getPersonalityLevel(this.ConValue[0], out lastExp) + " " + lastExp + " Points) or higher";
                 case GearPropType.reqWeekDay:
                     string[] weekdays = new string[this.ConValue.Count];
                     for (int i = 0; i < this.ConValue.Count; i++)
                     {
                         weekdays[i] = GetWeekDayString(this.ConValue[i]);
                     }
-                    return string.Join(", ", weekdays) + "時";
+                    return string.Join(", ", weekdays);
                 default:
                     return null;
             }
@@ -228,14 +228,14 @@ namespace WzComparerR2.CharaSim
         {
             switch (weekDay)
             {
-                case 0: return "周日";
-                case 1: return "周一";
-                case 2: return "周二";
-                case 3: return "周三";
-                case 4: return "周四";
-                case 5: return "周五";
-                case 6: return "周六";
-                default: return "周" + weekDay; //这怎么可能...
+                case 0: return "Sunday";
+                case 1: return "Monday";
+                case 2: return "Tuesday";
+                case 3: return "Wednesday";
+                case 4: return "Thursday";
+                case 5: return "Friday";
+                case 6: return "Saturday";
+                default: return "Week" + weekDay; //这怎么可能...
             }
         }
 
