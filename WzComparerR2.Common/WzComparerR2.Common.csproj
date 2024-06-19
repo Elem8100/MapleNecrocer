@@ -40,12 +40,11 @@
       <HintPath>..\MapleNecrocer\bin\x64\Release\net6.0-windows\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="ImageManipulation">
-      <HintPath>..\References\ImageManipulation.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>bin\Release\ImageManipulation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="spine-monogame">
-      <HintPath>..\References\spine-monogame.dll</HintPath>
+      <HintPath>bin\Release\spine-monogame.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
