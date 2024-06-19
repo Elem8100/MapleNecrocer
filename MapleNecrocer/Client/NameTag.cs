@@ -134,7 +134,7 @@ public class MedalTag : SpriteEx
 
     }
 
-    private static Texture2D FixAlpha(Bitmap Bmp)
+    public static Texture2D FixAlpha(Bitmap Bmp)
     {
 
         ChangeAlpha(ref Bmp);
