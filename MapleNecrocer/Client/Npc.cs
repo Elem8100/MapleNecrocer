@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using WzComparerR2.CharaSim;
 using System.Drawing;
 using SharpDX.Direct3D11;
+using System.ComponentModel.Design;
 
 namespace MapleNecrocer;
 
@@ -51,9 +52,10 @@ public class Npc : SpriteEx
                 }
             }
         }
+       
     }
 
-    private static string ReString(string Str)
+    public static string ReString(string Str)
     {
         for (int i = 0; i <= Str.Length / 8; i++)
             Str = Str.Insert(i * 8, "=");
@@ -142,6 +144,7 @@ public class Npc : SpriteEx
             Npc.Balloon.Z = Npc.Z + 100000000;
         }
 
+        
         Random Random = new();
         Npc.Counter = Random.Next(1000);
 
@@ -233,6 +236,8 @@ public class Npc : SpriteEx
                 Balloon.Msg = "";
 
         }
+
+      
     }
 
 }
@@ -291,7 +296,7 @@ public class NpcText : SpriteEx
             }
         }
 
-
+      
 
     }
 
