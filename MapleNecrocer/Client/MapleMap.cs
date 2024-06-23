@@ -118,6 +118,15 @@ public class Map
 
             EngineFunc.SpriteEngine.Dead();
         }
+
+        for(int i=0;i<PlayerEx.PlayerExList.Count;i++)
+        {
+            if (PlayerEx.PlayerExList[i]!=null)
+                PlayerEx.PlayerExList[i].RemoveSprites();
+        }
+        PlayerEx.PlayerExList.Clear();
+
+
         Wz.Data.Clear();
         //  if(Wz.Data!=null)
         foreach (var i in Wz.ImageLib)
