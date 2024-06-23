@@ -9,7 +9,7 @@ public partial class RingForm : Form
     }
     public static RingForm Instance;
     public DataGridViewEx RingListGrid;
-   
+
 
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
@@ -46,13 +46,14 @@ public partial class RingForm : Form
             CellClick(RingListGrid.SearchGrid, e);
         };
 
-        RingListGrid.SetToolTipEvent(WzType.Character,this);
-       
+        RingListGrid.SetToolTipEvent(WzType.Character, this);
+
         string RingName = null;
         Bitmap Bmp = null;
         foreach (var Img in Wz.GetNodes("Character/Ring"))
         {
-            if (Img.Text.LeftStr(6) != "011121" && Img.Text.LeftStr(6) != "011151" && Img.Text.LeftStr(6) != "'011153")
+            if (Img.Text.LeftStr(6) != "011121" && Img.Text.LeftStr(6) != "011151"  &&
+                Img.Text.LeftStr(6) != "011153")
                 continue;
             if (!Wz.HasNode("Character/Ring/" + Img.Text + "/info/nameTag"))
                 continue;
