@@ -53,6 +53,12 @@ public class Back : BackgroundSprite
             string Path = "";
             bool Tiled = false;
             TileMode TileMode = TileMode.Horizontal;
+            if (!Wz.HasNode("UI/UIWindow4.img"))
+            {
+                if (bS == "dryRock" && No == "1")
+                    BackType = 1;
+            }
+
             switch (BackType)
             {
                 case 0:
@@ -373,7 +379,7 @@ public class Back : BackgroundSprite
     public override void DoDraw()
     {
         base.DoDraw();
-      
+
         if (ResetPos)
             ResetPos = false;
     }
@@ -397,7 +403,7 @@ public class SpineBack : SpriteEx
     {
         X = -Pos.X - (100f + RX) / 100f * (Engine.Camera.X + Map.DisplaySize.X / 2) + Engine.Camera.X;
         Y = -Pos.Y - (100f + RY) / 100f * (Engine.Camera.Y + Map.DisplaySize.Y / 2 + Map.OffsetY) + Engine.Camera.Y;
-        if (Z>0)
+        if (Z > 0)
         {
             if (Map.ShowFront)
                 Visible = true;
