@@ -5,6 +5,8 @@ using System.Text;
 using System.Collections.ObjectModel;
 using WzComparerR2.Controls;
 using Microsoft.Xna.Framework;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
+
 
 namespace WzComparerR2.Animation
 {

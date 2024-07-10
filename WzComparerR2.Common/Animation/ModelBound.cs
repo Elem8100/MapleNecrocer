@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace WzComparerR2.Animation
 {

@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using WzComparerR2.WzLib;
 using WzComparerR2.Common;
 using WzComparerR2.Rendering;
+using Rectangle=Microsoft.Xna.Framework.Rectangle;
+using Point = Microsoft.Xna.Framework.Point;
 
 namespace WzComparerR2.Animation
 {
