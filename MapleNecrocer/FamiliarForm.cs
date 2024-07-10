@@ -58,6 +58,8 @@ public partial class FamiliarForm : Form
         Bitmap Bmp = null;
         foreach (var Img in Wz.GetNodes("Character/Familiar"))
         {
+           if(Img.Text.RightStr(4)!=".img")
+                continue;
             string ID = Img.ImgID();
             string CardID = "";
 
