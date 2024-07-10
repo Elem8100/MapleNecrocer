@@ -40,7 +40,7 @@
       <HintPath>bin\x64\Release\net6.0-windows\MonoGame.Forms.DX.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>bin\x64\Release\net6.0-windows\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\WzComparerR2.PluginBase\bin\Release\net6.0-windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>bin\x64\Release\net6.0-windows\SharpDX.dll</HintPath>
@@ -55,13 +55,13 @@
       <HintPath>bin\x64\Release\net6.0-windows\spine-monogame.dll</HintPath>
     </Reference>
     <Reference Include="WzComparerR2.Common">
-      <HintPath>..\WzComparerR2.Common\bin\Release\WzComparerR2.Common.dll</HintPath>
+      <HintPath>..\WzComparerR2.Common\bin\Release\net6.0-windows\WzComparerR2.Common.dll</HintPath>
     </Reference>
     <Reference Include="WzComparerR2.PluginBase">
-      <HintPath>..\WzComparerR2.PluginBase\bin\x64\Release\WzComparerR2.PluginBase.dll</HintPath>
+      <HintPath>..\WzComparerR2.PluginBase\bin\Release\net6.0-windows\WzComparerR2.PluginBase.dll</HintPath>
     </Reference>
     <Reference Include="WzComparerR2.WzLib">
-      <HintPath>..\WzComparerR2.WzLib\bin\x64\Release\WzComparerR2.WzLib.dll</HintPath>
+      <HintPath>..\WzComparerR2.WzLib\bin\Release\net6.0-windows\WzComparerR2.WzLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 
