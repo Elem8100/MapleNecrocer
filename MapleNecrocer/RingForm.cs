@@ -53,7 +53,7 @@ public partial class RingForm : Form
         foreach (var Img in Wz.GetNodes("Character/Ring"))
         {
             if (Img.Text.LeftStr(6) != "011121" && Img.Text.LeftStr(6) != "011151"  &&
-                Img.Text.LeftStr(6) != "011153")
+                Img.Text.LeftStr(6) != "011153" && Img.Text.LeftStr(6) !="011155")
                 continue;
             if (!Wz.HasNode("Character/Ring/" + Img.Text + "/info/nameTag"))
                 continue;

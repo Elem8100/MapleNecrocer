@@ -74,7 +74,8 @@ public partial class ChatRingForm : Form
 
         foreach (var Img in Wz.GetNodes("Character/Ring"))
         {
-            if (Img.Text.LeftStr(6) != "011122" && Img.Text.LeftStr(6) != "011150" && Img.Text.LeftStr(6) != "011152")
+            if (Img.Text.LeftStr(6) != "011122" && Img.Text.LeftStr(6) != "011150"  &&
+                Img.Text.LeftStr(6) != "011152" && Img.Text.LeftStr(6) != "011154")
                 continue;
 
             if (!Wz.HasNode("Character/Ring/" + Img.Text + "/info/chatBalloon"))
