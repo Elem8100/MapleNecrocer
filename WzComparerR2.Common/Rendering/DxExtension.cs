@@ -8,17 +8,17 @@ namespace WzComparerR2.Rendering
 {
     public static class DxExtension
     {
-        public static Color DxToXnaColor(this SharpDX.Color color)
+        public static Microsoft.Xna.Framework.Color DxToXnaColor(this SharpDX.Color color)
         {
-            return new Color(color.R, color.G, color.B, color.A);
+            return new Microsoft.Xna.Framework.Color(color.R, color.G, color.B, color.A);
         }
 
-        public static SharpDX.Color XnaToDxColor(this Color color)
+        public static SharpDX.Color XnaToDxColor(this Microsoft.Xna.Framework.Color color)
         {
             return SharpDX.Color.FromRgba(color.PackedValue);
         }
 
-        public static SharpDX.RectangleF XnaToDxRect(this Rectangle rect)
+        public static SharpDX.RectangleF XnaToDxRect(this Microsoft.Xna.Framework.Rectangle rect)
         {
             return new SharpDX.RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
         }

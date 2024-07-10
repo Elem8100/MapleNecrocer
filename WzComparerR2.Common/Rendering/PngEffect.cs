@@ -15,7 +15,7 @@ namespace WzComparerR2.Rendering
         {
             this.AlphaMixEnabled = false;
             this.MinMixedAlpha = 255;
-            this.MixedColor = Color.White;
+            this.MixedColor = Microsoft.Xna.Framework.Color.White;
         }
 
         public bool AlphaMixEnabled
@@ -34,9 +34,9 @@ namespace WzComparerR2.Rendering
             set { this.Parameters["clipAlpha"].SetValue((float)value / 255); }
         }
 
-        public Color MixedColor
+        public Microsoft.Xna.Framework.Color MixedColor
         {
-            get { return new Color(this.Parameters["mixedColor"].GetValueVector4()); }
+            get { return new Microsoft.Xna.Framework.Color(this.Parameters["mixedColor"].GetValueVector4()); }
             set { this.Parameters["mixedColor"].SetValue(value.ToVector4()); }
         }
 

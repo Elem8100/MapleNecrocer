@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using GdipColor = System.Drawing.Color;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D11;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
-using System.IO;
+using WzComparerR2.WzLib;
 
 namespace WzComparerR2.Rendering
 {
@@ -16,15 +13,22 @@ namespace WzComparerR2.Rendering
     {
         internal const SharpDX.DXGI.Format DXGI_FORMAT_B4G4R4A4_UNORM = (SharpDX.DXGI.Format)115;
 
-        public static Color ToXnaColor(this GdipColor color)
+        public static Microsoft.Xna.Framework.Color ToXnaColor(this GdipColor color)
         {
-            return new Color(color.R, color.G, color.B, color.A);
+            return new Microsoft.Xna.Framework.Color(color.R, color.G, color.B, color.A);
         }
 
-        public static Texture2D CreateMosaic(GraphicsDevice device, Color c0, Color c1, int blockSize)
+        public static Microsoft.Xna.Framework.Color GetXnaColor(this Wz_Node node)
+        {
+            var argbColor = node.GetValueEx<int>(0);
+            var bgra = BitConverter.GetBytes(argbColor);
+            return new Microsoft.Xna.Framework.Color(bgra[2], bgra[1], bgra[0], bgra[3]);
+        }
+
+        public static Texture2D CreateMosaic(GraphicsDevice device, Microsoft.Xna.Framework.Color c0, Microsoft.Xna.Framework.Color c1, int blockSize)
         {
             var t2d = new Texture2D(device, blockSize * 2, blockSize * 2, false, SurfaceFormat.Color);
-            Color[] colorData = new Color[blockSize * blockSize * 4];
+            Microsoft.Xna.Framework.Color[] colorData = new Microsoft.Xna.Framework.Color[blockSize * blockSize * 4];
             int offset = blockSize * blockSize * 2;
             for (int i = 0; i < blockSize; i++)
             {
@@ -45,11 +49,11 @@ namespace WzComparerR2.Rendering
         public static Texture2D ToTexture(this System.Drawing.Bitmap bitmap, GraphicsDevice device)
         {
             var t2d = new Texture2D(device, bitmap.Width, bitmap.Height, false, SurfaceFormat.Bgra32);
-            bitmap.ToTexture(t2d, Point.Zero);
+            bitmap.ToTexture(t2d, Microsoft.Xna.Framework.Point.Zero);
             return t2d;
         }
 
-        public static void ToTexture(this System.Drawing.Bitmap bitmap, Texture2D texture, Point origin)
+        public static void ToTexture(this System.Drawing.Bitmap bitmap, Texture2D texture, Microsoft.Xna.Framework.Point origin)
         {
             var rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
             var bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly,
@@ -58,7 +62,7 @@ namespace WzComparerR2.Rendering
             Marshal.Copy(bmpData.Scan0, buffer, 0, buffer.Length);
             bitmap.UnlockBits(bmpData);
 
-            texture.SetData(0, 0, new Rectangle(origin.X, origin.Y, rect.Width, rect.Height), buffer, 0, buffer.Length);
+            texture.SetData(0, 0, new Microsoft.Xna.Framework.Rectangle(origin.X, origin.Y, rect.Width, rect.Height), buffer, 0, buffer.Length);
         }
 
         public static void BgraToColor(byte[] pixelData)

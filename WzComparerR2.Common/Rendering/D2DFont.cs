@@ -15,7 +15,7 @@ namespace WzComparerR2.Rendering
         public D2DFont(string familyName, float size)
             : this(familyName, size, false, false)
         {
-
+            
         }
 
         public D2DFont(string familyName, float size, bool bold, bool italic)
@@ -24,7 +24,7 @@ namespace WzComparerR2.Rendering
             this.Size = size;
 
             FontWeight weight = bold ? FontWeight.Bold : FontWeight.Normal;
-            FontStyle style = italic ? FontStyle.Italic : FontStyle.Normal;
+            SharpDX.DirectWrite.FontStyle style = italic ? SharpDX.DirectWrite.FontStyle.Italic : SharpDX.DirectWrite.FontStyle.Normal;
             var factory = D2DFactory.Instance.factoryDWrite;
             this.textFormat = new TextFormat(factory, this.FamilyName, weight, style, this.Size);
 
@@ -88,7 +88,7 @@ namespace WzComparerR2.Rendering
         private float lineHeight;
         private FontMetrics metrics;
 
-        private Font GetMatchingFont()
+        private SharpDX.DirectWrite.Font GetMatchingFont()
         {
             var fontCollection = this.textFormat.FontCollection;
             int index;
@@ -119,16 +119,15 @@ namespace WzComparerR2.Rendering
             return false;
         }
 
-        internal void DrawText(D2DContext context, string text, Vector2 position, Color color)
+        internal void DrawText(D2DContext context, string text, Vector2 position, Microsoft.Xna.Framework.Color color)
         {
-            this.DrawText(context, text, position, Vector2.Zero, color);
+             this.DrawText(context, text, position, Vector2.Zero, color);
         }
 
-        internal void DrawText(D2DContext context, string text, Vector2 position, Vector2 size, Color color)
+        internal void DrawText(D2DContext context, string text, Vector2 position, Vector2 size, Microsoft.Xna.Framework.Color color)
         {
             var rt = context.D2DRenderTarget;
-            rt.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Cleartype;
-            
+
             using (var layout = this.LayoutString(text, size.X, size.Y))
             {
                 rt.DrawTextLayout(new SharpDX.Vector2(position.X, position.Y),

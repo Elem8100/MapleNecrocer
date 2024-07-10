@@ -41,12 +41,11 @@ namespace WzComparerR2.Rendering
                 throw new Exception("Create D2D context failed.");
             }
             this.context.D2DRenderTarget.Transform = transform;
-           
             this.context.D2DRenderTarget.BeginDraw();
             this.IsBeginEndPair = true;
         }
 
-        public void PushClip(Rectangle clipRect)
+        public void PushClip(Microsoft.Xna.Framework.Rectangle clipRect)
         {
             this.context.D2DRenderTarget.PushAxisAlignedClip(clipRect.XnaToDxRect(), SharpDX.Direct2D1.AntialiasMode.PerPrimitive);
         }
@@ -56,17 +55,17 @@ namespace WzComparerR2.Rendering
             this.context.D2DRenderTarget.PopAxisAlignedClip();
         }
 
-        public void DrawString(D2DFont font, string text, Vector2 position, Color color)
+        public void DrawString(D2DFont font, string text, Vector2 position, Microsoft.Xna.Framework.Color color)
         {
             font.DrawText(this.context, text, position, color);
         }
 
-        public void DrawString(D2DFont font, string text, Vector2 position, Vector2 size, Color color)
+        public void DrawString(D2DFont font, string text, Vector2 position, Vector2 size, Microsoft.Xna.Framework.Color color)
         {
             font.DrawText(this.context, text, position, size, color);
         }
 
-        public void DrawLine(Vector2 point0, Vector2 point1, float width, Color color)
+        public void DrawLine(Vector2 point0, Vector2 point1, float width, Microsoft.Xna.Framework.Color color)
         {
             var rt = this.context.D2DRenderTarget;
             rt.DrawLine(new SharpDX.Vector2(point0.X, point0.Y),
@@ -75,19 +74,19 @@ namespace WzComparerR2.Rendering
                 width);
         }
 
-        public void DrawRectangle(Rectangle rectangle, Color color)
+        public void DrawRectangle(Microsoft.Xna.Framework.Rectangle rectangle, Microsoft.Xna.Framework.Color color)
         {
             var rt = this.context.D2DRenderTarget;
             rt.DrawRectangle(rectangle.XnaToDxRect(), this.context.GetBrush(color));
         }
 
-        public void FillRectangle(Rectangle rectangle, Color color)
+        public void FillRectangle(Microsoft.Xna.Framework.Rectangle rectangle, Microsoft.Xna.Framework.Color color)
         {
             var rt = this.context.D2DRenderTarget;
             rt.FillRectangle(rectangle.XnaToDxRect(), this.context.GetBrush(color));
         }
 
-        public void FillRoundedRectangle(Rectangle rectangle, float cornerRadius, Color color)
+        public void FillRoundedRectangle(Microsoft.Xna.Framework.Rectangle rectangle, float cornerRadius, Microsoft.Xna.Framework.Color color)
         {
             var rt = this.context.D2DRenderTarget;
             var rRect = new SharpDX.Direct2D1.RoundedRectangle()

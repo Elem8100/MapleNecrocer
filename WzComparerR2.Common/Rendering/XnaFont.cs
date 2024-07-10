@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GDIColor = System.Drawing.Color;
@@ -155,8 +154,7 @@ namespace WzComparerR2.Rendering
             string text = c.ToString();
             SizeF size;
 
-            //size = g.MeasureString(text, this.baseFont, byte.MaxValue, StringFormat.GenericTypographic);
-            size = TextRenderer.MeasureText(g, text, this.baseFont, new Size(byte.MaxValue, byte.MaxValue), TextFormatFlags.NoPadding);
+            size = g.MeasureString(text, this.baseFont, byte.MaxValue, StringFormat.GenericTypographic);
             GDIRect originRect = new GDIRect(gdiBufferX, 0, (int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));
             if (originRect.Width == 0)
             {

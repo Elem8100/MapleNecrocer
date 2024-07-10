@@ -17,16 +17,16 @@ namespace WzComparerR2.Rendering
         private SolidColorBrush cachedBrush;
 
 
-        public Brush GetBrush(Microsoft.Xna.Framework.Color color)
+        public SharpDX.Direct2D1.Brush GetBrush(Microsoft.Xna.Framework.Color color)
         {
             return this.GetBrush(color.XnaToDxColor());
         }
 
-        public Brush GetBrush(SharpDX.Color4 color)
+        public SharpDX.Direct2D1.Brush GetBrush(SharpDX.Color4 color)
         {
             if (this.cachedBrush == null || this.cachedBrush.IsDisposed)
             {
-               this.cachedBrush = new SolidColorBrush(this.D2DRenderTarget, color);
+                this.cachedBrush = new SolidColorBrush(this.D2DRenderTarget, color);
             }
             else
             {

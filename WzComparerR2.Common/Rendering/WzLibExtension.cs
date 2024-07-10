@@ -39,13 +39,13 @@ namespace WzComparerR2.Rendering
             }
 
             var t2d = new Texture2D(graphicsDevice, png.Width, png.Height, false, format);
-            png.ToTexture(t2d, Point.Zero);
+            png.ToTexture(t2d, Microsoft.Xna.Framework.Point.Zero);
             return t2d;
         }
 
-        public static void ToTexture(this Wz_Png png, Texture2D texture, Point origin)
+        public static void ToTexture(this Wz_Png png, Texture2D texture, Microsoft.Xna.Framework.Point origin)
         {
-            Rectangle rect = new Rectangle(origin, new Point(png.Width, png.Height));
+            Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle(origin, new Microsoft.Xna.Framework.Point(png.Width, png.Height));
 
             //检查大小
             if (rect.X < 0 || rect.Y < 0 || rect.Right > texture.Width || rect.Bottom > texture.Height)
@@ -95,7 +95,7 @@ namespace WzComparerR2.Rendering
                         pixel = Wz_Png.GetPixelDataForm517(plainData, png.Width, png.Height);
                         texture.SetData(0, 0, rect, pixel, 0, pixel.Length);
                         break;
-                    
+
                     default:
                         throw new Exception($"unknown png form ({png.Form}).");
                 }
@@ -119,9 +119,9 @@ namespace WzComparerR2.Rendering
         }
 
 
-        public static Point ToPoint(this Wz_Vector vector)
+        public static Microsoft.Xna.Framework.Point ToPoint(this Wz_Vector vector)
         {
-            return new Point(vector.X, vector.Y);
+            return new Microsoft.Xna.Framework.Point(vector.X, vector.Y);
         }
     }
 }
