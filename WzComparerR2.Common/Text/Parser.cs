@@ -48,8 +48,6 @@ namespace WzComparerR2.Text
                         {
                             case 'r': curChar = '\r'; break;
                             case 'n': curChar = '\n'; break;
-                            
-                            default: curChar = '\0'; break; // when it is not recognizable escape char (ex. \b)
                         }
                     }
                     else //结束符处理
@@ -64,10 +62,7 @@ namespace WzComparerR2.Text
                         if (strPos < format.Length && format[strPos] == 'c')//遇到#c 换橙刷子并flush
                         {
                             flushRun();
-                            if (colorStack.Peek() != "c")
-                            {
-                                colorStack.Push("c");
-                            }
+                            colorStack.Push("c");
                             strPos++;
                         }
                         else if (strPos < format.Length && format[strPos] == 'g')//遇到#g(自定义) 换绿刷子并flush
@@ -101,9 +96,6 @@ namespace WzComparerR2.Text
                     case '\n': //插入换行
                         flushRun();
                         elements.Add(LineBreak.Instance);
-                        break;
-
-                    case '\0':  // not recognizable escape char
                         break;
 
                     default:
