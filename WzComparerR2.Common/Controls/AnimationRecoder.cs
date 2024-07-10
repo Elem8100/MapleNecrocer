@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WzComparerR2.Rendering;
 using WzComparerR2.Animation;
+using Point =Microsoft.Xna.Framework.Point;
+using Rectangle=Microsoft.Xna.Framework.Rectangle;
+using Color =Microsoft.Xna.Framework.Color;
 
 namespace WzComparerR2.Controls
 {
@@ -16,7 +19,7 @@ namespace WzComparerR2.Controls
             this._device = graphicsDevice;
             this._graphics = new AnimationGraphics(_device);
             this.Items = new List<AnimationItem>();
-            this.BackgroundColor = Color.TransparentBlack;
+            this.BackgroundColor = Color.Transparent;
         }
 
         public List<AnimationItem> Items { get; private set; }
@@ -34,7 +37,7 @@ namespace WzComparerR2.Controls
             }
         }
 
-        public Color BackgroundColor { get; set; }
+        public Microsoft.Xna.Framework.Color BackgroundColor { get; set; }
 
         public Texture2D BackgroundImage { get; set; }
 
@@ -114,13 +117,9 @@ namespace WzComparerR2.Controls
                 {
                     _graphics.Draw(framAni, world);
                 }
-                else if (animation is SpineAnimator spineAni)
+                else if (animation is ISpineAnimator spineAni)
                 {
                     _graphics.Draw(spineAni, world);
-                }
-                else if (animation is MultiFrameAnimator multiFrameAni)
-                {
-                    _graphics.Draw(multiFrameAni, world);
                 }
             }
         }
@@ -134,7 +133,7 @@ namespace WzComparerR2.Controls
                 _device.SetRenderTarget(texture);
                 _eff.AlphaMixEnabled = false;
 
-                _device.Clear(Color.TransparentBlack);
+                _device.Clear(Color.Transparent);
                 _sb.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.LinearClamp, null, null, _eff, null);
                 _sb.Draw(_rt2d, Vector2.Zero, Color.White);
                 _sb.End();
@@ -159,7 +158,7 @@ namespace WzComparerR2.Controls
                 _eff.MixedColor = mixColor;
                 _eff.MinMixedAlpha = minMixedAlpha;
 
-                _device.Clear(Color.TransparentBlack);
+                _device.Clear(Color.Transparent);
                 _sb.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.LinearClamp, null, null, _eff, null);
                 _sb.Draw(_rt2d, Vector2.Zero, Color.White);
                 _sb.End();
@@ -259,69 +258,9 @@ namespace WzComparerR2.Controls
 
                     return timeline.ToArray();
                 }
-                else if (animation is SpineAnimator)
+                else if (animation is ISpineAnimator)
                 {
-                    var m = ((SpineAnimator)animation).GetKeyFrames();
                     return null;
-                }
-                else if (animation is MultiFrameAnimator multiFrameAni)
-                {
-                    // we won't skip any frame even frame delay is greater than preferred delay
-                    var timeline = new List<int>();
-                    int totalLength = 0;
-                    foreach (var frame in multiFrameAni.GetKeyFrames())
-                    {
-                        totalLength += frame.Length;
-                        if (frame.Animated)
-                        {
-                            for (int ms = frame.Length; ms > 0;)
-                            {
-                                if (ms >= preferredFrameDelay)
-                                {
-                                    timeline.Add(preferredFrameDelay);
-                                    ms -= preferredFrameDelay;
-                                }
-                                else
-                                {
-                                    if (timeline.Count > 0)
-                                    {
-                                        timeline[timeline.Count - 1] += ms;
-                                    }
-                                    else
-                                    {
-                                        // duration of the first frame less than minFrameDelay, but we can't simply ignore it.
-                                        timeline.Add(ms);
-                                    }
-                                    ms = 0;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (maxFrameDelay != null)
-                            {
-                                for (int ms = frame.Length; ms > 0;)
-                                {
-                                    if (ms >= maxFrameDelay.Value)
-                                    {
-                                        timeline.Add(maxFrameDelay.Value);
-                                        ms -= maxFrameDelay.Value;
-                                    }
-                                    else
-                                    {
-                                        timeline.Add(ms);
-                                        ms = 0;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                timeline.Add(frame.Length);
-                            }
-                        }
-                    }
-
-                    return timeline.ToArray();
                 }
             }
 

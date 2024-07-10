@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
@@ -10,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using WzComparerR2.Animation;
 using WzComparerR2.Rendering;
+
+using Point = Microsoft.Xna.Framework.Point;
 
 namespace WzComparerR2.Controls
 {
@@ -27,7 +28,7 @@ namespace WzComparerR2.Controls
             this.MouseDragEnabled = true;
             this.GlobalScale = 1f;
 
-            this.timer = new Timer();
+            this.timer = new System.Windows.Forms.Timer();
             timer.Interval = 30;
             timer.Tick += Timer_Tick;
             timer.Enabled = true;
@@ -66,7 +67,7 @@ namespace WzComparerR2.Controls
         }
 
         private float globalScale;
-        private Timer timer;
+        private System.Windows.Forms.Timer timer;
         private Stopwatch sw;
         private TimeSpan lastUpdateTime;
 
@@ -114,17 +115,13 @@ namespace WzComparerR2.Controls
 
                     mt = Matrix.CreateScale(GlobalScale, GlobalScale, 1);
 
-                    if (animation is FrameAnimator)
+                    if (animation is FrameAnimator frameAni)
                     {
-                        graphics.Draw((FrameAnimator)animation, mt);
+                        graphics.Draw(frameAni, mt);
                     }
-                    else if (animation is SpineAnimator)
+                    else if (animation is ISpineAnimator spineAni)
                     {
-                        graphics.Draw((SpineAnimator)animation, mt);
-                    }
-                    else if (animation is MultiFrameAnimator)
-                    {
-                        graphics.Draw((MultiFrameAnimator)animation, mt);
+                        graphics.Draw(spineAni, mt);
                     }
                 }
             }
@@ -134,8 +131,8 @@ namespace WzComparerR2.Controls
             {
                 var pos = this.mouseDragContext.DraggingItem.Position;
                 this.sprite.Begin();
-                this.sprite.DrawLine(new Point(0, pos.Y), new Point(this.Width, pos.Y), 1, Color.Indigo);
-                this.sprite.DrawLine(new Point(pos.X, 0), new Point(pos.X, this.Height), 1, Color.Indigo);
+                this.sprite.DrawLine(new Point(0, pos.Y), new Point(this.Width, pos.Y), 1, Microsoft.Xna.Framework.Color.Indigo);
+                this.sprite.DrawLine(new Point(pos.X, 0), new Point(pos.X, this.Height), 1, Microsoft.Xna.Framework.Color.Indigo);
                 this.sprite.End();
             }
         }
@@ -146,7 +143,7 @@ namespace WzComparerR2.Controls
             {
                 var item = this.Items[i];
                 var bound = item.Measure();
-                var rect = new Rectangle(
+                var rect = new Microsoft.Xna.Framework.Rectangle(
                     (int)Math.Round(item.Position.X + bound.X* this.GlobalScale),
                     (int)Math.Round(item.Position.Y + bound.Y * this.GlobalScale),
                     (int)Math.Round(bound.Width * this.GlobalScale),
@@ -207,7 +204,7 @@ namespace WzComparerR2.Controls
                 if (this.MouseDragSaveEnabled && (Control.ModifierKeys & Keys.Control) != 0)
                 {
                     var dragSize = SystemInformation.DragSize;
-                    var dragBox = new Rectangle(mouseDragContext.MouseDownPoint, new Point(dragSize.Width, dragSize.Height));
+                    var dragBox = new Microsoft.Xna.Framework.Rectangle(mouseDragContext.MouseDownPoint, new Point(dragSize.Width, dragSize.Height));
                     if (!dragBox.Contains(new Point(e.X, e.Y)))
                     {
                         var e2 = new AnimationItemEventArgs(this.mouseDragContext.DraggingItem);
@@ -223,9 +220,17 @@ namespace WzComparerR2.Controls
 
         private void AnimationControl_MouseWheel(object sender, MouseEventArgs e)
         {
+            const int WHEEL_DELTA = 120;
             if ((Control.ModifierKeys & Keys.Control) != 0)
             {
-                this.GlobalScale += 0.1f * e.Delta / 120;
+                float wheelTicks = e.Delta / WHEEL_DELTA;
+                float oldScale = this.GlobalScale;
+                float newScale = oldScale * (1 + 0.1f * wheelTicks);
+                if (oldScale.CompareTo(1f) * newScale.CompareTo(1f) == -1) // scaling cross 100%
+                {
+                    newScale = 1f;
+                }
+                this.GlobalScale = newScale;
             }
         }
 
