@@ -4,6 +4,7 @@ using Spine;
 using WzComparerR2.Animation;
 using Microsoft.Xna.Framework;
 using System.Drawing;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MapleNecrocer;
 
@@ -99,12 +100,36 @@ public class Back : BackgroundSprite
                 Path = "Map/Back/" + bS + ".img/spine/" + No;
                 var SpineBack = new SpineBack(EngineFunc.SpriteEngine);
                 var aniData = Map.ResLoader.LoadAnimationData(Wz.GetNodeA(Path));
-                SpineBack.SpineAnimator = new SpineAnimator((SpineAnimationData)aniData);
-                string spineAni = Iter.GetStr("spineAni");
-                if (spineAni != "")
-                    SpineBack.SpineAnimator.SelectedAnimationName = spineAni;
+
+                if (((ISpineAnimationData)aniData).SpineVersion == SpineVersion.V2)
+                {
+                    SpineBack.SpineAnimatorV2 = new SpineAnimatorV2((SpineAnimationDataV2)aniData);
+                    SpineBack.Version = 2;
+                }
                 else
-                    SpineBack.SpineAnimator.SelectedAnimationIndex = 0;
+                {
+                    SpineBack.SpineAnimatorV4 = new SpineAnimatorV4((SpineAnimationDataV4)aniData);
+                    SpineBack.Version = 4;
+                }
+
+                string spineAni = Iter.GetStr("spineAni");
+                if (SpineBack.Version == 2)
+                {
+                    if (spineAni != "")
+                        SpineBack.SpineAnimatorV2.SelectedAnimationName = spineAni;
+                    else
+                        SpineBack.SpineAnimatorV2.SelectedAnimationIndex = 0;
+                }
+
+                if (SpineBack.Version == 4)
+                {
+                    if (spineAni != "")
+                        SpineBack.SpineAnimatorV4.SelectedAnimationName = spineAni;
+                    else
+                        SpineBack.SpineAnimatorV4.SelectedAnimationIndex = 0;
+                }
+
+
                 SpineBack.Pos.X = PosX;
                 SpineBack.Pos.Y = PosY;
                 SpineBack.RX = RX;
@@ -147,7 +172,7 @@ public class Back : BackgroundSprite
                     SpineBack.Z = ZLayer + 1000000;
                 else
                     SpineBack.Z = ZLayer - 1000;
-                SpineBack.SkeletonRenderer = new SkeletonMeshRenderer(RenderFormDraw.Instance.GraphicsDevice);
+                SpineBack.SkeletonRenderer = new Spine.SkeletonRenderer(RenderFormDraw.Instance.GraphicsDevice);
             }
             else
             {
@@ -397,8 +422,11 @@ public class SpineBack : SpriteEx
     public int BackType;
     public TileMode TileMode;
     public bool Tiled;
-    public SkeletonMeshRenderer SkeletonRenderer;
-    public SpineAnimator SpineAnimator;
+    public Spine.SkeletonRenderer SkeletonRenderer;
+    public SpineAnimatorV2 SpineAnimatorV2;
+    public SpineAnimatorV4 SpineAnimatorV4;
+    public int Version;
+    private Matrix? matrix;
     public override void DoMove(float Delta)
     {
         X = -Pos.X - (100f + RX) / 100f * (Engine.Camera.X + Map.DisplaySize.X / 2) + Engine.Camera.X;
@@ -482,7 +510,22 @@ public class SpineBack : SpriteEx
                 break;
         }
 
-        SpineAnimator.Update(TimeSpan.FromMilliseconds(17));
+
+
+        if (Version == 2)
+        {
+            SpineAnimatorV2.Update(TimeSpan.FromMilliseconds(17));
+        }
+        else if (Version == 4)
+        {
+            SpineAnimatorV4.Update(TimeSpan.FromMilliseconds(17));
+        }
+        if (SkeletonRenderer.Effect is BasicEffect basicEff)
+        {
+            basicEff.World = matrix ?? Matrix.Identity;
+            basicEff.Projection = Matrix.CreateOrthographicOffCenter(0, Map.DisplaySize.X, Map.DisplaySize.Y, 0, 1, 0);
+        }
+
         SkeletonRenderer.Begin();
         if (Tiled)
         {
@@ -493,21 +536,55 @@ public class SpineBack : SpriteEx
                     switch (TileMode)
                     {
                         case TileMode.Horizontal:
-                            SpineAnimator.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
-                            SpineAnimator.Skeleton.Y = _y - Offset.Y;
+                            if (Version == 2)
+                            {
+                                SpineAnimatorV2.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
+                                SpineAnimatorV2.Skeleton.Y = _y - Offset.Y;
+                            }
+                            else if (Version == 4)
+                            {
+                                SpineAnimatorV4.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
+                                SpineAnimatorV4.Skeleton.Y = _y - Offset.Y;
+                            }
                             break;
 
                         case TileMode.Vertical:
-                            SpineAnimator.Skeleton.X = _x - Offset.X;
-                            SpineAnimator.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+                            if (Version == 2)
+                            {
+                                SpineAnimatorV2.Skeleton.X = _x - Offset.X;
+                                SpineAnimatorV2.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+                            }
+                            else if (Version == 4)
+                            {
+                                SpineAnimatorV4.Skeleton.X = _x - Offset.X;
+                                SpineAnimatorV4.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+
+                            }
                             break;
 
                         case TileMode.Full:
-                            SpineAnimator.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
-                            SpineAnimator.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+                            if (Version == 2)
+                            {
+                                SpineAnimatorV2.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
+                                SpineAnimatorV2.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+                            }
+                            if (Version == 4)
+                            {
+                                SpineAnimatorV4.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
+                                SpineAnimatorV4.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+                            }
                             break;
                     }
-                    SkeletonRenderer.Draw(SpineAnimator.Skeleton);
+
+                    if (Version == 2)
+                    {
+                        SkeletonRenderer.Draw(SpineAnimatorV2.Skeleton);
+                    }
+                    else if (Version == 4)
+                    {
+                        SkeletonRenderer.Draw(SpineAnimatorV4.Skeleton);
+                    }
+
                 }
             }
         }
@@ -517,9 +594,18 @@ public class SpineBack : SpriteEx
             {
                 for (int cx = StartX; cx < EndX; cx++)
                 {
-                    SpineAnimator.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
-                    SpineAnimator.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
-                    SkeletonRenderer.Draw(SpineAnimator.Skeleton);
+                    if (Version == 2)
+                    {
+                        SpineAnimatorV2.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
+                        SpineAnimatorV2.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+                        SkeletonRenderer.Draw(SpineAnimatorV2.Skeleton);
+                    }
+                    else if (Version == 4)
+                    {
+                        SpineAnimatorV4.Skeleton.X = cx * ChipWidth + OfsX - Offset.X;
+                        SpineAnimatorV4.Skeleton.Y = cy * ChipHeight + OfsY - Offset.Y;
+                        SkeletonRenderer.Draw(SpineAnimatorV4.Skeleton);
+                    }
                 }
             }
         }

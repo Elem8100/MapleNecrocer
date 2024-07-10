@@ -11,13 +11,15 @@ using WzComparerR2.PluginBase;
 using Spine;
 using WzComparerR2.Animation;
 using System.IO;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace MapleNecrocer;
 public class Obj : SpriteEx
 {
     public Obj(Sprite Parent) : base(Parent)
     {
-        IntMove=true;
+        IntMove = true;
     }
     string Path;
     float DeltaTime;
@@ -29,6 +31,7 @@ public class Obj : SpriteEx
     int MoveW, MoveH;
     int MoveP;
     int MoveR;
+
     public static void Create()
     {
         for (int Layer = 0; Layer <= 7; Layer++)
@@ -51,16 +54,34 @@ public class Obj : SpriteEx
                 {
                     var SpineObj = new SpineObj(EngineFunc.SpriteEngine);
                     var aniData = Map.ResLoader.LoadAnimationData(Wz.GetNodeA(Path));
-                    SpineObj.SpineAnimator = new SpineAnimator((SpineAnimationData)aniData);
+                    if (((ISpineAnimationData)aniData).SpineVersion == SpineVersion.V2)
+                    {
+                        SpineObj.SpineAnimatorV2 = new SpineAnimatorV2((SpineAnimationDataV2)aniData);
+                        SpineObj.Version = 2;
+                    }
+                    else
+                    {
+                        SpineObj.SpineAnimatorV4 = new SpineAnimatorV4((SpineAnimationDataV4)aniData);
+                        SpineObj.Version = 4;
+                    }
+
                     string spineAni = Iter.GetStr("spineAni");
                     if (spineAni != null)
-                        SpineObj.SpineAnimator.SelectedAnimationName = spineAni;
+                    {
+                        if (SpineObj.Version == 2)
+                            SpineObj.SpineAnimatorV2.SelectedAnimationName = spineAni;
+                        else
+                            SpineObj.SpineAnimatorV4.SelectedAnimationName = spineAni;
+                    }
+
                     SpineObj.X = Iter.GetInt("x");
                     SpineObj.Y = Iter.GetInt("y");
                     SpineObj.Z = Layer * 100000 + Iter.GetInt("z");
-                    SpineObj.Width = 1000;
-                    SpineObj.Height = 1000;
-                    SpineObj.SkeletonRenderer = new SkeletonMeshRenderer(RenderFormDraw.Instance.GraphicsDevice);
+                    SpineObj.Width = 1024;
+                    SpineObj.Height = 1024;
+                    SpineObj.Origin.X = 512;
+                    SpineObj.Origin.Y = 512;
+                    SpineObj.SkeletonRenderer = new Spine.SkeletonRenderer(RenderFormDraw.Instance.GraphicsDevice);
                 }
                 else
                 {
@@ -154,7 +175,7 @@ public class Obj : SpriteEx
         int Delay = WzDict.GetInt(ImagePath + "/delay", 100);
         int a0 = WzDict.GetInt(ImagePath + "/a0", -1);
         int a1 = WzDict.GetInt(ImagePath + "/a1", -1);
-     
+
 
         Time += 16.66f * Delta;
         if (Time > Delay)
@@ -170,7 +191,7 @@ public class Obj : SpriteEx
         if (Time > 0)
             Alpha = (byte)AniAlpha;
 
-       
+
         if (MoveType.ToBool())
         {
             DeltaTime += 0.017f;
@@ -229,21 +250,48 @@ public class SpineObj : SpriteEx
     public SpineObj(Sprite Parent) : base(Parent)
     {
     }
-    public SkeletonMeshRenderer SkeletonRenderer;
-    public SpineAnimator SpineAnimator;
-
+    public Spine.SkeletonRenderer SkeletonRenderer;
+    public SpineAnimatorV2 SpineAnimatorV2;
+    public SpineAnimatorV4 SpineAnimatorV4;
+    public int Version;
+    private Matrix? matrix;
     public override void DoDraw()
     {
-        if(!Map.ShowObj) 
+        if (!Map.ShowObj)
             return;
-        SpineAnimator.Update(TimeSpan.FromMilliseconds(17));
+        
+        if (Version == 2)
+        {
+            SpineAnimatorV2.Update(TimeSpan.FromMilliseconds(17));
+        }
+        else
+        {
+            SpineAnimatorV4.Update(TimeSpan.FromMilliseconds(17));
+        }
+
+        if (SkeletonRenderer.Effect is BasicEffect basicEff)
+        {
+            basicEff.World = matrix ?? Matrix.Identity;
+            basicEff.Projection = Matrix.CreateOrthographicOffCenter(0, Map.DisplaySize.X, Map.DisplaySize.Y, 0, 1, 0);
+        }
+
         SkeletonRenderer.Begin();
-        SpineAnimator.Skeleton.X = -Engine.Camera.X + X;
-        SpineAnimator.Skeleton.Y = -Engine.Camera.Y + Y;
-        SkeletonRenderer.Draw(SpineAnimator.Skeleton);
+
+        if (Version == 2)
+        {
+            SpineAnimatorV2.Skeleton.X = -Engine.Camera.X + X;
+            SpineAnimatorV2.Skeleton.Y = -Engine.Camera.Y + Y;
+            SkeletonRenderer.Draw(SpineAnimatorV2.Skeleton);
+        }
+        else
+        {
+            SpineAnimatorV4.Skeleton.X = -Engine.Camera.X + X;
+            SpineAnimatorV4.Skeleton.Y = -Engine.Camera.Y + Y;
+            SkeletonRenderer.Draw(SpineAnimatorV4.Skeleton);
+        }
         SkeletonRenderer.End();
     }
-
+   
 }
 
 public class FlowObj : BackgroundSprite
