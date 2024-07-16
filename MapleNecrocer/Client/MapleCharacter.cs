@@ -159,7 +159,7 @@ public class Player : JumperSprite
         int PX = 0, PY = 0;
         foreach (var Portals in MapPortal.PortalList)
         {
-            if (Portals.PortalType == 0)
+            if (Portals.Type == 0)
             {
                 PX = Portals.X;
                 PY = Portals.Y;
@@ -591,7 +591,7 @@ public class Player : JumperSprite
         {
             if (Portal.ToMap != "999999999")
             {
-                if ((Portal.PortalType == 2) || (Portal.PortalType == 1))
+                if ((Portal.Type == 2) || (Portal.Type == 1))
                 {
                     Sound.Play("Sound/Game.img/Portal");
                     CurrentX = X;

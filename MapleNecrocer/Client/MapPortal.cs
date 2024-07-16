@@ -13,7 +13,7 @@ namespace MapleNecrocer;
 public struct PortalInfo
 {
     public string PortalName, ToName, ToMap;
-    public int X, Y, PortalType;
+    public int X, Y, Type;
 }
 public class MapPortal : SpriteEx
 {
@@ -25,9 +25,10 @@ public class MapPortal : SpriteEx
     int Frame;
     string InfoPath;
     string PortalName;
-    int PortalType;
+    int Type;
     string ToName;
     int ToMap;
+    static int Version;
     public static List<PortalInfo> PortalList = new();
     public static PortalInfo PortalInfo;
     public static void Create()
@@ -36,12 +37,19 @@ public class MapPortal : SpriteEx
             PortalList = new();
         else
             PortalList.Clear();
-        Wz_Node Node = null;
-        if (Wz.GetNode("Map/MapHelper.img/portal/game/pv/default") == null)
-            Node = Wz.GetNode("Map/MapHelper.img/portal/game/pv");
+
+        if (!Wz.HasNode("Map/MapHelper.img/portal/game/pv/default"))
+        {
+            Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/pv"), Wz.Data, Wz.ImageLib);
+            Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/ph/default/portalContinue"), Wz.Data, Wz.ImageLib);
+            Version = 0;
+        }
         else
-            Node = Wz.GetNode("Map/MapHelper.img/portal/game/pv/default");
-        Wz.DumpData(Node, Wz.Data, Wz.ImageLib);
+        {
+            Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/pv/default"), Wz.Data, Wz.ImageLib);
+            Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/ph/default/portalStart"), Wz.Data, Wz.ImageLib);
+            Version = 1;
+        }
 
         PortalInfo = new PortalInfo();
         int PType;
@@ -53,14 +61,39 @@ public class MapPortal : SpriteEx
             PortalInfo.ToMap = Iter.GetInt("tm").ToString();
             PortalInfo.ToName = Iter.GetStr("tn");
             PortalInfo.PortalName = Iter.GetStr("pn");
-            PortalInfo.PortalType = Iter.GetInt("pt");
+            PortalInfo.Type = Iter.GetInt("pt");
             PortalList.Add(PortalInfo);
-            if (PType == 2)
+            if (PType == 2 || PType == 10)
             {
                 var MapPortal = new MapPortal(EngineFunc.SpriteEngine);
                 MapPortal.ImageLib = Wz.ImageLib;
-                MapPortal.InfoPath = Node.FullPathToFile2();
+                if (Version == 0)
+                {
+                    switch (PType)
+                    {
+                        case 2:
+                            MapPortal.InfoPath = "Map/MapHelper.img/portal/game/pv"; ;
+                            break;
+                        case 10:
+                            MapPortal.InfoPath = "Map/MapHelper.img/portal/game/ph/default/portalContinue";
+                            break;
+                    }
+                }
+                else if (Version == 1)
+                {
+                    switch (PType)
+                    {
+                        case 2:
+                            MapPortal.InfoPath = "Map/MapHelper.img/portal/game/pv/default"; ;
+                            break;
+                        case 10:
+                            MapPortal.InfoPath = "Map/MapHelper.img/portal/game/ph/default/portalStart";
+                            break;
+                    }
+                }
+
                 MapPortal.ImageNode = Wz.Data[MapPortal.InfoPath + "/0"];
+                MapPortal.Type = PortalInfo.Type;
                 MapPortal.X = Iter.GetInt("x");
                 MapPortal.Y = Iter.GetInt("y");
                 MapPortal.Z = 1000000;
@@ -103,6 +136,17 @@ public class MapPortal : SpriteEx
         Wz_Vector origin = WzDict.GetVector(ImagePath + "/origin");
         Origin.X = origin.X;
         Origin.Y = origin.Y;
+
+        if (Type == 10)
+        {
+            float DistanceX = Math.Abs(Game.Player.X - X);
+           
+            if(DistanceX<200)
+                Visible = true;
+            else
+                Visible = false;
+        }
+
     }
 
     public override void DoDraw()
@@ -114,9 +158,9 @@ public class MapPortal : SpriteEx
         {
             int WX = (int)X - (int)Engine.Camera.X;
             int WY = (int)Y - (int)Engine.Camera.Y;
-                                      
+
             Engine.Canvas.DrawString(Map.ToolTipFont, "pn (Name)  : " + PortalName, WX - 50, WY - 170, Microsoft.Xna.Framework.Color.Red);
-            Engine.Canvas.DrawString(Map.ToolTipFont, "tm (ToMap) : " + ToMap.ToString().PadLeft(9,'0'), WX - 50, WY - 150, Microsoft.Xna.Framework.Color.Red);
+            Engine.Canvas.DrawString(Map.ToolTipFont, "tm (ToMap) : " + ToMap.ToString().PadLeft(9, '0'), WX - 50, WY - 150, Microsoft.Xna.Framework.Color.Red);
             Engine.Canvas.DrawString(Map.ToolTipFont, "tn (ToName): " + ToName, WX - 50, WY - 130, Microsoft.Xna.Framework.Color.Red);
         }
     }
