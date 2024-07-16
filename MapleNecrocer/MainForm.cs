@@ -758,7 +758,7 @@ public partial class MainForm : Form
         int PX = 0, PY = 0;
         foreach (var Portals in MapPortal.PortalList)
         {
-            if (Portals.PortalType == 0)
+            if (Portals.Type == 0)
             {
                 PX = Portals.X;
                 PY = Portals.Y;
