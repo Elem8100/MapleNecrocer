@@ -31,6 +31,7 @@ public class MapPortal : SpriteEx
     static int Version;
     public static List<PortalInfo> PortalList = new();
     public static PortalInfo PortalInfo;
+    byte c;
     public static void Create()
     {
         if (PortalList == null)
@@ -76,6 +77,7 @@ public class MapPortal : SpriteEx
                             break;
                         case 10:
                             MapPortal.InfoPath = "Map/MapHelper.img/portal/game/ph/default/portalContinue";
+                            MapPortal.Alpha = 0;
                             break;
                     }
                 }
@@ -88,6 +90,7 @@ public class MapPortal : SpriteEx
                             break;
                         case 10:
                             MapPortal.InfoPath = "Map/MapHelper.img/portal/game/ph/default/portalStart";
+                            MapPortal.Alpha = 0;
                             break;
                     }
                 }
@@ -140,13 +143,15 @@ public class MapPortal : SpriteEx
         if (Type == 10)
         {
             float DistanceX = Math.Abs(Game.Player.X - X);
-           
-            if(DistanceX<200)
-                Visible = true;
-            else
-                Visible = false;
+            if (DistanceX < 180 && Alpha < 255)
+            {
+                Alpha += 5;
+            }
+            else if (Alpha > 0)
+            {
+                Alpha -= 5;
+            }
         }
-
     }
 
     public override void DoDraw()
@@ -164,7 +169,6 @@ public class MapPortal : SpriteEx
             Engine.Canvas.DrawString(Map.ToolTipFont, "tn (ToName): " + ToName, WX - 50, WY - 130, Microsoft.Xna.Framework.Color.Red);
         }
     }
-
 
 
 }
