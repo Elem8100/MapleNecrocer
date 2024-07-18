@@ -22,6 +22,7 @@ using WzComparerR2.Animation;
 using DevComponents.DotNetBar;
 using WzComparerR2.Text;
 using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 
 namespace MapleNecrocer;
 
@@ -266,7 +267,7 @@ public class Player : JumperSprite
         PartName Part = Equip.GetPart(EquipID);
         Wz_Node Img = Wz.GetNodeA("Character/" + Dir + EquipID + ".img");
         string Path;
-       
+
         if (!EquipDumpList.Contains(EquipID))
         {
             Wz.DumpData(Img, Wz.EquipData, Wz.EquipImageLib);
@@ -510,6 +511,7 @@ public class Player : JumperSprite
         EngineFunc.SpriteEngine.Dead();
         PartSpriteList.Clear();
     }
+
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
@@ -602,6 +604,30 @@ public class Player : JumperSprite
                 }
             }
         }
+
+
+        if (Keyboard.KeyDown(Input.Up) && (JumpState == JumpState.jsNone) && (OnPortal))
+        {
+            if (Math.Abs(Map.CameraSpeed.X) < 4)
+            {
+                if (Portal.Type == 10)
+                {
+                    foreach (var NextPortal in MapPortal.PortalList)
+                    {
+                        if (NextPortal.PortalName == Portal.ToName)
+                        {
+                            Sound.Play("Sound/Game.img/Portal");
+                            X = NextPortal.X;
+                            Y = NextPortal.Y - 100;
+                            JumpState = JumpState.jsFalling;
+                            break;
+                        }
+
+                    }
+                }
+            }
+        }
+
 
         if (Map.FadeScreen.DoFade)
         {
@@ -910,8 +936,9 @@ public class Player : JumperSprite
 
             int WX = (int)MoveX - (int)Engine.Camera.X;
             int WY = (int)MoveY - (int)Engine.Camera.Y;
-            Engine.Canvas.Draw(AvatarTargetTexture, WX - 180 - 400, WY - 180 - 400,MonoGame.SpriteEngine.BlendMode.NonPremultiplied2);
+            Engine.Canvas.Draw(AvatarTargetTexture, WX - 180 - 400, WY - 180 - 400, MonoGame.SpriteEngine.BlendMode.NonPremultiplied2);
         }
+
     }
 
     void RenderTargetFunc()
