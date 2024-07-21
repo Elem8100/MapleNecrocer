@@ -159,23 +159,23 @@ public class RenderFormDraw : MonoGameControl
             }
         }
     }
-    
+
     private static float FixedUpdateDelta = 0.016666668f;
     private static float PreviousTime = 0;
     private static float Accumulator = 0.0f;
     protected override void Update(GameTime gameTime)
     {
-        if (PreviousTime==0)
+        if (PreviousTime == 0)
         {
-               PreviousTime = (float)gameTime.TotalGameTime.TotalMilliseconds;
+            PreviousTime = (float)gameTime.TotalGameTime.TotalMilliseconds;
         }
-     
+
         float Now = (float)gameTime.TotalGameTime.TotalMilliseconds;
         float FrameTime = Now - PreviousTime;
-       
+
         if (FrameTime > TimeDelta)
         {
-            FrameTime =  TimeDelta;
+            FrameTime = TimeDelta;
         }
 
         PreviousTime = Now;
@@ -213,6 +213,8 @@ public class RenderFormDraw : MonoGameControl
                 break;
             case ScreenMode.Scale:
                 EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, ScaleForm.ScaleX, ScaleForm.ScaleY, Map.DisplaySize.X, Map.DisplaySize.Y);
+                if (ScaleForm.UseScanline)
+                    EngineFunc.Canvas.Draw(ScaleForm.ScanlineTexture4096, 0, 0, MonoGame.SpriteEngine.BlendMode.Multiply);
                 break;
         }
 

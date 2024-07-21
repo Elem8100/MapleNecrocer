@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             comboBox1 = new ComboBox();
+            checkBox1 = new CheckBox();
             SuspendLayout();
             // 
             // comboBox1
@@ -43,10 +44,22 @@
             comboBox1.TabIndex = 0;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(129, 37);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(89, 23);
+            checkBox1.TabIndex = 1;
+            checkBox1.Text = "Scanline";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // ScaleForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(376, 184);
+            Controls.Add(checkBox1);
             Controls.Add(comboBox1);
             KeyPreview = true;
             MaximizeBox = false;
@@ -58,10 +71,12 @@
             Load += ScaleForm_Load;
             KeyDown += ScaleForm_KeyDown;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private ComboBox comboBox1;
+        private CheckBox checkBox1;
     }
 }
