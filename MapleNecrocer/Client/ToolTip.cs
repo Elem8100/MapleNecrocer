@@ -21,10 +21,20 @@ public class ObjToolTip : SpriteEx
         if (Wz.HasNode("UI/UIToolTip.img"))
         {
             if (!Wz.HasData("UI/UIToolTip.img/Item/Frame2/n"))
-            Wz.DumpData(Wz.GetNode("UI/UIToolTip.img/Item/Frame2"), Wz.Data, Wz.ImageLib);
+                Wz.DumpData(Wz.GetNode("UI/UIToolTip.img/Item/Frame2"), Wz.Data, Wz.ImageLib);
         }
         Text = AText;
         Engine.Canvas.DrawTarget(ref RenderTarget, 250, 80, () => RenderTargetFunc());
+    }
+
+    public override void DoMove(float Delta)
+    {
+        base.DoMove(Delta);
+        float DistanceX = Math.Abs(Game.Player.X - X);
+        if (DistanceX < 150)
+            Visible = true;
+        else
+            Visible = false;
     }
 
     public override void DoDraw()
@@ -59,7 +69,7 @@ public class ObjToolTip : SpriteEx
         }
         else
         {
-            Engine.Canvas.FillRoundRect(15,5,Width+10,20,new Microsoft.Xna.Framework.Color(0,50,150,180));
+            Engine.Canvas.FillRoundRect(15, 5, Width + 10, 20, new Microsoft.Xna.Framework.Color(0, 50, 150, 180));
             Engine.Canvas.DrawString(Map.ToolTipFont, Text, 20, 8, Microsoft.Xna.Framework.Color.White);
         }
 
@@ -77,7 +87,7 @@ public class ObjToolTip : SpriteEx
 
             string Title = Wz.GetStr("String/ToolTipHelp.img/Mapobject/" + Map.Img.ImgID().ToInt() + "/" + Iter.Text + "/Title");
             ToolTip.Init(Title);
-            int Mid = (Iter.GetInt("x1") + Iter.GetInt("x2")) / 2-20;
+            int Mid = (Iter.GetInt("x1") + Iter.GetInt("x2")) / 2 - 20;
 
             ToolTip.X = Mid - (ToolTip.Width / 2);
             ToolTip.Y = Iter.GetInt("y1");
