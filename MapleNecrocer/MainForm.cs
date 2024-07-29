@@ -870,18 +870,19 @@ public partial class MainForm : Form
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
     public static extern bool MoveWindow(IntPtr hWnd, int x, int y, int w, int h, bool Repaint);
-    private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+
+    public static void SetScreenNormal()
     {
         RenderFormDraw.ScreenMode = ScreenMode.Normal;
-        var Split = comboBox2.Text.Split("X");
+        var Split = MainForm.Instance.comboBox2.Text.Split("X");
         Map.DisplaySize.X = Split[0].ToInt();
         Map.DisplaySize.Y = Split[1].ToInt();
         bool Result;
-        Result = MoveWindow(this.Handle, this.Left, this.Top, Map.DisplaySize.X + 287, Map.DisplaySize.Y + 152, true);
+        Result = MoveWindow(MainForm.Instance.Handle, MainForm.Instance.Left, MainForm.Instance.Top, Map.DisplaySize.X + 287, Map.DisplaySize.Y + 152, true);
         //this.Width = Map.DisplaySize.X + 283;
         //this.Height = Map.DisplaySize.Y + 124;
 
-        Result = MoveWindow(RenderForm.Handle, RenderForm.Left, RenderForm.Top, Map.DisplaySize.X, Map.DisplaySize.Y, true);
+        Result = MoveWindow(RenderForm.Handle, 257, 93, Map.DisplaySize.X, Map.DisplaySize.Y, true);
         // RenderForm.Width = Map.DisplaySize.X;
         //RenderForm.Height = Map.DisplaySize.Y;
         RenderForm.RenderFormDraw.Width = Map.DisplaySize.X;
@@ -890,8 +891,12 @@ public partial class MainForm : Form
         EngineFunc.SpriteEngine.VisibleWidth = Map.DisplaySize.X + 200;
         EngineFunc.SpriteEngine.VisibleHeight = Map.DisplaySize.Y + 200;
         Map.ResetPos = true;
-        this.CenterToScreen();
-        Refresh();
+        MainForm.Instance.CenterToScreen();
+        MainForm.Instance.Refresh();
+    }
+    private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SetScreenNormal();
     }
 
     private void comboBox2_Click(object sender, EventArgs e)
@@ -951,6 +956,8 @@ public partial class MainForm : Form
             e.Handled = true;
         if (!SearchMapBox.Focused)
             ActiveControl = null;
+
+
         //  if (Skill.PlayEnded)
         //  SearchMapBox.Clear();
     }
@@ -1049,6 +1056,19 @@ public partial class MainForm : Form
 
     private void FullScreenButton_Click(object sender, EventArgs e)
     {
+        RenderFormDraw.ScreenMode = ScreenMode.FullScreen;
+        this.Controls.Remove(RenderForm);
+        RenderForm.TopLevel = true;
+        RenderForm.FormBorderStyle = FormBorderStyle.None;
+        RenderForm.Bounds = Screen.PrimaryScreen.Bounds;
+
+        RenderForm.RenderFormDraw.Width = Map.ScreenWidth;
+        RenderForm.RenderFormDraw.Height = Map.ScreenHeight;
+        RenderForm.RenderFormDraw.Parent = RenderForm;
+        EngineFunc.SpriteEngine.VisibleWidth = Map.DisplaySize.X + 200;
+        EngineFunc.SpriteEngine.VisibleHeight = Map.DisplaySize.Y + 200;
+        Map.ResetPos = true;
+        Refresh();
 
     }
 

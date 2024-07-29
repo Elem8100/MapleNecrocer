@@ -127,7 +127,7 @@ public class RenderFormDraw : MonoGameControl
             }
         }
 
-        if (ScreenMode == ScreenMode.Scale)
+        if (ScreenMode == ScreenMode.Scale || ScreenMode == ScreenMode.FullScreen)
         {
             this.GraphicsDevice.SetRenderTarget(ScreenRenderTarget);
             EngineFunc.SpriteEngine.Draw();
@@ -145,6 +145,17 @@ public class RenderFormDraw : MonoGameControl
                 FootholdTree.Instance.DrawFootholds();
             }
             this.GraphicsDevice.SetRenderTarget(null);
+        }
+
+        if (ScreenMode == ScreenMode.FullScreen && Keyboard.KeyPressed(Input.Escape))
+        {
+            RenderForm.Instance.TopLevel = false;
+            RenderForm.Instance.Parent = MainForm.Instance;
+            MainForm.SetScreenNormal();
+            System.Drawing.Rectangle Rect = new(MainForm.Instance.Left + 257, MainForm.Instance.Top + 93,
+              Map.DisplaySize.X, Map.DisplaySize.Y);
+            if (Rect.Contains(new System.Drawing.Point(Cursor.Position.X, Cursor.Position.Y)))
+                Cursor.Show();
         }
 
         if (Sound.PlayendList.Count == 100)
@@ -185,6 +196,7 @@ public class RenderFormDraw : MonoGameControl
             UpdateGame();
             Accumulator -= FixedUpdateDelta;
         }
+
     }
 
     protected override void Draw()
@@ -216,6 +228,9 @@ public class RenderFormDraw : MonoGameControl
                 if (ScaleForm.UseScanline)
                     EngineFunc.Canvas.Draw(ScaleForm.ScanlineTexture4096, 0, 0, MonoGame.SpriteEngine.BlendMode.Multiply);
                 break;
+            case ScreenMode.FullScreen:
+                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, Map.ScreenWidth, Map.ScreenHeight, Map.DisplaySize.X, Map.DisplaySize.Y);
+                break;
         }
 
         if (Map.ResetPos)
@@ -237,7 +252,9 @@ public class RenderFormDraw : MonoGameControl
         }
 
         if (Map.FirstLoaded)
+        {
             GameCursor.Draw();
+        }
 
     }
     protected override void OnMouseEnter(EventArgs e)
@@ -251,6 +268,7 @@ public class RenderFormDraw : MonoGameControl
         if (Map.FirstLoaded)
             Cursor.Show();
     }
+
 
 }
 

@@ -381,8 +381,18 @@ public partial class AvatarForm : Form
             ResetDye2();
         };
 
-        Inventory.SetToolTipEvent(WzType.Character, this);
-
+        Inventory.CellMouseEnter += (s, e) =>
+        {
+            if (ShowToolTip)
+            {
+                Inventory.Refresh();
+                string _ID = Inventory.Rows[e.RowIndex].Cells[0].Value.ToString();
+                Wz_Node Node = Wz.GetNodeByID(_ID, WzType.Character);
+                MainForm.Instance.QuickView(Node);
+                MainForm.Instance.ToolTipView.Owner = this;
+            }
+        };
+        // Inventory.SetToolTipEvent(WzType.Character, this);
         AddEqps("00002000");
         AddInventory();
         ResetDyeGrid();
@@ -943,7 +953,7 @@ public partial class AvatarForm : Form
         DyePicture.Image = (Bitmap)DyeGrid2.Rows[e.RowIndex].Cells[1].Value;
         RowIndex = e.RowIndex;
     }
-   
+
 
     void SetDye2()
     {
@@ -952,7 +962,7 @@ public partial class AvatarForm : Form
         Bitmap Bmp = (Bitmap)DyeGrid2.Rows[RowIndex].Cells[1].Value;
         Bitmap Image = null;
         ImageFilter.HSL(ref Bmp, HueTrackBar.Value, SatTrackBar.Value, LightnessTrackBar.Value);
-       
+
         DyePicture.Image = Bmp;
         LabelHue.Text = HueTrackBar.Value.ToString();
         LabelSat.Text = SatTrackBar.Value.ToString();

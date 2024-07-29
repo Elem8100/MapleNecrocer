@@ -662,12 +662,15 @@ namespace MapleNecrocer
             // 
             // FullScreenButton
             // 
+            FullScreenButton.Enabled = false;
             FullScreenButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            FullScreenButton.Image = (Image)resources.GetObject("FullScreenButton.Image");
+            FullScreenButton.ImageAlign = ContentAlignment.TopCenter;
             FullScreenButton.Location = new Point(157, 1);
             FullScreenButton.Name = "FullScreenButton";
             FullScreenButton.Size = new Size(77, 52);
             FullScreenButton.TabIndex = 5;
-            FullScreenButton.Text = "Full Screen";
+            FullScreenButton.Text = "Full Scr";
             FullScreenButton.TextAlign = ContentAlignment.BottomCenter;
             FullScreenButton.UseVisualStyleBackColor = true;
             FullScreenButton.Click += FullScreenButton_Click;

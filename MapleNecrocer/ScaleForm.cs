@@ -44,7 +44,7 @@ public partial class ScaleForm : Form
         //this.Width = Map.DisplaySize.X + 283;
         //this.Height = Map.DisplaySize.Y + 124;
 
-        Result = MainForm.MoveWindow(MainForm.RenderForm.Handle, MainForm.RenderForm.Left, MainForm.RenderForm.Top, ScaleX, ScaleY, true);
+        Result = MainForm.MoveWindow(MainForm.RenderForm.Handle, 257,93, ScaleX, ScaleY, true);
         // RenderForm.Width = Map.DisplaySize.X;
         //RenderForm.Height = Map.DisplaySize.Y;
         RenderForm.RenderFormDraw.Width = ScaleX;

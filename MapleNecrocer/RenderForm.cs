@@ -30,16 +30,17 @@ public partial class RenderForm : Form
         RenderFormDraw.Width = 1024;
         RenderFormDraw.Height = 768;
         RenderFormDraw.Parent = this;
-
+        Instance = this;
     }
     public static RenderFormDraw RenderFormDraw;
+    public static RenderForm Instance;
 
 
     private void RenderForm_Load(object sender, EventArgs e)
     {
 
     }
-
+   
 }
 
 
