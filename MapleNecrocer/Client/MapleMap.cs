@@ -40,6 +40,8 @@ public class Map
     public static string ID;
     public static Wz_Node Img;
     public static Microsoft.Xna.Framework.Point DisplaySize = new(1024, 768);
+    public static int ScreenWidth=Screen.PrimaryScreen.Bounds.Width;
+    public static int ScreenHeight = Screen.PrimaryScreen.Bounds.Height;
     public static Dictionary<string, int> Info = new();
     public static int Left, Top, Right, Bottom, SaveMapBottom;
     public static bool ShowTile = true;
