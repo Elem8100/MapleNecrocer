@@ -39,17 +39,22 @@ public class MapPortal : SpriteEx
         else
             PortalList.Clear();
 
-        if (!Wz.HasNode("Map/MapHelper.img/portal/game/pv/default"))
+        if (!Wz.HasNode("Map/MapHelper.img/portal/game/ph"))
+        {
+            Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/pv"), Wz.Data, Wz.ImageLib);
+            Version = 0;
+        }
+        else if (!Wz.HasNode("Map/MapHelper.img/portal/game/pv/default"))
         {
             Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/pv"), Wz.Data, Wz.ImageLib);
             Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/ph/default/portalContinue"), Wz.Data, Wz.ImageLib);
-            Version = 0;
+            Version = 1;
         }
         else
         {
             Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/pv/default"), Wz.Data, Wz.ImageLib);
             Wz.DumpData(Wz.GetNode("Map/MapHelper.img/portal/game/ph/default/portalStart"), Wz.Data, Wz.ImageLib);
-            Version = 1;
+            Version = 2;
         }
 
         PortalInfo = new PortalInfo();
@@ -68,7 +73,7 @@ public class MapPortal : SpriteEx
             {
                 var MapPortal = new MapPortal(EngineFunc.SpriteEngine);
                 MapPortal.ImageLib = Wz.ImageLib;
-                if (Version == 0)
+                if (Version == 0 || Version == 1)
                 {
                     switch (PType)
                     {
@@ -81,7 +86,7 @@ public class MapPortal : SpriteEx
                             break;
                     }
                 }
-                else if (Version == 1)
+                else if (Version == 2)
                 {
                     switch (PType)
                     {
