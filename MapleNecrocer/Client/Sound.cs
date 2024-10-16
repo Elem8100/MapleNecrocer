@@ -39,6 +39,8 @@ public class Sound
     }
     public static void Play(string Path)
     {
+        if(!Wz.HasNode(Path))
+            return;
         Wz_Node Child;
         Wz_Node WzNode = Wz.GetNode(Path);
         if (WzNode.Value is Wz_Uol)
