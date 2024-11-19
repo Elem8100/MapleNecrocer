@@ -21,6 +21,108 @@ public class MiniMap : UIForm
     bool HasMark;
     RenderTarget2D RenderTarget;
     Wz_Node PlayerMark;
+
+    void DrawVersionAlpha()
+    {
+        Wz_Node UIEntry = Wz.GetNode("UI/UIWindow.img/MiniMap");
+        Wz.DumpData(UIEntry, Wz.UIData, Wz.UIImageLib);
+        int PicWidth, PicHeight;
+        var Canvas = EngineFunc.Canvas;
+        if (Map.Img.HasNode("miniMap"))
+        {
+            HasMiniMap = true;
+            cx = Map.Img.GetInt("miniMap/centerX");
+            cy = Map.Img.GetInt("miniMap/centerY");
+            var MiniMapNode = Map.Img.GetNode("miniMap");
+            Wz.DumpData(MiniMapNode, Wz.UIData, Wz.UIImageLib);
+            var MiniMapPng = Map.Img.GetBmp("miniMap/canvas");
+
+            PicHeight = MiniMapPng.Height;
+            PicWidth = PWidth;
+            OffX = (PicWidth - MiniMapPng.Width) / 2;
+            var Left = ((PicWidth + 13) - MiniMapPng.Width) / 2;
+            Canvas.FillRect(7, 72, Left, PicHeight, new Color(128, 128, 128, 128));
+            Canvas.FillRect(OffX + 13 + MiniMapPng.Width, 72, Left, PicHeight, new Color(128, 128, 128, 128));
+            Canvas.FillRect(OffX + 13, 72, MiniMapPng.Width, PicHeight, new Color(0, 0, 0, 128));
+            Canvas.Draw(Wz.UIImageLib[MiniMapNode.GetNode("canvas")], 9 + OffX + 3, 72);
+        }
+        else
+        {
+            cx = 0;
+            cy = 0;
+            OffX = 0;
+            OffY = 0;
+            PicWidth = 150;
+            PicHeight = 100;
+            Canvas.FillRect(9, 62, PicWidth, PicHeight, new Color(0, 0, 0, 180));
+        }
+
+        for (int X = 0; X <= PicWidth + 10; X++)
+        {
+            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("n")], 4 + X + 3, 0);
+            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("s")], 4 + X + 3, PicHeight + 62 + 10);
+        }
+
+        for (int Y = 0; Y <= PicHeight - 1; Y++)
+        {
+            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("w")], 1, 72 + Y);
+            Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("e")], PicWidth + 18, 72 + Y);
+        }
+        Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("nw")], 1, 0); //left top
+        Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("ne")], PicWidth + 18, 0); //right top
+        Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("sw")], 1, PicHeight + 72); // right bottom
+        Canvas.Draw(Wz.UIImageLib[UIEntry.GetNode("se")], PicWidth + 18, PicHeight + 72); // left botton
+
+        if (Wz.HasNode("Map/MapHelper.img/minimap"))
+            HasMark = true;
+
+        if (HasMark)
+        {
+            Wz.DumpData(Wz.GetNode("Map/MapHelper.img/minimap"), Wz.UIData, Wz.UIImageLib);
+            var NpcMark = Wz.GetNode("Map/MapHelper.img/minimap/npc");
+            foreach (var Iter in Map.Img.GetNodes("life"))
+            {
+                if (Iter.GetStr("type") == "n" && Iter.GetInt("hide") != 1)
+                    Canvas.Draw(Wz.UIImageLib[NpcMark], ((Iter.GetInt("x") + cx) / 16)
+                      + OffX + 12, ((Iter.GetInt("y") + cy) / 16) + 65);
+            }
+            var PortalMark = Wz.GetNode("Map/MapHelper.img/minimap/portal");
+            foreach (var Iter in Map.Img.GetNodes("portal"))
+            {
+                if (Iter.GetInt("pt") == 2 || Iter.GetInt("pt") == 7)
+                    Canvas.Draw(Wz.UIImageLib[PortalMark], ((Iter.GetInt("x") + cx) /
+                      16) + OffX + 10, ((Iter.GetInt("y") + cy) / 16) + 63);
+            }
+            PlayerMark = Wz.GetNode("Map/MapHelper.img/minimap/user");
+        }
+        else
+        {
+            foreach (var Iter in Map.Img.GetNodes("portal"))
+            {
+                if (Iter.GetInt("pt") == 2 || (Iter.GetInt("pt") == 7))
+                {
+                    var X = ((Iter.GetInt("x") + cx) / 16) + OffX + 10;
+                    var Y = ((Iter.GetInt("y") + cy) / 16) + 67;
+                    Canvas.FillRect(X, Y, 5, 5, new Color(132, 216, 243, 255));
+                }
+            }
+        }
+
+        var MapMarkName = Map.Img.GetStr("info/mapMark");
+        if (MapMarkName != "None")
+        {
+            var MapMarkPic = Wz.GetNode("Map/MapHelper.img/mark/" + MapMarkName);
+            Wz.DumpData(MapMarkPic, Wz.UIData, Wz.UIImageLib);
+            Canvas.Draw(Wz.UIImageLib[MapMarkPic], 7, 22);
+        }
+
+        if (Map.MapNameList.ContainsKey(Map.ID))
+        {
+            Canvas.DrawString(Map.NpcNameTagFont, Map.MapNameList[Map.ID].StreetName, 49, 26, Color.White);
+            Canvas.DrawString(Map.NpcNameTagFont, Map.MapNameList[Map.ID].MapName, 49, 43, Color.White);
+        }
+    }
+
     void DrawVersion1()
     {
         Wz_Node UIEntry = Wz.GetNode("UI/UIWindow.img/MiniMap/MaxMap");
@@ -209,6 +311,9 @@ public class MiniMap : UIForm
     {
         switch (Version)
         {
+            case 0:
+                DrawVersionAlpha();
+                break;
             case 1:
                 DrawVersion1();
                 break;
@@ -267,7 +372,7 @@ public class MiniMap : UIForm
             SpriteBatch.Draw(RenderTarget, new Vector2(Location.X, Location.Y), Color.White);
             int px = (int)(Game.Player.X + cx) / 16;
             int py = (int)(Game.Player.Y + cy) / 16;
-            if (Version == 1)
+            if (Version == 1 || Version == 0)
             {
                 if (HasMark)
                     SpriteBatch.Draw(Wz.UIImageLib[PlayerMark], new Vector2(Location.X + px + OffX + 2 + 8, Location.Y + py + OffY + 50 + 15), Color.White);

@@ -17,7 +17,14 @@ public class GameCursor
     //static Wz_Node ImagEntry;
     public static void LoadRes(string CursorNum)
     {
-        Wz.DumpData(Wz.GetNode("UI/Basic.img/Cursor/" + CursorNum), Wz.UIData, Wz.UIImageLib);
+        if(Wz.HasNode("UI/Basic.img/Cursor/" + CursorNum))
+        {
+            Wz.DumpData(Wz.GetNode("UI/Basic.img/Cursor/" + CursorNum), Wz.UIData, Wz.UIImageLib);
+        } else
+        {
+            // Fallback for older clients
+            Wz.DumpData(Wz.GetNode("UI/Basic.img/Cursor/arrow"), Wz.UIData, Wz.UIImageLib);
+        }
     }
 
     public static void Draw()
@@ -53,7 +60,14 @@ public class GameCursor
         }
         else
         {
-            ImageNode = Wz.UIData["UI/Basic.img/Cursor/" + CursorNumber + "/0"];
+            if (Wz.UIData.ContainsKey("UI/Basic.img/Cursor/" + CursorNumber + "/0"))
+            {
+                ImageNode = Wz.UIData["UI/Basic.img/Cursor/" + CursorNumber + "/0"];
+            } else
+            {
+                // It's most likely the /arrow
+                ImageNode = Wz.UIData["UI/Basic.img/Cursor/arrow"];
+            }
             Wz_Vector Origin = ImageNode.GetVector("origin");
             int OffsetX = -Origin.X + 3;
             int OffsetY = -Origin.Y + 3;
