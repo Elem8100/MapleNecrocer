@@ -31,17 +31,20 @@ public class SetEffect : SpriteEx
     public static Dictionary<string, SetEffect> UseList = new();
     public static void LoadList()
     {
-        foreach (var Iter in Wz.GetNodeA("Effect/SetEff.img").Nodes)
+        if (Wz.HasNode("Effect/SetEff.img"))
         {
-            foreach (var Iter2 in Iter.Nodes)
+            foreach (var Iter in Wz.GetNodeA("Effect/SetEff.img").Nodes)
             {
-                if (Iter2.Text == "info")
+                foreach (var Iter2 in Iter.Nodes)
                 {
-                    foreach (var Iter3 in Iter2.Nodes)
+                    if (Iter2.Text == "info")
                     {
-                        foreach (var Iter4 in Iter3.Nodes)
+                        foreach (var Iter3 in Iter2.Nodes)
                         {
-                            SetEffect.AllList.AddOrReplace("0" + Iter4.ToInt(), Iter.Text);
+                            foreach (var Iter4 in Iter3.Nodes)
+                            {
+                                SetEffect.AllList.AddOrReplace("0" + Iter4.ToInt(), Iter.Text);
+                            }
                         }
                     }
                 }

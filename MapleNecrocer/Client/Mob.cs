@@ -204,7 +204,13 @@ public class Mob : JumperSprite
         if (ImgNode.GetInt("info/noFlip").ToBool())
             Mob.FlipX = false;
         Mob.LevelWidth = Map.MeasureStringX(Map.MobLvFont, "Lv." + Mob.Level);
-        Mob.MobName = Wz.GetNodeA("String/Mob.img/" + Mob.LocalID.IntID()).GetStr("name");
+        if (Wz.HasHardCodedStrings)
+        {
+            Mob.MobName = Wz.GetNodeA("Mob/" + Mob.LocalID + ".img/info").GetStr("name");
+        } else
+        {
+            Mob.MobName = Wz.GetNodeA("String/Mob.img/" + Mob.LocalID.IntID()).GetStr("name");
+        }
         Mob.NameWidth = Map.MeasureStringX(Map.NpcNameTagFont, Mob.MobName);
         Mob.IDWidth = Map.MeasureStringX(Map.NpcNameTagFont, "ID:" + Mob.LocalID);
         Mob.NameTagWidth = 10 + Mob.LevelWidth + Mob.NameWidth;
@@ -245,7 +251,8 @@ public class Mob : JumperSprite
     }
 
     public override void DoMove(float Delta)
-    {
+    {  
+       
         base.DoMove(Delta);
 
         int X1 = FH.X1;

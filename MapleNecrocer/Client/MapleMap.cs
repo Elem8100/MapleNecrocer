@@ -147,7 +147,13 @@ public class Map
 
         //
         string LeftNum = ID.LeftStr(1);
-        Map.Img = Wz.GetNode("Map/Map/Map" + LeftNum + "/" + ID + ".img");
+        if (Wz.HasHardCodedStrings)
+        {
+            Map.Img = Wz.GetNode("Map/Map/" + ID + ".img");
+        } else
+        {
+            Map.Img = Wz.GetNode("Map/Map/Map" + LeftNum + "/" + ID + ".img");
+        }
 
 
         Map.Info.Clear();
@@ -206,7 +212,9 @@ public class Map
       
         if (!FirstLoaded)
         {
-            string Name = Wz.GetNode("String/Mob.img/100100/name").ToStr();
+            string StringPath = Wz.HasHardCodedStrings ? "Mob/0100100.img/info/name" : "String/Mob.img/100100/name";
+
+            string Name = Wz.GetNode(StringPath).ToStr();
             switch (Name)
             {
                 case "Snail":
@@ -246,7 +254,7 @@ public class Map
             Player.SpawnNew();
             NameTag.Create("SuperGM");
             GameCursor.LoadRes("0");
-            if (Wz.HasNode("UI/Basic.img/Cursor/12"))
+            if (!Wz.IsDataWz && Wz.HasNode("UI/Basic.img/Cursor/12"))
                 GameCursor.LoadRes("12");
             else
                 GameCursor.IsDataWz = true;
@@ -254,6 +262,8 @@ public class Map
             UI.ControlManager.Controls.Add(MiniMap);
             if(Wz.HasNode("UI/UIWindow4.img"))
                 MiniMap.Version=3;
+            else if (Wz.HasNode("UI/UIWindow.img/MiniMap/e"))
+                MiniMap.Version=0;
             else
                 MiniMap.Version=1;
             FirstLoaded = true;
