@@ -106,7 +106,9 @@ public partial class SelectFolderForm : Form
 
                 MainForm.OpenWZ(FindBaseWz.First());
 
-                if (Wz.GetNode("String/Mob.img/100100/name").ToStr() == "Snail")
+                string StringPath = Wz.HasHardCodedStrings ? "Mob/0100100.img/info/name" : "String/Mob.img/100100/name";
+                
+                if (Wz.GetNode(StringPath).ToStr() == "Snail")
                 {
                     MainForm.Instance.MapListBox.Columns[0].Width = 72;
                     MainForm.Instance.MapListBox.Font = new Font("Arial", 13f, GraphicsUnit.Pixel);
@@ -155,7 +157,8 @@ public partial class SelectFolderForm : Form
 
         if (FindBaseWz.Count() >= 1)
             MainForm.OpenWZ(FindBaseWz.First());
-        if (Wz.GetNode("String/Mob.img/100100/name").ToStr() == "Snail")
+        string StringPath = Wz.HasHardCodedStrings ? "Mob/0100100.img/info/name" : "String/Mob.img/100100/name";
+        if (Wz.GetNode(StringPath).ToStr() == "Snail")
         {
             MainForm.Instance.MapListBox.Columns[0].Width = 72;
             MainForm.Instance.MapListBox.Font = new Font("Arial", 13f, GraphicsUnit.Pixel);

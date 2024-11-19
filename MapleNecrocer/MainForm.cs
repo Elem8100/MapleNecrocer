@@ -91,35 +91,55 @@ public partial class MainForm : Form
     public void DumpMapIDs()
     {
         //  if(Wz.HasNode("Map/Map/Map0"))
-        foreach (var Iter in Wz.GetNodes("String/Map.img"))
+        if (Wz.HasNode("String/Map.img"))
         {
-            foreach (var Iter2 in Iter.Nodes)
+            foreach (var Iter in Wz.GetNodes("String/Map.img"))
             {
-                string ID = Iter2.Text.PadLeft(9, '0');
-                var MapName = Iter2.GetStr("mapName");
-                var StreetName = Iter2.GetStr("streetName");
+                foreach (var Iter2 in Iter.Nodes)
+                {
+                    string ID = Iter2.Text.PadLeft(9, '0');
+                    var MapName = Iter2.GetStr("mapName");
+                    var StreetName = Iter2.GetStr("streetName");
+                    Map.MapNameList.AddOrReplace(ID, new MapNameRec(ID, MapName, StreetName));
+                    if (!MapNames.ContainsKey(ID))
+                    {
+                        MapNames.Add(ID, MapName);
+                    }
+                }
+            }
+
+            Win32.SendMessage(MapListBox.Handle, false);
+            foreach (var Dir in Wz.GetNodes("Map/Map"))
+            {
+                if (LeftStr(Dir.Text, 3) != "Map" && Wz.HasHardCodedStrings == false)
+                    continue;
+                foreach (var img in Dir.Nodes)
+                {
+                    if (!Char.IsNumber(img.Text[0]))
+                        continue;
+                    var ID = img.ImgID();
+                    if (MapNames.ContainsKey(ID))
+                        MapListBox.Rows.Add(ID, MapNames[ID]);
+                    else
+                        MapListBox.Rows.Add(ID, "");
+                }
+            }
+
+        } else if (Wz.HasHardCodedStrings)
+        {
+            Win32.SendMessage(MapListBox.Handle, false);
+            foreach (var Iter in Wz.GetNodes("Map/Map"))
+            {
+                string ID = Iter.Text.Replace(".img", "");
+                ID = ID.PadLeft(9, '0');
+                var MapName = Iter.HasNode("info/mapName") ? Iter.GetStr("info/mapName") : "";
+                var StreetName = Iter.HasNode("info/streetName") ? Iter.GetStr("info/mapName") : "";
                 Map.MapNameList.AddOrReplace(ID, new MapNameRec(ID, MapName, StreetName));
                 if (!MapNames.ContainsKey(ID))
                 {
                     MapNames.Add(ID, MapName);
-                }
-            }
-        }
-
-        Win32.SendMessage(MapListBox.Handle, false);
-        foreach (var Dir in Wz.GetNodes("Map/Map"))
-        {
-            if (LeftStr(Dir.Text, 3) != "Map")
-                continue;
-            foreach (var img in Dir.Nodes)
-            {
-                if (!Char.IsNumber(img.Text[0]))
-                    continue;
-                var ID = img.ImgID();
-                if (MapNames.ContainsKey(ID))
                     MapListBox.Rows.Add(ID, MapNames[ID]);
-                else
-                    MapListBox.Rows.Add(ID, "");
+                }
             }
         }
 
@@ -336,6 +356,11 @@ public partial class MainForm : Form
         if (Wz.HasNode("Mob/0100100.img/info/name"))
         {
             Wz.HasStringWz = false;
+        }
+
+        if(Wz.HasStringWz == false && Wz.HasNode("String") == false)
+        {
+            Wz.HasHardCodedStrings = true;
         }
 
         Wz.HasMap9Dir = false;
@@ -693,18 +718,19 @@ public partial class MainForm : Form
     {
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
         var LeftNum = LeftStr(ID, 1);
-        var Node = Wz.GetNode("Map/Map/Map" + LeftNum + '/' + ID + ".img/info/link");
+        var NodePath = (Wz.HasMap9Dir ? "Map/Map/Map" + LeftNum + '/' : "Map/Map/") + ID + ".img";
+        var Node = Wz.GetNode(NodePath + "/info/link");
         if (Node == null)
             Map.ID = ID;
         else
             Map.ID = Node.Value.ToString();
 
         LeftNum = LeftStr(Map.ID, 1);
-        Node = Wz.GetNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap");
+        Node = Wz.GetNode(NodePath + "/miniMap");
 
         if (Node != null)
         {
-            pictureBox1.Image = Wz.GetBmp("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap/canvas");
+            pictureBox1.Image = Wz.GetBmp(NodePath + "/miniMap/canvas");
             // Map.Img = GetWzNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img");
         }
         else

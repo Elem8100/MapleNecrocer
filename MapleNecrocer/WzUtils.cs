@@ -46,6 +46,7 @@ internal class Wz
     public static Dictionary<string, Wz_Node> UIData = new Dictionary<string, Wz_Node>();
     public static string Region;
     public static bool HasStringWz;
+    public static bool HasHardCodedStrings = false;
     //very old Data.wz has no Map1,Map2,Map3... dir
     public static bool HasMap9Dir;
     public static bool IsDataWz;
@@ -314,6 +315,7 @@ internal class Wz
         {
             string[] Split = Path.Split('/');
             var Node2 = PluginManager.FindWz(Split[0]);
+            if (Node2 == null) return null;
             int Count = 0;
             string Str = "";
             string Path1 = "";
