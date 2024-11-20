@@ -187,13 +187,13 @@ public class Player : JumperSprite
         }
 
 
-        string[] DefaultEqps = { "01302000", "00002000", "01060002", "01070000", "01040005", "00020000", "00030020", "00012000" };
+        string[] DefaultEqps = { "01302000", "00002000", "01060002", "01072000", "01040005", "00020000", "00030020", "00012000" };
         for (int I = 0; I <= 7; I++)
         {
             Game.Player.CreateEquip(DefaultEqps[I], Game.Player.AvatarEngine);
             Player.EqpList.Add(DefaultEqps[I]);
         }
-        Wz.DumpData(Wz.GetNodeA("Character/00002001.img"), Wz.EquipData, Wz.EquipImageLib);
+        Wz.DumpData(Wz.GetNodeA("Character/00002000.img"), Wz.EquipData, Wz.EquipImageLib);
 
         Game.Player.AttackAction = Game.Player.AttackActions[0];
         AfterImage.Load(Game.Player.AfterImageStr, "0");

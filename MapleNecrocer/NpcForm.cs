@@ -75,8 +75,9 @@ public partial class NpcForm : Form
             if (!Char.IsNumber(Iter.Text, 0))
                 continue;
             ID = Iter.Text.LeftStr(7);
-            if (Wz.GetNodeA("String/Npc.img/" + ID.IntID()) != null)
-                Name = Wz.GetNodeA("String/Npc.img/" + ID.IntID()).GetStr("name");
+            string npcStringPath = Wz.HasHardCodedStrings ? "Npc/" + ID + ".img/info" : "String/Npc.img/" + ID.IntID();
+            if (Wz.GetNodeA(npcStringPath) != null)
+                Name = Wz.GetNodeA(npcStringPath).GetStr("name");
             NpcListGrid.Rows.Add(ID, Name);
 
         }

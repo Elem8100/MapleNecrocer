@@ -64,7 +64,8 @@ public class Npc : SpriteEx
     }
     public static void Spawn(string ID, int PosX, int PosY, int FlipX)
     {
-        if (Wz.GetNodeA("String/Npc.img/" + ID.IntID()) == null)
+        string npcStringPath = Wz.HasHardCodedStrings ? "Npc/" + ID + ".img/info" : "String/Npc.img/" + ID.IntID();
+        if (Wz.GetNodeA(npcStringPath) == null)
             return;
         switch (ID.ToInt())
         {
@@ -117,7 +118,8 @@ public class Npc : SpriteEx
         Npc.Width = Npc.ImageWidth;
         Npc.Height = Npc.ImageHeight;
 
-        foreach (var Iter2 in Wz.GetNode("String/Npc.img/" + Npc.SpriteID.IntID()).Nodes)
+        npcStringPath = Wz.HasHardCodedStrings ? "Npc/" + Npc.SpriteID + ".img/info" : "String/Npc.img/" + Npc.SpriteID.IntID();
+        foreach (var Iter2 in Wz.GetNode(npcStringPath).Nodes)
         {
             if (Iter2.Text.Length == 2)
             {
@@ -167,8 +169,8 @@ public class Npc : SpriteEx
         }
         //
         var NpcText = new NpcText(EngineFunc.SpriteEngine);
-        NpcText.NpcName = Wz.GetNodeA("String/Npc.img/" + Npc.LocalID.IntID()).GetStr("name");
-        NpcText.NpcFunc = Wz.GetNodeA("String/Npc.img/" + Npc.LocalID.IntID()).GetStr("func");
+        NpcText.NpcName = Wz.GetNodeA(npcStringPath).GetStr("name");
+        NpcText.NpcFunc = Wz.GetNodeA(npcStringPath).GetStr("func");
         if (NpcText.NpcFunc != "")
             NpcText.HasFunc = true;
         NpcText.X = Pos.X;
