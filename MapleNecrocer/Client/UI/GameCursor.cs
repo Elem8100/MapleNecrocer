@@ -17,12 +17,15 @@ public class GameCursor
     //static Wz_Node ImagEntry;
     public static void LoadRes(string CursorNum)
     {
-        if(Wz.HasNode("UI/Basic.img/Cursor/" + CursorNum))
+        if (Wz.HasNode("UI/Basic.img/Cursor/" + CursorNum))
         {
             Wz.DumpData(Wz.GetNode("UI/Basic.img/Cursor/" + CursorNum), Wz.UIData, Wz.UIImageLib);
-        } else
-        {
-            // Fallback for older clients
+        } else if(Wz.HasNode("UI/Basic.img/Cursor/arrow/" + CursorNum)) {
+            // Fallback for older clients, with arrow/0 cursor available only.
+            Wz.DumpData(Wz.GetNode("UI/Basic.img/Cursor/arrow/" + CursorNum), Wz.UIData, Wz.UIImageLib);
+
+        } else {
+            // Fallback for REALLY old clients
             Wz.DumpData(Wz.GetNode("UI/Basic.img/Cursor/arrow"), Wz.UIData, Wz.UIImageLib);
         }
     }
@@ -63,8 +66,9 @@ public class GameCursor
             if (Wz.UIData.ContainsKey("UI/Basic.img/Cursor/" + CursorNumber + "/0"))
             {
                 ImageNode = Wz.UIData["UI/Basic.img/Cursor/" + CursorNumber + "/0"];
-            } else
-            {
+            } else if (Wz.UIData.ContainsKey("UI/Basic.img/Cursor/arrow/" + CursorNumber)) {
+                ImageNode = Wz.UIData["UI/Basic.img/Cursor/arrow/" + CursorNumber];
+            } else {
                 // It's most likely the /arrow
                 ImageNode = Wz.UIData["UI/Basic.img/Cursor/arrow"];
             }
