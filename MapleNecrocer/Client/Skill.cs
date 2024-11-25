@@ -14,7 +14,7 @@ public class Skill : Sprite
 {
     public Skill(Sprite Parent) : base(Parent)
     {
-       
+
     }
     public static Dictionary<Input, string> HotKeyList = new();
     public static bool PlayEnded;
@@ -44,7 +44,7 @@ public class Skill : Sprite
         foreach (var Iter in Entry.Nodes)
         {
             if (Iter.Text == "action")
-                Equip.DataS.AddOrReplace(ID + "/action", Iter.GetStr("0","alert"));
+                Equip.DataS.AddOrReplace(ID + "/action", Iter.GetStr("0", "alert"));
             if (Iter.Text == "tile")
                 Equip.Data.AddOrReplace(ID + "/tileCount", Iter.Nodes.Count - 1);
         }
@@ -150,12 +150,12 @@ public class Skill : Sprite
     }
 
     public static void Create(string ID)
-    {  
+    {
         string[] Effects = {"effect", "effect0", "effect1", "effect2","effect3",
                             "screen", "screen0", "ball", "keydown", "keydown0", "keydowned"};
         Skill.ID = ID;
         Skill.PlayEnded = false;
-        Sound.Play("Sound/Skill.img/"+ ID + "/Use");
+        Sound.Play("Sound/Skill.img/" + ID + "/Use");
         Wz_Node Entry = null;
         if (Wz.HasNode("Skill/" + GetJobImg(ID) + ".img"))
         {
@@ -164,7 +164,7 @@ public class Skill : Sprite
         }
         Skill.Entry = Entry;
 
-        
+
         switch (ID)
         {
             case "1121008":
@@ -178,14 +178,14 @@ public class Skill : Sprite
         }
         int Count = 0;
         DamageWaitTime = GetDamageWaitTime(ID);
-        
+
         //連打6次
         var SpriteList = EngineFunc.SpriteEngine.SpriteList;
         if (Skill.MultiStrike)
         {
             Count = 1;
             TotalTime = DamageWaitTime + 6 * 7;
-             
+
 
             for (int i = 0; i < SpriteList.Count; i++)
             {
@@ -207,28 +207,41 @@ public class Skill : Sprite
         {
             Count = 6;
         }
-        
+
         //順序打
+        bool PreBB = Wz.HasNode("Skill/100.img/skill/1000000/level");
         for (int i = 1; i <= Count; i++)
         {
             var SkillCollision = new SkillCollision(EngineFunc.SpriteEngine);
             SkillCollision.CanCollision = true;
             //ID := ID;
-            SkillCollision.IDEntry = Entry;
+
+            if (PreBB)
+            {
+                int MaxLevel = Entry.GetNode("level").Nodes.Count;
+                SkillCollision.PathLT = Entry.FullPathToFile2() + "/level/" + MaxLevel.ToString() + "/lt";
+                SkillCollision.PathRB = Entry.FullPathToFile2() + "/level/" + MaxLevel.ToString() + "/rb";
+            }
+            else
+            {
+                SkillCollision.PathLT = Entry.FullPathToFile2() + "/common/lt";
+                SkillCollision.PathRB = Entry.FullPathToFile2() + "/common/rb";
+            }
+          
             SkillCollision.StartTime = DamageWaitTime + i * 6;
         }
-      
-        
+
+
         for (int i = 0; i < EngineFunc.SpriteEngine.SpriteList.Count; i++)
         {
             if (EngineFunc.SpriteEngine.SpriteList[i] is Mob)
                 ((Mob)EngineFunc.SpriteEngine.SpriteList[i]).CanCollision = true;
         }
-        
+
         for (int i = 0; i <= 10; i++)
         {
 
-          //    if (!Entry.HasNode("Effect/0"))
+            //    if (!Entry.HasNode("Effect/0"))
             //  return;
 
             if (Entry.HasNode(Effects[i]))
@@ -315,14 +328,14 @@ public class Skill : Sprite
                     Skill.Attacking = true;
                     Skill.Create(Skill.HotKeyList[K]);
                 }
-               
+
             }
 
         }
 
     }
 
-  
+
 
 }
 
@@ -415,22 +428,21 @@ public class SkillCollision : SpriteEx
     public SkillCollision(Sprite Parent) : base(Parent)
     {
         CollideMode = CollideMode.Rect;
-        CanCollision = true;    
+        CanCollision = true;
     }
     public int StartTime;
     int Counter;
     int Num;
-    public Wz_Node IDEntry;
+    public string PathLT, PathRB;
     Wz_Vector LT, RB;
     public override void DoMove(float Delta)
     {
         base.DoMove(Delta);
         FlipX = Game.Player.FlipX;
-        if (Wz.EquipData.ContainsKey(IDEntry.FullPathToFile2() + "/common/lt"))
+        if (Wz.EquipData.ContainsKey(PathLT))
         {
-            
-            LT = Wz.EquipData[IDEntry.FullPathToFile2() + "/common/lt"].ToVector();
-            RB = Wz.EquipData[IDEntry.FullPathToFile2() + "/common/rb"].ToVector();
+            LT = Wz.EquipData[PathLT].ToVector();
+            RB = Wz.EquipData[PathRB].ToVector();
             switch (Game.Player.FlipX)
             {
                 case true:
@@ -445,7 +457,7 @@ public class SkillCollision : SpriteEx
             Top = (int)Game.Player.Y + LT.Y;
             Bottom = (int)Game.Player.Y + RB.Y;
         }
-        CollideRect  = SpriteUtils.Rect(Left, Top, Right, Bottom);
+        CollideRect = SpriteUtils.Rect(Left, Top, Right, Bottom);
         Counter += 1;
         if (Skill.MultiStrike)
         {
@@ -466,19 +478,19 @@ public class SkillCollision : SpriteEx
     public override void OnCollision(Sprite sprite)
     {
         if (Skill.MultiStrike)
-         return;
+            return;
 
         if (sprite is Mob)
         {
             var Mob = (Mob)sprite;
             Mob.CanCollision = false;
             if (Mob.HP > 0)
-            {  
+            {
                 Mob.Hit = true;
                 Random Random = new Random();
                 Game.Damage = 50000 + Random.Next(700000);
                 Mob.HP -= Game.Damage;
-               
+
                 if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Damage") != null)
                     Sound.Play("Sound/Mob.img/" + Mob.ID + "/Damage");
                 else if (Wz.GetNode("Sound/Mob.img/" + Mob.ID + "/Hit1") != null)
@@ -552,7 +564,7 @@ public class SkillHitEffect : SpriteEx
             if (!Wz.EquipData.ContainsKey(EntryPath + HitPath + Frame))
             {
                 if (AnimRepeat)
-                { 
+                {
                     Frame = 0;
                 }
                 else
@@ -564,6 +576,6 @@ public class SkillHitEffect : SpriteEx
         }
 
         if (AnimEnd)
-          Dead();
+            Dead();
     }
 }
