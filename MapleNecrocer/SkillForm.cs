@@ -24,9 +24,9 @@ public partial class SkillForm : Form
     public static SkillForm Instance;
     public DataGridViewEx SkillListGrid, UseListGrid;
     int SelectRow;
-    
-   
-    
+
+
+
     void CellClick(BaseDataGridView DataGrid, DataGridViewCellEventArgs e)
     {
         var Rec = DataGrid.GetCellDisplayRectangle(1, e.RowIndex, true);
@@ -78,10 +78,11 @@ public partial class SkillForm : Form
 
         SkillListGrid.SetToolTipEvent(WzType.Skill, this);
         var Graphic = SkillListGrid.CreateGraphics();
-       
+
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
         Graphic.DrawString("Loading...", Font, Brushes.Black, 10, 50);
         Win32.SendMessage(SkillListGrid.Handle, false);
+        bool PreBB = Wz.HasNode("Skill/100.img/skill/1000000/level");
         foreach (var Img in Wz.GetNodes("Skill"))
         {
             if (!Char.IsNumber(Img.Text[0]))
@@ -90,24 +91,47 @@ public partial class SkillForm : Form
                 continue;
             if (!Wz.HasNode("Skill/" + Img.Text + "/skill"))
                 continue;
-            foreach (var ID in Wz.GetNodes("Skill/" + Img.Text + "/skill"))
-            {
-                if (ID.Text[0] == '0')
-                    continue;
-                if (!ID.HasNode("hit"))
-                    continue;
-                if (!ID.HasNode("common"))
-                    continue;
-                if (!ID.HasNode("common/lt"))
-                    continue;
-                if (!ID.HasNode("effect"))
-                    continue;
-                Bitmap Bmp = Wz.GetBmp("Skill/" + Skill.GetJobImg(ID.Text) + ".img/skill/" + ID.Text + "/icon");
-                string SkillName = "";
-                if (Wz.HasNode("String/Skill.img/" + ID.Text))
-                    SkillName = Wz.GetStr("String/Skill.img/" + ID.Text + "/name");
-                SkillListGrid.Rows.Add(ID.Text, Bmp, SkillName);
 
+            if (PreBB)
+            {
+                foreach (var ID in Wz.GetNodes("Skill/" + Img.Text + "/skill"))
+                {
+                    if (ID.Text[0] == '0')
+                        continue;
+                    if (!ID.HasNode("hit"))
+                        continue;
+                    if (!ID.HasNode("level/1/lt"))
+                        continue;
+                    if (!ID.HasNode("effect"))
+                        continue;
+                    Bitmap Bmp = Wz.GetBmp("Skill/" + Skill.GetJobImg(ID.Text) + ".img/skill/" + ID.Text + "/icon");
+                    string SkillName = "";
+                    if (Wz.HasNode("String/Skill.img/" + ID.Text))
+                        SkillName = Wz.GetStr("String/Skill.img/" + ID.Text + "/name");
+                    SkillListGrid.Rows.Add(ID.Text, Bmp, SkillName);
+                }
+            }
+            else
+            {
+                foreach (var ID in Wz.GetNodes("Skill/" + Img.Text + "/skill"))
+                {
+                    if (ID.Text[0] == '0')
+                        continue;
+                    if (!ID.HasNode("hit"))
+                        continue;
+                    if (!ID.HasNode("common"))
+                        continue;
+                    if (!ID.HasNode("common/lt"))
+                        continue;
+                    if (!ID.HasNode("effect"))
+                        continue;
+                    Bitmap Bmp = Wz.GetBmp("Skill/" + Skill.GetJobImg(ID.Text) + ".img/skill/" + ID.Text + "/icon");
+                    string SkillName = "";
+                    if (Wz.HasNode("String/Skill.img/" + ID.Text))
+                        SkillName = Wz.GetStr("String/Skill.img/" + ID.Text + "/name");
+                    SkillListGrid.Rows.Add(ID.Text, Bmp, SkillName);
+
+                }
             }
 
         }
