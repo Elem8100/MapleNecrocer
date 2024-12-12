@@ -52,7 +52,8 @@ public partial class SelectFolderForm : Form
         InitializeComponent();
         Instance = this;
     }
-    public static SelectFolderForm Instance;
+    public static SelectFolderForm? Instance;
+    public event EventHandler? OnDataLoaded;
     private void OpenWzForm_Load(object sender, EventArgs e)
     {
 
@@ -98,6 +99,7 @@ public partial class SelectFolderForm : Form
             if (FindBaseWz.Count() >= 1)
             {
                 this.Hide();
+                OnDataLoaded?.Invoke(this, EventArgs.Empty);
                 MainForm.Instance.RemoveWz();
                 MainForm.Instance.MapListBox.Rows.Clear();
                 var Graphic = MainForm.Instance.MapListBox.CreateGraphics();
@@ -146,6 +148,7 @@ public partial class SelectFolderForm : Form
     private void RecentFilesGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
         this.Hide();
+        OnDataLoaded?.Invoke(this, EventArgs.Empty);
         MainForm.Instance.MapListBox.Rows.Clear();
         var Graphic = MainForm.Instance.MapListBox.CreateGraphics();
         var Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
