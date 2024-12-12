@@ -766,10 +766,14 @@ public partial class MainForm : Form
     private void OpenFolderButton_Click(object sender, EventArgs e)
     {
         if (SelectFolderForm.Instance == null)
+        {
             new SelectFolderForm().Show();
+        }
         else
+        {
             SelectFolderForm.Instance.Show();
-        OpenFolderButton.Enabled = false;
+            SelectFolderForm.Instance.Focus();
+        }
     }
 
     private void MapListBox_SelectedIndexChanged(object sender, EventArgs e)
