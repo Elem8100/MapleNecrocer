@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <Reference Include="WzComparerR2.Common">
-      <HintPath>..\WzComparerR2.Common\bin\Release\net6.0-windows\WzComparerR2.Common.dll</HintPath>
+      <HintPath>..\WzComparerR2.Common\bin\Release\net8.0-windows7.0\WzComparerR2.Common.dll</HintPath>
     </Reference>
     <Reference Include="WzComparerR2.WzLib">
-      <HintPath>..\WzComparerR2.WzLib\bin\Release\net6.0-windows\WzComparerR2.WzLib.dll</HintPath>
+      <HintPath>..\WzComparerR2.WzLib\bin\Release\net8.0\WzComparerR2.WzLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 
