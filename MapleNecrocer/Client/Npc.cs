@@ -146,7 +146,7 @@ public class Npc : SpriteEx
             Npc.Balloon.Z = Npc.Z + 100000000;
         }
 
-        
+
         Random Random = new();
         Npc.Counter = Random.Next(1000);
 
@@ -184,7 +184,6 @@ public class Npc : SpriteEx
         NpcText.IDWidth = Map.MeasureStringX(Map.NpcNameTagFont, NpcText.ID);
         NpcText.HideName = WzDict.GetBool("Npc/" + ID + ".img/info/hideName");
         NpcText.Moved = false;
-
 
     }
 

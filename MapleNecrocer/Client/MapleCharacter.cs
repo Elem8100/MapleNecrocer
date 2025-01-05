@@ -193,7 +193,11 @@ public class Player : JumperSprite
             Game.Player.CreateEquip(DefaultEqps[I], Game.Player.AvatarEngine);
             Player.EqpList.Add(DefaultEqps[I]);
         }
-        Wz.DumpData(Wz.GetNodeA("Character/00002000.img"), Wz.EquipData, Wz.EquipImageLib);
+
+        if(Wz.HasHardCodedStrings)
+            Wz.DumpData(Wz.GetNodeA("Character/00002000.img"), Wz.EquipData, Wz.EquipImageLib);
+        else
+            Wz.DumpData(Wz.GetNodeA("Character/00002001.img"), Wz.EquipData, Wz.EquipImageLib);
 
         Game.Player.AttackAction = Game.Player.AttackActions[0];
         AfterImage.Load(Game.Player.AfterImageStr, "0");
@@ -988,7 +992,7 @@ public class AvatarParts : SpriteEx
     public bool ChangeFrame;
     Vector2 origin;
     int Flip;
-    Vector2 MoveOffset;
+    Wz_Vector MoveOffset=new(0,0);
     int Counter;
     public static List<string> ZMap = new();
     static int ChangeExpressionCounter;
