@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -40,10 +40,13 @@
       <HintPath>bin\x64\Release\net6.0-windows\MonoGame.Forms.DX.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\WzComparerR2.PluginBase\bin\Release\net6.0-windows\MonoGame.Framework.dll</HintPath>
+      <HintPath>bin\x64\Release\net8.0-windows7.0\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>bin\x64\Release\net6.0-windows\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>bin\x64\Release\net8.0-windows7.0\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11">
       <HintPath>bin\x64\Release\net6.0-windows\SharpDX.Direct3D11.dll</HintPath>
@@ -51,17 +54,20 @@
     <Reference Include="SharpDX.DXGI">
       <HintPath>bin\x64\Release\net6.0-windows\SharpDX.DXGI.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.Mathematics">
+      <HintPath>..\WzComparerR2.Common\bin\Release\net8.0-windows7.0\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
     <Reference Include="spine-monogame">
       <HintPath>bin\x64\Release\net6.0-windows\spine-monogame.dll</HintPath>
     </Reference>
     <Reference Include="WzComparerR2.Common">
-      <HintPath>..\WzComparerR2.Common\bin\Release\net6.0-windows\WzComparerR2.Common.dll</HintPath>
+      <HintPath>..\WzComparerR2.Common\bin\Release\net8.0-windows7.0\WzComparerR2.Common.dll</HintPath>
     </Reference>
     <Reference Include="WzComparerR2.PluginBase">
-      <HintPath>..\WzComparerR2.PluginBase\bin\Release\net6.0-windows\WzComparerR2.PluginBase.dll</HintPath>
+      <HintPath>..\WzComparerR2.PluginBase\bin\Release\net8.0-windows7.0\WzComparerR2.PluginBase.dll</HintPath>
     </Reference>
     <Reference Include="WzComparerR2.WzLib">
-      <HintPath>..\WzComparerR2.WzLib\bin\Release\net6.0-windows\WzComparerR2.WzLib.dll</HintPath>
+      <HintPath>..\WzComparerR2.WzLib\bin\Release\net8.0\WzComparerR2.WzLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

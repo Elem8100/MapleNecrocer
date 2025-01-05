@@ -27,6 +27,7 @@ using System.Text.RegularExpressions;
 using WzComparerR2.CharaSim;
 using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
+using System.IO;
 using DPIUtils;
 
 namespace MapleNecrocer;
@@ -125,7 +126,8 @@ public partial class MainForm : Form
                 }
             }
 
-        } else if (Wz.HasHardCodedStrings)
+        }
+        else if (Wz.HasHardCodedStrings)
         {
             Win32.SendMessage(MapListBox.Handle, false);
             foreach (var Iter in Wz.GetNodes("Map/Map"))
@@ -311,20 +313,37 @@ public partial class MainForm : Form
             }
         }
 
-        var Path = System.IO.Path.GetDirectoryName(wzFilePath);
+        //var Path = System.IO.Path.GetDirectoryName(wzFilePath);
 
         Wz_Structure wz = new Wz_Structure();
 
         try
         {
-            if (wz.IsKMST1125WzFormat(wzFilePath))
+
+            if (string.Equals(Path.GetExtension(wzFilePath), ".ms", StringComparison.OrdinalIgnoreCase))
+            {
+                wz.LoadMsFile(wzFilePath);
+            }
+            else if (wz.IsKMST1125WzFormat(wzFilePath))
             {
                 wz.LoadKMST1125DataWz(wzFilePath);
+                if (string.Equals(Path.GetFileName(wzFilePath), "Base.wz", StringComparison.OrdinalIgnoreCase))
+                {
+                    string packsDir = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(wzFilePath)), "Packs");
+                    if (Directory.Exists(packsDir))
+                    {
+                        foreach (var msFile in Directory.GetFiles(packsDir, "*.ms"))
+                        {
+                            wz.LoadMsFile(msFile);
+                        }
+                    }
+                }
             }
             else
             {
                 wz.Load(wzFilePath, true);
             }
+
             sortWzNode(wz.WzNode);
 
             Node node = createNode(wz.WzNode);
@@ -358,10 +377,11 @@ public partial class MainForm : Form
             Wz.HasStringWz = false;
         }
 
-        if(Wz.HasStringWz == false && Wz.HasNode("String") == false)
+        if (Wz.HasStringWz == false && Wz.HasNode("String") == false)
         {
             Wz.HasHardCodedStrings = true;
         }
+
 
         Wz.HasMap9Dir = false;
         if (Wz.HasNode("Map/Map/Map1"))
@@ -718,6 +738,8 @@ public partial class MainForm : Form
     {
         var ID = DataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
         var LeftNum = LeftStr(ID, 1);
+        //  var Node = Wz.GetNode("Map/Map/Map" + LeftNum + '/' + ID + ".img/info/link");
+
         var NodePath = (Wz.HasMap9Dir ? "Map/Map/Map" + LeftNum + '/' : "Map/Map/") + ID + ".img";
         var Node = Wz.GetNode(NodePath + "/info/link");
         if (Node == null)
@@ -726,12 +748,14 @@ public partial class MainForm : Form
             Map.ID = Node.Value.ToString();
 
         LeftNum = LeftStr(Map.ID, 1);
+        //Node = Wz.GetNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap");
         Node = Wz.GetNode(NodePath + "/miniMap");
-
         if (Node != null)
         {
-            pictureBox1.Image = Wz.GetBmp(NodePath + "/miniMap/canvas");
+            //pictureBox1.Image = Wz.GetBmp("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img/miniMap/canvas");
             // Map.Img = GetWzNode("Map/Map/Map" + LeftNum + "/" + Map.ID + ".img");
+
+            pictureBox1.Image = Wz.GetBmp(NodePath + "/miniMap/canvas");
         }
         else
             pictureBox1.Image = null;
