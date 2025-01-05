@@ -11,17 +11,18 @@ namespace WzComparerR2.WzLib
         public Wz_Structure()
         {
             this.wz_files = new List<Wz_File>();
+            this.ms_files = new List<Ms_File>();
             this.encryption = new Wz_Crypto();
             this.img_number = 0;
             this.has_basewz = false;
             this.TextEncoding = Wz_Structure.DefaultEncoding;
             this.AutoDetectExtFiles = true;//Wz_Structure.DefaultAutoDetectExtFiles;
             this.ImgCheckDisabled = Wz_Structure.DefaultImgCheckDisabled;
-            // this.WzVersionVerifyMode = Wz_Structure.DefaultWzVersionVerifyMode;
             this.WzVersionVerifyMode = WzVersionVerifyMode.Fast;
         }
 
         public List<Wz_File> wz_files;
+        public List<Ms_File> ms_files;
         public Wz_Crypto encryption;
         public Wz_Node WzNode;
         public int img_number;
@@ -40,6 +41,11 @@ namespace WzComparerR2.WzLib
                 f.Close();
             }
             this.wz_files.Clear();
+            foreach (Ms_File f in this.ms_files)
+            {
+                f.Close();
+            }
+            this.ms_files.Clear();
             this.encryption.Reset();
             this.img_number = 0;
             this.has_basewz = false;
@@ -256,6 +262,36 @@ namespace WzComparerR2.WzLib
 
                     entryWzf.MergeWzFile(extraWzf);
                 }
+            }
+        }
+
+        public void LoadMsFile(string fileName)
+        {
+            this.LoadMsFile(fileName, ref this.WzNode);
+        }
+
+        private void LoadMsFile(string fileName, ref Wz_Node node)
+        {
+            Ms_File file = null;
+            if (node == null)
+            {
+                node = new Wz_Node(Path.GetFileName(fileName));
+            }
+            try
+            {
+                file = new Ms_File(fileName, this);
+                file.ReadEntries();
+                file.GetDirTree(node);
+                this.ms_files.Add(file);
+            }
+            catch
+            {
+                if (file != null)
+                {
+                    file.Close();
+                    this.ms_files.Remove(file);
+                }
+                throw;
             }
         }
 

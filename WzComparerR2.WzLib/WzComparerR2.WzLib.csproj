@@ -1,11 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <AssemblyName>WzComparerR2.WzLib</AssemblyName>
+    <RootNamespace>WzComparerR2.WzLib</RootNamespace>
+    <IsPublishable>false</IsPublishable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
-
+ 
+  <PropertyGroup Condition="$(DotnetEdition) == 'core'">
+  </PropertyGroup>
+  <PropertyGroup Condition="$(DotnetEdition) == 'framework'">
+  </PropertyGroup>
+  <ItemGroup Condition="$(DotnetEdition) == 'core'">
+    <PackageReference Include="System.Drawing.Common" Version="$(SystemDrawingCommonVersion)" />
+  </ItemGroup>
+  <ItemGroup Condition="$(DotnetEdition) == 'framework'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('..\Build\CommonAssemblyInfo.cs')">
+    <Compile Include="..\Build\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>bin\Release\net8.0\System.Drawing.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

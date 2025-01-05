@@ -3,9 +3,9 @@ using WzComparerR2.WzLib.Utilities;
 
 namespace WzComparerR2.WzLib
 {
-    public class Wz_RawData : IMapleStoryBlob
+    public class Wz_Video : IMapleStoryBlob
     {
-        public Wz_RawData(uint offset, int length, Wz_Image wz_Image)
+        public Wz_Video(uint offset, int length, Wz_Image wz_Image)
         {
             this.Offset = offset;
             this.Length = length;
