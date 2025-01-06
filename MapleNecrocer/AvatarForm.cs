@@ -788,10 +788,14 @@ public partial class AvatarForm : Form
                     string ID = null;
                     string name = null;
                     Win32.SendMessage(SearchGrid.Handle, false);
-                    if (Wz.IsDataWz)
-                        DumpEqpString(Wz.GetNodeA("String/Item.img/Eqp"));
-                    else
-                        DumpEqpString(Wz.GetNodeA("String/Eqp.img/Eqp"));
+
+                    if (!Wz.HasHardCodedStrings)
+                    {
+                        if (Wz.HasNode("String/Eqp.img"))
+                            DumpEqpString(Wz.GetNodeA("String/Eqp.img/Eqp"));
+                        else
+                            DumpEqpString(Wz.GetNodeA("String/Item.img/Eqp"));
+                    }
                     Win32.SendMessage(SearchGrid.Handle, true);
                     SearchGrid.Refresh();
                     SearchGridLoaded = true;
