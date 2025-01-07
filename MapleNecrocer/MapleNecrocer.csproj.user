@@ -50,6 +50,9 @@
     <Compile Update="FamiliarForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="EffectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FrameListDraw.cs">
       <SubType>Component</SubType>
     </Compile>

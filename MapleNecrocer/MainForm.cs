@@ -997,6 +997,7 @@ public partial class MainForm : Form
             case "OptionButton": ShowForm(OptionForm.Instance, () => new OptionForm().Show()); break;
             case "EffectRingButton": ShowForm(EffectRingForm.Instance, () => new EffectRingForm().Show()); break;
             case "ChatRingButton": ShowForm(ChatRingForm.Instance, () => new ChatRingForm().Show()); break;
+            case "EffectButton": ShowForm(EffectForm.Instance, () => new EffectForm().Show()); break;
         }
     }
 
@@ -1128,5 +1129,7 @@ public partial class MainForm : Form
         base.OnPaint(e);
         e.Graphics.DrawRectangle(pen, new System.Drawing.Rectangle(256, 92, RenderForm.Width + 2, RenderForm.Height + 2));
     }
+
+   
 }
 

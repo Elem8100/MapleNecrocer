@@ -44,6 +44,7 @@ namespace MapleNecrocer
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            EffectButton = new Button();
             ChatRingButton = new Button();
             EffectRingButton = new Button();
             ReactorButton = new Button();
@@ -83,7 +84,7 @@ namespace MapleNecrocer
             // 
             // OpenFolderButton
             // 
-            OpenFolderButton.Font = new Font("Verdana", 7F, FontStyle.Regular, GraphicsUnit.Point);
+            OpenFolderButton.Font = new Font("Verdana", 7F);
             OpenFolderButton.Location = new Point(204, 6);
             OpenFolderButton.Name = "OpenFolderButton";
             OpenFolderButton.Size = new Size(41, 23);
@@ -242,6 +243,7 @@ namespace MapleNecrocer
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(EffectButton);
             panel1.Controls.Add(ChatRingButton);
             panel1.Controls.Add(EffectRingButton);
             panel1.Controls.Add(ReactorButton);
@@ -275,6 +277,23 @@ namespace MapleNecrocer
             panel1.Name = "panel1";
             panel1.Size = new Size(723, 78);
             panel1.TabIndex = 11;
+            // 
+            // EffectButton
+            // 
+            EffectButton.AutoSize = true;
+            EffectButton.Enabled = false;
+            EffectButton.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Pixel);
+            EffectButton.Image = (Image)resources.GetObject("EffectButton.Image");
+            EffectButton.ImageAlign = ContentAlignment.TopCenter;
+            EffectButton.Location = new Point(2198, 1);
+            EffectButton.Name = "EffectButton";
+            EffectButton.RightToLeft = RightToLeft.No;
+            EffectButton.Size = new Size(78, 52);
+            EffectButton.TabIndex = 29;
+            EffectButton.Text = "Effect";
+            EffectButton.TextAlign = ContentAlignment.BottomCenter;
+            EffectButton.UseVisualStyleBackColor = true;
+            EffectButton.Click += MobButton_Click;
             // 
             // ChatRingButton
             // 
@@ -842,5 +861,6 @@ namespace MapleNecrocer
         public DataGridView WorldMapListGrid;
         private Button EffectRingButton;
         private Button ChatRingButton;
+        private Button EffectButton;
     }
 }
