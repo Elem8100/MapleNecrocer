@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Numerics;
@@ -14,6 +15,121 @@ using WzComparerR2.CharaSim;
 using WzComparerR2.WzLib;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 namespace MapleNecrocer;
+
+public class NormalEffect : SpriteEx
+{
+    public NormalEffect(Sprite Parent) : base(Parent)
+    {
+    }
+    string Path;
+    int Frame;
+    int FTime;
+    int Delay;
+    int Default;
+
+    public static void Remove()
+    {
+        foreach (var Iter in EngineFunc.SpriteEngine.SpriteList)
+        {
+            if (Iter is NormalEffect)
+            {
+                Iter.Dead();
+                var s = Iter;
+                s = null;
+            }
+        }
+        EngineFunc.SpriteEngine.Dead();
+    }
+
+    public static void Create(string WzPath)
+    {
+        Wz_Node Entry = Wz.GetNodeA(WzPath);
+        Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib);
+
+        var NormalEffect = new NormalEffect(EngineFunc.SpriteEngine);
+        NormalEffect.ImageLib = Wz.EquipImageLib;
+        NormalEffect.IntMove = true;
+        NormalEffect.Tag = 1;
+        NormalEffect.Path = Entry.FullPathToFile2();
+    }
+
+    public override void DoMove(float Delta)
+    {
+        base.DoMove(Delta);
+
+        if (Wz.HasDataE(Path + "/" + Frame))
+        {
+            ImageNode = Wz.EquipData[Path + "/" + Frame];
+            Default = 3;
+            Visible = true;
+        }
+        else
+        {
+            Visible = false;
+        }
+
+        if (ImageNode == null)
+            return;
+
+        Delay = ImageNode.GetInt("delay", 100);
+
+        FTime += 17;
+        if (FTime > Delay)
+        {
+            Frame += 1;
+            switch (Default)
+            {
+
+                case 3:
+                    if (!Wz.HasDataE(Path + "/" + Frame))
+                        Frame = 0;
+                    break;
+            }
+            FTime = 0;
+        }
+
+        FlipX = Game.Player.FlipX;
+        X = Game.Player.X - 10;
+
+        if (FlipX)
+        {
+            if (Game.Player.InLadder)
+                X = Game.Player.X - 12;
+            else
+                X = Game.Player.X - 12;
+        }
+        else
+        {
+            if (Game.Player.InLadder)
+                X = Game.Player.X - 5;
+            else
+                X = Game.Player.X-10;
+        }
+
+        Y = Game.Player.Y - 60;
+        Z = Game.Player.Z + ImageNode.ParentNode.GetInt("z", 0);
+
+        Wz_Vector origin = ImageNode.GetVector("origin");
+        Vector2 BrowPos;
+        Wz_Vector BodyRelMove = new(0, 0);
+        int OffY = 0;
+
+        BrowPos = Game.Player.BrowPos;
+        BodyRelMove = MapleChair.BodyRelMove;
+        OffY = 30;
+
+        switch (FlipX)
+        {
+            case true:
+                Origin.X = (int)(-origin.X + ImageWidth - 12 + BrowPos.X - BodyRelMove.X);
+                break;
+            case false:
+                Origin.X = (int)(origin.X + BrowPos.X - 2 - BodyRelMove.X);
+                break;
+        }
+        Origin.Y = (int)(origin.Y + BrowPos.Y - OffY + BodyRelMove.Y);
+    }
+}
 
 public enum EffectType { Cash, Chair, Equip, Consume, Totem, Soul, Ring }
 public class SetEffect : SpriteEx
