@@ -523,7 +523,8 @@ public class SpineBack : SpriteEx
         if (SkeletonRenderer.Effect is BasicEffect basicEff)
         {
             basicEff.World = matrix ?? Matrix.Identity;
-            basicEff.Projection = Matrix.CreateOrthographicOffCenter(0, Map.DisplaySize.X, Map.DisplaySize.Y, 0, 1, 0);
+            basicEff.Projection = Matrix.CreateOrthographicOffCenter(0, RenderFormDraw.Instance.GraphicsDevice.Viewport.Width,
+                                                                        RenderFormDraw.Instance.GraphicsDevice.Viewport.Height, 0, 1, 0);
         }
 
         SkeletonRenderer.Begin();
