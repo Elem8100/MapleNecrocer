@@ -224,15 +224,15 @@ public class RenderFormDraw : MonoGameControl
                 }
                 break;
             case ScreenMode.Scale:
-                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, ScaleForm.ScaleX, ScaleForm.ScaleY, Map.DisplaySize.X, Map.DisplaySize.Y);
+                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, ScaleForm.ScaleX, ScaleForm.ScaleY, Map.DisplaySize.X, Map.DisplaySize.Y, MonoGame.SpriteEngine.BlendMode.NonPremultiplied2);
                 if (ScaleForm.UseScanline)
                     EngineFunc.Canvas.Draw(ScaleForm.ScanlineTexture4096, 0, 0, MonoGame.SpriteEngine.BlendMode.Multiply);
                 break;
             case ScreenMode.FullScreen:
-                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, Map.ScreenWidth, Map.ScreenHeight, Map.DisplaySize.X, Map.DisplaySize.Y);
+                EngineFunc.Canvas.DrawStretch(ScreenRenderTarget, Map.ScreenWidth, Map.ScreenHeight, Map.DisplaySize.X, Map.DisplaySize.Y, MonoGame.SpriteEngine.BlendMode.NonPremultiplied2);
                 break;
         }
-
+        
         if (Map.ResetPos)
         {
             Map.OffsetY = (Map.DisplaySize.Y - 600) / 2;
