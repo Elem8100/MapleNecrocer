@@ -104,19 +104,19 @@ public partial class AvatarForm : Form
             switch (PartName)
             {
                 case PartName.Head:
-                    Bmp = Entry.GetNode("front/head").ExtractPng();
+                    Bmp = Entry.GetBmp("front/head");
                     break;
                 case PartName.Body:
-                    Bmp = Entry.GetNode("stand1/0/body").ExtractPng();
+                    Bmp = Entry.GetBmp("stand1/0/body");
                     break;
                 case PartName.Hair:
-                    Bmp = Entry.GetNode("default/hairOverHead").ExtractPng();
+                    Bmp = Entry.GetBmp("default/hairOverHead");
                     break;
                 case PartName.Face:
-                    Bmp = Entry.GetNode("default/face").ExtractPng();
+                    Bmp = Entry.GetBmp("default/face");
                     break;
                 default:
-                    Bmp = Entry.GetNode("info/icon").ExtractPng();
+                    Bmp = Entry.GetBmp("info/icon");
                     break;
             }
             Inventory.Rows.Add(ID, Bmp, Name);
@@ -553,25 +553,25 @@ public partial class AvatarForm : Form
                     {
                         case "Head":
                             if (Iter.Text == "front")
-                                ImageGrids[PartIndex].Items.Add(img.ImgID(), Iter.GetNode("head").ExtractPng());
+                                ImageGrids[PartIndex].Items.Add(img.ImgID(), Iter.GetBmp("head"));
                             break;
                         case "Body":
                             if (Iter.Text == "stand1")
-                                ImageGrids[PartIndex].Items.Add(img.ImgID(), Iter.GetNode("0/body").ExtractPng());
+                                ImageGrids[PartIndex].Items.Add(img.ImgID(), Iter.GetBmp("0/body"));
                             break;
                         case "Face-1":
                         case "Face-2":
                             if (Iter.Nodes["face"] != null)
-                                ImageGrids[PartIndex].Items.Add(Iter.ImgID(), Iter.GetNode("face").ExtractPng());
+                                ImageGrids[PartIndex].Items.Add(Iter.ImgID(), Iter.GetBmp("face"));
                             break;
                         case "Hair-1":
                         case "Hair-2":
                             if (Iter.Nodes["hairOverHead"] != null)
-                                ImageGrids[PartIndex].Items.Add(Iter.ImgID(), Iter.GetNode("hairOverHead").ExtractPng());
+                                ImageGrids[PartIndex].Items.Add(Iter.ImgID(), Iter.GetBmp("hairOverHead"));
                             break;
                         default:
                             if (Iter.Nodes["icon"] != null)
-                                ImageGrids[PartIndex].Items.Add(Iter.ImgID(), Iter.GetNode("icon").ExtractPng());
+                                ImageGrids[PartIndex].Items.Add(Iter.ImgID(), Iter.GetBmp("icon"));
                             break;
                     }
                 }
@@ -650,13 +650,13 @@ public partial class AvatarForm : Form
         switch (PartName)
         {
             case PartName.Hair:
-                Bmp = Entry.GetNode("default/hairOverHead").ExtractPng();
+                Bmp = Entry.GetBmp("default/hairOverHead");
                 break;
             case PartName.Face:
-                Bmp = Entry.GetNode("default/face").ExtractPng();
+                Bmp = Entry.GetBmp("default/face");
                 break;
             default:
-                Bmp = Entry.GetNode("info/icon").ExtractPng();
+                Bmp = Entry.GetBmp("info/icon");
                 break;
         }
         pictureBox1.Image = Bmp;
