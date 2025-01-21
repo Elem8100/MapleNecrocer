@@ -150,14 +150,19 @@ public class Back : BackgroundSprite
                         }
                     }
                 }
+                if(Png==null)
+                    Png= new(1000,1000);
+
                 if (CX == 0)
-                    SpineBack.Width = Png.Width;
+                    SpineBack.Width = Png.Width+1000;
                 else
                     SpineBack.Width = CX;
                 if (CY == 0)
-                    SpineBack.Height = Png.Height;
+                    SpineBack.Height = Png.Height+1000;
                 else
                     SpineBack.Height = CY;
+                
+
                 if (bS == "downtown" && No == "3")
                     SpineBack.Width = 800;
 
@@ -526,7 +531,7 @@ public class SpineBack : SpriteEx
             basicEff.Projection = Matrix.CreateOrthographicOffCenter(0, RenderFormDraw.Instance.GraphicsDevice.Viewport.Width,
                                                                         RenderFormDraw.Instance.GraphicsDevice.Viewport.Height, 0, 1, 0);
         }
-
+        
         SkeletonRenderer.Begin();
         if (Tiled)
         {

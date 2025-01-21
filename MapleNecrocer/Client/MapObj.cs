@@ -47,13 +47,16 @@ public class Obj : SpriteEx
                 string Path = "Map/Obj/" + oS + ".img/" + L0 + "/" + L1 + "/" + L2;
                 if (!Wz.Data.ContainsKey(Path))
                     Wz.DumpData(Wz.GetNodeA(Path), Wz.Data, Wz.ImageLib);
+               
                 int Flow = Iter.GetInt("flow");
                 // if (!Wz.ImageLib.ContainsKey(Wz.Data[Path + "/0"]))
                 //  continue;
-                if (Iter.Nodes["spineAni"] != null)
-                {
+                if (Iter.Nodes["spineAni"] != null || L0=="spine" || L0=="spine2"|| ( L2.Length>5 && L2.RightStr(5)==".skel"))
+                { 
                     var SpineObj = new SpineObj(EngineFunc.SpriteEngine);
                     var aniData = Map.ResLoader.LoadAnimationData(Wz.GetNodeA(Path));
+                    
+                    if ( !(aniData is ISpineAnimationData)) continue;
                     if (((ISpineAnimationData)aniData).SpineVersion == SpineVersion.V2)
                     {
                         SpineObj.SpineAnimatorV2 = new SpineAnimatorV2((SpineAnimationDataV2)aniData);
@@ -77,16 +80,19 @@ public class Obj : SpriteEx
                     SpineObj.X = Iter.GetInt("x");
                     SpineObj.Y = Iter.GetInt("y");
                     SpineObj.Z = Layer * 100000 + Iter.GetInt("z");
-                    SpineObj.Width = 1024;
-                    SpineObj.Height = 1024;
-                    SpineObj.Origin.X = 512;
-                    SpineObj.Origin.Y = 512;
+                    SpineObj.Width = 1024+2048;
+                    SpineObj.Height = 1024+2048;
+                    SpineObj.Origin.X = 512+1024;
+                    SpineObj.Origin.Y = 512+1024;
                     SpineObj.SkeletonRenderer = new Spine.SkeletonRenderer(RenderFormDraw.Instance.GraphicsDevice);
+                   
                 }
                 else
-                {
+                {  
                     if (Flow == 0)
                     {
+                        if (Wz.HasNode(Path + "/0/0"))
+                            continue;
                         var Obj = new Obj(EngineFunc.SpriteEngine);
                         Obj.ImageLib = Wz.ImageLib;
                         Obj.Path = Path;
@@ -259,12 +265,13 @@ public class SpineObj : SpriteEx
     {
         if (!Map.ShowObj)
             return;
-        
+        if(Version!=2 && Version!=4)
+            return;
         if (Version == 2)
         {
             SpineAnimatorV2.Update(TimeSpan.FromMilliseconds(17));
         }
-        else
+        else if (Version==4)
         {
             SpineAnimatorV4.Update(TimeSpan.FromMilliseconds(17));
         }
@@ -292,7 +299,7 @@ public class SpineObj : SpriteEx
         }
         SkeletonRenderer.End();
     }
-   
+
 }
 
 public class FlowObj : BackgroundSprite
