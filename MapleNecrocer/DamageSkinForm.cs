@@ -35,8 +35,8 @@ public partial class DamageSkinForm : Form
             this.Hide();
             e1.Cancel = true;
         };
-        if(!Wz.HasNode("Effect/DamageSkin.img"))
-            return;
+        // if (!Wz.HasNode("Effect/DamageSkin.img"))
+        // return;
 
         DamageSkinListGrid = new(120, 1, 0, 0, 210, 400, true, tabControl1.TabPages[0]);
         DamageSkinListGrid.Dock = DockStyle.Fill;
@@ -57,6 +57,8 @@ public partial class DamageSkinForm : Form
         Wz_Node Entry = null;
         if (Wz.HasNode("Effect/DamageSkin.img"))
             Entry = Wz.GetNode("Effect/DamageSkin.img");
+        else if (Wz.HasNode("Etc/DamageSkin.img"))
+            Entry = Wz.GetNode("Etc/DamageSkin.img");
         else if (Wz.HasNode("Effect/BasicEff.img/damageSkin"))
             Entry = Wz.GetNode("Effect/BasicEff.img/damageSkin");
 
@@ -71,12 +73,29 @@ public partial class DamageSkinForm : Form
         {
             foreach (var Iter2 in Iter.Nodes)
             {
+              
                 if (Iter2.Text == "NoCri1" || Iter2.Text == "NoRed1")
                 {
                     if (Iter2.HasNode("5") && Iter2.Nodes["5"].Value is Wz_Png)
                         Bmp = Iter2.GetNode("5").ExtractPng();
                     DamageSkinListGrid.Rows.Add(Iter.Text + "/" + Iter2.Text, Bmp, "");
                 }
+
+                if (Iter2.Text == "effect")
+                {
+                    foreach (var Iter3 in Iter2.Nodes)
+                    {
+                        if (Iter3.Text == "NoCri1" || Iter3.Text == "NoRed1")
+                        {
+                            if (Iter3.HasNode("5") && Iter3.GetNode("5").Value is Wz_Png)
+                            {
+                                Bmp = Iter3.GetNode("5").ExtractPng();
+                                DamageSkinListGrid.Rows.Add(Iter.Text + "/" + Iter2.Text+"/"+Iter3.Text, Bmp, "");
+                            }
+                        }
+                    }
+                }
+
             }
         }
 
