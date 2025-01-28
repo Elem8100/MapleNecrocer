@@ -32,6 +32,11 @@ public class DamageNumber : SpriteEx
                 var Split = Num.Split("/");
                 Wz.DumpData(Wz.GetNode("Effect/DamageSkin.img/" + Split[0]), Wz.EquipData, Wz.EquipImageLib);
             }
+            else if (Wz.GetNode("Etc/DamageSkin.img/" + Num) != null)
+            {
+                var Split = Num.Split("/");
+                Wz.DumpData(Wz.GetNode("Etc/DamageSkin.img/" + Split[0]), Wz.EquipData, Wz.EquipImageLib);
+            }
             else
             {
                 Wz.DumpData(Entry.GetNode("damageSkin/" + Num), Wz.EquipData, Wz.EquipImageLib);
@@ -98,6 +103,14 @@ public class DamageNumber : SpriteEx
                         ImageNode = Wz.EquipData["Effect/DamageSkin.img/" + LargeNumber + "/" + Char];
                     else
                         ImageNode = Wz.EquipData["Effect/DamageSkin.img/" + SmallNumber + "/" + Char];
+                }
+                else if (Wz.EquipData.ContainsKey("Etc/DamageSkin.img/" + Style + "/" + Char))
+                {
+
+                    if (I == 0)
+                        ImageNode = Wz.EquipData["Etc/DamageSkin.img/" + LargeNumber + "/" + Char];
+                    else
+                        ImageNode = Wz.EquipData["Etc/DamageSkin.img/" + SmallNumber + "/" + Char];
                 }
                 else
                 {
