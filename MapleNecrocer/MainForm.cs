@@ -789,11 +789,14 @@ public partial class MainForm : Form
 
     private void OpenFolderButton_Click(object sender, EventArgs e)
     {
-        if (SelectFolderForm.Instance == null)
-            new SelectFolderForm().Show();
-        else
-            SelectFolderForm.Instance.Show();
-        OpenFolderButton.Enabled = false;
+        var form = SelectFolderForm.Instance;
+        if (form == null)
+        {
+            form = new SelectFolderForm();
+            form.OnDataLoaded += (sender, e) => { OpenFolderButton.Enabled = false; };
+        }
+        form.Show();
+        form.Focus();
     }
 
     private void MapListBox_SelectedIndexChanged(object sender, EventArgs e)
