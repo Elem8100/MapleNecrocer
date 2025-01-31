@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using WzComparerR2.Common;
 using WzComparerR2.CharaSim;
 using WzComparerR2.Controls;
+using MapleNecrocer;
 
 namespace WzComparerR2.CharaSimControl
 {
@@ -30,6 +31,7 @@ namespace WzComparerR2.CharaSimControl
             this.NpcRender = new NpcTooltipRenderer();
             this.HelpRender = new HelpTooltipRender();
             this.SetItemRender = new SetItemTooltipRender();
+            this.MapRender = new  MapTooltipRenderer();
             this.SizeChanged += AfrmTooltip_SizeChanged;
 
             this.MouseClick += AfrmTooltip_MouseClick;
@@ -59,6 +61,7 @@ namespace WzComparerR2.CharaSimControl
         public NpcTooltipRenderer NpcRender { get; private set; }
         public HelpTooltipRender HelpRender { get; private set; }
         public SetItemTooltipRender SetItemRender { get; private set; }
+        public MapTooltipRenderer MapRender { get; private set; }
 
         public string ImageFileName { get; set; }
 
@@ -147,25 +150,25 @@ namespace WzComparerR2.CharaSimControl
                     //g.AdditionalOptions[2] = Potential.LoadFromWz(32086, 10);
                 }
             }
-            else if (item is Skill)
+            else if (item is  WzComparerR2.CharaSim.Skill)
             {
                 renderer = SkillRender;
-                SkillRender.Skill = this.item as Skill;
+                SkillRender.Skill = this.item as WzComparerR2.CharaSim.Skill;
             }
             else if (item is Recipe)
             {
                 renderer = RecipeRender;
                 RecipeRender.Recipe = this.item as Recipe;
             }
-            else if (item is Mob)
-            {
+            else if (item is WzComparerR2.CharaSim.Mob)
+            { 
                 renderer = MobRender;
-                MobRender.MobInfo = this.item as Mob;
+                MobRender.MobInfo = this.item as WzComparerR2.CharaSim.Mob;
             }
-            else if (item is Npc)
+            else if (item is WzComparerR2.CharaSim.Npc)
             {
                 renderer = NpcRender;
-                NpcRender.NpcInfo = this.item as Npc;
+                NpcRender.NpcInfo = this.item as WzComparerR2.CharaSim.Npc;
             }
             else if (item is TooltipHelp)
             {
@@ -176,6 +179,11 @@ namespace WzComparerR2.CharaSimControl
             {
                 renderer = SetItemRender;
                 SetItemRender.SetItem = this.item as SetItem;
+            }
+            else if (item is WzComparerR2.CharaSim.Map)
+            {
+                renderer = MapRender;
+                MapRender.MapInfo = this.item as WzComparerR2.CharaSim.Map;
             }
             else
             {
