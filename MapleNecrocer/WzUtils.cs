@@ -33,7 +33,9 @@ public enum WzType
     Item,
     Mob,
     Npc,
-    Skill
+    Skill,
+    Map,
+    Reactor
 }
 internal class Wz
 {
@@ -527,6 +529,14 @@ internal class Wz
             else
                 return GetNode("Skill/" + (int.Parse(ID) / 10000).ToString() + ".img/skill/" + ID);
         }
+        else if (wzType == WzType.Map)
+        {
+             return Wz.GetNode("Map/Map/Map" + ID.LeftStr(1)).FindNodeByPath(ID + ".img");
+        }
+        else if (wzType == WzType.Reactor)
+        {
+            return Wz.GetNode("Reactor/" + ID + ".img");
+        }
         return null;
     }
 
@@ -559,17 +569,17 @@ internal class WzDict
             return new Wz_Vector(0, 0);
     }
 
-    public static Vector2 GetVectorE(string Path)
+    public static Wz_Vector  GetVectorE(string Path)
     {
         if (Wz.EquipData.ContainsKey(Path))
         {
-            Vector2 V;
+            Wz_Vector V=new(0,0);
             V.X = Wz.EquipData[Path].ToVector().X;
             V.Y = Wz.EquipData[Path].ToVector().Y;
             return V;
         }
         else
-            return new Vector2(0, 0);
+            return new Wz_Vector(0, 0);
     }
     public static bool GetBool(string Path)
     {
