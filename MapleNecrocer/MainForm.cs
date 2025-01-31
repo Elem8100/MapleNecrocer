@@ -584,6 +584,15 @@ public partial class MainForm : Form
                         }
                     }
                     break;
+
+                case Wz_Type.Map:
+                   // if (selectedNode.Text.Length == 13 && selectedNode.Text.RightStr(4) == ".img")
+                    {
+                        var map = new  WzComparerR2.CharaSim.Map();
+                        WzComparerR2.CharaSim.Map.ImgNode = selectedNode;
+                        obj = map;
+                    }
+                    break;
             }
 
             if (obj != null)
@@ -655,7 +664,7 @@ public partial class MainForm : Form
                 case "Skill":
                     Wz_Node skillNode = selectedNode;
                     //模式路径分析
-                    if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\Recipe_\d+.img\\\d+$"))
+                    if (Regex.IsMatch(skillNode.FullPathToFile.Replace("Data\\", ""), @"^Skill\d*\\Recipe_\d+.img\\\d+$"))
                     {
                         Recipe recipe = Recipe.CreateFromNode(skillNode);
                         obj = recipe;
@@ -664,7 +673,7 @@ public partial class MainForm : Form
                             fileName = "recipe_" + recipe.RecipeID + ".png";
                         }
                     }
-                    else if (Regex.IsMatch(skillNode.FullPathToFile, @"^Skill\d*\\\d+.img\\skill\\\d+$"))
+                    else if (Regex.IsMatch(skillNode.FullPathToFile.Replace("Data\\", ""), @"^Skill\d*\\\d+.img\\skill\\\d+$"))
                     {
                         WzComparerR2.CharaSim.Skill skill = WzComparerR2.CharaSim.Skill.CreateFromNode(skillNode, PluginManager.FindWz);
                         if (skill != null)
@@ -717,6 +726,14 @@ public partial class MainForm : Form
                         {
                             fileName = setItem.SetItemID + ".png";
                         }
+                    }
+                    break;
+                case "Map":
+                    // if (selectedNode.Text.Length == 13 && selectedNode.Text.RightStr(4) == ".img")
+                    {
+                        var map = new WzComparerR2.CharaSim.Map();
+                        WzComparerR2.CharaSim.Map.ImgNode = selectedNode;
+                        obj = map;
                     }
                     break;
             }
@@ -772,12 +789,17 @@ public partial class MainForm : Form
         MapListBox.CellClick += (s, e) =>
         {
             CellClick(MapListBox, e);
+         
         };
 
         MapListBox.SearchGrid.CellClick += (s, e) =>
         {
             CellClick(MapListBox.SearchGrid, e);
+          
         };
+        MapListBox.SetToolTipEvent(WzType.Map, this);
+
+       
 
         comboBox2.SelectedIndex = 1;
         Graphics graphics = this.CreateGraphics();
@@ -884,7 +906,7 @@ public partial class MainForm : Form
             }
             if (!Wz.HasNode("Morph"))
                 MorphButton.Enabled = false;
-            if (!Wz.HasNode("Effect/DamageSkin.img"))
+            if (!Wz.HasNode("Effect/DamageSkin.img") && !Wz.HasNode("Etc/DamageSkin.img"))
                 DamageSkinButton.Enabled = false;
             if (!Wz.HasNode("Character/Accessory/01142000.img"))
                 MedalButton.Enabled = false;
@@ -916,6 +938,7 @@ public partial class MainForm : Form
     private void LoadMapButton_Click(object sender, EventArgs e)
     {
         this.LoadMap();
+        ToolTipView.Visible = false;
     }
 
     [DllImport("User32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
@@ -1130,6 +1153,6 @@ public partial class MainForm : Form
         e.Graphics.DrawRectangle(pen, new System.Drawing.Rectangle(256, 92, RenderForm.Width + 2, RenderForm.Height + 2));
     }
 
-   
+
 }
 
