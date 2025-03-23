@@ -1,10 +1,13 @@
-﻿using System;
+﻿using DevComponents.AdvTree;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WzComparerR2.CharaSim;
+using WzComparerR2.WzLib;
 
 namespace MapleNecrocer;
 
@@ -50,6 +53,15 @@ public class DamageNumber : SpriteEx
                     Wz.DumpData(Entry.Nodes[StyleList[I]], Wz.EquipData, Wz.EquipImageLib);
             }
         }
+
+        if (!Wz.HasNode("Effect/BasicEff.img") && Wz.HasNode("Effect/DamageSkin.img/16"))
+        {
+            DamageNumber.UseNewDamage = true;
+            DamageNumber.Style= "16/NoCri1";
+            Wz.DumpData(Wz.GetNode("Effect/DamageSkin.img/16/NoCri0") , Wz.EquipData, Wz.EquipImageLib);
+            Wz.DumpData(Wz.GetNode("Effect/DamageSkin.img/16/NoCri1"), Wz.EquipData, Wz.EquipImageLib);
+        }
+
     }
 
     public static void Create(int ANumber, int AX, int AY)
@@ -88,7 +100,7 @@ public class DamageNumber : SpriteEx
     }
 
     public override void DoDraw()
-    {
+    {  
         int W, OffY;
         for (int I = 0; I < Number.ToString().Length; I++)
         {
@@ -99,6 +111,7 @@ public class DamageNumber : SpriteEx
                 W = 29;
                 if (Wz.EquipData.ContainsKey("Effect/DamageSkin.img/" + Style + "/" + Char))
                 {
+                  
                     if (I == 0)
                         ImageNode = Wz.EquipData["Effect/DamageSkin.img/" + LargeNumber + "/" + Char];
                     else
