@@ -261,6 +261,7 @@ public class RenderFormDraw : MonoGameControl
     {
         if (Map.FirstLoaded)
             Cursor.Hide();
+        MainForm.Instance.ToolTipView.Visible = false;
     }
 
     protected override void OnMouseLeave(EventArgs e)

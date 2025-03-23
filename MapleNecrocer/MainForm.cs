@@ -586,9 +586,9 @@ public partial class MainForm : Form
                     break;
 
                 case Wz_Type.Map:
-                   // if (selectedNode.Text.Length == 13 && selectedNode.Text.RightStr(4) == ".img")
+                    // if (selectedNode.Text.Length == 13 && selectedNode.Text.RightStr(4) == ".img")
                     {
-                        var map = new  WzComparerR2.CharaSim.Map();
+                        var map = new WzComparerR2.CharaSim.Map();
                         WzComparerR2.CharaSim.Map.ImgNode = selectedNode;
                         obj = map;
                     }
@@ -779,6 +779,7 @@ public partial class MainForm : Form
 
         if (!LoadedEff)
             LoadMapButton.Enabled = true;
+       
     }
 
     private void MainForm_Load(object sender, EventArgs e)
@@ -789,17 +790,24 @@ public partial class MainForm : Form
         MapListBox.CellClick += (s, e) =>
         {
             CellClick(MapListBox, e);
-         
+
         };
 
         MapListBox.SearchGrid.CellClick += (s, e) =>
         {
             CellClick(MapListBox.SearchGrid, e);
-          
-        };
-        MapListBox.SetToolTipEvent(WzType.Map, this);
 
+        };
+
+
+        MapListBox.MouseLeave += (s, e) =>
+        {
+            ToolTipView.Visible = false;
+
+        };
        
+
+        MapListBox.SetToolTipEvent(WzType.Map, this);
 
         comboBox2.SelectedIndex = 1;
         Graphics graphics = this.CreateGraphics();
@@ -922,6 +930,8 @@ public partial class MainForm : Form
                 TotemEffectButton.Enabled = false;
             if (!Wz.HasNode("Item/Consume/0259.img"))
                 SoulEffectButton.Enabled = false;
+            if (!Wz.HasNode("Effect/BasicEff.img"))
+                DamageSkinButton.Enabled = false;
             if (Wz.IsDataWz)
                 ReactorButton.Enabled = false;
 
@@ -1126,6 +1136,8 @@ public partial class MainForm : Form
                     LoadMapButton.Enabled = true;
             };
         }
+
+
     }
 
     private void FullScreenButton_Click(object sender, EventArgs e)
@@ -1153,6 +1165,6 @@ public partial class MainForm : Form
         e.Graphics.DrawRectangle(pen, new System.Drawing.Rectangle(256, 92, RenderForm.Width + 2, RenderForm.Height + 2));
     }
 
-
+   
 }
 
