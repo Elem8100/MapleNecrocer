@@ -932,6 +932,8 @@ public partial class MainForm : Form
                 SoulEffectButton.Enabled = false;
             if (!Wz.HasNode("Effect/BasicEff.img"))
                 DamageSkinButton.Enabled = false;
+            if (Wz.HasNode("Etc/DamageSkin.img"))
+                DamageSkinButton.Enabled = true;
             if (Wz.IsDataWz)
                 ReactorButton.Enabled = false;
 
