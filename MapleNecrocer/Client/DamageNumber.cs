@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ public class DamageNumber : SpriteEx
     string LargeNumber, SmallNumber;
     public static string Style;
     public static bool UseNewDamage;
+    static bool Loaded;
     public static void Load(string Num)
     {
         string[] StyleList = { "NoBlue0", "NoBlue1", "NoCri0", "NoCri1", "NoRed0", "NoRed1", "NoViolet0", "NoViolet1" };
@@ -54,12 +56,25 @@ public class DamageNumber : SpriteEx
             }
         }
 
-        if (!Wz.HasNode("Effect/BasicEff.img") && Wz.HasNode("Effect/DamageSkin.img/16"))
+        if (!Loaded)
         {
-            DamageNumber.UseNewDamage = true;
-            DamageNumber.Style= "16/NoCri1";
-            Wz.DumpData(Wz.GetNode("Effect/DamageSkin.img/16/NoCri0") , Wz.EquipData, Wz.EquipImageLib);
-            Wz.DumpData(Wz.GetNode("Effect/DamageSkin.img/16/NoCri1"), Wz.EquipData, Wz.EquipImageLib);
+            if (!Wz.HasNode("Effect/BasicEff.img"))
+            {
+                DamageNumber.UseNewDamage = true;
+                if (Wz.HasNode("Effect/DamageSkin.img/16"))
+                {
+                    DamageNumber.Style = "16/NoCri1";
+                    Wz.DumpData(Wz.GetNode("Effect/DamageSkin.img/16/NoCri0"), Wz.EquipData, Wz.EquipImageLib);
+                    Wz.DumpData(Wz.GetNode("Effect/DamageSkin.img/16/NoCri1"), Wz.EquipData, Wz.EquipImageLib);
+                }
+                if (Wz.HasNode("Etc/DamageSkin.img/16"))
+                {
+                    DamageNumber.Style = "16/effect/NoCri1";
+                    Wz.DumpData(Wz.GetNode("Etc/DamageSkin.img/16/effect/NoCri0"), Wz.EquipData, Wz.EquipImageLib);
+                    Wz.DumpData(Wz.GetNode("Etc/DamageSkin.img/16/effect/NoCri1"), Wz.EquipData, Wz.EquipImageLib);
+                }
+            }
+            Loaded = true;
         }
 
     }
@@ -100,18 +115,19 @@ public class DamageNumber : SpriteEx
     }
 
     public override void DoDraw()
-    {  
+    {
         int W, OffY;
         for (int I = 0; I < Number.ToString().Length; I++)
         {
             var Char = Number.ToString().Substring(I, 1);
             if (UseNewDamage)
             {
-                //style='1/NoRed1'
+                //style='1/NoRed1' or
+                //style=1/effect/Nored1/
                 W = 29;
                 if (Wz.EquipData.ContainsKey("Effect/DamageSkin.img/" + Style + "/" + Char))
                 {
-                  
+
                     if (I == 0)
                         ImageNode = Wz.EquipData["Effect/DamageSkin.img/" + LargeNumber + "/" + Char];
                     else
