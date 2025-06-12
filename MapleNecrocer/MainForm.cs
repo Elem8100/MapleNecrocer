@@ -29,6 +29,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
 using System.IO;
 using DPIUtils;
+using System.Diagnostics;
 
 namespace MapleNecrocer;
 
@@ -790,22 +791,23 @@ public partial class MainForm : Form
         MapListBox.CellClick += (s, e) =>
         {
             CellClick(MapListBox, e);
-
         };
-
         MapListBox.SearchGrid.CellClick += (s, e) =>
         {
             CellClick(MapListBox.SearchGrid, e);
-
         };
-
-
+        MapListBox.MouseEnter += (s, e) =>
+        {
+            ToolTipView.Visible = true;
+        };
         MapListBox.MouseLeave += (s, e) =>
         {
             ToolTipView.Visible = false;
-
         };
-       
+        MapListBox.MouseMove += (s, e) =>
+        {
+            ToolTipView.Location = Control.MousePosition;
+        };
 
         MapListBox.SetToolTipEvent(WzType.Map, this);
 

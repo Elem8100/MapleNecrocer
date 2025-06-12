@@ -138,10 +138,10 @@ namespace MapleNecrocer
             // tabPage2
             // 
             tabPage2.Controls.Add(WorldMapListGrid);
-            tabPage2.Location = new Point(4, 26);
+            tabPage2.Location = new Point(4, 31);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(232, 385);
+            tabPage2.Size = new Size(232, 380);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "World Map";
             tabPage2.UseVisualStyleBackColor = true;
@@ -168,7 +168,7 @@ namespace MapleNecrocer
             WorldMapListGrid.ShowCellToolTips = false;
             WorldMapListGrid.ShowEditingIcon = false;
             WorldMapListGrid.ShowRowErrors = false;
-            WorldMapListGrid.Size = new Size(226, 379);
+            WorldMapListGrid.Size = new Size(226, 374);
             WorldMapListGrid.TabIndex = 2;
             WorldMapListGrid.CellClick += WorldMapListGrid_CellClick;
             // 
@@ -213,7 +213,7 @@ namespace MapleNecrocer
             label1.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             label1.Location = new Point(257, 8);
             label1.Name = "label1";
-            label1.Size = new Size(43, 17);
+            label1.Size = new Size(42, 16);
             label1.TabIndex = 8;
             label1.Text = "Mode";
             // 
@@ -223,7 +223,7 @@ namespace MapleNecrocer
             label2.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             label2.Location = new Point(257, 42);
             label2.Name = "label2";
-            label2.Size = new Size(37, 17);
+            label2.Size = new Size(33, 16);
             label2.TabIndex = 9;
             label2.Text = "Size";
             // 
@@ -233,7 +233,7 @@ namespace MapleNecrocer
             label3.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             label3.Location = new Point(8, 210);
             label3.Name = "label3";
-            label3.Size = new Size(55, 17);
+            label3.Size = new Size(52, 16);
             label3.TabIndex = 10;
             label3.Text = "Search";
             label3.TextAlign = ContentAlignment.MiddleLeft;
@@ -775,7 +775,7 @@ namespace MapleNecrocer
             label4.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             label4.Location = new Point(74, 9);
             label4.Name = "label4";
-            label4.Size = new Size(124, 18);
+            label4.Size = new Size(117, 17);
             label4.TabIndex = 12;
             label4.Text = "MapleStory Folder";
             // 

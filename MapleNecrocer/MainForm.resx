@@ -121,7 +121,7 @@
   <data name="EffectButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAA6pJREFUWEe9lwmx4zAQREMhFJbCp7AUQiEUTMEUTMEURMEUTMEUvP3mUKTEOfb6
+        wQAADsEBuJFr7QAAA6pJREFUWEe9lwmx4zAQREMhFJbCp7AUQiEUTMEUTMEURMEUTMEUvP3mUKTEOfb6
         U9XlWFf3jEYj53Rn+zfh0PZl3f45yrruZekBl1PezAZ/l43z0onoyK/DVDGMYDaMk2Oayj7NPbKP8Tn3
         Moz75fqItFZEFcDEffkR+Nr39adwcWxXYRBYROMMczxpU9+uMbvGVvAO6HOkiDcCGvIH4hJYhDXA7xST
         QnrixAcCWnJNgnhjYQggTlLmrOrS+NpGP2MhSUCcz08EdJ4zOInTY8YGCl6qf4EUSxEZjV7MJrwUQBK5
@@ -943,7 +943,7 @@
         RudN65tdA8sHzg46DF645Xrr8m2v29fvrLwzMBQydHc4cnjkLvvu5L2key/vZ9yff7DpIfph4SOpR+WP
         lR7X/aj3Y+uI5ciZUdfRvidBTx6Mscae/5T+04fx/Kfkp+UTqhONk2aTp6fcp24+W/1s/Hnq8/npgp+l
         f65+ofviu18cf+mbWTUz/pL/cuHX4lfyr468Xva6e9Z/9vGb5Dfzc4Vv5d8efcd41/s+7P3EfOYH7IeK
-        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAAOvQAADr0BR/uQrQAAAo1JREFUSEvtls9rE0EU
+        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAAOvAAADrwBlbxySQAAAo1JREFUSEvtls9rE0EU
         x5+CiFfbg/+AtxLNQdSWgjRtY35tNrH1JyJpET2IxZM9iIoHsRcFL1ot2iZtNtnsJttYUNDEixDQg7Uo
         Hio2aA9WtNBoPFTr8ztJBBOW1gjmtIcPMztvZ95n3wzLEO1VbORSnpIrWmgozvFpkuO7idzKe/uFWZZG
         FrnremOQbi/yjktzTB5lkcinck/4B59+yNyfAsZ/BjlOPWA+HGVeJydZCBRcNwocSjIfGG8MxzRGFb5B

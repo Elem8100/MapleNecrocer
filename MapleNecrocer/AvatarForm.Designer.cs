@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AvatarForm));
             button1 = new Button();
             button2 = new Button();
@@ -53,6 +54,7 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            label9 = new Label();
             tabPage3 = new TabPage();
             DyeGrid = new DataGridView();
             tabPage7 = new TabPage();
@@ -78,19 +80,24 @@
             label2 = new Label();
             tabPage5 = new TabPage();
             tabPage6 = new TabPage();
-            label10 = new Label();
+            checkBox1 = new CheckBox();
+            saveSprite_button = new Button();
+            saveSpriteSheet_button = new Button();
+            saveAllSprite_button = new Button();
+            customAABB_checkBox = new CheckBox();
+            groupBox1 = new GroupBox();
             ScrollBarH = new HScrollBar();
+            label10 = new Label();
             AdjH = new Label();
-            AdjW = new Label();
-            ScrollBarW = new HScrollBar();
-            label13 = new Label();
-            YLabel = new Label();
-            ScrollBarY = new HScrollBar();
-            AdjY = new Label();
+            Xlabel = new Label();
             AdjX = new Label();
             ScrollBarX = new HScrollBar();
-            Xlabel = new Label();
-            button21 = new Button();
+            ScrollBarW = new HScrollBar();
+            AdjW = new Label();
+            YLabel = new Label();
+            AdjY = new Label();
+            label13 = new Label();
+            ScrollBarY = new HScrollBar();
             panel2 = new Panel();
             FrameListBox = new ListBox();
             label4 = new Label();
@@ -98,7 +105,9 @@
             ShowToolTil_CheckBox = new CheckBox();
             label5 = new Label();
             EarListBox = new ComboBox();
+            timer1 = new System.Windows.Forms.Timer(components);
             tabControl1.SuspendLayout();
+            tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DyeGrid).BeginInit();
             tabPage7.SuspendLayout();
@@ -111,6 +120,7 @@
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabPage6.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -118,7 +128,7 @@
             button1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button1.Image = (Image)resources.GetObject("button1.Image");
             button1.ImageAlign = ContentAlignment.MiddleRight;
-            button1.Location = new Point(7, 8);
+            button1.Location = new Point(12, 12);
             button1.Name = "button1";
             button1.Size = new Size(103, 41);
             button1.TabIndex = 0;
@@ -133,7 +143,7 @@
             button2.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button2.Image = (Image)resources.GetObject("button2.Image");
             button2.ImageAlign = ContentAlignment.MiddleRight;
-            button2.Location = new Point(110, 8);
+            button2.Location = new Point(121, 12);
             button2.Name = "button2";
             button2.Size = new Size(103, 41);
             button2.TabIndex = 1;
@@ -145,10 +155,10 @@
             // 
             // button3
             // 
-            button3.Font = new Font("Tahoma", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            button3.Font = new Font("Tahoma", 8F);
             button3.Image = (Image)resources.GetObject("button3.Image");
             button3.ImageAlign = ContentAlignment.MiddleRight;
-            button3.Location = new Point(213, 8);
+            button3.Location = new Point(448, 106);
             button3.Name = "button3";
             button3.Size = new Size(103, 41);
             button3.TabIndex = 2;
@@ -160,10 +170,10 @@
             // 
             // button4
             // 
-            button4.Font = new Font("Tahoma", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            button4.Font = new Font("Tahoma", 8F);
             button4.Image = (Image)resources.GetObject("button4.Image");
             button4.ImageAlign = ContentAlignment.MiddleRight;
-            button4.Location = new Point(316, 8);
+            button4.Location = new Point(557, 106);
             button4.Name = "button4";
             button4.Size = new Size(103, 41);
             button4.TabIndex = 3;
@@ -178,7 +188,7 @@
             button5.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button5.Image = (Image)resources.GetObject("button5.Image");
             button5.ImageAlign = ContentAlignment.MiddleRight;
-            button5.Location = new Point(7, 49);
+            button5.Location = new Point(12, 59);
             button5.Name = "button5";
             button5.Size = new Size(103, 41);
             button5.TabIndex = 4;
@@ -193,7 +203,7 @@
             button6.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button6.Image = (Image)resources.GetObject("button6.Image");
             button6.ImageAlign = ContentAlignment.MiddleRight;
-            button6.Location = new Point(110, 49);
+            button6.Location = new Point(121, 59);
             button6.Name = "button6";
             button6.Size = new Size(103, 41);
             button6.TabIndex = 5;
@@ -208,7 +218,7 @@
             button7.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button7.Image = (Image)resources.GetObject("button7.Image");
             button7.ImageAlign = ContentAlignment.MiddleRight;
-            button7.Location = new Point(213, 49);
+            button7.Location = new Point(230, 59);
             button7.Name = "button7";
             button7.Size = new Size(103, 41);
             button7.TabIndex = 6;
@@ -223,7 +233,7 @@
             button8.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button8.Image = (Image)resources.GetObject("button8.Image");
             button8.ImageAlign = ContentAlignment.MiddleRight;
-            button8.Location = new Point(316, 49);
+            button8.Location = new Point(339, 59);
             button8.Name = "button8";
             button8.Size = new Size(103, 41);
             button8.TabIndex = 7;
@@ -238,7 +248,7 @@
             button9.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button9.Image = (Image)resources.GetObject("button9.Image");
             button9.ImageAlign = ContentAlignment.MiddleRight;
-            button9.Location = new Point(7, 90);
+            button9.Location = new Point(448, 59);
             button9.Name = "button9";
             button9.Size = new Size(103, 41);
             button9.TabIndex = 8;
@@ -253,7 +263,7 @@
             button10.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button10.Image = (Image)resources.GetObject("button10.Image");
             button10.ImageAlign = ContentAlignment.MiddleRight;
-            button10.Location = new Point(110, 90);
+            button10.Location = new Point(557, 59);
             button10.Name = "button10";
             button10.Size = new Size(103, 41);
             button10.TabIndex = 9;
@@ -268,7 +278,7 @@
             button11.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button11.Image = (Image)resources.GetObject("button11.Image");
             button11.ImageAlign = ContentAlignment.MiddleRight;
-            button11.Location = new Point(213, 90);
+            button11.Location = new Point(121, 153);
             button11.Name = "button11";
             button11.Size = new Size(103, 41);
             button11.TabIndex = 10;
@@ -283,7 +293,7 @@
             button12.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button12.Image = (Image)resources.GetObject("button12.Image");
             button12.ImageAlign = ContentAlignment.MiddleRight;
-            button12.Location = new Point(316, 90);
+            button12.Location = new Point(121, 106);
             button12.Name = "button12";
             button12.Size = new Size(103, 41);
             button12.TabIndex = 11;
@@ -298,7 +308,7 @@
             button13.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button13.Image = (Image)resources.GetObject("button13.Image");
             button13.ImageAlign = ContentAlignment.MiddleRight;
-            button13.Location = new Point(7, 131);
+            button13.Location = new Point(12, 106);
             button13.Name = "button13";
             button13.Size = new Size(103, 41);
             button13.TabIndex = 12;
@@ -313,7 +323,7 @@
             button14.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button14.Image = (Image)resources.GetObject("button14.Image");
             button14.ImageAlign = ContentAlignment.MiddleRight;
-            button14.Location = new Point(110, 131);
+            button14.Location = new Point(230, 12);
             button14.Name = "button14";
             button14.Size = new Size(103, 41);
             button14.TabIndex = 13;
@@ -328,7 +338,7 @@
             button15.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button15.Image = (Image)resources.GetObject("button15.Image");
             button15.ImageAlign = ContentAlignment.MiddleRight;
-            button15.Location = new Point(213, 131);
+            button15.Location = new Point(339, 12);
             button15.Name = "button15";
             button15.Size = new Size(103, 41);
             button15.TabIndex = 14;
@@ -343,7 +353,7 @@
             button16.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button16.Image = (Image)resources.GetObject("button16.Image");
             button16.ImageAlign = ContentAlignment.MiddleRight;
-            button16.Location = new Point(316, 131);
+            button16.Location = new Point(448, 12);
             button16.Name = "button16";
             button16.Size = new Size(103, 41);
             button16.TabIndex = 15;
@@ -358,7 +368,7 @@
             button17.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button17.Image = (Image)resources.GetObject("button17.Image");
             button17.ImageAlign = ContentAlignment.MiddleRight;
-            button17.Location = new Point(7, 172);
+            button17.Location = new Point(557, 12);
             button17.Name = "button17";
             button17.Size = new Size(103, 41);
             button17.TabIndex = 16;
@@ -373,7 +383,7 @@
             button18.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button18.Image = (Image)resources.GetObject("button18.Image");
             button18.ImageAlign = ContentAlignment.MiddleRight;
-            button18.Location = new Point(110, 172);
+            button18.Location = new Point(12, 153);
             button18.Name = "button18";
             button18.Size = new Size(103, 41);
             button18.TabIndex = 17;
@@ -388,7 +398,7 @@
             button19.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button19.Image = (Image)resources.GetObject("button19.Image");
             button19.ImageAlign = ContentAlignment.MiddleRight;
-            button19.Location = new Point(213, 172);
+            button19.Location = new Point(230, 106);
             button19.Name = "button19";
             button19.Size = new Size(103, 41);
             button19.TabIndex = 18;
@@ -403,7 +413,7 @@
             button20.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             button20.Image = (Image)resources.GetObject("button20.Image");
             button20.ImageAlign = ContentAlignment.MiddleRight;
-            button20.Location = new Point(316, 172);
+            button20.Location = new Point(339, 106);
             button20.Name = "button20";
             button20.Size = new Size(103, 41);
             button20.TabIndex = 19;
@@ -415,13 +425,14 @@
             // 
             // SaveCharButton
             // 
+            SaveCharButton.BackColor = SystemColors.GradientActiveCaption;
             SaveCharButton.Font = new Font("Microsoft JhengHei UI", 13F, FontStyle.Regular, GraphicsUnit.Pixel);
-            SaveCharButton.Location = new Point(220, 220);
+            SaveCharButton.Location = new Point(666, 153);
             SaveCharButton.Name = "SaveCharButton";
-            SaveCharButton.Size = new Size(108, 32);
+            SaveCharButton.Size = new Size(142, 62);
             SaveCharButton.TabIndex = 20;
             SaveCharButton.Text = "Save Character";
-            SaveCharButton.UseVisualStyleBackColor = true;
+            SaveCharButton.UseVisualStyleBackColor = false;
             SaveCharButton.Click += SaveCharButton_Click;
             // 
             // tabControl1
@@ -435,10 +446,10 @@
             tabControl1.Controls.Add(tabPage5);
             tabControl1.Controls.Add(tabPage6);
             tabControl1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            tabControl1.Location = new Point(7, 260);
+            tabControl1.Location = new Point(12, 222);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(779, 636);
+            tabControl1.Size = new Size(800, 700);
             tabControl1.TabIndex = 21;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
@@ -447,20 +458,33 @@
             tabPage1.Location = new Point(4, 26);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(771, 606);
+            tabPage1.Size = new Size(792, 670);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Equip";
             tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.MouseLeave += tabPage1_MouseLeave;
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label9);
             tabPage2.Location = new Point(4, 26);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(771, 606);
+            tabPage2.Size = new Size(792, 670);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Load  Character";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Tahoma", 48F, FontStyle.Regular, GraphicsUnit.Pixel);
+            label9.Location = new Point(277, 278);
+            label9.Name = "label9";
+            label9.Size = new Size(237, 58);
+            label9.TabIndex = 0;
+            label9.Text = "Loading...";
+            label9.Visible = false;
             // 
             // tabPage3
             // 
@@ -468,7 +492,7 @@
             tabPage3.Location = new Point(4, 26);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(771, 606);
+            tabPage3.Size = new Size(792, 670);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Dye";
             tabPage3.UseVisualStyleBackColor = true;
@@ -490,7 +514,7 @@
             DyeGrid.RowHeadersWidth = 40;
             DyeGrid.RowTemplate.Height = 40;
             DyeGrid.ShowCellToolTips = false;
-            DyeGrid.Size = new Size(765, 600);
+            DyeGrid.Size = new Size(786, 664);
             DyeGrid.TabIndex = 0;
             DyeGrid.CellClick += DyeGrid_CellClick;
             // 
@@ -510,7 +534,7 @@
             tabPage7.Controls.Add(DyeGrid2);
             tabPage7.Location = new Point(4, 26);
             tabPage7.Name = "tabPage7";
-            tabPage7.Size = new Size(771, 606);
+            tabPage7.Size = new Size(792, 670);
             tabPage7.TabIndex = 6;
             tabPage7.Text = "Dye2";
             tabPage7.UseVisualStyleBackColor = true;
@@ -658,7 +682,7 @@
             tabPage4.Location = new Point(4, 26);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(771, 606);
+            tabPage4.Size = new Size(792, 670);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Search";
             tabPage4.UseVisualStyleBackColor = true;
@@ -676,7 +700,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(116, 79);
             label3.Name = "label3";
-            label3.Size = new Size(52, 18);
+            label3.Size = new Size(50, 17);
             label3.TabIndex = 1;
             label3.Text = "Search";
             // 
@@ -716,7 +740,7 @@
             label1.AutoSize = true;
             label1.Location = new Point(3, 16);
             label1.Name = "label1";
-            label1.Size = new Size(0, 18);
+            label1.Size = new Size(0, 17);
             label1.TabIndex = 0;
             // 
             // label2
@@ -724,7 +748,7 @@
             label2.AutoSize = true;
             label2.Location = new Point(110, 16);
             label2.Name = "label2";
-            label2.Size = new Size(0, 18);
+            label2.Size = new Size(0, 17);
             label2.TabIndex = 2;
             // 
             // tabPage5
@@ -732,181 +756,235 @@
             tabPage5.Location = new Point(4, 26);
             tabPage5.Name = "tabPage5";
             tabPage5.Padding = new Padding(3);
-            tabPage5.Size = new Size(771, 606);
+            tabPage5.Size = new Size(792, 670);
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Spawn";
             tabPage5.UseVisualStyleBackColor = true;
             // 
             // tabPage6
             // 
-            tabPage6.Controls.Add(label10);
-            tabPage6.Controls.Add(ScrollBarH);
-            tabPage6.Controls.Add(AdjH);
-            tabPage6.Controls.Add(AdjW);
-            tabPage6.Controls.Add(ScrollBarW);
-            tabPage6.Controls.Add(label13);
-            tabPage6.Controls.Add(YLabel);
-            tabPage6.Controls.Add(ScrollBarY);
-            tabPage6.Controls.Add(AdjY);
-            tabPage6.Controls.Add(AdjX);
-            tabPage6.Controls.Add(ScrollBarX);
-            tabPage6.Controls.Add(Xlabel);
-            tabPage6.Controls.Add(button21);
+            tabPage6.Controls.Add(checkBox1);
+            tabPage6.Controls.Add(saveSprite_button);
+            tabPage6.Controls.Add(saveSpriteSheet_button);
+            tabPage6.Controls.Add(saveAllSprite_button);
+            tabPage6.Controls.Add(customAABB_checkBox);
+            tabPage6.Controls.Add(groupBox1);
             tabPage6.Controls.Add(panel2);
             tabPage6.Controls.Add(FrameListBox);
             tabPage6.Location = new Point(4, 26);
             tabPage6.Name = "tabPage6";
             tabPage6.Padding = new Padding(3);
-            tabPage6.Size = new Size(771, 606);
+            tabPage6.Size = new Size(792, 670);
             tabPage6.TabIndex = 5;
             tabPage6.Text = "Export";
             tabPage6.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // checkBox1
             // 
-            label10.AutoSize = true;
-            label10.Location = new Point(528, 50);
-            label10.Name = "label10";
-            label10.Size = new Size(23, 18);
-            label10.TabIndex = 14;
-            label10.Text = "H:";
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(634, 16);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(107, 21);
+            checkBox1.TabIndex = 28;
+            checkBox1.Text = "debug draw";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // saveSprite_button
+            // 
+            saveSprite_button.Location = new Point(155, 10);
+            saveSprite_button.Name = "saveSprite_button";
+            saveSprite_button.Size = new Size(150, 31);
+            saveSprite_button.TabIndex = 2;
+            saveSprite_button.Text = "Export Current Sprite";
+            saveSprite_button.UseVisualStyleBackColor = true;
+            saveSprite_button.Click += ExportSprite;
+            // 
+            // saveSpriteSheet_button
+            // 
+            saveSpriteSheet_button.Location = new Point(467, 10);
+            saveSpriteSheet_button.Name = "saveSpriteSheet_button";
+            saveSpriteSheet_button.Size = new Size(150, 31);
+            saveSpriteSheet_button.TabIndex = 17;
+            saveSpriteSheet_button.Text = "Export SpriteSheet";
+            saveSpriteSheet_button.UseVisualStyleBackColor = true;
+            saveSpriteSheet_button.Click += ExportSpriteSheet;
+            // 
+            // saveAllSprite_button
+            // 
+            saveAllSprite_button.Location = new Point(311, 10);
+            saveAllSprite_button.Name = "saveAllSprite_button";
+            saveAllSprite_button.Size = new Size(150, 31);
+            saveAllSprite_button.TabIndex = 16;
+            saveAllSprite_button.Text = "Export All Sprites";
+            saveAllSprite_button.UseVisualStyleBackColor = true;
+            saveAllSprite_button.Click += ExportAllSprite;
+            // 
+            // customAABB_checkBox
+            // 
+            customAABB_checkBox.AutoSize = true;
+            customAABB_checkBox.Location = new Point(165, 50);
+            customAABB_checkBox.Name = "customAABB_checkBox";
+            customAABB_checkBox.Size = new Size(172, 21);
+            customAABB_checkBox.TabIndex = 27;
+            customAABB_checkBox.Text = "Custom bounding box";
+            customAABB_checkBox.UseVisualStyleBackColor = true;
+            customAABB_checkBox.CheckedChanged += customAABB_checkBox_CheckedChanged;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(ScrollBarH);
+            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(AdjH);
+            groupBox1.Controls.Add(Xlabel);
+            groupBox1.Controls.Add(AdjX);
+            groupBox1.Controls.Add(ScrollBarX);
+            groupBox1.Controls.Add(ScrollBarW);
+            groupBox1.Controls.Add(AdjW);
+            groupBox1.Controls.Add(YLabel);
+            groupBox1.Controls.Add(AdjY);
+            groupBox1.Controls.Add(label13);
+            groupBox1.Controls.Add(ScrollBarY);
+            groupBox1.Enabled = false;
+            groupBox1.Location = new Point(155, 47);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(512, 91);
+            groupBox1.TabIndex = 15;
+            groupBox1.TabStop = false;
             // 
             // ScrollBarH
             // 
             ScrollBarH.LargeChange = 1;
-            ScrollBarH.Location = new Point(581, 49);
+            ScrollBarH.Location = new Point(290, 60);
             ScrollBarH.Maximum = 512;
-            ScrollBarH.Minimum = 100;
+            ScrollBarH.Minimum = 32;
             ScrollBarH.Name = "ScrollBarH";
-            ScrollBarH.Size = new Size(184, 17);
+            ScrollBarH.Size = new Size(160, 17);
             ScrollBarH.TabIndex = 13;
-            ScrollBarH.Value = 200;
+            ScrollBarH.Value = 256;
             ScrollBarH.Scroll += hScrollBar1_Scroll;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(240, 60);
+            label10.Name = "label10";
+            label10.Size = new Size(22, 17);
+            label10.TabIndex = 14;
+            label10.Text = "H:";
             // 
             // AdjH
             // 
             AdjH.AutoSize = true;
-            AdjH.Location = new Point(548, 50);
+            AdjH.Location = new Point(260, 60);
             AdjH.Name = "AdjH";
-            AdjH.Size = new Size(32, 18);
+            AdjH.Size = new Size(32, 17);
             AdjH.TabIndex = 12;
-            AdjH.Text = "200";
-            // 
-            // AdjW
-            // 
-            AdjW.AutoSize = true;
-            AdjW.Location = new Point(289, 50);
-            AdjW.Name = "AdjW";
-            AdjW.Size = new Size(32, 18);
-            AdjW.TabIndex = 11;
-            AdjW.Text = "200";
-            // 
-            // ScrollBarW
-            // 
-            ScrollBarW.LargeChange = 1;
-            ScrollBarW.Location = new Point(318, 50);
-            ScrollBarW.Maximum = 512;
-            ScrollBarW.Minimum = 100;
-            ScrollBarW.Name = "ScrollBarW";
-            ScrollBarW.ScaleScrollBarForDpiChange = false;
-            ScrollBarW.Size = new Size(184, 18);
-            ScrollBarW.TabIndex = 10;
-            ScrollBarW.Value = 200;
-            ScrollBarW.Scroll += hScrollBar1_Scroll;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new Point(265, 50);
-            label13.Name = "label13";
-            label13.Size = new Size(27, 18);
-            label13.TabIndex = 9;
-            label13.Text = "W:";
-            // 
-            // YLabel
-            // 
-            YLabel.AutoSize = true;
-            YLabel.Location = new Point(527, 16);
-            YLabel.Name = "YLabel";
-            YLabel.Size = new Size(23, 18);
-            YLabel.TabIndex = 8;
-            YLabel.Text = "Y:";
-            // 
-            // ScrollBarY
-            // 
-            ScrollBarY.LargeChange = 1;
-            ScrollBarY.Location = new Point(581, 17);
-            ScrollBarY.Maximum = 256;
-            ScrollBarY.Minimum = -256;
-            ScrollBarY.Name = "ScrollBarY";
-            ScrollBarY.Size = new Size(184, 17);
-            ScrollBarY.TabIndex = 7;
-            ScrollBarY.Value = 18;
-            ScrollBarY.Scroll += hScrollBar1_Scroll;
-            // 
-            // AdjY
-            // 
-            AdjY.AutoSize = true;
-            AdjY.Location = new Point(546, 17);
-            AdjY.Name = "AdjY";
-            AdjY.Size = new Size(24, 18);
-            AdjY.TabIndex = 6;
-            AdjY.Text = "18";
-            // 
-            // AdjX
-            // 
-            AdjX.AutoSize = true;
-            AdjX.Location = new Point(283, 18);
-            AdjX.Name = "AdjX";
-            AdjX.Size = new Size(24, 18);
-            AdjX.TabIndex = 5;
-            AdjX.Text = "45";
-            // 
-            // ScrollBarX
-            // 
-            ScrollBarX.LargeChange = 1;
-            ScrollBarX.Location = new Point(324, 18);
-            ScrollBarX.Maximum = 256;
-            ScrollBarX.Minimum = -256;
-            ScrollBarX.Name = "ScrollBarX";
-            ScrollBarX.Size = new Size(178, 18);
-            ScrollBarX.TabIndex = 4;
-            ScrollBarX.Value = 45;
-            ScrollBarX.Scroll += hScrollBar1_Scroll;
+            AdjH.Text = "256";
             // 
             // Xlabel
             // 
             Xlabel.AutoSize = true;
-            Xlabel.Location = new Point(265, 18);
+            Xlabel.Location = new Point(10, 30);
             Xlabel.Name = "Xlabel";
-            Xlabel.Size = new Size(22, 18);
+            Xlabel.Size = new Size(21, 17);
             Xlabel.TabIndex = 3;
             Xlabel.Text = "X:";
             // 
-            // button21
+            // AdjX
             // 
-            button21.Location = new Point(177, 28);
-            button21.Name = "button21";
-            button21.Size = new Size(71, 38);
-            button21.TabIndex = 2;
-            button21.Text = "Save";
-            button21.UseVisualStyleBackColor = true;
-            button21.Click += button21_Click;
+            AdjX.AutoSize = true;
+            AdjX.Location = new Point(30, 30);
+            AdjX.Name = "AdjX";
+            AdjX.Size = new Size(32, 17);
+            AdjX.TabIndex = 5;
+            AdjX.Text = "128";
+            // 
+            // ScrollBarX
+            // 
+            ScrollBarX.LargeChange = 1;
+            ScrollBarX.Location = new Point(60, 30);
+            ScrollBarX.Maximum = 512;
+            ScrollBarX.Name = "ScrollBarX";
+            ScrollBarX.Size = new Size(160, 18);
+            ScrollBarX.TabIndex = 4;
+            ScrollBarX.Value = 128;
+            ScrollBarX.Scroll += hScrollBar1_Scroll;
+            // 
+            // ScrollBarW
+            // 
+            ScrollBarW.LargeChange = 1;
+            ScrollBarW.Location = new Point(60, 60);
+            ScrollBarW.Maximum = 512;
+            ScrollBarW.Minimum = 32;
+            ScrollBarW.Name = "ScrollBarW";
+            ScrollBarW.ScaleScrollBarForDpiChange = false;
+            ScrollBarW.Size = new Size(160, 18);
+            ScrollBarW.TabIndex = 10;
+            ScrollBarW.Value = 256;
+            ScrollBarW.Scroll += hScrollBar1_Scroll;
+            // 
+            // AdjW
+            // 
+            AdjW.AutoSize = true;
+            AdjW.Location = new Point(30, 60);
+            AdjW.Name = "AdjW";
+            AdjW.Size = new Size(32, 17);
+            AdjW.TabIndex = 11;
+            AdjW.Text = "256";
+            // 
+            // YLabel
+            // 
+            YLabel.AutoSize = true;
+            YLabel.Location = new Point(240, 30);
+            YLabel.Name = "YLabel";
+            YLabel.Size = new Size(21, 17);
+            YLabel.TabIndex = 8;
+            YLabel.Text = "Y:";
+            // 
+            // AdjY
+            // 
+            AdjY.AutoSize = true;
+            AdjY.Location = new Point(260, 30);
+            AdjY.Name = "AdjY";
+            AdjY.Size = new Size(32, 17);
+            AdjY.TabIndex = 6;
+            AdjY.Text = "128";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(10, 60);
+            label13.Name = "label13";
+            label13.Size = new Size(27, 17);
+            label13.TabIndex = 9;
+            label13.Text = "W:";
+            // 
+            // ScrollBarY
+            // 
+            ScrollBarY.LargeChange = 1;
+            ScrollBarY.Location = new Point(290, 30);
+            ScrollBarY.Maximum = 512;
+            ScrollBarY.Name = "ScrollBarY";
+            ScrollBarY.Size = new Size(160, 17);
+            ScrollBarY.TabIndex = 7;
+            ScrollBarY.Value = 128;
+            ScrollBarY.Scroll += hScrollBar1_Scroll;
             // 
             // panel2
             // 
-            panel2.Location = new Point(204, 80);
+            panel2.Location = new Point(155, 144);
             panel2.Name = "panel2";
-            panel2.Size = new Size(512, 513);
+            panel2.Size = new Size(512, 512);
             panel2.TabIndex = 1;
             // 
             // FrameListBox
             // 
             FrameListBox.FormattingEnabled = true;
             FrameListBox.ItemHeight = 17;
-            FrameListBox.Location = new Point(16, 28);
+            FrameListBox.Location = new Point(6, 6);
             FrameListBox.Name = "FrameListBox";
-            FrameListBox.Size = new Size(143, 565);
+            FrameListBox.Size = new Size(143, 650);
             FrameListBox.TabIndex = 0;
             FrameListBox.SelectedIndexChanged += FrameListBox_SelectedIndexChanged;
             // 
@@ -914,18 +992,19 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            label4.Location = new Point(453, 224);
+            label4.Location = new Point(446, 162);
             label4.Name = "label4";
-            label4.Size = new Size(77, 18);
+            label4.Size = new Size(74, 17);
             label4.TabIndex = 22;
             label4.Text = "Expression";
             // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "blink", "hit", "smile", "troubled", "cry", "angry", "bewildered", "stunned", "vomit", "oops", "cheers", "chu", "wink", "pain", "glitter", "despair", "love", "shine", "blaze", "hum", "bowing", "hot", "dam", "qBlue" });
-            comboBox1.Location = new Point(533, 222);
+            comboBox1.Location = new Point(526, 159);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(134, 25);
             comboBox1.TabIndex = 23;
@@ -937,9 +1016,9 @@
             ShowToolTil_CheckBox.Checked = true;
             ShowToolTil_CheckBox.CheckState = CheckState.Checked;
             ShowToolTil_CheckBox.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            ShowToolTil_CheckBox.Location = new Point(27, 226);
+            ShowToolTil_CheckBox.Location = new Point(358, 161);
             ShowToolTil_CheckBox.Name = "ShowToolTil_CheckBox";
-            ShowToolTil_CheckBox.Size = new Size(83, 22);
+            ShowToolTil_CheckBox.Size = new Size(82, 21);
             ShowToolTil_CheckBox.TabIndex = 24;
             ShowToolTil_CheckBox.Text = "Tool Tip";
             ShowToolTil_CheckBox.UseVisualStyleBackColor = true;
@@ -949,9 +1028,9 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            label5.Location = new Point(501, 257);
+            label5.Location = new Point(492, 193);
             label5.Name = "label5";
-            label5.Size = new Size(29, 18);
+            label5.Size = new Size(28, 17);
             label5.TabIndex = 25;
             label5.Text = "Ear";
             // 
@@ -959,16 +1038,21 @@
             // 
             EarListBox.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             EarListBox.FormattingEnabled = true;
-            EarListBox.Location = new Point(533, 253);
+            EarListBox.Location = new Point(526, 190);
             EarListBox.Name = "EarListBox";
             EarListBox.Size = new Size(134, 25);
             EarListBox.TabIndex = 26;
             EarListBox.SelectedIndexChanged += EarListBox_SelectedIndexChanged;
             // 
+            // timer1
+            // 
+            timer1.Interval = 10;
+            timer1.Tick += timer1_Tick;
+            // 
             // AvatarForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(1103, 903);
+            ClientSize = new Size(1130, 929);
             Controls.Add(EarListBox);
             Controls.Add(label5);
             Controls.Add(ShowToolTil_CheckBox);
@@ -1005,6 +1089,8 @@
             FormClosing += AvatarForm_FormClosing;
             Load += AvatarForm_Load;
             tabControl1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
             tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DyeGrid).EndInit();
             tabPage7.ResumeLayout(false);
@@ -1021,6 +1107,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tabPage6.ResumeLayout(false);
             tabPage6.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1071,7 +1159,7 @@
         private ListBox FrameListBox;
         private Panel panel2;
         private Label Xlabel;
-        private Button button21;
+        private Button saveSprite_button;
         private Label label10;
         private HScrollBar ScrollBarH;
         private Label AdjH;
@@ -1096,5 +1184,12 @@
         private Label label7;
         private Label label6;
         private Button button22;
+        private GroupBox groupBox1;
+        private Button saveSpriteSheet_button;
+        private Button saveAllSprite_button;
+        private CheckBox customAABB_checkBox;
+        private System.Windows.Forms.Timer timer1;
+        private Label label9;
+        private CheckBox checkBox1;
     }
 }

@@ -35,9 +35,10 @@ public partial class AvatarForm : Form
         AvatarFormDraw = new();
         AvatarFormDraw.Width = 260;
         AvatarFormDraw.Height = 200;
-        AvatarFormDraw.Left = 453;
-        AvatarFormDraw.Top = 9;
+        AvatarFormDraw.Left = 818;
+        AvatarFormDraw.Top = 12;
         AvatarFormDraw.Parent = this;
+        AvatarFormDraw.Anchor = (AnchorStyles.Right | AnchorStyles.Top);
 
         FrameListDraw = new();
         FrameListDraw.Width = 512;
@@ -47,32 +48,70 @@ public partial class AvatarForm : Form
         FrameListDraw.Parent = panel2;
         Instance = this;
     }
-    private string[] AllFrames = {"walk1.0", "walk1.1", "walk1.2", "walk1.3", "walk2.0", "walk2.1", "walk2.2", "walk2.3",
-        "stand1.0", "stand1.1", "stand1.2", "stand2.0", "stand2.1", "stand2.2", "alert.0", "alert.1", "alert.2",
-        "swingO1.0", "swingO1.1", "swingO1.2", "swingO2.0", "swingO2.1", "swingO2.2", "swingO3.0", "swingO3.1", "swingO3.2",
+    private string[] AllFrames = {
+        "walk1.0", "walk1.1", "walk1.2", "walk1.3",
+        "stand1.0", "stand1.1", "stand1.2",
+        "walk2.0", "walk2.1", "walk2.2", "walk2.3",
+        "stand2.0", "stand2.1", "stand2.2",
+        "alert.0", "alert.1", "alert.2",
+        "heal.0", "heal.1", "heal.2",
+        "rope.0", "rope.1", "rope.1",
+        "ladder.0", "ladder.1",
+        "fly.0", "fly.1",
+        "proneStab.0", "proneStab.1",
+        "jump.0",
+        "sit.0",
+        "prone.0",
+
+        "shootF.0", "shootF.1", "shootF.2",
+        "shoot1.0", "shoot1.1", "shoot1.2",
+        "shoot2.0", "shoot2.1", "shoot2.2", "shoot2.3", "shoot2.4",
+
         "swingOF.0", "swingOF.1", "swingOF.2", "swingOF.3",
-        "swingT1.0", "swingT1.1", "swingT1.2", "swingT2.0", "swingT2.1", "swingT2.2", "swingT3.0", "swingT3.1", "swingT3.2",
+        "swingO1.0", "swingO1.1", "swingO1.2",
+        "swingO2.0", "swingO2.1", "swingO2.2",
+        "swingO3.0", "swingO3.1", "swingO3.2",
+
         "swingTF.0", "swingTF.1", "swingTF.2", "swingTF.3",
-        "swingP1.0", "swingP1.1", "swingP1.2", "swingP2.0", "swingP2.1", "swingP2.2",
+        "swingT1.0", "swingT1.1", "swingT1.2",
+        "swingT2.0", "swingT2.1", "swingT2.2",
+        "swingT3.0", "swingT3.1", "swingT3.2",
+
         "swingPF.0", "swingPF.1", "swingPF.2", "swingPF.3",
-        "stabO1.0", "stabO1.1", "stabO2.0", "stabO2.1", "stabOF.0", "stabOF.1", "stabOF.2",
-        "stabT1.0", "stabT1.1", "stabT1.2", "stabT2.0", "stabT2.1", "stabT2.2", "stabTF.0", "stabTF.1", "stabTF.2", "stabTF.3",
-        "shoot1.0", "shoot1.1", "shoot1.2", "shoot2.0", "shoot2.1", "shoot2.2", "shoot2.3", "shoot2.4", "shootF.0", "shootF.1", "shootF.2",
-        "proneStab.0", "proneStab.1", "prone.0", "heal.0", "heal.1", "heal.2", "fly.0", "fly.1", "jump.0", "sit.0", "ladder.0", "ladder.1", "rope.0", "rope.1", "rope.1" };
+        "swingP1.0", "swingP1.1", "swingP1.2",
+        "swingP2.0", "swingP2.1", "swingP2.2",
+
+        "stabOF.0", "stabOF.1", "stabOF.2",
+        "stabTF.0", "stabTF.1", "stabTF.2", "stabTF.3",
+
+        "stabT1.0", "stabT1.1", "stabT1.2",
+        "stabO1.0", "stabO1.1", "stabO2.0", "stabO2.1",
+        "stabT2.0", "stabT2.1", "stabT2.2",
+    };
+    private List<Point> sheetPoint;
+
     private static bool LoadedFrameList;
     public static bool SelectedFrame;
     public static int SelectedFrameNum;
     public static string SelectedAction;
-    public static int AdjustX = 45, AdjustY = 18, AdjustW = 200, AdjustH = 200;
+    public static int AdjustX = 128, AdjustY = 128, AdjustW = 256, AdjustH = 256;
     public static bool ChangeExpressionListBox;
     public static AvatarForm Instance;
     public static AvatarFormDraw AvatarFormDraw;
     public static FrameListDraw FrameListDraw;
+    public static bool useCustomBound = false;
+    public static Rectangle AvatarBound;
+    public static Rectangle CurrentSpriteBound;
+
     static bool ShowToolTip = true;
     ImageListView[] ImageGrids = new ImageListView[21];
     ImageListView AvatarListView;
     public DataGridViewEx Inventory;
     public DataGridViewEx SearchGrid;
+    private List<Rectangle> FrameBound = new();
+    public static bool debugDraw = false;
+
+
     void AddInventory()
     {
         if (Inventory.Columns.Count == 4)
@@ -123,6 +162,9 @@ public partial class AvatarForm : Form
                     break;
             }
             Inventory.Rows.Add(ID, Bmp, Name);
+
+            SelectedFrame = false;
+            timer1.Enabled = true;
         }
 
         for (int i = 0; i < Inventory.Rows.Count; i++)
@@ -179,6 +221,7 @@ public partial class AvatarForm : Form
 
         if (SetEffect.AllList.ContainsKey(EqpID))
             SetEffect.Create(EqpID);
+
     }
     void ResetDyeGrid()
     {
@@ -252,6 +295,8 @@ public partial class AvatarForm : Form
         {
             this.Hide();
             e1.Cancel = true;
+            Sound.isMute = false;
+            ChangeExpressionListBox = false;
         };
 
         for (int i = 1; i <= 20; i++)
@@ -285,7 +330,7 @@ public partial class AvatarForm : Form
                     Wz_Node Node = Wz.GetNodeByID(e.Item.FileName, WzType.Character);
                     MainForm.Instance.QuickView(Node);
                     MainForm.Instance.ToolTipView.Owner = this;
-
+                    MainForm.Instance.ToolTipView.Location = Control.MousePosition;
                 }
             };
 
@@ -330,6 +375,11 @@ public partial class AvatarForm : Form
                         Game.Player.Spawn(EqpList[i]);
                     }
                     AddInventory();
+
+                    tabControl1.Enabled = false;
+                    timer1.Enabled = true;
+                    label9.Visible = true;
+
                     break;
                 case 5:
                     string IDs = e.Item.FileName;
@@ -338,7 +388,7 @@ public partial class AvatarForm : Form
             }
         };
 
-        Inventory = new(75, 174, 795, 8, 300, 880, true, this);
+        Inventory = new(75, 174, 818, 222, 300, 700, true, this);
         Inventory.RowTemplate.Height = 45;
         Inventory.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         Inventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -377,11 +427,15 @@ public partial class AvatarForm : Form
             {
                 Game.Player.Spawn(Player.EqpList[i]);
             }
+
             if (tabControl1.SelectedIndex == 2)
                 ResetDyeGrid();
             if (tabControl1.SelectedIndex == 3)
                 ResetDyeGrid2();
             ResetDye2();
+
+            SelectedFrame = false;
+            timer1.Enabled = true;
         };
 
         Inventory.CellMouseEnter += (s, e) =>
@@ -393,8 +447,18 @@ public partial class AvatarForm : Form
                 Wz_Node Node = Wz.GetNodeByID(_ID, WzType.Character);
                 MainForm.Instance.QuickView(Node);
                 MainForm.Instance.ToolTipView.Owner = this;
+                MainForm.Instance.ToolTipView.Visible = true;
+                MainForm.Instance.ToolTipView.Location = Control.MousePosition;
             }
         };
+        Inventory.CellMouseLeave += (s, e) =>
+        {
+            if (ShowToolTip)
+            {
+                MainForm.Instance.ToolTipView.Visible = false;
+            }
+        };
+
         // Inventory.SetToolTipEvent(WzType.Character, this);
         AddEqps("00002000");
         AddInventory();
@@ -407,6 +471,8 @@ public partial class AvatarForm : Form
                 EarListBox.Items.Add(Iter.Text);
             }
         }
+
+        comboBox1.SelectedIndex = 0;
 
         if (EarListBox.Items.Count == 0)
         {
@@ -594,14 +660,16 @@ public partial class AvatarForm : Form
         int WY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 90);
         EngineFunc.Canvas.DrawTarget(ref SaveTexture, 100, 100, () =>
         {
-            EngineFunc.Canvas.DrawCropArea(AvatarFormDraw.AvatarPanelTexture, 0, 0, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + 100, WY + 100), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
+            EngineFunc.Canvas.DrawCropArea(AvatarFormDraw.AvatarPanelTexture, 0, 0, new Rectangle(WX, WY, WX + 100, WY + 100), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
         });
 
         string PngName = "";
         for (int i = 0; i < Player.EqpList.Count; i++)
             PngName = PngName + Player.EqpList[i] + "-";
 
-        Stream stream = File.OpenWrite(System.Environment.CurrentDirectory + "\\Images\\" + PngName + ".png");
+        string path = Path.Combine(Environment.CurrentDirectory, "Images", PngName + ".png");
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        Stream stream = File.OpenWrite(path);
         SaveTexture.SaveAsPng(stream, 100, 100);
         stream.Dispose();
         SaveTexture.Dispose();
@@ -672,7 +740,8 @@ public partial class AvatarForm : Form
 
         void LoadAvatarPics()
         {
-            string[] Files = Directory.GetFiles(System.Environment.CurrentDirectory + "\\Images");
+            string imagePath = Path.Combine(Environment.CurrentDirectory, "Images");
+            string[] Files = Directory.Exists(imagePath) ? Directory.GetFiles(imagePath) : Array.Empty<string>();
             foreach (var i in Files)
             {
                 string Name = Path.GetFileName(i);
@@ -683,6 +752,7 @@ public partial class AvatarForm : Form
             }
         }
 
+        Sound.isMute = false;
         switch (tabControl1.SelectedIndex)
         {
             case 0:
@@ -708,6 +778,7 @@ public partial class AvatarForm : Form
                 }
                 AvatarListView.Parent = tabControl1.TabPages[1];
                 SelectedFrame = false;
+                timer1.Enabled = true;
                 break;
             case 2:
                 ResetDyeGrid();
@@ -826,10 +897,45 @@ public partial class AvatarForm : Form
                         FrameListBox.Items.Add(i);
                     LoadedFrameList = true;
                 }
-
+                UpdateAvatarBound();
+                SelectedFrame = true;
+                if (FrameListBox.SelectedIndex < 0)
+                    FrameListBox.SetSelected(0, true);
+                else
+                    FrameListBox.SetSelected(FrameListBox.SelectedIndex, true);
+                Sound.isMute = true;
                 break;
         }
 
+    }
+
+    private void UpdateAvatarBound()
+    {
+        // 重新计算包围盒
+        SelectedFrame = true;
+        bool _isMute = Sound.isMute;
+        Sound.isMute = true;
+
+        FrameBound.Clear();
+        AvatarBound = Rectangle.Empty;
+        foreach (var i in AllFrames)
+        {
+            var sprite = i.Split('.');
+            SelectedFrameNum = sprite[1].ToInt();
+            SelectedAction = sprite[0];
+            Game.Player.DoMove(0);
+
+            Rectangle bound = Rectangle.Empty;
+            foreach (var parts in Game.Player.PartSpriteList)
+            {
+                if (parts.Alpha > 0)
+                    bound = Rectangle.Union(bound, new Rectangle((int)parts.Offset.X, (int)parts.Offset.Y, parts.ImageWidth, parts.ImageHeight));
+            }
+            AvatarBound = Rectangle.Union(AvatarBound, bound);
+            FrameBound.Add(bound);
+        }
+        Sound.isMute = _isMute;
+        SelectedFrame = false;
     }
 
     private void DyeGrid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -866,7 +972,6 @@ public partial class AvatarForm : Form
         {
             Game.Player.Spawn(Player.EqpList[i]);
         }
-
         ResetDye2();
     }
 
@@ -874,8 +979,6 @@ public partial class AvatarForm : Form
     {
         ChangeExpressionListBox = true;
     }
-
-
 
     private void ShowToolTil_CheckBox_CheckedChanged(object sender, EventArgs e)
     {
@@ -902,24 +1005,308 @@ public partial class AvatarForm : Form
         var Split = SelectedItem.Split('.');
         SelectedFrameNum = Split[1].ToInt();
         SelectedAction = Split[0];
+
+        CurrentSpriteBound = FrameBound[FrameListBox.SelectedIndex];
+
+        //if(FrameListBox.SelectedIndex > 0)
+        //{
+        //    ScrollBarX.Value = 0;
+        //}
     }
 
-    private void button21_Click(object sender, EventArgs e)
+    private Rectangle GetClipBoundindBox()
     {
-        RenderTarget2D SaveTexture = null;
-        int WX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X - 155) + AdjustX;
-        int WY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 160) + AdjustY;
-
-        int Width = WX + AdjustW - WX;
-        int Height = WY + AdjustH - WY;
-        EngineFunc.Canvas.DrawTarget(ref SaveTexture, Width, Height, () =>
+        Rectangle result;
+        if (customAABB_checkBox.Checked)
         {
-            EngineFunc.Canvas.DrawCropArea(FrameListDraw.AvatarPanelTexture, 0, 0, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + AdjustW, WY + AdjustH), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false);
-        });
-        Stream stream = File.OpenWrite(System.Environment.CurrentDirectory + "\\Export\\" + FrameListBox.SelectedItem.ToString() + ".png");
-        SaveTexture.SaveAsPng(stream, Width, Height);
+            int OffsetX = FrameListDraw.Width / 2;
+            int OffsetY = FrameListDraw.Height / 2 + Game.Player.Height / 2;
+
+            Rectangle bound = new Rectangle(AdjustX, AdjustY, AdjustW, AdjustH);
+            int posX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X + bound.X - OffsetX);
+            int posY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y + bound.Y - OffsetY);
+            result = new Rectangle(posX, posY, bound.Width, bound.Height);
+        }
+        else
+        {
+            int posX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X + AvatarBound.X);
+            int posY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y + AvatarBound.Y);
+            result = new Rectangle(posX, posY, Math.Min(512, AvatarBound.Width), Math.Min(512, AvatarBound.Height));
+        }
+        return result;
+    }
+
+    private void SaveTexture(RenderTarget2D texture, string filepath)
+    {
+        // 修复预乘alpha的问题
+        Microsoft.Xna.Framework.Color[] pixels = new Microsoft.Xna.Framework.Color[texture.Width * texture.Height];
+        texture.GetData(pixels);
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            Microsoft.Xna.Framework.Color pixel = pixels[i];
+            if (pixel.A > 0 && pixel.A < 255)
+            {
+                float alpha = pixel.A / 255f;
+                pixels[i] = new Microsoft.Xna.Framework.Color(
+                    (byte)(pixel.R / alpha),
+                    (byte)(pixel.G / alpha),
+                    (byte)(pixel.B / alpha),
+                    pixel.A
+                );
+            }
+        }
+        Texture2D fixedTexture = new Texture2D(EngineFunc.Canvas.GraphicsDevice, texture.Width, texture.Height);
+        fixedTexture.SetData(pixels);
+
+        // 保存文件
+        Directory.CreateDirectory(Path.GetDirectoryName(filepath));
+        Stream stream = File.OpenWrite(filepath);
+        fixedTexture.SaveAsPng(stream, fixedTexture.Width, fixedTexture.Height);
+
         stream.Dispose();
-        SaveTexture.Dispose();
+        fixedTexture.Dispose();
+    }
+
+    private void ExportSprite(object sender, EventArgs e)
+    {
+        Rectangle bound = GetClipBoundindBox();
+
+        RenderTarget2D texture = new RenderTarget2D(EngineFunc.Canvas.GraphicsDevice, bound.Width, bound.Height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+        EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
+        EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+        EngineFunc.Canvas.DrawCropArea(
+            FrameListDraw.AvatarPanelTexture,
+            0, 0, bound,
+            0, 0, 1, 1, 0,
+            false, false,
+            255, 255, 255, 255,
+            false, BlendMode.NonPremultiplied2);
+
+        if (debugDraw)
+        {
+            EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
+            EngineFunc.Canvas.DrawRectangle(0, 0, bound.Width - 1, bound.Height - 1, Microsoft.Xna.Framework.Color.Blue);
+            if (useCustomBound)
+            {
+                int cx = FrameListDraw.Width / 2 - AdjustX;
+                int cy = FrameListDraw.Height / 2 + Game.Player.Height / 2 - AdjustY;
+                EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(0, cy), new Microsoft.Xna.Framework.Point(bound.Width, cy), 1, Microsoft.Xna.Framework.Color.Green);
+                EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(cx, 0), new Microsoft.Xna.Framework.Point(cx, bound.Height), 1, Microsoft.Xna.Framework.Color.Green);
+            }
+            else
+            {
+                int cx = -AvatarBound.X;
+                int cy = -AvatarBound.Y;
+                EngineFunc.Canvas.DrawRectangle(cx + CurrentSpriteBound.X, cy + CurrentSpriteBound.Y, CurrentSpriteBound.Width - 1, CurrentSpriteBound.Height - 1, Microsoft.Xna.Framework.Color.Red);
+                EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(0, cy), new Microsoft.Xna.Framework.Point(bound.Width, cy), 1, Microsoft.Xna.Framework.Color.Green);
+                EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(cx, 0), new Microsoft.Xna.Framework.Point(cx, bound.Height), 1, Microsoft.Xna.Framework.Color.Green);
+            }
+            EngineFunc.Canvas.DrawString("Arial13", $"{FrameListBox.SelectedItem}", 2, 0, Microsoft.Xna.Framework.Color.Red);
+        }
+
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Export", $"{FrameListBox.SelectedItem}.png");
+        SaveTexture(texture, filePath);
+        texture.Dispose();
+    }
+
+    private void ExportAllSprite(object sender, EventArgs e)
+    {
+        tabControl1.Enabled = false;
+        SelectedFrame = true;
+        ChangeExpressionListBox = true;
+
+        Rectangle bound = GetClipBoundindBox();
+        RenderTarget2D texture = new RenderTarget2D(EngineFunc.Canvas.GraphicsDevice, bound.Width, bound.Height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+        EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
+
+        for (int i = 0; i < AllFrames.Length; i++)
+        {
+            string frameName = AllFrames[i];
+            string[] sprite = frameName.Split('.');
+            SelectedFrameNum = sprite[1].ToInt();
+            SelectedAction = sprite[0];
+
+            // 必须domove 3次，不然序号会慢一帧
+            Game.Player.DoMove(0);
+            Game.Player.DoMove(0);
+            Game.Player.DoMove(0);
+
+            EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(FrameListDraw.AvatarPanelTexture);
+            EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+            EngineFunc.SpriteEngine.DrawEx("Player", "ItemEffect", "SetEffect");
+
+            EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
+            EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+            EngineFunc.Canvas.DrawCropArea(
+                FrameListDraw.AvatarPanelTexture,
+                0, 0, bound,
+                0, 0, 1, 1, 0,
+                false, false,
+                255, 255, 255, 255,
+                false, BlendMode.NonPremultiplied2);
+
+            if (debugDraw)
+            {
+                EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
+                EngineFunc.Canvas.DrawRectangle(0, 0, bound.Width - 1, bound.Height - 1, Microsoft.Xna.Framework.Color.Blue);
+                if (useCustomBound)
+                {
+                    int cx = FrameListDraw.Width / 2 - AdjustX;
+                    int cy = FrameListDraw.Height / 2 + Game.Player.Height / 2 - AdjustY;
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(0, cy), new Microsoft.Xna.Framework.Point(bound.Width, cy), 1, Microsoft.Xna.Framework.Color.Green);
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(cx, 0), new Microsoft.Xna.Framework.Point(cx, bound.Height), 1, Microsoft.Xna.Framework.Color.Green);
+                }
+                else
+                {
+                    int cx = -AvatarBound.X;
+                    int cy = -AvatarBound.Y;
+                    EngineFunc.Canvas.DrawRectangle(cx + FrameBound[i].X, cy + FrameBound[i].Y, FrameBound[i].Width - 1, FrameBound[i].Height - 1, Microsoft.Xna.Framework.Color.Red);
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(0, cy), new Microsoft.Xna.Framework.Point(bound.Width, cy), 1, Microsoft.Xna.Framework.Color.Green);
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(cx, 0), new Microsoft.Xna.Framework.Point(cx, bound.Height), 1, Microsoft.Xna.Framework.Color.Green);
+                }
+                EngineFunc.Canvas.DrawString("Arial13", $"{i}_{frameName}", 2, 0, Microsoft.Xna.Framework.Color.Red);
+            }
+
+            string filePath = Path.Combine(Environment.CurrentDirectory, "Export", $"{i}_{frameName}.png");
+            SaveTexture(texture, filePath);
+        }
+        EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(null);
+        tabControl1.Enabled = true;
+        texture.Dispose();
+
+        string SelectedItem = FrameListBox.SelectedItem.ToString();
+        var Split = SelectedItem.Split('.');
+        SelectedFrameNum = Split[1].ToInt();
+        SelectedAction = Split[0];
+    }
+
+    private void ExportSpriteSheet(object sender, EventArgs e)
+    {
+        if (sheetPoint == null)
+        {
+            sheetPoint = new List<Point> {
+                // textire1 
+                new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0),     new Point(5,0), new Point(6,0), new Point(7,0),
+                new Point(0,1), new Point(1,1), new Point(2,1), new Point(3,1),     new Point(5,1), new Point(6,1), new Point(7,1),
+                new Point(0,2), new Point(1,2), new Point(2,2),                     new Point(5,2), new Point(6,2), new Point(7,2),
+                new Point(0,3), new Point(1,3), new Point(2,3),                     new Point(5,3), new Point(6,3),
+                new Point(0,4), new Point(1,4),                                     new Point(5,4), new Point(6,4),
+                new Point(0,5),                 new Point(2,5),                     new Point(5,5),
+                new Point(0,6), new Point(1,6), new Point(2,6),                     new Point(5,6), new Point(6,6), new Point(7,6),
+                new Point(0,7), new Point(1,7), new Point(2,7), new Point(3,7), new Point(4,7), 
+
+                // textire2
+                new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0),     new Point(5,0), new Point(6,0), new Point(7,0),
+                new Point(0,1), new Point(1,1), new Point(2,1),                     new Point(5,1), new Point(6,1), new Point(7,1),
+                new Point(0,2), new Point(1,2), new Point(2,2), new Point(3,2),     new Point(5,2), new Point(6,2), new Point(7,2),
+                new Point(0,3), new Point(1,3), new Point(2,3),                     new Point(5,3), new Point(6,3), new Point(7,3),
+                new Point(0,4), new Point(1,4), new Point(2,4), new Point(3,4),     new Point(5,4), new Point(6,4), new Point(7,4),
+                new Point(0,5), new Point(1,5), new Point(2,5),                     new Point(5,5), new Point(6,5), new Point(7,5),
+                new Point(0,6), new Point(1,6), new Point(2,6), new Point(3,6),     new Point(5,6), new Point(6,6), new Point(7,6),
+                new Point(0,7), new Point(1,7), new Point(2,7), new Point(3,7),     new Point(5,7), new Point(6,7), new Point(7,7),
+            };
+        }
+
+        tabControl1.Enabled = false;
+        SelectedFrame = true;
+        ChangeExpressionListBox = true;
+
+        Rectangle clipBound = GetClipBoundindBox();
+        int SpriteSize = 8 * Math.Max(clipBound.Width + 2, clipBound.Height + 2);
+        int textureSize = 128;
+        while (textureSize < SpriteSize && textureSize < 4096)
+            textureSize *= 2;
+
+        RenderTarget2D texture1 = new RenderTarget2D(EngineFunc.Canvas.GraphicsDevice, textureSize, textureSize, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+        RenderTarget2D texture2 = new RenderTarget2D(EngineFunc.Canvas.GraphicsDevice, textureSize, textureSize, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+        EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture1);
+        EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+        EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture2);
+        EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+
+        SpriteSize = textureSize / 8;
+        Rectangle spriteBound = new Rectangle(
+            (SpriteSize - clipBound.Width + 2) / 2, 
+            (SpriteSize - clipBound.Height + 2) / 2, 
+            clipBound.Width + 2, 
+            clipBound.Height + 2);
+        RenderTarget2D texture;
+        for (int index = 0; index < AllFrames.Length; index++)
+        {
+            texture = index < 43 ? texture1 : texture2;
+
+            int posX = SpriteSize * sheetPoint[index].X + spriteBound.X;
+            int posY = SpriteSize * sheetPoint[index].Y + spriteBound.Y;
+
+            string frameName = AllFrames[index];
+            string[] sprite = frameName.Split('.');
+            SelectedFrameNum = sprite[1].ToInt();
+            SelectedAction = sprite[0];
+
+            // 必须domove 3次，不然序号会慢一帧
+            Game.Player.DoMove(0);
+            Game.Player.DoMove(0);
+            Game.Player.DoMove(0);
+
+
+            EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(FrameListDraw.AvatarPanelTexture);
+            EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
+            EngineFunc.SpriteEngine.DrawEx("Player", "ItemEffect", "SetEffect");
+
+            EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
+            EngineFunc.Canvas.DrawCropArea(
+                FrameListDraw.AvatarPanelTexture,
+                posX, posY, clipBound,
+                0, 0, 1, 1, 0,
+                false, false,
+                255, 255, 255, 255,
+                false, BlendMode.NonPremultiplied2);
+
+            if (debugDraw)
+            {
+                int ox = SpriteSize * sheetPoint[index].X;
+                int oy = SpriteSize * sheetPoint[index].Y;
+                EngineFunc.Canvas.DrawRectangle(ox, oy, SpriteSize - 1, SpriteSize - 1, Microsoft.Xna.Framework.Color.Black); 
+                EngineFunc.Canvas.DrawRectangle(ox + spriteBound.X, oy + spriteBound.Y, spriteBound.Width - 1, spriteBound.Height - 1, Microsoft.Xna.Framework.Color.Blue);
+                
+                if (useCustomBound)
+                {
+                    int cx = posX + FrameListDraw.Width / 2 - AdjustX;
+                    int cy = posY + FrameListDraw.Height / 2 - AdjustY + Game.Player.Height / 2;
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(ox, cy), new Microsoft.Xna.Framework.Point(ox + SpriteSize, cy), 1, Microsoft.Xna.Framework.Color.Green);
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(cx, oy), new Microsoft.Xna.Framework.Point(cx, oy + SpriteSize), 1, Microsoft.Xna.Framework.Color.Green);
+                }
+                else
+                {
+                    int cx = ox + spriteBound.X - AvatarBound.X;
+                    int cy = oy + spriteBound.Y - AvatarBound.Y;
+                    EngineFunc.Canvas.DrawRectangle(cx + FrameBound[index].X, cy + FrameBound[index].Y, FrameBound[index].Width - 1, FrameBound[index].Height - 1, Microsoft.Xna.Framework.Color.Red);
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(ox, cy), new Microsoft.Xna.Framework.Point(ox + SpriteSize, cy), 1, Microsoft.Xna.Framework.Color.Green);
+                    EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(cx, oy), new Microsoft.Xna.Framework.Point(cx, oy + SpriteSize), 1, Microsoft.Xna.Framework.Color.Green);
+                }
+
+                EngineFunc.Canvas.DrawString("Arial13", $"{index}_{frameName}", ox + 2, oy, Microsoft.Xna.Framework.Color.Red);
+            }
+        }
+
+        SaveTexture(texture1, Path.Combine(Environment.CurrentDirectory, "Export", $"_SpriteSheet1.png"));
+        SaveTexture(texture2, Path.Combine(Environment.CurrentDirectory, "Export", $"_SpriteSheet2.png"));
+
+        EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(null);
+        tabControl1.Enabled = true;
+        texture1.Dispose();
+        texture2.Dispose();
+
+        string SelectedItem = FrameListBox.SelectedItem.ToString();
+        var Split = SelectedItem.Split('.');
+        SelectedFrameNum = Split[1].ToInt();
+        SelectedAction = Split[0];
+    }
+
+    private void customAABB_checkBox_CheckedChanged(object sender, EventArgs e)
+    {
+        useCustomBound = customAABB_checkBox.Checked;
+        groupBox1.Enabled = useCustomBound;
     }
 
     private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
@@ -1013,6 +1400,32 @@ public partial class AvatarForm : Form
             Entry = Wz.GetNodeA("Character/" + Dir + ID + ".img");
 
         Wz.DumpData(Entry, Wz.EquipData, Wz.EquipImageLib, true, HueTrackBar.Value, SatTrackBar.Value, LightnessTrackBar.Value);
+    }
+
+    private void tabPage1_MouseLeave(object sender, EventArgs e)
+    {
+        MainForm.Instance.ToolTipView.Visible = false;
+    }
+
+    private void timer1_Tick(object sender, EventArgs e)
+    {
+        if (Game.Player.ResetAction == false)
+        {
+            UpdateAvatarBound();
+            tabControl1.Enabled = true;
+            timer1.Enabled = false;
+            label9.Visible = false;
+
+            if (tabControl1.SelectedIndex == 6)
+            {
+                FrameListBox_SelectedIndexChanged(sender, e);
+            }
+        }
+    }
+
+    private void checkBox1_CheckedChanged(object sender, EventArgs e)
+    {
+        debugDraw = checkBox1.Checked;
     }
 }
 
