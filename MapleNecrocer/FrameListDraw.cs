@@ -13,6 +13,7 @@ using DevComponents.DotNetBar;
 using Microsoft.Xna.Framework.Graphics;
 using System.Drawing;
 using WzComparerR2.CharaSim;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace MapleNecrocer;
 

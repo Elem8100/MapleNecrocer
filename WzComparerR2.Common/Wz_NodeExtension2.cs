@@ -6,7 +6,7 @@ using WzComparerR2.WzLib;
 using System.Drawing;
 using System.IO;
 using Microsoft.Xna.Framework;
-using WzComparerR2.PluginBase;
+//using WzComparerR2.PluginBase;
 
 namespace WzComparerR2.Common
 {

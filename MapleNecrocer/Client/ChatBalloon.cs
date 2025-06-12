@@ -19,6 +19,7 @@ using MonoGame.SpriteEngine;
 using System.Security.Cryptography;
 using DevComponents.DotNetBar.Controls;
 using System.ComponentModel.Design;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace MapleNecrocer;
 

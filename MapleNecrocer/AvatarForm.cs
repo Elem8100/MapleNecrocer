@@ -21,6 +21,9 @@ using static Manina.Windows.Forms.Utility;
 
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Drawing.Imaging;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace MapleNecrocer;
 

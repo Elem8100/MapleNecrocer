@@ -57,8 +57,9 @@ public partial class SelectFolderForm : Form
     {
 
         RecentFilesGrid.Rows.Clear();
-        var listOfLines = File.ReadAllLines("RecentFiles.txt")
-                       .Where(x => !string.IsNullOrWhiteSpace(x));
+        var listOfLines = File.Exists("RecentFiles.txt")
+            ? File.ReadAllLines("RecentFiles.txt").Where(x => !string.IsNullOrWhiteSpace(x))
+            : Enumerable.Empty<string>();
 
         RecentFilesGrid.ColumnCount = 1;
         RecentFilesGrid.Columns[0].Width = 400;
@@ -80,8 +81,9 @@ public partial class SelectFolderForm : Form
 
     private void SelectFolderButton_Click(object sender, EventArgs e)
     {
-        var ListOfLines = File.ReadAllLines("RecentFiles.txt")
-                         .Where(x => !string.IsNullOrWhiteSpace(x));
+        var ListOfLines = File.Exists("RecentFiles.txt")
+            ? File.ReadAllLines("RecentFiles.txt").Where(x => !string.IsNullOrWhiteSpace(x))
+            : Enumerable.Empty<string>();
 
         File.WriteAllLines("RecentFiles.txt", ListOfLines);
         FolderBrowserDialog Dialog = new FolderBrowserDialog();

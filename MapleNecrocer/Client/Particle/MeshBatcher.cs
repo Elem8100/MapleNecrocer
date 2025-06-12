@@ -6,7 +6,7 @@ using WzComparerR2.Animation;
 using WzComparerR2.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Spine;
+using Spine.V2;
 using Rectangle=Microsoft.Xna.Framework.Rectangle;
 using Point= Microsoft.Xna.Framework.Point;
 using Color= Microsoft.Xna.Framework.Color;
@@ -31,7 +31,7 @@ namespace WzComparerR2.MapRender2
 
         //内部batcher
         SpriteBatchEx sprite;
-        SkeletonMeshRenderer spineRender;
+        Spine.SkeletonRenderer spineRender;
         D2DRenderer d2dRender;
         ItemType lastItem;
         Stack<MeshItem> meshPool;
@@ -348,9 +348,13 @@ namespace WzComparerR2.MapRender2
                 case ItemType.Skeleton:
                     if (this.spineRender == null)
                     {
-                        this.spineRender = new SkeletonMeshRenderer(this.GraphicsDevice);
+                        this.spineRender = new Spine.SkeletonRenderer(this.GraphicsDevice);
                     }
-                    this.spineRender.Effect.World = matrix ?? Matrix.Identity;
+                    if (this.spineRender.Effect is BasicEffect basicEff)
+                    {
+                        basicEff.World = matrix ?? Matrix.Identity;
+                        basicEff.Projection = Matrix.CreateOrthographicOffCenter(0, this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 0, 1, 0);
+                    }
                     this.spineRender.Begin();
                     break;
 

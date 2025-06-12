@@ -23,6 +23,8 @@ using DevComponents.DotNetBar;
 using WzComparerR2.Text;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
+using System.Diagnostics;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace MapleNecrocer;
 

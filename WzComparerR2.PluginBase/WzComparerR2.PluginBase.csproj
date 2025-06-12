@@ -5,15 +5,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="WzComparerR2.Common">
-      <HintPath>..\WzComparerR2.Common\bin\Release\net8.0-windows7.0\WzComparerR2.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="WzComparerR2.WzLib">
-      <HintPath>..\WzComparerR2.WzLib\bin\Release\net8.0\WzComparerR2.WzLib.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\WzComparerR2.Common\WzComparerR2.Common.csproj" />
+    <ProjectReference Include="..\WzComparerR2.WzLib\WzComparerR2.WzLib.csproj" />
   </ItemGroup>
 
 </Project>

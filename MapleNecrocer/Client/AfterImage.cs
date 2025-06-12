@@ -48,6 +48,8 @@ public class AfterImage : SpriteEx
         Y = Game.Player.Y;
         Z = 150 + Game.Player.Z;
         ImagePath = Path + Frame;
+        if (!Wz.EquipData.ContainsKey(ImagePath))
+            return;
         ImageNode = Wz.EquipData[ImagePath];
         int Delay = ImageNode.GetInt("delay", 100);
         int a1 = ImageNode.GetInt("a1", -1);
