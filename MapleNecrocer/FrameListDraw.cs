@@ -13,6 +13,7 @@ using DevComponents.DotNetBar;
 using Microsoft.Xna.Framework.Graphics;
 using System.Drawing;
 using WzComparerR2.CharaSim;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace MapleNecrocer;
 
@@ -64,12 +65,62 @@ public class FrameListDraw : MonoGameControl
     {
         EngineFunc.Canvas.Draw(CheckBoardTexture, 0, 0);
         // Editor.graphics.Clear(Color.Aqua);
-        int WX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X - 155);
-        int WY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y - 160);
-        EngineFunc.Canvas.DrawCropArea(AvatarPanelTexture, 100, 150, new Microsoft.Xna.Framework.Rectangle(WX, WY, WX + 250, WY + 230), 0, 0, 1, 1, 0, false, false, 255, 255, 255, 255, false, BlendMode.NonPremultiplied2);
-        EngineFunc.Canvas.DrawRectangle(100 + AvatarForm.AdjustX, 150 + AvatarForm.AdjustY, AvatarForm.AdjustW, AvatarForm.AdjustH,
-              new Color(255,0, 0));
-    }
 
+        int FrameW = AvatarForm.FrameListDraw.Width;
+        int FrameH = AvatarForm.FrameListDraw.Height;
+        int OffsetX = FrameW / 2;
+        int OffsetY = FrameH / 2 + Game.Player.Height / 2;
+        
+        Rectangle bound = AvatarForm.AvatarBound;
+        int posX = OffsetX + bound.X;
+        int posY = OffsetY + bound.Y;
+
+        int avatarPosX = (int)(Game.Player.X - EngineFunc.SpriteEngine.Camera.X + bound.X);
+        int avatarPosY = (int)(Game.Player.Y - EngineFunc.SpriteEngine.Camera.Y + bound.Y);
+        Rectangle avatarBound = new Rectangle(avatarPosX, avatarPosY, bound.Width, bound.Height);
+        EngineFunc.Canvas.DrawCropArea(
+            AvatarPanelTexture,
+            posX, posY,
+            avatarBound,
+            0, 0, 1, 1, 0, 
+            false, false, 
+            255, 255, 255, 255, 
+            false, BlendMode.NonPremultiplied2);
+
+        if (AvatarForm.useCustomBound)
+        {
+            EngineFunc.Canvas.DrawRectangle(
+                AvatarForm.AdjustX,
+                AvatarForm.AdjustY,
+                AvatarForm.AdjustW - 1,
+                AvatarForm.AdjustH - 1,
+                new Color(0, 0, 255)
+            );
+            if (AvatarForm.debugDraw)
+            {
+                EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(0, OffsetY), new Microsoft.Xna.Framework.Point(FrameW, OffsetY), 1, Microsoft.Xna.Framework.Color.Green);
+                EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(OffsetX, 0), new Microsoft.Xna.Framework.Point(OffsetX, FrameH), 1, Microsoft.Xna.Framework.Color.Green);
+            }
+        }
+        else if (AvatarForm.debugDraw)
+        {
+            EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(0, OffsetY), new Microsoft.Xna.Framework.Point(FrameW, OffsetY), 1, Microsoft.Xna.Framework.Color.Green);
+            EngineFunc.Canvas.DrawLine(new Microsoft.Xna.Framework.Point(OffsetX, 0), new Microsoft.Xna.Framework.Point(OffsetX, FrameH), 1, Microsoft.Xna.Framework.Color.Green);
+
+            EngineFunc.Canvas.DrawRectangle(
+                posX, posY,
+                avatarBound.Width - 1, avatarBound.Height - 1,
+                new Color(0, 0, 255)
+            );
+
+            posX = OffsetX + AvatarForm.CurrentSpriteBound.X;
+            posY = OffsetY + AvatarForm.CurrentSpriteBound.Y;
+            EngineFunc.Canvas.DrawRectangle(
+                posX, posY,
+                AvatarForm.CurrentSpriteBound.Width - 1, AvatarForm.CurrentSpriteBound.Height - 1,
+                new Color(255, 0, 0)
+            );
+        }
+    }
 }
 

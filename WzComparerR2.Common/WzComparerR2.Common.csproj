@@ -6,53 +6,52 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WzComparerR2.WzLib\WzComparerR2.WzLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="DevComponents.DotNetBar2">
-      <HintPath>bin\Release\net6.0-windows\DevComponents.DotNetBar2.dll</HintPath>
+      <HintPath>..\Reference\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="ImageManipulation">
-      <HintPath>bin\Release\net6.0-windows\ImageManipulation.dll</HintPath>
+      <HintPath>..\Reference\ImageManipulation.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>bin\Release\net6.0-windows\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\Reference\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct2D1">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.Direct2D1.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.Direct3D11.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Mathematics">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.Mathematics.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.MediaFoundation">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.MediaFoundation.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.MediaFoundation.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XAudio2">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.XAudio2.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.XAudio2.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.XInput">
-      <HintPath>bin\Release\net6.0-windows\SharpDX.XInput.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="spine-monogame">
-      <HintPath>bin\Release\net6.0-windows\spine-monogame.dll</HintPath>
-    </Reference>
-    <Reference Include="WzComparerR2.PluginBase">
-      <HintPath>..\WzComparerR2.PluginBase\bin\Release\net8.0-windows7.0\WzComparerR2.PluginBase.dll</HintPath>
-    </Reference>
-    <Reference Include="WzComparerR2.WzLib">
-      <HintPath>..\WzComparerR2.WzLib\bin\Release\net8.0\WzComparerR2.WzLib.dll</HintPath>
+      <HintPath>..\Reference\spine-monogame.dll</HintPath>
     </Reference>
   </ItemGroup>
 

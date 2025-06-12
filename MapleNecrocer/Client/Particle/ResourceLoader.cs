@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using WzComparerR2.Animation;
 using WzComparerR2.Rendering;
 using WzComparerR2.Common;
-using Spine;
+using Spine.V2;
 using Point = Microsoft.Xna.Framework.Point;
 
 namespace WzComparerR2.MapRender2
@@ -370,7 +370,7 @@ namespace WzComparerR2.MapRender2
             public int Count { get; set; }
         }
 
-        private class SpineTextureLoader : Spine.TextureLoader
+        private class SpineTextureLoader : Spine.V2.TextureLoader
         {
             public SpineTextureLoader(ResourceLoader resLoader, Wz_Node topNode)
             {

@@ -17,57 +17,55 @@
     <Content Include="MapleStoryGM_Icon.ico" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <ProjectReference Include="..\WzComparerR2.Common\WzComparerR2.Common.csproj" />
+    <ProjectReference Include="..\WzComparerR2.PluginBase\WzComparerR2.PluginBase.csproj" />
+    <ProjectReference Include="..\WzComparerR2.WzLib\WzComparerR2.WzLib.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="AForge">
-      <HintPath>bin\x64\Release\net6.0-windows\AForge.dll</HintPath>
+      <HintPath>..\Reference\AForge.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Imaging">
-      <HintPath>bin\x64\Release\net6.0-windows\AForge.Imaging.dll</HintPath>
+      <HintPath>..\Reference\AForge.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="CharaSimResource">
-      <HintPath>bin\x64\Release\net6.0-windows\CharaSimResource.dll</HintPath>
+      <HintPath>..\Reference\CharaSimResource.dll</HintPath>
     </Reference>
     <Reference Include="DevComponents.DotNetBar2">
-      <HintPath>bin\x64\Release\net6.0-windows\DevComponents.DotNetBar2.dll</HintPath>
+      <HintPath>..\Reference\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="ImageListView">
-      <HintPath>bin\x64\Release\net6.0-windows\ImageListView.dll</HintPath>
+      <HintPath>..\Reference\ImageListView.dll</HintPath>
     </Reference>
     <Reference Include="ManagedBass">
-      <HintPath>bin\x64\Release\net6.0-windows\ManagedBass.dll</HintPath>
+      <HintPath>..\Reference\ManagedBass.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Forms.DX">
-      <HintPath>bin\x64\Release\net6.0-windows\MonoGame.Forms.DX.dll</HintPath>
+      <HintPath>..\Reference\MonoGame.Forms.DX.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>bin\x64\Release\net8.0-windows7.0\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\Reference\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>bin\x64\Release\net6.0-windows\SharpDX.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct2D1">
-      <HintPath>bin\x64\Release\net8.0-windows7.0\SharpDX.Direct2D1.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11">
-      <HintPath>bin\x64\Release\net6.0-windows\SharpDX.Direct3D11.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DXGI">
-      <HintPath>bin\x64\Release\net6.0-windows\SharpDX.DXGI.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.DXGI.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Mathematics">
-      <HintPath>..\WzComparerR2.Common\bin\Release\net8.0-windows7.0\SharpDX.Mathematics.dll</HintPath>
+      <HintPath>..\Reference\SharpDX.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="spine-monogame">
-      <HintPath>bin\x64\Release\net6.0-windows\spine-monogame.dll</HintPath>
-    </Reference>
-    <Reference Include="WzComparerR2.Common">
-      <HintPath>..\WzComparerR2.Common\bin\Release\net8.0-windows7.0\WzComparerR2.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="WzComparerR2.PluginBase">
-      <HintPath>..\WzComparerR2.PluginBase\bin\Release\net8.0-windows7.0\WzComparerR2.PluginBase.dll</HintPath>
-    </Reference>
-    <Reference Include="WzComparerR2.WzLib">
-      <HintPath>..\WzComparerR2.WzLib\bin\Release\net8.0\WzComparerR2.WzLib.dll</HintPath>
+      <HintPath>..\Reference\spine-monogame.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -85,5 +83,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(ProjectDir)..\Reference\bass.dll&quot; &quot;$(TargetDir)bass.dll&quot;" />
+  </Target>
 
 </Project>

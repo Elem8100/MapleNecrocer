@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Spine;
+using Spine.V2;
 using WzComparerR2.Common;
 using WzComparerR2.WzLib;
 using WzComparerR2.Rendering;
@@ -31,13 +31,13 @@ namespace WzComparerR2.Animation
         {
             var parentNode = atlasNode.ParentNode;
 
-            var loadType = SkeletonLoadType.Auto;
+            var loadType = SkeletonLoadType.Json;
             if (useJson != null)
             {
                 loadType = useJson.Value ? SkeletonLoadType.Json : SkeletonLoadType.Binary;
             }
 
-            var skeletonData = SpineLoader.LoadSkeleton(atlasNode, loadType, textureLoader);
+            var skeletonData = SpineLoader.LoadSkeletonV2(atlasNode, textureLoader);
 
             if (skeletonData == null)
             {

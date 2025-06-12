@@ -17,6 +17,8 @@ public class Sound
 {
     public static Dictionary<string, BassSoundPlayer> SoundDict = new Dictionary<string, BassSoundPlayer>();
     public static List<BassSoundPlayer> PlayendList=new();
+    public static bool isMute = false;
+
     public static void Init()
     {
         Bass.Init(-1, 44100, DeviceInitFlags.Default, IntPtr.Zero);
@@ -39,7 +41,7 @@ public class Sound
     }
     public static void Play(string Path)
     {
-        if(!Wz.HasNode(Path))
+        if(isMute || !Wz.HasNode(Path))
             return;
         Wz_Node Child;
         Wz_Node WzNode = Wz.GetNode(Path);

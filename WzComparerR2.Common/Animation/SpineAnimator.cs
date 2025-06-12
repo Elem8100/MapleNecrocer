@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Spine;
+using Spine.V2;
 using WzComparerR2.WzLib;
 using WzComparerR2.Controls;
 using Microsoft.Xna.Framework;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace WzComparerR2.Animation
 {
@@ -88,7 +89,7 @@ namespace WzComparerR2.Animation
             get { return (int)((this._animationState?.GetCurrent(0)?.Time ?? 0) * 1000); }
         }
 
-        internal Spine.Animation SelectedAnimation
+        internal Spine.V2.Animation SelectedAnimation
         {
             get
             {

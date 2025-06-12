@@ -23,6 +23,8 @@ using DevComponents.DotNetBar;
 using WzComparerR2.Text;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
+using System.Diagnostics;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace MapleNecrocer;
 
@@ -139,7 +141,7 @@ public class Player : JumperSprite
         JumpState = JumpState.jsFalling;
         StandType = "stand1";
         WalkType = "walk1";
-
+        
         // IntMove = true;
     }
     static bool Loaded;
@@ -203,7 +205,6 @@ public class Player : JumperSprite
         AfterImage.Load(Game.Player.AfterImageStr, "0");
         DamageNumber.Style = "NoRed1";
         DamageNumber.Load("");
-
         Loaded = true;
     }
 
@@ -229,7 +230,7 @@ public class Player : JumperSprite
     PortalInfo Portal;
     public LadderType LadderType;
     public string StandType, WalkType;
-    List<AvatarParts> PartSpriteList = new();
+    public List<AvatarParts> PartSpriteList = new();
     public bool ShowHair;
     public bool DressCap;
     public int CapType;
@@ -258,7 +259,6 @@ public class Player : JumperSprite
     public Vector2 Neck, Navel, Hand, Brow, HandMove;
     public Vector2 ArmHand, ArmNavel, BodyNeck, BodyNavel, BodyHand, lHandMove, HeadBrow, HeadNeck;
     public Vector2 BrowPos, TamingNavel;
-
 
     public void Spawn(string EquipID)
     {
@@ -995,7 +995,7 @@ public class AvatarParts : SpriteEx
     Wz_Vector MoveOffset=new(0,0);
     int Counter;
     public static List<string> ZMap = new();
-    static int ChangeExpressionCounter;
+
     bool IsAttack()
     {
         if ((State.LeftStr(4) == "stab") || (State.LeftStr(5) == "swing") || (State.LeftStr(5) == "shoot"))
@@ -1104,12 +1104,12 @@ public class AvatarParts : SpriteEx
         {
             FaceFrame = 0;
             Expression = AvatarForm.Instance.comboBox1.Text;
-            ChangeExpressionCounter += 1;
         }
 
 
         if (Owner.ResetAction)
         {
+            Animate = true;
             Frame = 1;
             State = Owner.NewAction;
             Counter += 1; ;
@@ -1698,14 +1698,7 @@ public class AvatarParts : SpriteEx
         if ((AvatarForm.SaveAllFrames) && (AvatarForm.Frame = 96))
             AvatarForm.SaveAllFrames = false;
         */
-        if (AvatarForm.ChangeExpressionListBox)
-        {
-            if (ChangeExpressionCounter > 5)
-            {
-                ChangeExpressionCounter = 0;
-                AvatarForm.ChangeExpressionListBox = false;
-            }
-        }
+
         /*
         if (PlayActionForm.DoPlay)
         {

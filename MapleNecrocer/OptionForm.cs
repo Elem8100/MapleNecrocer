@@ -21,9 +21,15 @@ public partial class OptionForm : Form
     private void checkBox1_CheckedChanged(object sender, EventArgs e)
     {
         if (checkBox1.Checked)
+        {
+            Sound.isMute = true;
             Music.Pause();
+        }
         else
+        {
+            Sound.isMute = false;
             Music.Resume();
+        }
     }
 
     private void OptionForm_Shown(object sender, EventArgs e)
