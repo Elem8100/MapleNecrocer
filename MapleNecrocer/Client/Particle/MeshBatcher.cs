@@ -6,10 +6,11 @@ using WzComparerR2.Animation;
 using WzComparerR2.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Spine.V2;
+using Spine;
 using Rectangle=Microsoft.Xna.Framework.Rectangle;
 using Point= Microsoft.Xna.Framework.Point;
 using Color= Microsoft.Xna.Framework.Color;
+using MapleNecrocer;
 
 namespace WzComparerR2.MapRender2
 {
@@ -56,6 +57,7 @@ namespace WzComparerR2.MapRender2
             this.lastItem = ItemType.Unknown;
             this.isInBeginEndPair = true;
             this.PrepareCullingParameters();
+           
         }
         public void DrawParticle(MeshItem mesh)
         {
@@ -63,7 +65,7 @@ namespace WzComparerR2.MapRender2
             {
                 this.DrawItem(mesh, (ParticleSystem)mesh.RenderObject);
             }
-
+         
 
         }
 
@@ -316,7 +318,7 @@ namespace WzComparerR2.MapRender2
             {
                 return;
             }
-
+           
             switch (itemType)
             {
                 case ItemType.Sprite:
@@ -334,6 +336,7 @@ namespace WzComparerR2.MapRender2
 
         public void InnerBegin()
         {
+           
             switch (lastItem)
             {
                 case ItemType.Sprite:
@@ -352,9 +355,12 @@ namespace WzComparerR2.MapRender2
                     }
                     if (this.spineRender.Effect is BasicEffect basicEff)
                     {
+                     
                         basicEff.World = matrix ?? Matrix.Identity;
                         basicEff.Projection = Matrix.CreateOrthographicOffCenter(0, this.GraphicsDevice.Viewport.Width, this.GraphicsDevice.Viewport.Height, 0, 1, 0);
                     }
+                 
+                    //this.spineRender.Effect = matrix ?? Matrix.Identity;
                     this.spineRender.Begin();
                     break;
 
