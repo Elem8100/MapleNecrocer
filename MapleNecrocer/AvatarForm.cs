@@ -922,7 +922,7 @@ public partial class AvatarForm : Form
         {
             var sprite = i.Split('.');
             SelectedFrameNum = sprite[1].ToInt();
-            SelectedAction = sprite[0];
+            SelectedAction = Game.Player.StandType;// sprite[0]
             Game.Player.DoMove(0);
 
             Rectangle bound = Rectangle.Empty;
@@ -1133,7 +1133,7 @@ public partial class AvatarForm : Form
 
             EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(FrameListDraw.AvatarPanelTexture);
             EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
-            EngineFunc.SpriteEngine.DrawEx("Player", "ItemEffect", "SetEffect");
+            EngineFunc.SpriteEngine.DrawEx("Player", "ItemEffect", "SetEffect","LabelRingTag");
 
             EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
             EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
@@ -1167,7 +1167,8 @@ public partial class AvatarForm : Form
                 EngineFunc.Canvas.DrawString("Arial13", $"{i}_{frameName}", 2, 0, Microsoft.Xna.Framework.Color.Red);
             }
 
-            string filePath = Path.Combine(Environment.CurrentDirectory, "Export", $"{i}_{frameName}.png");
+            //   string filePath = Path.Combine(Environment.CurrentDirectory, "Export", $"{i}_{frameName}.png");
+            string filePath = Path.Combine(Environment.CurrentDirectory, "Export", $"{frameName}.png");
             SaveTexture(texture, filePath);
         }
         EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(null);
@@ -1251,7 +1252,7 @@ public partial class AvatarForm : Form
 
             EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(FrameListDraw.AvatarPanelTexture);
             EngineFunc.Canvas.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Transparent);
-            EngineFunc.SpriteEngine.DrawEx("Player", "ItemEffect", "SetEffect");
+            EngineFunc.SpriteEngine.DrawEx("Player", "ItemEffect", "SetEffect", "LabelRingTag");
 
             EngineFunc.Canvas.GraphicsDevice.SetRenderTarget(texture);
             EngineFunc.Canvas.DrawCropArea(
