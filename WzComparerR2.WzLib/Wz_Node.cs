@@ -480,8 +480,7 @@ namespace WzComparerR2.WzLib
         {
             if (node == null)
                 return null;
-            Wz_Uol uol;
-            while ((uol = node?.GetValueEx<Wz_Uol>(null)) != null)
+            while (node?.Value is Wz_Uol uol)
             {
                 node = uol.HandleUol(node);
             }
@@ -572,38 +571,43 @@ namespace WzComparerR2.WzLib
                 writer.WriteStartElement("dir");
                 writer.WriteAttributeString("name", node.Text);
             }
-            else if (value is Wz_Png)
+            else if (value is Wz_Png png)
             {
-                var png = (Wz_Png)value;
                 writer.WriteStartElement("png");
                 writer.WriteAttributeString("name", node.Text);
-                using (var bmp = png.ExtractPng())
+                writer.WriteAttributeString("width", png.Width.ToString());
+                writer.WriteAttributeString("height", png.Height.ToString());
+                writer.WriteAttributeString("format", ((int)png.Format).ToString());
+                writer.WriteAttributeString("scale", png.Scale.ToString());
+                writer.WriteAttributeString("pages", png.Pages.ToString());
+                for(int i = 0; i < png.ActualPages; i++)
                 {
-                    using (var ms = new MemoryStream())
+                    using (var bmp = png.ExtractPng())
                     {
-                        bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        byte[] data = ms.ToArray();
-                        writer.WriteAttributeString("value", Convert.ToBase64String(data));
+                        using (var ms = new MemoryStream())
+                        {
+                            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            byte[] data = ms.ToArray();
+                            string attrName = "value" + (i > 0 ? (i + 1).ToString() : null);
+                            writer.WriteAttributeString(attrName, Convert.ToBase64String(data));
+                        }
                     }
                 }
             }
-            else if (value is Wz_Uol)
+            else if (value is Wz_Uol uol)
             {
-                var uol = (Wz_Uol)value;
                 writer.WriteStartElement("uol");
                 writer.WriteAttributeString("name", node.Text);
                 writer.WriteAttributeString("value", uol.Uol);
             }
-            else if (value is Wz_Vector)
+            else if (value is Wz_Vector vector)
             {
-                var vector = (Wz_Vector)value;
                 writer.WriteStartElement("vector");
                 writer.WriteAttributeString("name", node.Text);
                 writer.WriteAttributeString("value", $"{vector.X}, {vector.Y}");
             }
-            else if (value is Wz_Sound)
+            else if (value is Wz_Sound sound)
             {
-                var sound = (Wz_Sound)value;
                 writer.WriteStartElement("sound");
                 writer.WriteAttributeString("name", node.Text);
                 byte[] data = sound.ExtractSound();
@@ -612,6 +616,35 @@ namespace WzComparerR2.WzLib
                     data = new byte[sound.DataLength];
                     sound.CopyTo(data, 0);
                 }
+                writer.WriteAttributeString("value", Convert.ToBase64String(data));
+            }
+            else if (value is Wz_Convex contex)
+            {
+                writer.WriteStartElement("convex");
+                writer.WriteAttributeString("name", node.Text);
+                foreach (var point in contex.Points)
+                {
+                    writer.WriteStartElement("vector");
+                    writer.WriteAttributeString("value", $"{point.X}, {point.Y}");
+                    writer.WriteEndElement();
+                }
+            }
+            else if (value is Wz_RawData rawdata)
+            {
+                writer.WriteStartElement("rawdata");
+                writer.WriteAttributeString("name", node.Text);
+                writer.WriteAttributeString("length", rawdata.Length.ToString());
+                byte[] data = new byte[rawdata.Length];
+                rawdata.CopyTo(data, 0);
+                writer.WriteAttributeString("value", Convert.ToBase64String(data));
+            }
+            else if (value is Wz_Video video)
+            {
+                writer.WriteStartElement("video");
+                writer.WriteAttributeString("name", node.Text);
+                writer.WriteAttributeString("length", video.Length.ToString());
+                byte[] data = new byte[video.Length];
+                video.CopyTo(data, 0);
                 writer.WriteAttributeString("value", Convert.ToBase64String(data));
             }
             else

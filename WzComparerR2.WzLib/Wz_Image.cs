@@ -54,7 +54,7 @@ namespace WzComparerR2.WzLib
             get { return this.Name.EndsWith(".lua"); }
         }
 
-        public Wz_Crypto.Wz_CryptoKey EncKeys
+        public IWzDecrypter EncKeys
         {
             get
             {
@@ -265,10 +265,11 @@ namespace WzComparerR2.WzLib
                     }
                     int w = reader.ReadCompressedInt32();
                     int h = reader.ReadCompressedInt32();
-                    int form = reader.ReadCompressedInt32() + reader.ReadByte();
-                    reader.SkipBytes(4);
+                    int form = reader.ReadCompressedInt32();
+                    int scale = reader.ReadByte();
+                    int pages = reader.ReadInt32(); // introduced in KMST 1186
                     int dataLen = reader.ReadInt32();
-                    parent.Value = new Wz_Png(w, h, dataLen, form, (uint)reader.BaseStream.Position, this);
+                    parent.Value = new Wz_Png(w, h, dataLen, (Wz_TextureFormat)form, scale, pages,(uint)reader.BaseStream.Position, this);
                     reader.SkipBytes(dataLen);
                     break;
 
@@ -292,7 +293,19 @@ namespace WzComparerR2.WzLib
                     break;
 
                 case "Sound_DX8":
-                    reader.SkipBytes(1);
+                    int soundDX8Ver = reader.ReadByte();
+                    if (soundDX8Ver == 1) // introduced in KMST 1184
+                    {
+                        if (reader.ReadByte() == 0x01) // read sub property
+                        {
+                            reader.SkipBytes(2);
+                            entries = reader.ReadCompressedInt32();
+                            for (int i = 0; i < entries; i++)
+                            {
+                                ExtractValue(reader, parent);
+                            }
+                        }
+                    }
                     dataLen = reader.ReadCompressedInt32();
                     int duration = reader.ReadCompressedInt32();
                     int soundDecl = reader.ReadByte();
@@ -308,38 +321,34 @@ namespace WzComparerR2.WzLib
                             int fmtExLen = reader.ReadCompressedInt32();
                             var fmtExData = reader.ReadBytes(fmtExLen);
                             mediaType.CbFormat = (uint)fmtExLen;
-
-                            GCHandle gcHandle = GCHandle.Alloc(fmtExData, GCHandleType.Pinned);
-                            try
+                            
+                            if (!this.TryDecryptWaveFormatEx(fmtExData, out Interop.WAVEFORMATEX waveFormatEx))
                             {
-                                var waveFormatEx = Marshal.PtrToStructure<Interop.WAVEFORMATEX>(gcHandle.AddrOfPinnedObject());
-                                if (fmtExLen != waveFormatEx.CbSize + Marshal.SizeOf<Interop.WAVEFORMATEX>())
-                                {
-                                    //  parse waveFormatEx after decryption
-                                    this.EncKeys.Decrypt(fmtExData, 0, fmtExLen);
-                                    waveFormatEx = Marshal.PtrToStructure<Interop.WAVEFORMATEX>(gcHandle.AddrOfPinnedObject());
-                                    if (fmtExLen != waveFormatEx.CbSize + Marshal.SizeOf<Interop.WAVEFORMATEX>())
-                                    {
-                                        throw new Exception($"Failed to parse WAVEFORMATEX struct at offset {this.Offset}+{reader.BaseStream.Position}.");
-                                    }
-                                }
-                                switch (waveFormatEx.FormatTag)
-                                {
-                                    case Interop.WAVE_FORMAT_PCM:
-                                        mediaType.PbFormat = waveFormatEx;
-                                        break;
-
-                                    case Interop.WAVE_FORMAT_MPEGLAYER3:
-                                        mediaType.PbFormat = Marshal.PtrToStructure<Interop.MPEGLAYER3WAVEFORMAT>(gcHandle.AddrOfPinnedObject());
-                                        break;
-
-                                    default:
-                                        throw new Exception($"Unknown WAVEFORMATEX.FormatTag {waveFormatEx.FormatTag} at offset {this.Offset}+{reader.BaseStream.Position}.");
-                                }
+                                throw new Exception($"Failed to parse WAVEFORMATEX struct at offset {this.Offset}+{reader.BaseStream.Position}.");
                             }
-                            finally
+                            switch (waveFormatEx.FormatTag)
                             {
-                                gcHandle.Free();
+                                case Interop.WAVE_FORMAT_PCM:
+                                    mediaType.PbFormat = waveFormatEx;
+                                    break;
+
+                                case Interop.WAVE_FORMAT_MPEGLAYER3:
+                                    if (fmtExLen == Interop.MPEGLAYER3WAVEFORMAT_SIZE)
+                                    {
+                                        mediaType.PbFormat = MemoryMarshal.Read<Interop.MPEGLAYER3WAVEFORMAT>(fmtExData);
+                                    }
+                                    else
+                                    {
+                                        // workaround for KMST1185
+                                        mediaType.PbFormat = new Interop.MPEGLAYER3WAVEFORMAT
+                                        {
+                                            Wfx = waveFormatEx
+                                        };
+                                    }
+                                    break;
+
+                                default:
+                                    throw new Exception($"Unknown WAVEFORMATEX.FormatTag {waveFormatEx.FormatTag} at offset {this.Offset}+{reader.BaseStream.Position}.");
                             }
                             break;
                     }
@@ -372,7 +381,17 @@ namespace WzComparerR2.WzLib
                     break;
 
                 case "Canvas#Video": // introduced in KMST v1181
-                    reader.SkipBytes(3);
+                    reader.SkipBytes(1);
+                    if (reader.ReadByte() == 0x01) // introduced in KMST 1188, read sub property
+                    {
+                        reader.SkipBytes(2);
+                        entries = reader.ReadCompressedInt32();
+                        for (int i = 0; i < entries; i++)
+                        {
+                            ExtractValue(reader, parent);
+                        }
+                    }
+                    int unknown = reader.ReadByte();
                     int videoLen = reader.ReadCompressedInt32();
                     parent.Value = new Wz_Video((uint)reader.BaseStream.Position, videoLen, this);
                     reader.SkipBytes(videoLen);
@@ -484,6 +503,35 @@ namespace WzComparerR2.WzLib
                 default:
                     throw new Exception($"Unknown value type {flag} at offset {this.Offset}+{reader.BaseStream.Position}.");
             }
+        }
+
+        private bool TryDecryptWaveFormatEx(Span<byte> data, out Interop.WAVEFORMATEX waveFormatEx)
+        {
+            // GMSv256: wz uses different keys on property name and waveFormatEx encryption.
+            Span<byte> dataCopy = stackalloc byte[data.Length];
+            foreach (var enc in new[] {
+                Wz_CryptoKeyType.BMS,
+                Wz_CryptoKeyType.KMS,
+                Wz_CryptoKeyType.GMS,
+            })
+            {
+                data.CopyTo(dataCopy);
+                this.WzFile.WzStructure.encryption.GetKeys(enc).Decrypt(dataCopy);
+                if (MemoryMarshal.TryRead(dataCopy, out waveFormatEx))
+                {
+                    if ((data.Length == waveFormatEx.CbSize + Interop.WAVEFORMATEX_SIZE)
+                        // workaround for KMST1185, waveFormatEx only has 18 bytes but cbsize is also 18.
+                        || (data.Length == waveFormatEx.CbSize && waveFormatEx.FormatTag == Interop.WAVE_FORMAT_MPEGLAYER3)
+                        )
+                    {
+                        // copy back to the original buffer
+                        dataCopy.CopyTo(data);
+                        return true;
+                    } 
+                }
+            }
+            waveFormatEx = default;
+            return false;
         }
 
         private void ExtractLua(WzBinaryReader reader)

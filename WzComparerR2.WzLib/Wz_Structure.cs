@@ -16,9 +16,9 @@ namespace WzComparerR2.WzLib
             this.img_number = 0;
             this.has_basewz = false;
             this.TextEncoding = Wz_Structure.DefaultEncoding;
-            this.AutoDetectExtFiles = true;//Wz_Structure.DefaultAutoDetectExtFiles;
+            this.AutoDetectExtFiles = Wz_Structure.DefaultAutoDetectExtFiles;
             this.ImgCheckDisabled = Wz_Structure.DefaultImgCheckDisabled;
-            this.WzVersionVerifyMode = WzVersionVerifyMode.Fast;
+            this.WzVersionVerifyMode = Wz_Structure.DefaultWzVersionVerifyMode;
         }
 
         public List<Wz_File> wz_files;
