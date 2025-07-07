@@ -136,7 +136,10 @@ public class SetEffect : SpriteEx
 {
     public SetEffect(Sprite Parent) : base(Parent)
     {
+        Instance = this;   
     }
+
+    public static SetEffect Instance;
     string Path;
     int Frame;
     int FTime;
@@ -288,7 +291,9 @@ public class ItemEffect : SpriteEx
 {
     public ItemEffect(Sprite Parent) : base(Parent)
     {
+       Instance = this;
     }
+    public static ItemEffect Instance;
     string Path;
     int Frame;
     int FTime;
@@ -300,7 +305,7 @@ public class ItemEffect : SpriteEx
     static Wz_Node Entry;
     public static Dictionary<string, ItemEffect> UseList = new();
     public static void LoadList()
-    {
+    {  
         if (Wz.HasNode("Effect/ItemEff.img"))
         {
             foreach (var Iter in Wz.GetNodeA("Effect/ItemEff.img").Nodes)
