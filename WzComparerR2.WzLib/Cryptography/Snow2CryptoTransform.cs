@@ -11,9 +11,6 @@ namespace WzComparerR2.WzLib.Cryptography
 {
     public class Snow2CryptoTransform : ICryptoTransform, IDisposable
     {
-        public Snow2CryptoTransform(byte[] key, byte[] iv, bool encrypting)
-            : this((ReadOnlySpan<byte>)key, iv == null ? ReadOnlySpan<byte>.Empty : (ReadOnlySpan<byte>)iv, encrypting) { }
-
         public Snow2CryptoTransform(ReadOnlySpan<byte> key, ReadOnlySpan<byte> iv, bool encrypting)
         {
             if (key.Length != 16 && key.Length != 32)
@@ -29,8 +26,11 @@ namespace WzComparerR2.WzLib.Cryptography
         }
 
         public int InputBlockSize => 4;
+
         public int OutputBlockSize => 4;
+
         public bool CanTransformMultipleBlocks => true;
+
         public bool CanReuseTransform => false;
 
         private bool encrypting;
@@ -39,111 +39,40 @@ namespace WzComparerR2.WzLib.Cryptography
         private uint[] keyStream;
         private int curIndex;
 
-        private readonly byte[] _buffer = new byte[4];
-        private int _bufferedBytes = 0;
-
-        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount,
-                                          byte[] outputBuffer, int outputOffset)
+        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
         {
-            if (inputBuffer == null) throw new ArgumentNullException(nameof(inputBuffer));
-            if (outputBuffer == null) throw new ArgumentNullException(nameof(outputBuffer));
-            if (inputOffset < 0 || inputCount < 0 || outputOffset < 0)
-                throw new ArgumentOutOfRangeException();
-            if (inputCount > inputBuffer.Length - inputOffset)
+            this.ValidateTransformBlock(inputBuffer, inputOffset, inputCount);
+            int inputBlocks = Math.DivRem(inputCount, this.InputBlockSize, out int rem);
+            int outputCount = inputBlocks * this.OutputBlockSize;
+            if (inputBlocks == 0 || rem != 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(inputCount));
-            if (inputCount > outputBuffer.Length - outputOffset)
+            }
+            if (outputBuffer == null)
+            {
+                throw new ArgumentNullException(nameof(outputBuffer));
+            }
+            if (outputCount > outputBuffer.Length - outputOffset)
+            {
                 throw new ArgumentOutOfRangeException(nameof(outputBuffer));
-
-            int totalProcessed = 0;
-            Span<byte> input = inputBuffer.AsSpan(inputOffset, inputCount);
-            Span<byte> output = outputBuffer.AsSpan(outputOffset);
-
-            // 1. Fill buffer if we have leftovers from previous call
-            if (_bufferedBytes > 0)
-            {
-                int needed = 4 - _bufferedBytes;
-                int take = Math.Min(needed, inputCount);
-
-                input.Slice(0, take).CopyTo(_buffer.AsSpan(_bufferedBytes));
-                _bufferedBytes += take;
-                input = input.Slice(take);
-                totalProcessed += take;
-
-                if (_bufferedBytes == 4)
-                {
-                    TransformOneWord(_buffer);
-                    _buffer.CopyTo(output);
-                    output = output.Slice(4);
-                    _bufferedBytes = 0;
-                }
             }
-
-            // 2. Process full 4-byte blocks directly
-            int fullWords = input.Length / 4;
-            if (fullWords > 0)
-            {
-                Span<byte> blockSpan = input.Slice(0, fullWords * 4);
-                for (int i = 0; i < fullWords; i++)
-                {
-                    TransformOneWord(blockSpan.Slice(i * 4, 4));
-                }
-                blockSpan.CopyTo(output);
-                input = input.Slice(fullWords * 4);
-                output = output.Slice(fullWords * 4);
-                totalProcessed += fullWords * 4;
-            }
-
-            // 3. Buffer any remaining 1–3 bytes
-            if (input.Length > 0)
-            {
-                input.CopyTo(_buffer);
-                _bufferedBytes = input.Length;
-                totalProcessed += input.Length;
-            }
-
-            return totalProcessed;
+            this.TransformBlock(inputBuffer.AsSpan(inputOffset, inputCount - rem), outputBuffer.AsSpan(outputOffset, outputCount), out int byteWritten);
+            return byteWritten;
         }
 
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
-            if (inputCount == 0 && _bufferedBytes == 0)
+            this.ValidateTransformBlock(inputBuffer, inputOffset, inputCount);
+            if (inputCount == 0)
+            {
                 return Array.Empty<byte>();
-
-            // Total plaintext = buffered + new input
-            int totalBytes = _bufferedBytes + inputCount;
-            var result = new byte[totalBytes];
-
-            int pos = 0;
-            if (_bufferedBytes > 0)
-            {
-                _buffer.AsSpan(0, _bufferedBytes).CopyTo(result);
-                pos += _bufferedBytes;
-            }
-            if (inputCount > 0)
-            {
-                inputBuffer.AsSpan(inputOffset, inputCount).CopyTo(result.AsSpan(pos));
             }
 
-            // Encrypt the whole thing (pad last block with zeros)
-            int paddedLength = (totalBytes + 3) & ~3;
-            var temp = new byte[paddedLength];
-            result.CopyTo(temp, 0);
-
-            // Process full words
-            for (int i = 0; i < paddedLength; i += 4)
-            {
-                TransformOneWord(temp.AsSpan(i, 4));
-            }
-
-            // Return only the real data (no padding bytes)
-            if (totalBytes == paddedLength)
-                return temp;
-            else
-            {
-                var final = new byte[totalBytes];
-                temp.AsSpan(0, totalBytes).CopyTo(final);
-                return final;
-            }
+            int inputBlocks = Math.DivRem(inputCount, this.InputBlockSize, out int rem);
+            int outputCount = inputBlocks * this.OutputBlockSize;
+            byte[] outputBuffer = new byte[outputCount];
+            this.TransformBlock(inputBuffer.AsSpan(inputOffset, inputCount - rem), outputBuffer.AsSpan(), out _);
+            return outputBuffer;
         }
 
         public void Dispose()
@@ -187,28 +116,51 @@ namespace WzComparerR2.WzLib.Cryptography
             }
         }
 
-        /// <summary>
-        /// Helper: XOR exactly one 4-byte word (little-endian)
-        /// </summary>
-        /// <param name="data"></param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void TransformOneWord(Span<byte> data)
+        private void ValidateTransformBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
-            uint plain = MemoryMarshal.Read<uint>(data);
-            uint keystream = keyStream[curIndex];
-
-            if (encrypting)
-                plain += keystream;
-            else
-                plain -= keystream;
-
-            MemoryMarshal.Write(data, ref plain);
-
-            if (++curIndex >= 16)
+            if (inputBuffer == null)
             {
-                RefreshKeyStream();
-                curIndex = 0;
+                throw new ArgumentNullException(nameof(inputBuffer));
             }
+            if ((uint)inputCount > inputBuffer.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(inputCount));
+            }
+            if (inputOffset < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(inputOffset));
+            }
+            if (inputBuffer.Length - inputCount < inputOffset)
+            {
+                throw new ArgumentException("Offset and length were out of bounds.");
+            }
+        }
+
+        private void TransformBlock(ReadOnlySpan<byte> input, Span<byte> output, out int bytesWritten)
+        {
+            ReadOnlySpan<uint> inputBlocks = MemoryMarshal.Cast<byte, uint>(input);
+            Span<uint> outputBlocks = MemoryMarshal.Cast<byte, uint>(output);
+            int i;
+            for (i = 0; i < inputBlocks.Length; i++)
+            {
+                if (this.encrypting)
+                {
+                    outputBlocks[i] = inputBlocks[i] + this.keyStream[this.curIndex];
+                }
+                else
+                {
+                    outputBlocks[i] = inputBlocks[i] - this.keyStream[this.curIndex];
+                }
+
+                this.curIndex++;
+                if (this.curIndex >= 16)
+                {
+                    this.RefreshKeyStream();
+                    this.curIndex = 0;
+                }
+            }
+            bytesWritten = i * 4;
         }
 
         #region Snow Cipher Algorithm
