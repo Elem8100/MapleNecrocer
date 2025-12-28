@@ -15,10 +15,13 @@ namespace WzComparerR2.WzLib
             this.encryption = new Wz_Crypto();
             this.img_number = 0;
             this.has_basewz = false;
+
             this.TextEncoding = Wz_Structure.DefaultEncoding;
-            this.AutoDetectExtFiles = Wz_Structure.DefaultAutoDetectExtFiles;
+            this.AutoDetectExtFiles = true;//Wz_Structure.DefaultAutoDetectExtFiles;
             this.ImgCheckDisabled = Wz_Structure.DefaultImgCheckDisabled;
-            this.WzVersionVerifyMode = Wz_Structure.DefaultWzVersionVerifyMode;
+            this.WzVersionVerifyMode = WzVersionVerifyMode.Fast;
+
+           
         }
 
         public List<Wz_File> wz_files;
