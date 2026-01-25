@@ -9,6 +9,13 @@ namespace WzComparerR2.Rendering
 {
     public static class WzLibExtension
     {
+        private static bool IsSupportBC7(GraphicsDevice graphicsDevice)
+        {
+            var support = graphicsDevice._d3dDevice().CheckFormatSupport(SharpDX.DXGI.Format.BC7_UNorm);
+            return (support & SharpDX.Direct3D11.FormatSupport.Texture2D) != 0
+                   && (support & SharpDX.Direct3D11.FormatSupport.ShaderSample) != 0;
+        }
+
         public static Texture2D ToTexture(this Wz_Png png, GraphicsDevice graphicsDevice)
         {
             return ToTexture(png, 0, graphicsDevice);
@@ -43,7 +50,7 @@ namespace WzComparerR2.Rendering
             }
 
             Texture2D t2d;
-            if (format == SurfaceFormatEx.BC7)
+            if (IsSupportBC7(graphicsDevice) && format == SurfaceFormatEx.BC7)
             {
                 t2d = Texture2DEx.Create_BC7(graphicsDevice, png.Width, png.Height);
             }
