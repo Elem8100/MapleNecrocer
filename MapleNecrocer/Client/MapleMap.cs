@@ -298,6 +298,8 @@ public class Map
         else
         {
             var Split = BgmName.Split('/');
+            if (Split.Length == 1)
+                return;
             string BgmPath = "Sound/" + Split[0] + ".img/" + Split[1];
             Music.Play(BgmPath);
         }
