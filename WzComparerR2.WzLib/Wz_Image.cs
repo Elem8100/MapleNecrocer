@@ -64,7 +64,7 @@ namespace WzComparerR2.WzLib
                 {
                     return crypto.GetKeys(this.encType);
                 }
-                return crypto.keys;
+                return crypto.Pkg1Keys;
             }
         }
 
@@ -197,7 +197,7 @@ namespace WzComparerR2.WzLib
             this.Node.Nodes.Clear();
         }
 
-        public virtual unsafe int CalcCheckSum(Stream stream)
+        public virtual int CalcCheckSum(Stream stream)
         {
             lock (this.WzFile.ReadLock)
             {
@@ -211,21 +211,7 @@ namespace WzComparerR2.WzLib
                     int count;
                     while ((count = stream.Read(buffer, 0, Math.Min(size, buffer.Length))) > 0)
                     {
-                        fixed (byte* pBuffer = buffer)
-                        {
-                            int* p = (int*)pBuffer;
-                            int i, j = count / 4;
-                            for (i = 0; i < j; i++)
-                            {
-                                int data = *(p + i);
-                                cs += (data & 0xff) + (data >> 8 & 0xff) + (data >> 16 & 0xff) + (data >> 24 & 0xff);
-                            }
-                            for (i = i * 4; i < count; i++)
-                            {
-                                cs += buffer[i];
-                            }
-                        }
-
+                        cs += MathHelper.SumBytes(buffer.AsSpan(0, count));
                         size -= count;
                     }
                 }
@@ -286,9 +272,11 @@ namespace WzComparerR2.WzLib
                     int h = reader.ReadCompressedInt32();
                     int form = reader.ReadCompressedInt32();
                     int scale = reader.ReadByte();
-                    int pages = reader.ReadInt32(); // introduced in KMST 1186
+                    int pages = reader.ReadCompressedInt32(); // introduced in KMST 1186
+                    int unknown1 = reader.ReadCompressedInt32(); // introduced in KMST1198
+                    reader.SkipBytes(2); //TBD
                     int dataLen = reader.ReadInt32();
-                    parent.Value = new Wz_Png(w, h, dataLen, (Wz_TextureFormat)form, scale, pages,(uint)reader.BaseStream.Position, this);
+                    parent.Value = new Wz_Png(w, h, dataLen, (Wz_TextureFormat)form, scale, pages, unknown1, (uint)reader.BaseStream.Position, this);
                     reader.SkipBytes(dataLen);
                     break;
 
@@ -426,7 +414,7 @@ namespace WzComparerR2.WzLib
             this.encType = default;
             this.checEnc = false;
 
-            var wzsEncType = this.WzFile.WzStructure.encryption.EncType;
+            var wzsEncType = this.WzFile.WzStructure.encryption.Pkg1EncType;
             if (wzsEncType != default)
             {
                 if (this.IsIllegalTag(wzsEncType))
@@ -579,7 +567,7 @@ namespace WzComparerR2.WzLib
             {
                 TryDetectLuaEnc(data);
             }
-            this.EncKeys.Decrypt(data, 0, data.Length);
+            this.EncKeys.Decrypt(data.AsSpan());
             string luaCode = Encoding.UTF8.GetString(data);
             parent.Value = luaCode;
         }
@@ -601,7 +589,7 @@ namespace WzComparerR2.WzLib
             {
                 Buffer.BlockCopy(luaBinary, 0, tempBuffer, 0, tempBuffer.Length);
 
-                this.WzFile.WzStructure.encryption.GetKeys(enc).Decrypt(tempBuffer, 0, tempBuffer.Length);
+                this.WzFile.WzStructure.encryption.GetKeys(enc).Decrypt(tempBuffer.AsSpan());
                 int count = Encoding.UTF8.GetChars(tempBuffer, 0, tempBuffer.Length, tempStr, 0);
                 int asciiCount = tempStr.Take(count).Count(chr => 32 <= chr && chr <= 127);
 

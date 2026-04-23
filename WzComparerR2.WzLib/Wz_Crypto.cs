@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using AES = System.Security.Cryptography.Aes;
 using System.Collections.Specialized;
@@ -13,6 +14,8 @@ using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 #endif
 
+using static WzComparerR2.WzLib.Utilities.MathHelper;
+
 namespace WzComparerR2.WzLib
 {
     public enum Wz_CryptoKeyType
@@ -20,7 +23,9 @@ namespace WzComparerR2.WzLib
         Unknown = 0,
         BMS = 1,
         KMS = 2,
-        GMS = 3
+        GMS = 3,
+        KMST1198 = 4,
+        KMST1199 = 5,
     }
 
     public class Wz_Crypto
@@ -30,35 +35,29 @@ namespace WzComparerR2.WzLib
             this.keys_bms = Wz_NonOpCryptoKey.Instance;
             this.keys_kms = new Wz_CryptoKey(iv_kms);
             this.keys_gms = new Wz_CryptoKey(iv_gms);
-            this.listwz = false;
-            this.EncType = Wz_CryptoKeyType.Unknown;
+            this.keys_kmst1198 = new Pkg2DirStringKey(0xDEADBEEF);
+            this.UseListWz = false;
+            this.Pkg1EncType = Wz_CryptoKeyType.Unknown;
             this.List = new StringCollection();
         }
 
         public void Reset()
         {
-            this.encryption_detected = false;
-            this.listwz = false;
-            this.EncType = Wz_CryptoKeyType.Unknown;
+            this.UseListWz = false;
+            this.Pkg1EncType = Wz_CryptoKeyType.Unknown;
             this.List.Clear();
+            this.KnownProfiles.Clear();
         }
 
-        public bool list_contains(string name)
+        // Known version cache: populated after successful detection, used as fast path for subsequent files.
+        public List<KnownProfileEntry> KnownProfiles { get; } = new();
+
+        public bool ListContains(string name)
         {
             bool contains = this.List.Contains(name);
             if (contains)
                 this.List.Remove(name);
             return contains;
-            //    foreach (string list_entry in this.list)
-            //    {
-            //        // if (list_entry.Contains(Name))
-            //        if (list_entry == Name)
-            //        {
-            //            this.list.Remove(list_entry);
-            //            return true;
-            //        }
-            //    }
-            //    return false;
         }
 
         public void LoadListWz(string path)
@@ -66,7 +65,7 @@ namespace WzComparerR2.WzLib
             path = Path.Combine(path, "List.wz");
             if (File.Exists(path))
             {
-                this.listwz = true;
+                this.UseListWz = true;
                 using (FileStream list_file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     BinaryReader listwz = new BinaryReader(list_file);
@@ -79,11 +78,11 @@ namespace WzComparerR2.WzLib
 
                     if ((char)(check_for_d ^ this.keys_gms[0]) == 'd')
                     {
-                        this.EncType = Wz_CryptoKeyType.GMS;
+                        this.Pkg1EncType = Wz_CryptoKeyType.GMS;
                     }
                     else if ((char)(check_for_d ^ this.keys_kms[0]) == 'd')
                     {
-                        this.EncType = Wz_CryptoKeyType.KMS;
+                        this.Pkg1EncType = Wz_CryptoKeyType.KMS;
                     }
 
                     list_file.Position = 0;
@@ -92,7 +91,7 @@ namespace WzComparerR2.WzLib
                         len = listwz.ReadInt32() * 2;
                         for (int i = 0; i < len; i += 2)
                         {
-                            b = (byte)(listwz.ReadByte() ^ this.keys[i]);
+                            b = (byte)(listwz.ReadByte() ^ this.Pkg1Keys[i]);
                             folder += (char)(b);
                             list_file.Position++;
                         }
@@ -106,124 +105,28 @@ namespace WzComparerR2.WzLib
             }
         }
 
-        public void DetectEncryption(Wz_File f)
-        {
-            int old_off = (int)f.FileStream.Position;
-            f.FileStream.Position = f.Header.DataStartPosition;
-            var br = new WzBinaryReader(f.FileStream, false);
-            int nodeCount = br.ReadCompressedInt32();
-            if (f.Header.Signature == Wz_Header.PKG2)
-            {
-                var filePos = br.BaseStream.Position;
-                byte nextByte = br.ReadByte();
-                if (nextByte != 0x04 && nextByte != 0x03)
-                {
-                    br.BaseStream.Position = filePos;
-                    int offsetCount = br.ReadCompressedInt32();
-                    if (offsetCount == nodeCount)
-                    {
-                        // no dir entry
-                        return;
-                    }
-                    else
-                    {
-                        // unknown file format
-                        return;
-                    }
-                }
-                br.BaseStream.Position = filePos;
-                nodeCount = 1; // at least one node
-            }
-            if (nodeCount <= 0) //只有文件头 无法预判
-            {
-                return;
-            }
-            f.FileStream.Position++;
-            int len = (int)(-br.ReadSByte()); // always cp1252
-            byte[] bytes = br.ReadBytes(len);
-
-            for (int i = 0; i < len; i++)
-            {
-                bytes[i] ^= (byte)(0xAA + i);
-            }
-
-            StringBuilder sb = new StringBuilder();
-            if (!this.encryption_detected)
-            {
-                //测试bms
-                sb.Clear();
-                for (int i = 0; i < len; i++)
-                {
-                    sb.Append((char)bytes[i]);
-                }
-                if (IsLegalNodeName(sb.ToString()))
-                {
-                    this.EncType = Wz_CryptoKeyType.BMS;
-                    this.encryption_detected = true;
-                    goto lbl_end;
-                }
-
-                //测试kms
-                sb.Clear();
-                for (int i = 0; i < len; i++)
-                {
-                    sb.Append((char)(keys_kms[i] ^ bytes[i]));
-                }
-                if (IsLegalNodeName(sb.ToString()))
-                {
-                    this.EncType = Wz_CryptoKeyType.KMS;
-                    this.encryption_detected = true;
-                    goto lbl_end;
-                }
-
-                //测试gms
-                sb.Clear();
-                for (int i = 0; i < len; i++)
-                {
-                    sb.Append((char)(keys_gms[i] ^ bytes[i]));
-                }
-                if (IsLegalNodeName(sb.ToString()))
-                {
-                    this.EncType = Wz_CryptoKeyType.GMS;
-                    this.encryption_detected = true;
-                    goto lbl_end;
-                }
-            }
-
-        lbl_end:
-            f.FileStream.Position = old_off;
-        }
-
-        private bool IsLegalNodeName(string nodeName)
-        {
-            // MSEA 225 has a node in Base.wz named "Base,Character,Effect,Etc,Item,Map,Mob,Morph,Npc,Quest,Reactor,Skill,Sound,String,TamingMob,UI"
-            // It is so funny but wzlib have to be compatible with it.
-            // 2025-06-04: MSEA 242 has a new node named "Base Character Effect Etc Item Map Mob Morph Npc Quest Reactor Skill Sound String TamingMob UI"
-            // so we only verify if the nodeName is a valid ascii string.
-            return nodeName.EndsWith(".img") || nodeName.EndsWith(".lua") || Regex.IsMatch(nodeName, @"^[\x20-\x7f]+$");
-        }
-
         static readonly byte[] iv_gms = { 0x4d, 0x23, 0xc7, 0x2b };
         static readonly byte[] iv_kms = { 0xb9, 0x7d, 0x63, 0xe9 };
 
         private IWzDecrypter keys_bms;
         private Wz_CryptoKey keys_gms, keys_kms;
-        private Wz_CryptoKeyType enc_type;
+        private IWzDecrypter keys_kmst1198;
 
-        public bool encryption_detected = false;
-        public bool listwz = false;
-
-        public IWzDecrypter keys { get; private set; }
+        public bool UseListWz { get; private set; }
         public StringCollection List { get; private set; }
 
-        public Wz_CryptoKeyType EncType
+        public Wz_CryptoKeyType Pkg1EncType { get; set; }
+        public Wz_CryptoKeyType Pkg2EncType { get; set; }
+        public bool Pkg1DirEncDetected => this.Pkg1EncType != Wz_CryptoKeyType.Unknown;
+        public bool Pkg2DirEncDetected => this.Pkg2EncType != Wz_CryptoKeyType.Unknown;
+        public IWzDecrypter Pkg1Keys => this.GetKeys(this.Pkg1EncType);
+        public IWzDecrypter Pkg2Keys => this.GetKeys(this.Pkg2EncType);
+
+        public bool IsDirEncDetected(Wz_File wzFile)
         {
-            get { return enc_type; }
-            set
-            {
-                this.keys = this.GetKeys(value);
-                enc_type = value;
-            }
+            if (wzFile.Header.IsPkg1) return this.Pkg1DirEncDetected;
+            if (wzFile.Header.IsPkg2) return this.Pkg2DirEncDetected;
+            throw new Exception($"Unknown wzfile signature: {wzFile.Header.Signature}");
         }
 
         public IWzDecrypter GetKeys(Wz_CryptoKeyType keyType)
@@ -234,6 +137,8 @@ namespace WzComparerR2.WzLib
                 case Wz_CryptoKeyType.BMS: return this.keys_bms;
                 case Wz_CryptoKeyType.KMS: return this.keys_kms;
                 case Wz_CryptoKeyType.GMS: return this.keys_gms;
+                case Wz_CryptoKeyType.KMST1198 : return this.keys_kmst1198;
+                case Wz_CryptoKeyType.KMST1199 : throw new NotSupportedException($"KMST1199 PKG2 directory encryption is not supported.");
                 default: throw new ArgumentOutOfRangeException(nameof(keyType));
             }
         }
@@ -309,72 +214,79 @@ namespace WzComparerR2.WzLib
                 ms.Close();
             }
 
-            public void Decrypt(byte[] buffer, int startIndex, int length)
-            {
-                this.Decrypt(buffer, startIndex, length, 0);
-            }
-
-            public void Decrypt(byte[] buffer, int startIndex, int length, int keyOffset)
-            {
-                this.Decrypt(buffer.AsSpan(startIndex, length), keyOffset);
-            }
-
             public void Decrypt(Span<byte> data)
             {
                 this.Decrypt(data, 0);
             }
 
-            public unsafe void Decrypt(Span<byte> data, int keyOffset)
+            public void Decrypt(ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer)
             {
-                this.EnsureKeySize(keyOffset + data.Length);
-                ReadOnlySpan<byte> keys = this.keys.AsSpan(keyOffset, data.Length);
+                this.Decrypt(inputBuffer, outputBuffer, 0);
+            }
+
+            public void Decrypt(Span<byte> data, int keyOffset)
+            {
+                this.Decrypt((ReadOnlySpan<byte>)data, data, keyOffset);
+            }
+
+            public unsafe void Decrypt(ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer, int keyOffset)
+            {
+                if (inputBuffer.Length != outputBuffer.Length)
+                {
+                    throw new ArgumentException("Input and output buffer lengths must match.");
+                }
+
+                this.EnsureKeySize(keyOffset + inputBuffer.Length);
+                ReadOnlySpan<byte> keys = this.keys.AsSpan(keyOffset, inputBuffer.Length);
 
 #if NET6_0_OR_GREATER
-                if (Avx2.IsSupported && data.Length >= 32)
+                if (Avx2.IsSupported && inputBuffer.Length >= 32)
                 {
                     Vector256<byte> ymm0, ymm1;
-                    while (data.Length >= 32)
+                    while (inputBuffer.Length >= 32)
                     {
-                        fixed (byte* pData = data, pKeys = keys)
+                        fixed (byte* pInput = inputBuffer, pOutput = outputBuffer, pKeys = keys)
                         {
-                            ymm0 = Avx.LoadVector256(pData);
+                            ymm0 = Avx.LoadVector256(pInput);
                             ymm1 = Avx.LoadVector256(pKeys);
-                            Avx.Store(pData, Avx2.Xor(ymm0, ymm1));
+                            Avx.Store(pOutput, Avx2.Xor(ymm0, ymm1));
                         }
-                        data = data.Slice(32);
+                        inputBuffer = inputBuffer.Slice(32);
+                        outputBuffer = outputBuffer.Slice(32);
                         keys = keys.Slice(32);
                     }
                 }
 
-                if (Sse2.IsSupported && data.Length >= 16)
+                if (Sse2.IsSupported && inputBuffer.Length >= 16)
                 {
                     Vector128<byte> xmm0, xmm1;
-                    while (data.Length >= 16)
+                    while (inputBuffer.Length >= 16)
                     {
-                        fixed (byte* pData = data, pKeys = keys)
+                        fixed (byte* pInput = inputBuffer, pOutput = outputBuffer, pKeys = keys)
                         {
-                            xmm0 = Sse2.LoadVector128(pData);
+                            xmm0 = Sse2.LoadVector128(pInput);
                             xmm1 = Sse2.LoadVector128(pKeys);
-                            Sse2.Store(pData, Sse2.Xor(xmm0, xmm1));
+                            Sse2.Store(pOutput, Sse2.Xor(xmm0, xmm1));
                         }
-                        data = data.Slice(16);
+                        inputBuffer = inputBuffer.Slice(16);
+                        outputBuffer = outputBuffer.Slice(16);
                         keys = keys.Slice(16);
                     }
                 }
 #endif
-                while (data.Length >= 4)
+                while (inputBuffer.Length >= 4)
                 {
-                    fixed (byte* pData = data, pKeys = keys)
-                    {
-                        *((int*)pData) ^= *(int*)(pKeys);
-                    }
-                    data = data.Slice(4);
+                    MemoryMarshal.Cast<byte, int>(outputBuffer)[0] =
+                        MemoryMarshal.Cast<byte, int>(inputBuffer)[0] ^
+                        MemoryMarshal.Cast<byte, int>(keys)[0];
+                    inputBuffer = inputBuffer.Slice(4);
+                    outputBuffer = outputBuffer.Slice(4);
                     keys = keys.Slice(4);
                 }
 
-                for (int i = 0; i < data.Length; i++)
+                for (int i = 0; i < inputBuffer.Length; i++)
                 {
-                    data[i] ^= keys[i];
+                    outputBuffer[i] = (byte)(inputBuffer[i] ^ keys[i]);
                 }
             }
 
@@ -398,14 +310,6 @@ namespace WzComparerR2.WzLib
 
             public byte this[int index] => 0;
 
-            public void Decrypt(byte[] buffer, int startIndex, int length)
-            {
-            }
-
-            public void Decrypt(byte[] buffer, int startIndex, int length, int keyOffset)
-            {
-            }
-
             public void Decrypt(Span<byte> data)
             {
             }
@@ -413,6 +317,130 @@ namespace WzComparerR2.WzLib
             public void Decrypt(Span<byte> data, int keyOffset)
             {
             }
+
+            public void Decrypt(ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer)
+            {
+                this.Decrypt(inputBuffer, outputBuffer, 0);
+            }
+
+            public void Decrypt(ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer, int keyOffset)
+            {
+                if (inputBuffer.Length != outputBuffer.Length)
+                {
+                    throw new ArgumentException("Input and output buffer lengths must match.");
+                }
+
+                inputBuffer.CopyTo(outputBuffer);
+            }
+        }
+
+        public class Pkg2DirStringKey : IWzDecrypter
+        {
+            public Pkg2DirStringKey(uint baseKey)
+            {
+                this.baseKey = baseKey;
+            }
+
+            private uint baseKey;
+            private byte[] keys;
+
+            public byte this[int index]
+            {
+                get
+                {
+                    this.CreateKeyIfNotExist();
+                    return this.keys[index % this.keys.Length];
+                }
+            }
+
+            private void CreateKeyIfNotExist()
+            {
+                if (this.keys != null) 
+                { 
+                    return; 
+                }
+                byte[] keys = new byte[8];
+                Span<ushort> u16Keys = MemoryMarshal.Cast<byte, ushort>(keys.AsSpan());
+                for(int i = 0; i < 4; i++)
+                {
+                    u16Keys[i] = (ushort)(this.baseKey >> (8 * i));
+                }
+                this.keys = keys;
+            }
+
+            public void Decrypt(Span<byte> data)
+            {
+                this.Decrypt(data, 0);
+            }
+
+            public void Decrypt(ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer)
+            {
+                this.Decrypt(inputBuffer, outputBuffer, 0);
+            }
+
+            public void Decrypt(Span<byte> data, int keyOffset)
+            {
+                this.Decrypt((ReadOnlySpan<byte>)data, data, keyOffset);
+            }
+
+            public unsafe void Decrypt(ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer, int keyOffset)
+            {
+                if (inputBuffer.Length != outputBuffer.Length)
+                {
+                    throw new ArgumentException("Input and output buffer lengths must match.");
+                }
+                if ((inputBuffer.Length & 1) != 0)
+                {
+                    throw new ArgumentException("Data length must be a multiple of 2.", nameof(inputBuffer));
+                }
+                if ((keyOffset & 7) != 0)
+                {
+                    throw new ArgumentException("KeyOffset must be a multiple of 8.", nameof(keyOffset));
+                }
+
+                this.CreateKeyIfNotExist();
+
+                long keyVal = MemoryMarshal.Cast<byte, long>(this.keys)[0];
+                while (inputBuffer.Length >= 8)
+                {
+                    MemoryMarshal.Cast<byte, long>(outputBuffer)[0] =
+                        MemoryMarshal.Cast<byte, long>(inputBuffer)[0] ^ keyVal;
+                    inputBuffer = inputBuffer.Slice(8);
+                    outputBuffer = outputBuffer.Slice(8);
+                }
+                for (int i = 0; i < inputBuffer.Length; i++)
+                {
+                    outputBuffer[i] = (byte)(inputBuffer[i] ^ keys[i % keys.Length]);
+                }
+            }
+        }
+
+        // KMST1199
+        public class Pkg2DirStringKeyV2 : Pkg2DirStringKey, IWzDecrypter
+        {
+            public Pkg2DirStringKeyV2(uint hash1, uint hashVersion) : base(ConvertKey(hash1, hashVersion))
+            {
+            }
+
+            private static uint ConvertKey(uint hash1, uint hashVersion)
+            {
+                uint baseHash = hash1 ^ hashVersion ^ 0x6D4C3B2A;
+                return Mix(Mix(baseHash) ^ 0x4F4CB34A);
+            }
+        }
+
+        public class KnownProfileEntry
+        {
+            public KnownProfileEntry(string profileName, int wzVersion, uint hashVersion)
+            {
+                this.ProfileName = profileName;
+                this.WzVersion = wzVersion;
+                this.HashVersion = hashVersion;
+            }
+
+            public string ProfileName { get; }
+            public int WzVersion { get; }
+            public uint HashVersion { get; }
         }
     }
 }
