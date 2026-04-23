@@ -4,8 +4,6 @@ using WzComparerR2.WzLib;
 using WzComparerR2.WzLib.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Point = Microsoft.Xna.Framework.Point;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace WzComparerR2.Rendering
 {
@@ -44,21 +42,24 @@ namespace WzComparerR2.Rendering
                 }
             }
 
+       
             Texture2D t2d = format switch
             {
-                SurfaceFormatEx.BC7 => Texture2DEx.CreateEx(graphicsDevice, png.Width & ~3, png.Height & ~3, format),
+                SurfaceFormatEx.BC7 =>  Texture2DEx.CreateEx(graphicsDevice, png.Width & ~3, png.Height & ~3, format),
                 SurfaceFormatEx.R16 => Texture2DEx.CreateEx(graphicsDevice, png.Width, png.Height, format),
+               
                 _ => new Texture2D(graphicsDevice, png.Width, png.Height, false, format),
             };
-            png.ToTexture(page, t2d, Point.Zero);
+            png.ToTexture(page, t2d, Microsoft.Xna.Framework.Point.Zero);
             return t2d;
         }
 
-        public static void ToTexture(this Wz_Png png, int page, Texture2D texture, Point origin)
+        public static void ToTexture(this Wz_Png png, int page, Texture2D texture, Microsoft.Xna.Framework.Point origin)
         {
-            Rectangle rect = new Rectangle(origin, new Point(png.Width, png.Height));
+            Microsoft.Xna.Framework.Rectangle rect = new Microsoft.Xna.Framework.Rectangle(origin, new Microsoft.Xna.Framework.Point(png.Width, png.Height));
             if (png.Format == Wz_TextureFormat.BC7)
             {
+               
                 rect.Width = png.Width & ~3;
                 rect.Height = png.Height & ~3;
             }
@@ -149,9 +150,9 @@ namespace WzComparerR2.Rendering
             }
         }
 
-        public static Point ToPoint(this Wz_Vector vector)
+        public static Microsoft.Xna.Framework.Point ToPoint(this Wz_Vector vector)
         {
-            return new Point(vector.X, vector.Y);
+            return new Microsoft.Xna.Framework.Point(vector.X, vector.Y);
         }
     }
 }

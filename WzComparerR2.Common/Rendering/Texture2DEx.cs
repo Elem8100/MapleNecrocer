@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D11;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using SharpDX.DirectWrite;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 
 namespace WzComparerR2.Rendering
@@ -11,21 +11,23 @@ namespace WzComparerR2.Rendering
     public static class Texture2DEx
     {
         public static Texture2D CreateEx(GraphicsDevice graphicsDevice, int width, int height, SurfaceFormat format)
-        {
+        {  
+            if (format == SurfaceFormatEx.BC7) 
+                return new Texture2D(graphicsDevice, width, height, false, SurfaceFormat.Bgra32);
             SharpDX.DXGI.Format dxgiFormat = format switch
             {
                 SurfaceFormatEx.BC7 => SharpDX.DXGI.Format.BC7_UNorm,
                 SurfaceFormatEx.R16 => SharpDX.DXGI.Format.R16_UNorm,
                 _ => throw new ArgumentException($"Unsupported texture format {format}")
             };
-            var texture = new Texture2D(graphicsDevice, width, height, false, format);
+            var texture = new Texture2D(graphicsDevice, width, height, false, format );
             TextureInitialize(texture, dxgiFormat);
             return texture;
         }
 
         public static unsafe void SetDataEx(this Texture2D texture, ReadOnlySpan<byte> data, int pitch)
         {
-            var region = new Rectangle(0, 0, texture.Width, texture.Height);
+            var region = new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height);
             int expectedDataSize = texture.Format switch
             {
                 SurfaceFormatEx.BC7 => pitch * (region.Height / 4), // (w/4)*(h/4)*16
@@ -65,7 +67,7 @@ namespace WzComparerR2.Rendering
             SharpDX.Utilities.Dispose(ref oldTexture);
         }
 
-        private static unsafe void TextureSetData(Texture2D texture2D, Rectangle region, ReadOnlySpan<byte> data, int pitch)
+        private static unsafe void TextureSetData(Texture2D texture2D, Microsoft.Xna.Framework.Rectangle region, ReadOnlySpan<byte> data, int pitch)
         {
             fixed (byte* pData = data)
             {
